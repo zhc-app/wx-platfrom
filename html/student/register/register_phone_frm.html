@@ -223,16 +223,14 @@ function compareACode() {
  parames.yanzhengma = code_i.value;
  parames.shoujihao = phoneNum;
  parames.leixing = 'student';
- parames = $api.jsonToStr(parames);
- rt.openPage('./register_account_frm.html',{data:parames});
 
 
- // zhc.post("http://www.yxke12.com/index.php/App/Sms/checkhao.html",
- //  parames,function(data) {
- //    uploadData.phoneNumber = phoneNum;
- //    uploadData = $api.jsonToStr(uploadData);
- //    rt.openPage('./register_account_frm.html',{data:uploadData});
- //  },null, true);
+ zhc.post("http://www.yxke12.com/index.php/App/Sms/checkhao.html",
+  parames,function(data) {
+    uploadData.phoneNumber = phoneNum;
+    uploadData = $api.jsonToStr(uploadData);
+    rt.openPage('./register_account_frm.html',{data:uploadData});
+  },null, true);
 }
 
 function delClick() {

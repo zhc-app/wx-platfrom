@@ -11,87 +11,87 @@
   <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
   <style>
 
-  .linear{
-    width:100%;
-    background:-webkit-gradient(linear, center top, center bottom,from(#66aaff), to(#6666ff));
-  }
-  .input_pos{
-    padding: 10px 0px;
-    background-color:white;
-    width:90%;
-    border-radius: 10px;
-    margin: 10px auto;
-    margin-top: 15%;
-    box-shadow:0px 0px 10px #fff
-  }
-  .aui-searchbar-input input {
-    color: #666666;
-    width:90%;
-    padding: 0;
-    margin: 0;
-    height: 30px;
-    line-height: 30px;
-    border: 0;
-    -webkit-appearance: none;
-    font-size: 16px;
-  }
+    .linear{
+      width:100%;
+      background:-webkit-gradient(linear, center top, center bottom,from(#66aaff), to(#6666ff));
+    }
+    .input_pos{
+      padding: 10px 0px;
+      background-color:white;
+      width:90%;
+      border-radius: 10px;
+      margin: 10px auto;
+      margin-top: 15%;
+      box-shadow:0px 0px 10px #fff
+    }
+    .aui-searchbar-input input {
+      color: #666666;
+      width:90%;
+      padding: 0;
+      margin: 0;
+      height: 30px;
+      line-height: 30px;
+      border: 0;
+      -webkit-appearance: none;
+      font-size: 16px;
+    }
 
-  .black_line{
-    width: 100%;
-    height: 1px;
-    background-color: #eee;
-  }
-  .my_input{
-    height: 50px;
-    display: flex;
-    align-items: center;
-  }
+    .black_line{
+      width: 100%;
+      height: 1px;
+      background-color: #eee;
+    }
+    .my_input{
+      height: 50px;
+      display: flex;
+      align-items: center;
+    }
 
-  .left_img{
-    line-height: 50px;
-    margin-right: 8px;
-  }
-  .img_c{
-    height: 60px;
-    width: 90%;
-    margin: 0px auto;
-    margin-top: 15%;
-  }
-  .login_btn{
-    height: 50px;
-    line-height: 50px;
-    background-color: white!important;
-    opacity: 0.6;
-    color: #6666ff!important;
-    width: 90%;
-    margin: 0px auto;
-    margin-top: 20px;
-    border-radius: 10px;
-  }
-  .z-zhaohuimima{
-    width: 85%;
-    margin: auto;
-    margin-top: 10px;
-  }
-  .z-zhaohuimima span{
-    font-size: 16px;
-    font-weight: 500;
-    color: #fff;
-  }
+    .left_img{
+      line-height: 50px;
+      margin-right: 8px;
+    }
+    .img_c{
+      height: 60px;
+      width: 90%;
+      margin: 0px auto;
+      margin-top: 15%;
+    }
+    .login_btn{
+      height: 50px;
+      line-height: 50px;
+      background-color: white!important;
+      opacity: 0.6;
+      color: #6666ff!important;
+      width: 90%;
+      margin: 0px auto;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+    .z-zhaohuimima{
+      width: 85%;
+      margin: auto;
+      margin-top: 10px;
+    }
+    .z-zhaohuimima span{
+      font-size: 16px;
+      font-weight: 500;
+      color: #fff;
+    }
 
-  .z-r{
-    float: right;
-  }
+    .z-r{
+      float: right;
+    }
 
-  .aui-icon-cert:before {
-    content: "\e704";
-    font-size: 18px;
-  }
+    .aui-icon-cert:before {
+      content: "\e704";
+      font-size: 18px;
+    }
 
-  .aui-icon-lock:before {
-    content: "\e6ef";
-    font-size: 18px;
-  }
+    .aui-icon-lock:before {
+      content: "\e6ef";
+      font-size: 18px;
+    }
 </style>
 </head>
 
@@ -151,19 +151,17 @@ function loginClick() {
 // 验证学生卡卡号
 function checkCardNO(card_no, password) {
 
-  var parames = {};
-  parames.cardnumber= card_no;
-  parames.password=password;
-  parames = $api.jsonToStr(parames);
-  rt.openPage('./register_phone_frm.html',{data: parames}); 
+var parames = {};
+parames.cardnumber= card_no;
+parames.password=password;
 
-  // zhc.post("http://www.yxke12.com/index.php/App/Student/stepcard.html",parames,function(data) {
-  //   uploadData.cid = data.cid;
-  //   uploadData = $api.jsonToStr(uploadData);
-  //   rt.openPage('./register_phone_frm.html',{data: uploadData}); 
-  // },function(err){
-  //   clearCardPWD();
-  // }, true);
+zhc.post("http://www.yxke12.com/index.php/App/Student/stepcard.html",parames,function(data) {
+  uploadData.cid = data.cid;
+  uploadData = $api.jsonToStr(uploadData);
+  rt.openPage('./register_phone_frm.html',{data: uploadData}); 
+},function(err){
+  clearCardPWD();
+}, true);
 
 }
 
