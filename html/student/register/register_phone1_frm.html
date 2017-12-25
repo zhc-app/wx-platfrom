@@ -213,7 +213,7 @@ function getAuthCode() {
   // 服务器获取验证码
   var parames = {};
   phoneNum = ph.value;
-  parames.shoujihao = ph.value;
+  parames.shoujihao = phoneNum;
   parames.type = c.MSG_REGI;
   parames.leixing = 'student';
   zhc.post("http://www.yxke12.com/index.php/App/Sms/send.html",
