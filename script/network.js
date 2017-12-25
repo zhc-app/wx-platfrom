@@ -25,10 +25,22 @@
         suc(result.data);
 
       }else{
-        toast.fail({
-          title: result.data,
-          duration:2000
-        });
+        if (typeof result.data == "string") {
+          toast.fail({
+            title: result.data,
+            duration:2000
+          });
+        }else if(result.data.error != null){
+          toast.fail({
+            title: result.data.error,
+            duration:2000
+          });
+        }else if (result.data.err != null) {
+          toast.fail({
+            title: result.data.err,
+            duration:2000
+          });
+        }
         if (err_fun != null) {
           err_fun(result);
         }  
