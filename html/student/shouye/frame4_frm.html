@@ -5,9 +5,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
         .empty{ text-align: center; padding: 120px 0;}
         .top_img{
@@ -290,7 +290,7 @@ width: 80%;
   margin-bottom:0px;
   width: 320px;
   height:65px;
-  background: url(../../image/discussion.png) no-repeat;
+  background: url(../../../image/discussion.png) no-repeat;
   background-size: 100%;
 }
     </style>
@@ -303,7 +303,7 @@ width: 80%;
       <div id="main" class="flex-con" >
 
       <div>
-        <img class="top_img" src="../../image/zytb_banner.png">
+        <img class="top_img" src="../../../image/zytb_banner.png">
       <div class="lunzheng" style="display:none;">
         <div class="lunzhengxian"></div>
         <span class="lunzhengTitle">志愿论证</span>
@@ -314,22 +314,22 @@ width: 80%;
           <div class="aui-row">
               <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="diannao()" >
                   <!-- <i class="aui-iconfont aui-icon-home"></i> -->
-                  <img class="mid_img" src="../../image/199@3x.png" alt="">
+                  <img class="mid_img" src="../../../image/199@3x.png" alt="">
                   <div><span class="mid_text">录取位次</span></div>
               </div>
               <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="diannao()">
                   <!-- <i class="aui-iconfont aui-icon-gear"></i> -->
-                  <img class="mid_img" src="../../image/20@3x.png" alt="">
+                  <img class="mid_img" src="../../../image/20@3x.png" alt="">
                   <div><span class="mid_text">录取分数</span></div>
               </div>
               <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="diannao()">
                   <!-- <i class="aui-iconfont aui-icon-map"></i> -->
-                  <img class="mid_img" src="../../image/19@3x.png" alt="">
+                  <img class="mid_img" src="../../../image/19@3x.png" alt="">
                   <div><span class="mid_text">院校名称</span></div>
               </div>
               <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="diannao()">
                   <!-- <i class="aui-iconfont aui-icon-map"></i> -->
-                  <img class="mid_img" src="../../image/7@3x.png" alt="">
+                  <img class="mid_img" src="../../../image/7@3x.png" alt="">
                   <div><span class="mid_text">专业名称</span></div>
               </div>
             </div>
@@ -342,7 +342,7 @@ width: 80%;
                                   <div class="aui-media-list-item-inner" id="shengzc">
                                     <script id="szc" type="text/x-dot-template">
                                       <div class="aui-list-item-media z-list" >
-                                          <img class='gaotu' src="../../image/gaokao.png" >
+                                          <img class='gaotu' src="../../../image/gaokao.png" >
                                       </div>
                                       <div class="aui-list-item-inner ">
                                           <div class="aui-list-item-text">
@@ -351,7 +351,7 @@ width: 80%;
                                               <div class="aui-list-item-title aui-font-size-14">
 
                                                       <div style="float:left">
-                                                        <img  src="../../image/shengf.png" alt="">
+                                                        <img  src="../../../image/shengf.png" alt="">
 
                                                       </div>
                                                       <div class="aui-col-xs-10">
@@ -367,7 +367,7 @@ width: 80%;
                                               <div class="aui-list-item-title aui-font-size-14">
 
                                                       <div style="float:left">
-                                                        <img src="../../image/cityAll.png" alt="">
+                                                        <img src="../../../image/cityAll.png" alt="">
 
                                                       </div>
                                                       <div class="aui-col-xs-10">
@@ -427,9 +427,11 @@ width: 80%;
   </div>
 </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
-<script type="text/javascript" src="../../script/network.js"></script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
 var szc1 = doT.template(document.getElementById('szc').innerHTML);
 function gaoKaoXinZheng() {
@@ -455,10 +457,7 @@ function diannao() {
 }
     var video_dot;
     var videoList;
-    apiready = function(){
-      if(document.readyState == 'complete'){
-          api.removeLaunchView()
-      }
+    window.onload = function(){
       video_dot = doT.template(document.getElementById('video_s').innerHTML);
       getVideoList();
 
@@ -506,22 +505,15 @@ function diannao() {
 
     function getVideoList() {
       var parames = {values:{}}
-      parames.values.studentid = $api.getStorage('studentid');
-
+      parames.studentid = $api.getStorage('studentid');
       zhc.post('http://www.yxke12.com/index.php/Apa/Default/hotzixun.html',
           parames,function(data) {
-            // console.log(JSON.stringify(data));
-            api.refreshHeaderLoadDone();
-
               document.getElementById('shengzc').innerHTML = szc1(data);
-
-
           },null, true);
       zhc.post('http://www.yxke12.com/index.php/App/Zhiyuantianbao/zjjzlist.html',
           {},function(data) {
             videoList = data;
             document.getElementById('video_ul').innerHTML = video_dot(videoList);
-            api.parseTapmode();
           },null, true);
     }
 

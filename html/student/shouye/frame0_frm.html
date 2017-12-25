@@ -534,8 +534,8 @@
       sykt_dot = doT.template(document.getElementById('sykt_s').innerHTML);
       getListData(0);
       yanzhen();
-      var parames = {values:{}}
-      parames.values.sheng = $api.getStorage('sheng');
+      var parames = {}
+      parames.sheng = $api.getStorage('sheng');
       zhc.post('http://www.yxke12.com/index.php/App/Gaokaoxinzheng/tuijian.html',
           parames,function(_data) {
             document.getElementById('xianshisheng').innerHTML = shengfen1(_data);

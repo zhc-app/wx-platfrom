@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>智慧程优生涯</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
+    <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../../script/api.js"></script>
+    <script type="text/javascript" src="../../../script/aui-tab.js" ></script>
+
+    <style>
+        /*footer{  background-color: #f2f2f2; position: fixed;bottom: 0;width: 100%;z-index: 99}
+        footer ul li{  padding-top: 36px; padding-bottom: 4px; background: url() no-repeat center 10px; background-size: auto 22px; text-align: center;font-size: 10px;font-family: "PingFang-SC-Medium";color: #8e8eb2;}*/
+
+        .aui-bar-tab .aui-bar-tab-label {
+            display: block;
+            font-size: 0.6rem;
+            position: relative;
+            color: 
+        }
+
+        .aui-bar-tab .aui-active {
+            color: #6666ff;
+        }
+
+        .ic{
+          width: 20px;
+          height: 20px;
+        }
+
+        .frme{
+            width: 100%;
+            height: 100%;
+            border: 0px;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="frm0" scrolling="auto" class="frme" src="./frame0_frm.html"></iframe>
+    <!-- <iframe id="frm1" class="frme" style="display: none" src="./frame1_frm.html"></iframe>
+    <iframe id="frm2" class="frme" style="display: none" src="./frame2_frm.html"></iframe>
+    <iframe id="frm3" class="frme" style="display: none" src="./frame3_frm.html"></iframe>
+    <iframe id="frm4" class="frme" style="display: none" src="./frame4_frm.html"></iframe> -->
+
+    <footer class="aui-bar aui-bar-tab" id="footer">
+        <div class="aui-bar-tab-item aui-active">
+            <!-- <i class="aui-iconfont aui-icon-home"></i> -->
+            <img class="ic" src="../../../image/careerS.png"></img>
+            <div class="aui-bar-tab-label">生涯规划</div>
+        </div>
+        <div class="aui-bar-tab-item">
+            <!-- <i class="aui-iconfont aui-icon-star"></i> -->
+             <img class="ic" src="../../../image/868_1.png"></img>
+            <div class="aui-bar-tab-label">成绩提升</div>
+        </div>
+        <div class="aui-bar-tab-item">
+            <!-- <div class="aui-badge">99</div> -->
+            <!-- <i class="aui-iconfont aui-icon-cart"></i> -->
+             <img class="ic" src="../../../image/quality.png"></img>
+            <div class="aui-bar-tab-label">素质评价</div>
+        </div>
+        <div class="aui-bar-tab-item">
+            <!-- <div class="aui-dot"></div> -->
+            <!-- <i class="aui-iconfont aui-icon-my"></i> -->
+             <img class="ic" src="../../../image/duoyuanzhaosheng_1.png"></img>
+            <div class="aui-bar-tab-label">多元备考</div>
+        </div>
+        <div class="aui-bar-tab-item">
+            <!-- <div class="aui-dot"></div> -->
+            <!-- <i class="aui-iconfont aui-icon-my"></i> -->
+             <img class="ic" src="../../../image/867-3@3x.png"></img>
+            <div class="aui-bar-tab-label">志愿填报</div>
+        </div>
+    </footer>
+</body>
+</html>
+
+<script type="text/javascript">
+    var pic = ["career", "868_1", "quality", "duoyuanzhaosheng_1", "867-3@3x"];
+    var pic_h = ["careerS", "868@3x", "qualityS", "duoyuanzhaosheng", "zhiyuantianbao"];
+    var id_map = {frm0:1, frm1:0, frm2:0, frm3:0, frm4:0};
+    window.onload = function () {
+        var el = document.getElementById("frm0");
+        el.style.height = $(document.body).height() - $("#footer").height() + "px";
+    }
+
+
+    var tab = new auiTab({
+        element:document.getElementById("footer")
+    },function(ret){
+        if(ret){
+            var tabs = document.getElementsByTagName("iframe");
+            var imgs = document.getElementsByTagName("img");
+
+            for (var i = 0; i < imgs.length; i++) {
+                if (i == ret.index - 1) {
+                    if (id_map["frm" + i] == 0) {
+                        id_map["frm" + i] = 1;
+                        var iframe = document.createElement('iframe'); 
+                        $api.addCls(iframe, "frme");
+
+                        // iframe.scrolling = "auto";
+                        iframe.src = "./frame" + i + "_frm.html";
+                        iframe.id = "frm" + i;
+                        iframe.style.height = $(document.body).height() - $("#footer").height() + "px";
+                        document.body.appendChild(iframe);
+                    }else{
+                        var el = document.getElementById("frm" + i);
+                        el.style.display = "block";
+                    }
+                    
+                    imgs[i].src = "../../../image/"+ pic_h[i] +".png";
+                }else{
+                    imgs[i].src = "../../../image/"+ pic[i] +".png";
+                    if (id_map["frm" + i] == 1) {
+                        var el = document.getElementById("frm" + i);
+                        el.style.display = "none";
+                    }
+                }
+            }
+        }
+    });
+
+    function backExit(argument) {
+      var lastTime = 0;
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            // alert('按了返回键');
+            var timestamp = (new Date()).valueOf();
+            if (timestamp - lastTime > 2000) {
+              lastTime = timestamp;
+                api.toast({
+                    msg: '再次点击退出应用',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }else {
+              api.closeWidget({
+                  id: 'A6944502823879',
+                  retData: {
+                      name: 'closeWidget'
+                  },
+                  silent:true,
+                  animation: {
+                      type: 'flip',
+                      subType: 'from_bottom',
+                      duration: 500
+                  }
+              });
+            }
+        });
+    }
+
+</script>

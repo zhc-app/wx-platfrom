@@ -5,9 +5,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
         .empty{ text-align: center; padding: 120px 0;}
         .top_img{
@@ -324,7 +324,7 @@ top: 6.5px;
       display: block;
       position:absolute;
       left: 0px;
-      background: url("../../image/ic_kg.png") no-repeat;
+      background: url("../../../image/ic_kg.png") no-repeat;
       background-size: contain;
       height: 18px;
       width: 20px;
@@ -345,7 +345,7 @@ top: 6.5px;
       <div id="main" class="flex-con" >
 
       <div>
-        <img class="top_img" src="../../image/cjts_banner.png"  >
+        <img class="top_img" src="../../../image/cjts_banner.png"  >
 
         <!-- <div class="top_bar">
             <div class="top_inner" tapmode onclick="xingXiangTest()">
@@ -363,17 +363,17 @@ top: 6.5px;
           <div class="aui-row">
               <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="diannao()" >
                   <!-- <i class="aui-iconfont aui-icon-home"></i> -->
-                  <img class="mid_img" src="../../image/5@3x.png" alt="">
+                  <img class="mid_img" src="../../../image/5@3x.png" alt="">
                   <div><span class="mid_text">单元训练</span></div>
               </div>
               <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="onKGSMClick()">
                   <!-- <i class="aui-iconfont aui-icon-gear"></i> -->
-                  <img class="mid_img" src="../../image/6@3x.png" alt="">
+                  <img class="mid_img" src="../../../image/6@3x.png" alt="">
                   <div><span class="mid_text">考纲说明</span></div>
               </div>
               <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="diannao()">
                   <!-- <i class="aui-iconfont aui-icon-map"></i> -->
-                  <img class="mid_img" src="../../image/7-7@3x.png" alt="">
+                  <img class="mid_img" src="../../../image/7-7@3x.png" alt="">
                   <div><span class="mid_text">高考真题</span></div>
               </div>
             </div>
@@ -452,7 +452,7 @@ top: 6.5px;
           <li class="aui-list-item" tapmode onclick="onUKeItemClick({{=i}},'http://www.yxke12.com/Public/Home/images/videothumb/{{=it[i].kimage}}');">
               <div class="aui-media-list-item-inner">
                   <div class="aui-list-item-media" style="border-right:none;display: block;">
-                      <img src="../../image/uke_top.png"style="position:absolute;width:120px;height:6px;">
+                      <img src="../../../image/uke_top.png"style="position:absolute;width:120px;height:6px;">
                       <img src="http://www.yxke12.com/Public/Home/images/videothumb/{{=it[i].kimage}}" class="icon">
                   </div>
                   <div class="aui-list-item-inner">
@@ -463,7 +463,7 @@ top: 6.5px;
                           {{=it[i].neirong}} | 共：{{=it[i].shuliang}}讲
                       </div>
                       <div class="third">
-                          <img src="../../image/ic_look.png" style="width:15px;height:10px;margin-top:3px;">
+                          <img src="../../../image/ic_look.png" style="width:15px;height:10px;margin-top:3px;">
                           <span style="margin-top:1px;" class="f-s-14">&nbsp{{=it[i].looks}}</span>
                           <i class="aui-iconfont aui-icon-star m-l-8 f-s-14">&nbsp{{=it[i].stores}}</i>
                       </div>
@@ -508,9 +508,9 @@ top: 6.5px;
                             </div>
                             <div class="aui-list-item-text m-t-10" style="position: absolute;bottom: 0.3rem;">
 
-                                <img src="../../image/yan.png" style="width:15px;height:10px;" align = absmiddle alt="">
+                                <img src="../../../image/yan.png" style="width:15px;height:10px;" align = absmiddle alt="">
                                   <span class="biaoti">{{=it[i].browse}}</span>
-                                <img src="../../image/message.png" class="m-l-8" style="width:0.6rem;height:0.6rem" align = absmiddle alt="">
+                                <img src="../../../image/message.png" class="m-l-8" style="width:0.6rem;height:0.6rem" align = absmiddle alt="">
                                   <span class="biaoti">{{=it[i].comment}}</span>
 
                             </div>
@@ -530,8 +530,11 @@ top: 6.5px;
   </div>
 </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
 
     var uKeList = [];
@@ -592,88 +595,37 @@ top: 6.5px;
         });
     }
 
-    apiready = function(){
-
+    window.onload = function(){
       uke_dot = doT.template(document.getElementById('uke_s').innerHTML);
       loadUKeList(0);
       loadMJZDList();
-      api.setRefreshHeaderInfo({
-          loadingImg: 'widget://image/refresh.png',
-          bgColor: '#ccc',
-          textColor: '#fff',
-          textDown: '下拉刷新...',
-          textUp: '松开刷新...'
-      }, function(ret, err) {
-          loadUKeList(1);
-          loadMJZDList();
-      });
-      api.parseTapmode();
     }
 
     function loadMJZDList() {
-      api.ajax({
-        url: 'http://www.yxke12.com/index.php/App/Mingjiazhidao/hot.html',
-        method: 'post',
-        data: {
-        }
-      },function(ret, err){
-        api.refreshHeaderLoadDone();
-        api.hideProgress();
-        if (ret) {
-            document.getElementById('mingjiazidao_ul').innerHTML = mingjiazhidao_data(ret.data);
-        } else {
-          api.toast({
-          msg: JSON.stringify(err.msg),
-          duration: 2000,
-          location: 'bottom'
-      });
-        }
-      });
+      var parames = {};
+      zhc.post('http://www.yxke12.com/index.php/App/Mingjiazhidao/hot.html',
+          parames, function(_data) {
+              document.getElementById('mingjiazidao_ul').innerHTML = mingjiazhidao_data(_data);
+          },null, true);
     }
 
     function loadUKeList(source) {
       if (source == 0) {
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
+        // api.showProgress({
+        //     style: 'default',
+        //     animationType: 'fade',
+        //     title: '努力加载中...',
+        //     text: '先喝杯茶...',
+        //     modal: true
+        // });
       }
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Youketang/videotj.html',
-          method: 'post',
-          data: {
-              values: {
-                studentid:$api.getStorage('studentid')
-              }
-          }
-      },function(ret, err){
-          api.refreshHeaderLoadDone();
-          api.hideProgress();
-          console.log(JSON.stringify(ret));
-          if (ret) {
-              if (ret.status == 100) {
-                uKeList = ret.data;
-                document.getElementById('uke_ul').innerHTML = uke_dot(uKeList);
-                api.parseTapmode();
-              }else {
-                api.toast({
-                    msg: ret.data.error,
-                    duration: 2000,
-                    location: 'bottom'
-                });
-              }
-          } else {
-              api.toast({
-                  msg: JSON.stringify( err ),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-          }
-      });
+      var parames = {};
+      parames.studentid = $api.getStorage('studentid');
+      zhc.post('http://www.yxke12.com/index.php/App/Youketang/videotj.html',
+          parames, function(_data) {
+              uKeList = _data;
+              document.getElementById('uke_ul').innerHTML = uke_dot(uKeList);
+          },null, true);
     }
 
     function xingXiangTest() {
