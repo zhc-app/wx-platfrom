@@ -6,14 +6,20 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/demo.css">
-    <script src="../../script/jquery-1.8.3.min.js"></script>
-    <script src="../../script/demo.js"></script>
-    <script type="text/javascript" src="../../script/api.js"></script>
-    <script type="text/javascript" src="../../script/doT.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/demo.css">
+
+    <script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+    <script src="../../../../script/demo.js"></script>
+    <script type="text/javascript" src="../../../../script/api.js"></script>
+    <script type="text/javascript" src="../../../../script/doT.js"></script>
+
+
+    <script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+    <script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+    <script type="text/javascript" src="../../../../script/network.js"></script>
     <style>
     .aui-list .aui-list-item-media {
         width: 4.5rem;
@@ -153,7 +159,7 @@
             <li class="aui-list-item aui-list-item-middle" tapmode onclick="itemClick({{=i}})">
                    <div class="aui-media-list-item-inner">
                        <div class="aui-list-item-media" style="width: 3rem;">
-                           <img class="aui-img-round aui-list-img-sm" onload="fnLoadImage(this)"  data-url="{{=it[i].logo}}" src="../../image/no-pic.png">
+                           <img class="aui-img-round aui-list-img-sm" onload="fnLoadImage(this)"  data-url="{{=it[i].logo}}" src="../../../../image/no-pic.png">
                        </div>
                        <div class="aui-list-item-inner ">
                            <div class="aui-list-item-text" style="display: flex;justify-content: initial;">
@@ -187,10 +193,10 @@
                        <div class="aui-list-item-media" style="text-align:right;width:auto;padding-left:16px;" tapmode onclick="itemShouCang(event, {{=i}})">
                       {{if (it[i].imgname == 0) {}}
 
-                          <img id="shoucang_id{{=i}}" src="../../image/shoucang.png" style="height:16px;width:18px;">
+                          <img id="shoucang_id{{=i}}" src="../../../../../../image/shoucang.png" style="height:16px;width:18px;">
                       {{}else {}}
 
-                          <img id="shoucang_id{{=i}}" src="../../image/shoucang_select.png" style="height:16px;width:18px;">
+                          <img id="shoucang_id{{=i}}" src="../../../../../../image/shoucang_select.png" style="height:16px;width:18px;">
                       {{}}}
                      </div>
                    </div>
@@ -205,51 +211,31 @@
     var total_data = {};
     var list = doT.template(document.getElementById('schools_s').innerHTML);
     var page = 1;
-    var limit = 50;
-    apiready = function() {
+    var limit = 20;
+    window.onload = function() {
       getData(page);
-        api.parseTapmode();
-        api.addEventListener({
-          name : 'scrolltobottom',
-          extra : {
-             threshold : 0 //设置距离底部多少距离时触发，默认值为0，数字类型
-             }
-            }, function(ret, err) {
-                page++
-               getData(page);
-          });
-
-
-
+      $(window).scroll(function() {
+        // if ($(document).scrollTop()<=0){
+        //   // alert("滚动条已经到达顶部为0");
+        // }
+        if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+          page++
+          getData(page);
+        }
+      });
     };
 var province1 = doT.template(document.getElementById('province').innerHTML);
 var schooltype = doT.template(document.getElementById('schooltype_s').innerHTML);
 var chara = doT.template(document.getElementById('chara_s').innerHTML);
 var level = doT.template(document.getElementById('level_s').innerHTML);
     function getData(page) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: false
-      });
 
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Yuanxiaoku/lists.html',
-          method: 'post',
-          data: {
-              values: {
-                  studentid: $api.getStorage('studentid'),
-                  page : page,
-                  limit:limit,
-              },
-          }
-      },function(ret, err){
-        api.hideProgress();
-
-          if (ret) {
-              total_data = ret.data;
+      var params = {values:{}};
+      params.studentid = $api.getStorage('studentid');
+      params.page = page;
+      params.limit = limit;
+      zhc.post("http://www.yxke12.com/index.php/App/Yuanxiaoku/lists.html", params, function(_data) {
+              total_data = _data;
               var province = {province:"不限"};
               total_data.province.unshift(province);
 
@@ -262,30 +248,14 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
               total_data.yxts.unshift("不限");
               console.log(JSON.stringify(total_data));
               // start 筛选
-
               document.getElementById('Sort-Sort').innerHTML = province1(total_data.province);
-
-
               document.getElementById('SchoolType_ul').innerHTML = schooltype(total_data.yxlx);
-
-
               document.getElementById('Level_ul').innerHTML = level(total_data.xlcc);
-
-
               document.getElementById('Chara_ul').innerHTML = chara(total_data.yxts);
               // end 筛选
               // start 列表
-
               $api.append(document.getElementById('schools_ul'),list(total_data.lists));
-              // end 列表
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      }, null, true);
     }
 
     var yxts_c, xlcc_c, yxlx_c, province_c;
@@ -340,14 +310,6 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
     }
 
     function filterSchoolList() {
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-
         var char = {};
         char.studentid = $api.getStorage('studentid');
         if (yxts_c != null) {
@@ -365,106 +327,42 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
         if (province_c != null) {
           char.province = province_c;
         }
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Yuanxiaoku/search.html',
-            method: 'post',
-            data: {
-                values: char,
-            }
-        },function(ret, err){
-          api.hideProgress();
-            if (ret) {
-                // console.log( JSON.stringify( ret ) );
-                if (ret.status == 100) {
-                  total_data.lists = ret.data;
-                  document.getElementById('schools_ul').innerHTML = list(ret.data);
-                }
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
 
+        zhc.post("http://www.yxke12.com/index.php/App/Yuanxiaoku/search.html", char, function(_data) {
+              total_data.lists = _data;
+              document.getElementById('schools_ul').innerHTML = list(_data);
+        }, null, true);
     }
 
     function itemClick(index) {
-      api.openWin({
-          name: 'school_storage_details_win',
-          url: './school_storage_details_win.html',
-          pageParam: {
-              index: index,
-              title: total_data.lists[index].dxmc
-          }
-      });
+      rt.openParentPage("./school_storage_details_frm.html", 
+        {index: index, title: total_data.lists[index].dxmc});
     }
 
     function itemShouCang(e, index) {
         e.cancelBubble  = true;
         var it = total_data.lists[index];
-        var str = (it.imgname == 1) ?'取消中...':'收藏中...';
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: str,
-            text: '先喝杯茶...',
-            modal: false
-        });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Yuanxiaoku/collect.html',
-            method: 'post',
-            data: {
-                values: {
-                    studentid: $api.getStorage('studentid'),
-                    schoolid: it.id
-                },
+        var params = {};
+        params.studentid = $api.getStorage('studentid');
+        params.schoolid = it.id;
+        zhc.post("http://www.yxke12.com/index.php/App/Yuanxiaoku/collect.html", params, function(_data) {
+            total_data.lists[index].imgname = _data.imgname;
+            var el = $api.byId('shoucang_id'+ index);
+            if(_data.imgname == 1){
+              // $api.addCls(el, 'shoucang');
+              el.src="../../../../image/shoucang_select.png";
+            }else{
+              // $api.removeCls(el, 'shoucang');
+              el.src="../../../../image/shoucang.png";
             }
-        },function(ret, err){
-          api.hideProgress();
-            if (ret) {
-                // console.log( JSON.stringify( total_data ) );
-                if (ret.status = 100) {
-
-                  total_data.lists[index].imgname = ret.data.imgname;
-                  var el = $api.byId('shoucang_id'+ index);
-                    if(ret.data.imgname == 1){
-                      // $api.addCls(el, 'shoucang');
-                      el.src="../../image/shoucang_select.png";
-                    }else{
-                      // $api.removeCls(el, 'shoucang');
-                      el.src="../../image/shoucang.png";
-                    }
-                }
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
-
+        }, null, true);
     }
 
     function fnLoadImage(ele_) {
       var imageURL = $api.attr(ele_, 'data-url');
-      // console.log(imageURL);
-      if (imageURL) {
-          api.imageCache({
-              url : "http://www.yxke12.com/Public/Home/images/schools/"+imageURL
-          }, function(ret, err) {
-              if (ret.status) {
-                  ele_.src = ret.url;
-                  $api.removeAttr(ele_, 'data_url');
-              }
-          });
-      }
+      ele_.src = "http://www.yxke12.com/Public/Home/images/schools/"+imageURL;
+      $api.removeAttr(ele_, 'data_url');
     }
-
-
 
 </script>
 

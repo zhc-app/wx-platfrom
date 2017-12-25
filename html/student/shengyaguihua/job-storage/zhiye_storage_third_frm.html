@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
     <style>
       .aui-collapse-header.aui-active {
           background: white;
@@ -37,7 +37,7 @@
                 <div class="aui-collapse-item" >
                     <li class="aui-list-item aui-collapse-header aui-border-b" tapmode onclick="onItemClick({{=i}})">
                         <div class="aui-list-item-inner" >
-                            <div class="aui-list-item-title margin-l-10">{{=it[i]}}</div>
+                            <div class="aui-list-item-title margin-l-10">{{=it[i].job}}</div>
                             <div class="aui-list-item-right">
                                 <i class="aui-iconfont aui-icon-right aui-collapse-arrow"></i>
                             </div>
@@ -50,16 +50,16 @@
       </section>
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/aui-tab.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
 <script type="text/javascript">
     var data = [];
     var benke_second;
-    apiready = function() {
-        api.parseTapmode();
-        var thirdDta = JSON.parse(localStorage.thirdData)
-        switchSecond(thirdDta);
+    window.onload = function() {
+        var data1 = JSON.parse(localStorage.third); 
+        switchSecond(data1);
     };
 
     function switchSecond(_data) {
@@ -71,13 +71,8 @@
     }
 
     function onItemClick(index) {
-      api.openWin({
-          name: 'zhuanye_storage_details_win',
-          url: './zhuanye_storage_details_win.html',
-          pageParam: {
-              name: data[index]
-          }
-      });
+        rt.openParentPage("./zhiye_storage_details_frm.html", 
+            {name: data[index].job});
     }
 
 </script>

@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
     <style>
         .aui-tab-item.aui-active {
             color: #6666ff;
@@ -322,16 +322,19 @@
       </div>
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/aui-tab.js"></script>
-<script type="text/javascript" src="../../script/echart.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
-
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../../../script/echart.js"></script>
+<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
 <script type="text/javascript">
 var show_flag = true;
 var option1, option2, option3, option4, option5;
-    apiready = function() {
-      var name = api.pageParam.name;
+    window.onload = function() {
+      var name = rt.getPageParame("name");
       getDetails(name);
     };
 
@@ -922,81 +925,50 @@ var option1, option2, option3, option4, option5;
     var xueliyaoqiu_data = [];
 
     function getDetails(name) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: false
-      });
+      var parames = {}
+      parames.name = name;
+      zhc.post('http://www.yxke12.com/index.php/App/Zhuanyeku/infos.html',
+          parames,function(_data) {
+            data = _data;
 
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Zhuanyeku/infos.html',
-          method: 'post',
-          data: {
-              values: {
-                  name: name
-              },
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-            data = ret.data;
-            console.log(JSON.stringify(data));
             details = doT.template(document.getElementById('details_s').innerHTML);
             document.getElementById('details_div').innerHTML = details(data);
 
-            var jyhyfb = ret.data.jiuyehangyefenbu;
+            var jyhyfb = data.jiuyehangyefenbu;
             for (var i = 0; i < jyhyfb.length; i++) {
               jiuyehangyefenbu.push(jyhyfb[i].value2);
               jiuyehangyefenbu_data.push(jyhyfb[i].value3);
             }
 
-            var jydq = ret.data.jiuyediqufenbu;
+            var jydq = data.jiuyediqufenbu;
             for (var i = 0; i < jydq.length; i++) {
               jiuyediqu.push(jydq[i].value2);
               jiuyediqu_data.push(jydq[i].value3)
             }
 
-            var gzqk = ret.data.gongziqingkuang;
+            var gzqk = data.gongziqingkuang;
             for (var i = 0; i < gzqk.length; i++) {
               gongziqingkuang.push(gzqk[i].value2);
               gongziqingkuang_data.push(gzqk[i].value3)
             }
 
-            var jyyq = ret.data.jingyanyaoqiu;
+            var jyyq = data.jingyanyaoqiu;
             for (var i = 0; i < jyyq.length; i++) {
               jingyanyaoqiu.push(jyyq[i].value2);
               jingyanyaoqiu_data.push(jyyq[i].value3)
             }
 
-            var xlyq = ret.data.xueliyaoqiu;
+            var xlyq = data.xueliyaoqiu;
             for (var i = 0; i < xlyq.length; i++) {
               xueliyaoqiu.push(xlyq[i].value2);
               xueliyaoqiu_data.push(xlyq[i].value3)
             }
-
-
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
-
+          },null, true);
     }
 
 
     function chakan(name) {
-      api.openWin({
-          name: 'school_storage_details_win',
-          url: './school_storage_details_win.html',
-          pageParam: {
-              title: name
-          }
-      });
+      rt.openPage("./school_storage_details_frm.html", {title: name})
     }
 </script>
 

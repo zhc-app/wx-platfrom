@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
     <style>
         .aui-tab-item.aui-active {
             color: #6666ff;
@@ -168,46 +168,29 @@
     </div>
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/aui-tab.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
 <script type="text/javascript">
     var zhiyeDetails;
-    apiready = function() {
-        getDetailsData(api.pageParam.name);
+    window.onload = function() {
+        getDetailsData(rt.getPageParame("name"));
     };
 
 
     function getDetailsData(_name) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: false
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Zhiyeku/infos.html',
-          method: 'post',
-          data: {
-              values: {
-                  name: _name
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-            if (ret.status == 100) {
-
-
-              console.log( JSON.stringify( ret ) );
-              var data = ret.data;
+      var params = {};
+      params.name = _name;
+      zhc.post("http://www.yxke12.com/index.php/App/Zhiyeku/infos.html", params, function(_data) {
+          var data = _data;
               if (zhiyeDetails == null) {
                 zhiyeDetails = doT.template(document.getElementById('details_s').innerHTML);
               }
               document.getElementById('details_div').innerHTML = zhiyeDetails(data);
-
               var tab = new auiTab({
                   element:document.getElementById("tab"),
               },function(ret){
@@ -225,21 +208,8 @@
                   document.getElementById('part3').style.display = "block"
                 }
               });
-              api.parseTapmode();
-
-            }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
-
+      }, null, true);
     }
-
-
 </script>
 
 </html>

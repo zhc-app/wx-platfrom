@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
     <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp&key=O4JBZ-QNWKP-VMSDT-LMYQA-A6AYH-PAFQR"></script>
 <!-- <script type="text/javascript" src="https://3gimg.qq.com/lightmap/components/geolocation/geolocation.min.js"></script> -->
 <!-- <script type="text/javascript" src="https://apis.map.qq.com/tools/geolocation/min?key=O4JBZ-QNWKP-VMSDT-LMYQA-A6AYH-PAFQRreferer=智慧程优生涯"></script> -->
@@ -97,7 +97,7 @@
               width: 69.5px;
               height: 23px;
               border-radius: 5px;
-              background: url("../../image/41-8.png") no-repeat scroll 45px center transparent;
+              background: url("../../../../image/41-8.png") no-repeat scroll 45px center transparent;
               background-size: 15px;
               line-height: 19px;
               border: solid 1px #6666ff;
@@ -366,19 +366,19 @@
 
 </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/aui-tab.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
-<script type="text/javascript" src="../../script/network.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
 <script type="text/javascript">
     var total_data = {};
     var xkpm_data = {};
     var geocoder,map,marker = null;
-    apiready = function() {
-      api.parseTapmode();
-
+    window.onload = function() {
       loadData();
-
     };
   var tou = doT.template(document.getElementById('tou_s').innerHTML);
   var jieshao = doT.template(document.getElementById('jieshao_s').innerHTML);
@@ -386,53 +386,19 @@
   var zhanshengzhangcheng = doT.template(document.getElementById('zhanshengzhangcheng_s').innerHTML);
   var intro = doT.template(document.getElementById('intro_s').innerHTML);
     function loadData() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: false
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Yuanxiaoku/infos.html',
-          method: 'post',
-          data: {
-              values: {
-                  name: api.pageParam.title
-              },
-          }
-      },function(ret, err){
-          api.hideProgress();
-          console.log(JSON.stringify(ret));
-          if (ret) {
-            if (ret.status == 100) {
-                // 基本信息
-                total_data = ret.data.info;
-                xkpm_data = ret.data.xkpm;
-
-                document.getElementById('tou_div').innerHTML = tou(ret.data.info);
-
-
-                document.getElementById('jieshao_div').innerHTML = jieshao(ret.data.info);
-
-
-                document.getElementById('intro_id').innerHTML = intro(ret.data.info);
-
-
-                document.getElementById('zhongdianxueke_id').innerHTML = zhongdianxueke(ret.data.info);
-
-
-                document.getElementById('zhanshengzhangcheng_id').innerHTML = zhanshengzhangcheng(ret.data.info);
-            }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      var parames = {};
+      parames.name = rt.getPageParame("title");
+      zhc.post("http://www.yxke12.com/index.php/App/Yuanxiaoku/infos.html", parames, function(_data) {
+              console.log(_data)
+              // 基本信息
+                total_data = _data.info;
+                xkpm_data = _data.xkpm;
+                document.getElementById('tou_div').innerHTML = tou(_data.info);
+                document.getElementById('jieshao_div').innerHTML = jieshao(_data.info);
+                document.getElementById('intro_id').innerHTML = intro(_data.info);
+                document.getElementById('zhongdianxueke_id').innerHTML = zhongdianxueke(_data.info);
+                document.getElementById('zhanshengzhangcheng_id').innerHTML = zhanshengzhangcheng(_data.info);
+        }, null, true);
     }
 
     function openThird(index) {
@@ -441,20 +407,22 @@
         var url = "";
         var data = {};
         if(index == 1) {
-          url = "school_storage_third_win";
+          url = "school_storage_third_frm";
           data = total_data;
         }else if (index == 2) {
-          url = "school_storage_xueke_rank_win";
+          url = "school_storage_xueke_rank_frm";
           data = xkpm_data;
         }
 
-        api.openWin({
-            name: url,
-            url: './' + url + '.html',
-            pageParam: {
-                data:data,
-            }
-        });
+        // api.openWin({
+        //     name: url,
+        //     url: './' + url + '.html',
+        //     pageParam: {
+        //         data:data,
+        //     }
+        // });
+        rt.openParentPage("./" + url + ".html", {data:$api.jsonToStr(data)});
+
     }
     var tab = new auiTab({
         element:document.getElementById("tab"),

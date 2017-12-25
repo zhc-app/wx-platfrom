@@ -123,17 +123,17 @@
 
       <section class="aui-grid"  style="border-bottom: 10px solid #f5f5f5;">
         <div class="aui-row" style="margin-left:12px;margin-right:12px;">
-            <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="nextPage('school_storage_win');" >
+            <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="univPage();" >
                 <!-- <i class="aui-iconfont aui-icon-home"></i> -->
                 <img class="mid_img" src="../../../image/school.png" alt="">
                 <div><span class="mid_text">院校大全</span></div>
             </div>
-            <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="nextPage('zhuanye_storage_win');">
+            <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="majorPage();">
                 <!-- <i class="aui-iconfont aui-icon-gear"></i> -->
                 <img class="mid_img" src="../../../image/major.png" alt="">
                 <div><span class="mid_text">专业大全</span></div>
             </div>
-            <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="nextPage('zhiye_storage_win');">
+            <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="jobPage();">
                 <!-- <i class="aui-iconfont aui-icon-map"></i> -->
                 <img class="mid_img" src="../../../image/job.png" alt="">
                 <div><span class="mid_text">职业大全</span></div>
@@ -265,14 +265,27 @@
 
     }
 
-    function nextPage(url) {
-      api.openWin({
-          name: url,
-          url: '../../shengyaguihua/' + url + '.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
+    // function nextPage(url) {
+    //   api.openWin({
+    //       name: url,
+    //       url: '../../shengyaguihua/' + url + '.html',
+    //       pageParam: {
+    //           name: 'test'
+    //       }
+    //   });
+    // }
+
+    function univPage() {
+      rt.openParentPage("../../shengyaguihua/school-storage/school_storage_frm.html", {});
+    }
+
+    function majorPage() {
+      rt.openParentPage("../../shengyaguihua/major-storage/zhuanye_storage_frm.html", {});
+    }
+
+
+    function jobPage() {
+      rt.openParentPage("../../shengyaguihua/job-storage/zhiye_storage_frm.html", {});
     }
 </script>
 

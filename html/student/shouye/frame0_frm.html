@@ -299,17 +299,17 @@
         </div>
         <section class="aui-grid"  style="border-bottom: 10px solid #f5f5f5; display:none;" id="ceshi_id">
           <div class="aui-row" style="margin-left:12px;margin-right:12px;">
-              <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="nextPage('school_storage_win');" >
+              <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="univPage();" >
                   <!-- <i class="aui-iconfont aui-icon-home"></i> -->
                   <img class="mid_img" src="../../../image/school.png" alt="">
                   <div><span class="mid_text">院校信息</span></div>
               </div>
-              <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="nextPage('zhuanye_storage_win');">
+              <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="majorPage();">
                   <!-- <i class="aui-iconfont aui-icon-gear"></i> -->
                   <img class="mid_img" src="../../../image/major.png" alt="">
                   <div><span class="mid_text">专业信息</span></div>
               </div>
-              <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="nextPage('zhiye_storage_win');">
+              <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="jobPage();">
                   <!-- <i class="aui-iconfont aui-icon-map"></i> -->
                   <img class="mid_img" src="../../../image/job.png" alt="">
                   <div><span class="mid_text">职业信息</span></div>
@@ -346,17 +346,17 @@
               </div>
             </div>
           <div class="aui-row">
-              <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="nextPage('school_storage_win')" >
+              <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="univPage()" >
                   <!-- <i class="aui-iconfont aui-icon-home"></i> -->
                   <img class="mid_img" src="../../../image/school.png" alt="">
                   <div><span class="mid_text">院校信息</span></div>
               </div>
-              <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="nextPage('zhuanye_storage_win')">
+              <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="majorPage()">
                   <!-- <i class="aui-iconfont aui-icon-gear"></i> -->
                   <img class="mid_img" src="../../../image/major.png" alt="">
                   <div><span class="mid_text">专业信息</span></div>
               </div>
-              <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="nextPage('zhiye_storage_win')">
+              <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="jobPage()">
                   <!-- <i class="aui-iconfont aui-icon-map"></i> -->
                   <img class="mid_img" src="../../../image/job.png" alt="">
                   <div><span class="mid_text">职业信息</span></div>
@@ -383,17 +383,17 @@
                 </div>
               </div>
             <div class="aui-row">
-                <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="nextPage('school_storage_win')" >
+                <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="univPage()" >
                     <!-- <i class="aui-iconfont aui-icon-home"></i> -->
                     <img class="mid_img" src="../../../image/school.png" alt="">
                     <div><span class="mid_text">院校信息</span></div>
                 </div>
-                <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="nextPage('zhuanye_storage_win')">
+                <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="majorPage()">
                     <!-- <i class="aui-iconfont aui-icon-gear"></i> -->
                     <img class="mid_img" src="../../../image/major.png" alt="">
                     <div><span class="mid_text">专业信息</span></div>
                 </div>
-                <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="nextPage('zhiye_storage_win')">
+                <div class="aui-col-xs-4 mid_padding_8" tapmode onclick="jobPage()">
                     <!-- <i class="aui-iconfont aui-icon-map"></i> -->
                     <img class="mid_img" src="../../../image/job.png" alt="">
                     <div><span class="mid_text">职业信息</span></div>
@@ -513,6 +513,7 @@
 </body>
 <script type="text/javascript" src="../../../script/api.js"></script>
 <script type="text/javascript" src="../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
 <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../script/network.js"></script>
@@ -568,7 +569,6 @@
 
     function yanzhen() {
       var isnew = $api.getStorage('isnew');
-      console.log("isnew:" + isnew);
       if (typeof isnew == "string") {
         isnew = parseInt(isnew);
       }
@@ -631,14 +631,17 @@
       });
     }
 
-    function nextPage(url) {
-      api.openWin({
-          name: url,
-          url: '../shengyaguihua/' + url + '.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
+    function univPage() {
+      rt.openParentPage("../shengyaguihua/school-storage/school_storage_frm.html", {});
+    }
+
+    function majorPage() {
+      rt.openParentPage("../shengyaguihua/major-storage/zhuanye_storage_frm.html", {});
+    }
+
+
+    function jobPage() {
+      rt.openParentPage("../shengyaguihua/job-storage/zhiye_storage_frm.html", {});
     }
  
   function onKeItemClick(index) {

@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
     <style>
       .aui-collapse-header.aui-active {
           background: white;
@@ -50,51 +50,33 @@
       </section>
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/aui-tab.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
 <script type="text/javascript">
     var benkeSecondList = [];
     var benkeThirdList = [];
     var benke_second;
-    apiready = function() {
-        api.parseTapmode();
-        switchSecond(api.pageParam.category);
+    window.onload = function() {
+        switchSecond(rt.getPageParame("category"));
     };
 
     function switchSecond(_category) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: false
-      });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Zhuanyeku/menubenke.html',
-            method: 'post',
-            data: {
-                values: {
-                    category: _category
-                },
-            }
-        },function(ret, err){
-          api.hideProgress();
-
-          if (ret) {
-            if (ret.status == 100) {
-              benkeSecondList = ret.data.twomenu;
-              benkeThirdList = ret.data.threemenu;
+      var parames = {}
+      parames.category = _category;
+      zhc.post('http://www.yxke12.com/index.php/App/Zhuanyeku/menubenke.html',
+          parames,function(_data) {
+              benkeSecondList = _data.twomenu;
+              benkeThirdList = _data.threemenu;
               if (benke_second == null) {
                 benke_second = doT.template(document.getElementById('benke_second_s').innerHTML);
               }
               document.getElementById('benke_second_ul').innerHTML = benke_second(benkeSecondList);
-              api.parseTapmode();
-            }
-          }
-
-        });
+          },null, true);
     }
 
     function onItemClick(index) {
@@ -105,15 +87,9 @@
                 third.push(benkeThirdList[i].name);
             }
         }
+
         localStorage.thirdData=JSON.stringify(third)
-        api.openWin({
-            name: 'zhuanye_storage_third_win',
-            url: './zhuanye_storage_third_win.html',
-            pageParam: {
-                // data: third,
-                title:second
-            }
-        });
+        rt.openPage("./zhuanye_storage_third_frm.html", {title:second})
     }
 
 </script>
