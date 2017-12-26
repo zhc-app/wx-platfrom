@@ -389,7 +389,6 @@
       var parames = {};
       parames.name = rt.getPageParame("title");
       zhc.post("http://www.yxke12.com/index.php/App/Yuanxiaoku/infos.html", parames, function(_data) {
-              console.log(_data)
               // 基本信息
                 total_data = _data.info;
                 xkpm_data = _data.xkpm;
@@ -421,7 +420,9 @@
         //         data:data,
         //     }
         // });
-        rt.openParentPage("./" + url + ".html", {data:$api.jsonToStr(data)});
+
+        localStorage.rank_data = $api.jsonToStr(data);
+        rt.openParentPage("./" + url + ".html", {});
 
     }
     var tab = new auiTab({

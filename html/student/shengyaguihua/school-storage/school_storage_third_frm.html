@@ -44,9 +44,10 @@
 <script type="text/javascript" src="../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../script/doT.js"></script>
 <script type="text/javascript">
-    apiready = function() {
+    window.onload = function() {
       var yuanxiaoshezhi = doT.template(document.getElementById('yuanxiaoshezhi_s').innerHTML);
-      document.getElementById('yuanxiaoshezhi_id').innerHTML = yuanxiaoshezhi(api.pageParam.data);
+      var data = $api.strToJson(localStorage.rank_data);
+      document.getElementById('yuanxiaoshezhi_id').innerHTML = yuanxiaoshezhi(data);
     };
 </script>
 

@@ -73,10 +73,10 @@
 <script type="text/javascript" src="../../../../script/doT.js"></script>
 
 <script type="text/javascript">
-
     window.onload = function() {
       var xuekepaiming = doT.template(document.getElementById('xuekepaiming_s').innerHTML);
-      document.getElementById('xuekepaiming_id').innerHTML = xuekepaiming($api.strToJson(rt.getPageParame("data")));
+      var data = $api.strToJson(localStorage.rank_data);
+      document.getElementById('xuekepaiming_id').innerHTML = xuekepaiming(data);
     };
 </script>
 
