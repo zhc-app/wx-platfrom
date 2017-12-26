@@ -593,25 +593,10 @@
       //   });
       //   return;
       // }
-      api.openWin({
-          name: 'xingxiang_list_win',
-          url: '../shengyaguihua/xingxiang_list_win.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
 
+      rt.openParentPage("../shengyaguihua/ace-test/xingxiang_list_frm.html", {});
     }
-    function xuankezhinan() {
-      api.openWin({
-          name: 'moNiXuanKe_win',
-          url: '../shengyaguihua/moNiXuanKe_win.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
 
-    }
     function simulateXuanke() {
       console.log($api.getStorage("isbuy"));
       // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
@@ -622,13 +607,7 @@
       //   });
       //   return;
       // }
-      api.openWin({
-          name: 'simulate_xuanke_list_win',
-          url: '../shengyaguihua/simulate_xuanke_list_win.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
+      rt.openParentPage("../shengyaguihua/simulate-subject/simulate_xuanke_list_win.html", {});
     }
 
     function univPage() {
