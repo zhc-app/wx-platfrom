@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
     <style>
         .center {
             display: flex;
@@ -92,54 +92,54 @@
 <body>
     <div id="wrap" class="flex-wrap flex-vertical center">
 
-        <div class="content_item " tapmode="hover" onclick="itemClick('occupation_win')">
-            <img class="left_img" src="../../image/xingxiang_left.png" />
+        <div class="content_item " tapmode="hover" onclick="itemClick('holland/occupation_win')">
+            <img class="left_img" src="../../../../image/xingxiang_left.png" />
             <div class="text_pos">
                 <p class="title">职业兴趣测试</p>
             </div>
             <div class="right">
                 <ul>
-                    <li><img src="../../image/xingqu_test.png" class="right_icon"></li>
-                    <li style="text-align:center;"><img src="../../image/arrow.png" class="right_arrow"></li>
+                    <li><img src="../../../../image/xingqu_test.png" class="right_icon"></li>
+                    <li style="text-align:center;"><img src="../../../../image/arrow.png" class="right_arrow"></li>
                 </ul>
             </div>
         </div>
 
-        <div class="content_item xingge_bg" tapmode="hover" onclick="itemClick('occupationXG_win')">
-            <img class="left_img" src="../../image/xingxiang_left.png" />
+        <div class="content_item xingge_bg" tapmode="hover" onclick="itemClick('mbti/occupationXG_win')">
+            <img class="left_img" src="../../../../image/xingxiang_left.png" />
             <div class="text_pos">
                 <p class="title">职业性格测试</p>
             </div>
             <div class="right">
                 <ul>
-                    <li><img src="../../image/xingge_test.png" class="right_icon"></li>
-                    <li style="text-align:center;"><img src="../../image/arrow.png" class="right_arrow"></li>
+                    <li><img src="../../../../image/xingge_test.png" class="right_icon"></li>
+                    <li style="text-align:center;"><img src="../../../../image/arrow.png" class="right_arrow"></li>
                 </ul>
             </div>
         </div>
 
-        <div class="content_item duoyuan_bg" tapmode="hover" onclick="itemClick('intelligence_win')" style="display:none;">
-            <img class="left_img" src="../../image/xingxiang_left.png" />
+        <div class="content_item duoyuan_bg" tapmode="hover" onclick="itemClick('intelligence/intelligence_win')" style="display:none;">
+            <img class="left_img" src="../../../../image/xingxiang_left.png" />
             <div class="text_pos">
                 <p class="title">多元智能测试</p>
             </div>
             <div class="right">
                 <ul>
-                    <li><img src="../../image/duoyuan_test.png" class="right_icon"></li>
-                    <li style="text-align:center;"><img src="../../image/arrow.png" class="right_arrow"></li>
+                    <li><img src="../../../../image/duoyuan_test.png" class="right_icon"></li>
+                    <li style="text-align:center;"><img src="../../../../image/arrow.png" class="right_arrow"></li>
                 </ul>
             </div>
         </div>
 
-        <div class="content_item zhuanye_bg" tapmode="hover" onclick="itemClick('zhuanYe_win')">
-            <img class="left_img" src="../../image/xingxiang_left.png" />
+        <div class="content_item zhuanye_bg" tapmode="hover" onclick="itemClick('all-one/zhuanYe_win')">
+            <img class="left_img" src="../../../../image/xingxiang_left.png" />
             <div class="text_pos">
                 <p class="title">专业倾向报告</p>
             </div>
             <div class="right">
                 <ul>
-                    <li><img src="../../image/zhuanye_test.png" class="right_icon"></li>
-                    <li style="text-align:center;"><img src="../../image/arrow.png" class="right_arrow"></li>
+                    <li><img src="../../../../image/zhuanye_test.png" class="right_icon"></li>
+                    <li style="text-align:center;"><img src="../../../../image/arrow.png" class="right_arrow"></li>
                 </ul>
             </div>
         </div>
@@ -147,21 +147,15 @@
 
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
 <script type="text/javascript">
-    apiready = function() {
+    window.onload = function() {
 
     };
 
     function itemClick(url) {
-        api.openWin({
-            name: url,
-            url: './'+ url +'.html',
-            pageParam: {
-                name: 'test'
-            }
-        });
-
+        rt.openPage('./'+ url +'.html', {});
     }
 </script>
 

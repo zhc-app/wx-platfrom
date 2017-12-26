@@ -5,9 +5,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css"/>
     <style>
         .empty{ text-align: center; padding: 120px 0;}
         .top_img{
@@ -162,7 +162,7 @@
           <span class="occupationText text-style-1">性格</span>
           <span class="occupationText">测试</span>
         </div>
-        <img class="top_img" src="../../image/1@3x.png"  >
+        <img class="top_img" src="../../../../../image/1@3x.png"  >
     </div>
 
     <div class="shuoming">
@@ -193,77 +193,29 @@
 </script>
 </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
     var data;
-    apiready = function(){
+    window.onload = function(){
       data = $api.strToJson(localStorage.list_data);
       var conText = doT.template(document.getElementById('evaluationtmpl').innerHTML);
       document.getElementById('main').innerHTML = conText(data);
-      // api.setRefreshHeaderInfo({
-      //     loadingImg: 'widget://image/refresh.png',
-      //     bgColor: '#ccc',
-      //     textColor: '#fff',
-      //     textDown: '下拉刷新...',
-      //     textUp: '松开刷新...'
-      //   }, function(ret, err) {
-      //   //在这里从服务器加载数据，加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
-      //   // alert("刷新");
-      //   api.refreshHeaderLoadDone();
-      // });
-
     };
 
     function itemClick(index) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Showbaogao/mbti.html',
-          method: 'post',
-          data: {
-              values: {
-                  studentid: $api.getStorage('studentid'),
-                  num:data[index].numbers
-              },
-          }
-      },function(ret, err){
-          api.refreshHeaderLoadDone();
-          api.hideProgress();
-          console.log(JSON.stringify( ret ));
-          if (ret) {
-            if (ret.status == 100) {
-                localStorage.data = $api.jsonToStr(ret.data);
-                api.openWin({
-                    name: 'zhiye_xingge_report_win',
-                    url: './zhiye_xingge_report_win.html',
-                    pageParam: {
-                        // data: ret.data,
-                        source:0
-                    }
-                });
-
-            }else {
-              api.toast({
-              msg: JSON.stringify(ret.message),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      var parames = {}
+      parames.studentid = $api.getStorage('studentid');
+      parames.num = data[index].numbers;
+      zhc.post('http://www.yxke12.com/index.php/App/Showbaogao/mbti.html',
+          parames,function(_data) {
+              localStorage.data = $api.jsonToStr(_data);
+              rt.openParentPage("./zhiye_xingge_report_frm.html", {source:0});
+          },null, true);
     }
 
 </script>

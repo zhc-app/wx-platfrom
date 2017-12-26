@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
     <style>
         .auto {
             height: auto;
@@ -61,7 +61,7 @@
         .img_bg {
             height: 40px;
             width: 90%;
-            background-image: url("../../image/four_bg.png");
+            background-image: url("../../../../../image/four_bg.png");
             background-repeat: no-repeat;
             background-size: 100% 100%;
             margin: 10px auto;
@@ -627,14 +627,12 @@
 </script>
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
 <script type="text/javascript">
-var data;
-    apiready = function() {
-        api.parseTapmode();
+    var data;
+    window.onload = function() {
         data = $api.strToJson(localStorage.data);
-        console.log("ffffffffffffffff "+JSON.stringify(data));
         var conText = doT.template(document.getElementById('interpolationtmpl').innerHTML);
         document.getElementById('report').innerHTML = conText(data);
         var teacher = data.teacher;
@@ -645,14 +643,6 @@ var data;
     };
 
     function sendTeacher() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
       api.ajax({
           url: 'http://www.yxke12.com/index.php/App/Baogao/result.html',
           method: 'post',

@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
     <style>
         .empty {
             text-align: center;
@@ -261,17 +261,17 @@
     <div id="main" class="flex-con z-col">
         <script id="evaluationtmpl" type="text/x-dot-template">
         <div>
-            <img class="top_img" src="../../image/zhuanye.png">
+            <img class="top_img" src="../../../../../image/zhuanye.png">
         </div>
           {{for (var i = 0; i < it.max; i++) {}}
           {{if (i < it.data.length) {}}
                   <div class="z-w" tapmode onclick="lookReportDetails({{=i}})">
                       <div class="aui-col-xs-20 z-r">
-                        <img class='z-width-1' src="../../image/light{{=i+1}}.png" alt="">
+                        <img class='z-width-1' src="../../../../../image/light{{=i+1}}.png" alt="">
                   {{}else{}}
                     <div class="z-w">
                       <div class="aui-col-xs-20 z-r">
-                          <img class='z-width-1' src="../../image/gray{{=i+1}}.png" alt="">
+                          <img class='z-width-1' src="../../../../../image/gray{{=i+1}}.png" alt="">
                   {{}}}
                   </div>
                   <div class="aui-col-xs-80">
@@ -294,15 +294,18 @@
         </script>
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
     var data, max, total = {};
 	  var conText;
-    apiready = function() {
-      api.parseTapmode();
+    window.onload = function() {
         data = $api.strToJson(localStorage.zonghebaogao);
-        max = api.pageParam.max;
+        max = rt.getPageParame("max");
         total.data = data;
         total.max = max;
 
@@ -312,112 +315,26 @@
 
 
     function getReportData() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Zhuanye/zhuanye.html',
-          method: 'post',
-          data: {
-              values: {
-                  studentid: $api.getStorage('studentid')
-              },
-          }
-      },function(ret, err){
-          api.refreshHeaderLoadDone();
-          api.hideProgress();
-          if (ret) {
-            if (ret.status == 100) {
-                // data = ret.data;
-                // showUI();
-                // var s = {};
-                // var fn = 'refreshUI('+s+');';
-                // api.execScript({
-                //     script: fn
-                // });
-                // console.log(JSON.stringify(ret.data));
-                total.data = ret.data.zonghebaogao;
-                total.max = ret.data.max;
-                // var conText = doT.template(document.getElementById('evaluationtmpl').innerHTML);
-                document.getElementById('main').innerHTML = conText(total);
-
-            }else {
-              api.toast({
-              msg: JSON.stringify(ret.message),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-              // console.log(JSON.stringify( ret ));
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
-
+      var parames = {}
+      parames.studentid = $api.getStorage('studentid');
+      zhc.post('http://www.yxke12.com/index.php/App/Zhuanye/zhuanye.html',
+          parames,function(_data) {
+            total.data = _data.zonghebaogao;
+            total.max = _data.max;
+            document.getElementById('main').innerHTML = conText(total);
+          },null, true);
     }
 
     function lookReportDetails(index) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/Ate/Member/teacher_parentcon.html',
-          method: 'post',
-          data: {
-              values: {
-                  studentid: $api.getStorage('studentid'),
-                  num:data[index].numbers,
-                  zid:data[index].id
-              },
-          }
-      },function(ret, err){
-          api.refreshHeaderLoadDone();
-          api.hideProgress();
-          console.log(JSON.stringify( ret ));
-          if (ret) {
-            if (ret.status == 100) {
-                // ret.data;
-                console.log(JSON.stringify( ret ));
-                localStorage.data = $api.jsonToStr(ret.data);
-                api.openWin({
-                    name: 'zhuanye_report_win',
-                    url: './zhuanye_report_win.html',
-                    pageParam: {
-                        // data: ret.data,
-                        source:0
-                    }
-                });
-
-            }else {
-              api.toast({
-              msg: JSON.stringify(ret.message),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
-
+      var parames = {}
+      parames.studentid = $api.getStorage('studentid');
+      parames.num = data[index].numbers;
+      parames.zid = data[index].id;
+      zhc.post('http://www.yxke12.com/index.php/Ate/Member/teacher_parentcon.html',
+          parames,function(_data) {
+            localStorage.data = $api.jsonToStr(_data);
+            rt.openParentPage("./zhuanye_report_frm.html", {source: 0});
+          },null, true);
     }
 </script>
 

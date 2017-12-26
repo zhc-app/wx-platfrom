@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
 
     <style>
         .auto {
@@ -61,7 +61,7 @@
         .img_bg {
             height: 40px;
             width: 90%;
-            background-image: url("../../image/four_bg.png");
+            background-image: url("../../../../../image/four_bg.png");
             background-repeat: no-repeat;
             background-size: 100% 100%;
             margin: 10px auto;
@@ -391,12 +391,12 @@
   </script>
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/echart.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/echart.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
 <script type="text/javascript">
 var data;
-    apiready = function() {
+    window.onload = function() {
       data = JSON.parse(localStorage.retdata);
       var evalText = doT.template(document.getElementById('evaluationtmpl').innerHTML);
       document.getElementById('xingquceshi').innerHTML = evalText(data);

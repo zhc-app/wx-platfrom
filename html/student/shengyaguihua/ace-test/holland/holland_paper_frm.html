@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
     <style>
       .center {
           /*display: flex;
@@ -47,18 +47,20 @@
       }
     </style>
 </head>
-<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
 <script type="text/javascript">
 
     var apiready_flag = false;
-    apiready = function() {
-      api.parseTapmode();
+    var total_c, cur_c;
+    window.onload = function() {
+      total_c = rt.getPageParame("total_c");
+      cur_c = rt.getPageParame("cur_c");
+
       apiready_flag = true;
       var data = JSON.parse(localStorage.datacur_index);
       // console.log(typeof data);
-      if (data == null){
-
-      }else {
+      if (data != null){
         var a_btn = $api.byId("a_btn");
         var b_btn = $api.byId("b_btn");
         var q_title = $api.byId("q_title");
@@ -68,30 +70,17 @@
 
 
         var progress_text = $api.byId("progress_text");
-        var cur_page = parseInt(api.pageParam.cur_c) + 1;
-        progress_text.innerHTML = cur_page +"/"+api.pageParam.total_c;
+        var cur_page = parseInt(cur_c) + 1;
+        progress_text.innerHTML = cur_page +"/"+total_c;
 
         var progress = $api.byId("progress");
-        $api.css(progress,'width:'+(cur_page/api.pageParam.total_c * 100).toString()+'%;');
+        $api.css(progress,'width:'+(cur_page/total_c * 100).toString()+'%;');
       }
     };
 
     function rightTest(index) {
       if(!apiready_flag)return;
-      var jsfun = 'nextQus('+index+');';
-      api.execScript({
-          script: jsfun
-      });
-      if(api.pageParam.cur_c + 1 === api.pageParam.total_c){
-          api.toast({
-              msg: '最后一页',
-              location: 'bottom'
-          });
-      }else {
-        api.closeFrame({
-            name: 'holland_paper_frm' + api.pageParam.cur_c
-        });
-      }
+      rt.execParentFun("nextQus", {index:index});
     }
 </script>
 <body>

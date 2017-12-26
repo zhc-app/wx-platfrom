@@ -1,6 +1,18 @@
 (function(window){
   var h = {};
+  var historyList = [];
+  function getPageName(url){
+      var arr = url.split("/");
+      var file = arr[arr.length - 1];
+      return file.split(".")[0];
+  }
+
   h.openPage = function(url, parames) {
+      var h = $api.strToJson($api.getStorage("hisHTML"))
+      historyList = h ? h : [];
+      historyList.push(getPageName(url));
+      $api.setStorage("hisHTML", $api.jsonToStr(historyList));
+
       if ((typeof parames) == 'object') {
         var i = 0;
         for(var key in parames){
@@ -16,6 +28,12 @@
   }
 
   h.openParentPage = function (url, parames) {
+    var h = $api.strToJson($api.getStorage("hisHTML"))
+    historyList = h ? h : [];
+
+    historyList.push(getPageName(url));
+    $api.setStorage("hisHTML", $api.jsonToStr(historyList));
+
     if ((typeof parames) == 'object') {
       var i = 0;
       for(var key in parames){
@@ -30,7 +48,64 @@
     parent.location.href = url;
   }
 
-  h.closePage = function(parames) {
+  h.openFrame = function (url, _name, rect, parames) {
+    if ((typeof parames) == 'object') {
+      var i = 0;
+      for(var key in parames){
+        if (i == 0) {
+          url = url + "?" + key + "=" + parames[key];
+        }else{
+          url = url + "&" + key + "=" + parames[key];
+        }
+        i++;
+      }
+    }
+
+    var iframe = document.createElement('iframe');
+    iframe.scrolling = "auto";
+    iframe.src = url;
+    iframe.id = _name;
+    iframe.style.border = 0;
+    iframe.style.marginLeft = rect.x + "px";
+    iframe.style.marginTop = rect.y + "px";
+    iframe.style.height = rect.height + "px";
+    iframe.style.width = rect.width + "px";
+    document.body.appendChild(iframe);
+  }
+
+  h.execFun = function (func) {
+      
+  }
+
+  h.execParentFun = function (func, parames) {
+    parent[func](parames);
+  }
+
+  h.closeFrame = function(_name) {
+    var el = document.getElementById(_name);
+    document.body.removeChild(el);
+  }
+
+  h.closeToPage = function (_name) {
+    var h = $api.strToJson($api.getStorage("hisHTML"))
+    historyList = h ? h : [];
+    console.log(historyList);
+    for (var i = historyList.length - 1; i >= 0; i--) {
+      if(historyList[i] == _name){
+        break;
+      }else{
+        historyList.pop();
+        $api.setStorage("hisHTML", $api.jsonToStr(historyList));
+        window.history.back();
+      }
+    }
+  }
+
+  h.closePage = function() {
+    var h = $api.strToJson($api.getStorage("hisHTML"))
+    historyList = h ? h : [];
+    historyList.pop();
+    $api.setStorage("hisHTML", $api.jsonToStr(historyList));
     window.history.back(); 
   }
 

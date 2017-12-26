@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
 
     <style>
         .auto {
@@ -62,7 +62,7 @@
         .img_bg {
             height: 40px;
             width: 90%;
-            background-image: url("../../image/four_bg.png");
+            background-image: url("../../../../../image/four_bg.png");
             background-repeat: no-repeat;
             background-size: 100% 100%;
             margin: 10px auto;
@@ -208,14 +208,18 @@
 </script>
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/echart.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/echart.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
     var data;
-    apiready = function() {
+    var toast = new auiToast({});
+    window.onload = function() {
         data = $api.strToJson(localStorage.data);
-        console.log(JSON.stringify(data));
         var evalText = doT.template(document.getElementById('evaluationtmpl').innerHTML);
         document.getElementById('xingquceshi').innerHTML = evalText(data);
         // var teacherid = data.zhuanye.teacherid;
@@ -231,68 +235,32 @@
       function sendTeacher() {
         var teacherid = data.zhuanye.teacherid;
         if (teacherid != null) {
-          api.toast({
+          toast.fail({
               msg: '该报告已经发送过老师',
               duration: 2000,
               location: 'bottom'
           });
           return;
         }
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Baogao/result.html',
-            method: 'post',
-            data: {
-                values: {
-                    studentid: $api.getStorage('studentid'),
-                    num:data.zhuanye.numbers,
-                    type:"zonghe",
-                },
-            }
-        },function(ret, err){
-            api.hideProgress();
-            if (ret) {
-              if (ret.status == 100) {
-                  // data = ret.data;
-                  var st = $api.byId('st_id');
-                  st.disabled = true;
-                  api.toast({
-                      msg: ret.data.infos,
-                      duration: 2000,
-                      location: 'bottom'
-                  });
-                  // console.log(JSON.stringify(ret.data));
-              }else {
-                api.toast({
-                msg: JSON.stringify(ret.message),
-                duration: 2000,
-                location: 'bottom'
-            });
-              }
-                console.log(JSON.stringify( ret ));
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
+        var parames = {}
+        parames.studentid = $api.getStorage('studentid');
+        parames.num = data.zhuanye.numbers;
+        parames.type = "zonghe";
+        zhc.post('http://www.yxke12.com/index.php/App/Baogao/result.html',
+          parames,function(_data) {
+            var st = $api.byId('st_id');
+                st.disabled = true;
+                toast.success({
+                    msg: _data.infos,
+                    duration: 2000,
+                    location: 'bottom'
+                });
+          },null, true);
       }
 
     // 重新测试
     function againTest() {
-        api.closeToWin({
-            name: 'xingxiang_list_win'
-        });
-
+        rt.closeToPage("xingxiang_list_win")
     }
 </script>
 

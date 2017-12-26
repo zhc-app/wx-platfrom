@@ -5,35 +5,13 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css"/>
     <style>
         header{ background-color: #f2f2f2; }
-        header ul li { height: 50px; line-height: 50px; text-align: center; display: none; color: #323237; position: relative;font-size: 18px;  }
-        header ul li.active{ display: block; }
-        .ic-message{
-                background-image: url(../../image/career.png);
-                float: right;}
-
 
         #footer{  background-color: #f2f2f2; }
-        #footer ul li{  padding-top: 36px; padding-bottom: 4px; background: url() no-repeat center 10px; background-size: auto 22px; text-align: center;font-size: 10px;font-family: "PingFang-SC";color: #a1a1a1;}
-        #footer ul li.active{ color: #6666ff; }
-        #footer ul li:nth-child(1){ background-image: url(../../image/home.png); }
-        #footer ul li:nth-child(2){ background-image: url(../../image/career.png); }
-        #footer ul li:nth-child(4){ background-image: url(../../image/quality.png); }
-        #footer ul li:nth-child(5){ background-image: url(../../image/me.png); }
-        #footer ul li:nth-child(1).active{ background-image: url(../../image/homeS.png); }
-        #footer ul li:nth-child(2).active{ background-image: url(../../image/careerS.png); }
-        #footer ul li:nth-child(4).active{ background-image: url(../../image/qualityS.png); }
-        #footer ul li:nth-child(5).active{ background-image: url(../../image/meS.png); }
-
-        .quality{
-          padding-top: 5px;
-          width: 60pt;
-          height: 37.5pt;
-        }
 
         .aui-bar-mystyle {
         	color: #333333;
@@ -50,21 +28,17 @@
           height: 42px;
         }
 
-        .dot-pos{
-          top:0px;
-          right: 2px;
+        .z-btn{
+          
+          width: 80%;
+          margin: 10px 10%;
+          height: 33px!important;
+          line-height: 33px;
+          background: #6666ff;
+          border-radius: 16.5px;
+          bottom: 0px;
+          position: absolute;
         }
-      .z-btn{
-        background: #6666ff;
-        height: 33px;
-        margin: 16.5px auto;
-        line-height: 33px;
-        width: 80%;
-         border-radius: 16.5px;
-      }
-      .disable_btn{
-        background: #6a6a6a;
-      }
     </style>
 </head>
 <header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
@@ -74,77 +48,43 @@
   <div class="aui-title">职业兴趣测试</div>
 </header>
 
-<div id="wrap" class="flex-wrap flex-vertical">
-    <div id="main" class="flex-con">
-    </div>
-    <div id="footer" class="border-t">
-        <ul class="flex-wrap" >
-             <p><div id="rightnow_id" class="aui-btn aui-btn-primary aui-btn-block z-btn"  tapmode onclick="nextPage()">马上测试</div></p>
-        </ul>
-    </div>
-</div>
+<!-- <div id="wrap" class="flex-wrap flex-vertical"> -->
+    
+
+      <ul id="footer" class="flex-wrap" >
+           <div id="rightnow_id" class="aui-btn aui-btn-primary aui-btn-block z-btn"  tapmode onclick="nextPage()">马上测试</div>
+      </ul>
+<!-- </div> -->
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
     var data = {};
     var body_h,footerh,headerh;
     var source;
-    apiready = function(){
-        api.parseTapmode();
-        source = api.pageParam.source;
-        $api.fixStatusBar($api.byId('aui-header'));
-        // $api.fixTabBar($api.byId('footer'))
-        body_h = $api.offset($api.dom('body')).h,
-        footerh = $api.offset($api.byId('footer')).h,
-        headerh = $api.offset($api.byId('aui-header')).h;
+    var toast = new auiToast({});
+    window.onload = function(){
+        source = rt.getPageParame("source");
         getReportList();
-        api.addEventListener({
-            name: 'keyback'
-        }, function(ret, err) {
-            backClick();
-        });
+        // api.addEventListener({
+        //     name: 'keyback'
+        // }, function(ret, err) {
+        //     backClick();
+        // });
     };
 
     function getReportList() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Baogao/lists.html',
-          method: 'post',
-          data: {
-              values: {
-                  studentid: $api.getStorage('studentid'),
-                  type:"huolande",
-              },
-          }
-      },function(ret, err){
-          api.hideProgress();
-          console.log(JSON.stringify(ret.data));
-          if (ret) {
-            if (ret.status == 100) {
-                data = ret.data;
+        var parames = {}
+        parames.studentid = $api.getStorage('studentid');
+        parames.type = "huolande";
+        zhc.post('http://www.yxke12.com/index.php/App/Baogao/lists.html',
+            parames,function(_data) {
+                data = _data;
                 showUI();
-            }else {
-              api.toast({
-                  msg: ret.data,
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-          } else {
-            api.toast({
-                msg: "网络错误",
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-      });
+            },null, true);
     }
 
     function showUI() {
@@ -154,69 +94,38 @@
         var list_data = data.infos;
         localStorage.data=JSON.stringify(list_data)
         var rightnow_id = $api.byId('rightnow_id');
-        // if (enable == 1) {
-        //     setButtonEnable(rightnow_id);
-        // }else {
-        //     setButtonDisable(rightnow_id);
-        // }
-
-        api.openFrame({
-            name: 'occupation_frm',
-            url: 'occupation_frm.html',
-            bounces: false,
-            rect: {
-                x: 0,
-                y: headerh,
-                w: 'auto',
-                h: body_h-footerh-headerh
-            },
-            pageParam:{
-                // data:list_data
-            },
-            vScrollBarEnabled: false,
-            hScrollBarEnabled: false
+        var headerH = $('header').outerHeight(true);
+        var height = $(document.body).height() - $("#rightnow_id").outerHeight(true) - headerH;
+        rt.openFrame("./occupation_frm.html", "occupation_frm", {
+          x: 0,
+          y: headerH,
+          height: height,
+          width:$(window).width()
         })
-
-
-    }
-
-    function setButtonEnable(el) {
-      el.disabled = false;
-      if($api.hasCls(el, 'disable_btn')){
-          $api.removeCls(el, 'disable_btn');
-      }
-    }
-
-    function setButtonDisable(el) {
-      $api.addCls(el, 'disable_btn');
-      el.disabled = true;
     }
 
     function nextPage() {
       if (data.enable == 1){
-        api.openWin({
-            name: 'huolande_win',
-            url: 'huolande_win.html'
-        });
+        rt.openPage("./huolande_win.html");
       }else {
-        api.toast({
-            msg: data.msg,
-            duration: 2000,
-            location: 'bottom'
+        toast.fail({
+          title: data.msg,
+          duration:2000
         });
       }
-
-
     }
 
     function backClick() {
       if (source == null) {
-        api.closeToWin({name:'xingxiang_list_win'});
+        // api.closeToWin({name:'xingxiang_list_win'});
+        // rt.closeToPage("xingxiang_list_frm")
+        rt.closeToPage("xingxiang_list_win");
+        // rt.closePage();
       }else if (source == 0) {
          // 我的测试
-        api.closeWin();
+        rt.closePage();
       }else {
-        api.closeWin();
+        rt.closePage();
       }
     }
 

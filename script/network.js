@@ -19,8 +19,18 @@
     // xmlhttp.open("POST",url,true);
     // xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     // xmlhttp.send();
+    if (isLoad) {
+      toast.loading({
+        title:"加载中",
+        duration:2000
+    });
+    }
+    
 
     $.post(url, parames, function(result){
+      if (isLoad) {
+        toast.hide();
+      }
       if (result.status == 100) {
         suc(result.data);
 
