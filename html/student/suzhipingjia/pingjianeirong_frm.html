@@ -5,15 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/z.css" />
-    <script type="text/javascript" src="../../script/aui-tab.js"></script>
-    <script src="../../script/jquery-1.8.3.min.js"></script>
-    <script src="../../script/doT.js"></script>
-    <script src="../../script/demo.js"></script>
+    <title>评价内容与方法</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/z.css" />
+    <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../../script/aui-tab.js"></script>
+    <script type="text/javascript" src="../../../script/demo.js"></script>
+    <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+    <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+    <script type="text/javascript" src="../../../script/api.js"></script>
+    <script type="text/javascript" src="../../../script/doT.js"></script>
+    <script type="text/javascript" src="../../../script/network.js"></script>
     <style>
         .empty {
             text-align: center;
@@ -144,7 +148,7 @@
             text-align: center;
             line-height: 1.7rem;
             border-left: solid 1px #d3d3d3;
-            background: url(../../image/on_1.png) no-repeat 98% center;
+            background: url(../../../image/on_1.png) no-repeat 98% center;
         }
 
         .pjimg {
@@ -230,7 +234,7 @@
 
 
             <!-- list start -->
-
+            <!-- 国家政策 -->
             <div class="aui-content aui-margin-b-15" style="display:block;padding-top: 45px;" id="guozhengce">
 
                 <div style="border-top:10px solid #f5f5f5; border-bottom: 1px solid #e5e5e5;height:auto;display: inline-flex;background: #fff;width: 100%;position: relative;line-height: 2.5;">
@@ -243,7 +247,7 @@
                     <li class="aui-list-item" tapmode onclick="gaokaoXZXQ()">
                         <div class="aui-media-list-item-inner">
                             <div class="aui-list-item-media">
-                                <img src="../../image/guojia.png" class="">
+                                <img src="../../../image/guojia.png" class="">
                             </div>
                             <div class="aui-list-item-inner">
                                 <div class="aui-list-item-text">
@@ -300,7 +304,7 @@
             </div>
 
 
-
+            <!-- 高校方案 -->
             <div style="margin-top: 44px;display:none" id="shengzhengce">
 
                 <div id="main1" class="flex-con z-col">
@@ -376,9 +380,7 @@
             </div>
 
 
-
-
-
+            <!--   高中机制-->
             <div style="margin-top: 44px;display:none" id="shengzhengce1">
                 <div id='gzd' style="height:34px;line-height:1.7rem;display:inline-block;width:100%;background: #f9f7f7;position: fixed;z-index: 44;margin-top: 1px;">
                     <span class="annui annuijiaohu" tapmode onclick="qiehuan(this)" id="shanghai">上海</span>
@@ -425,9 +427,7 @@
             </div>
 
 
-
-
-
+            <!-- 社会机制 -->
             <div style="margin-top: 44px;display:none" id="shengzhengce2">
                 <div style="height:34px;line-height:1.7rem;display:inline-block;width:100%;background: #f9f7f7;position: fixed;z-index: 44;margin-top: 1px;" id="sjz">
                     <span class="annui annuijiaohu" tapmode onclick="qiehuanhuodong(this)" id="qingnian">青年志愿者活动</span>
@@ -479,9 +479,6 @@
                     <!-- list end -->
 
             </div>
-
-
-
 
 
             <!-- 高职高招 -->
@@ -580,7 +577,7 @@
 
             </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
+
 <script type="text/javascript">
     // var evalText7 = doT.template(document.getElementById('evaluationtmpl7').innerHTML);
     // var evalText8 = doT.template(document.getElementById('evaluationtmpl8').innerHTML);
@@ -595,6 +592,7 @@
     var gzdzdq = doT.template(document.getElementById('gzdz_dq_list').innerHTML);
     var gzdzxx = doT.template(document.getElementById('gzdz_xx_list').innerHTML);
     var gzdzlist = doT.template(document.getElementById('gzdz_list').innerHTML);
+    var toast = new auiToast({});
 
     function aa() {
         // alert(document.documentElement.clientHeight)
@@ -606,173 +604,43 @@
     }
     aa()
 
+
     function shengfenzhengce(id) {
-        api.showProgress({
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Shengfenzhengce/infos.html',
-            method: 'post',
-            data: {
-                values: {
-                    id: id
-                },
 
-            }
-        }, function(ret, err) {
-          api.hideProgress();
-            if (ret) {
-
-                var data = ret.data
-                localStorage.data = JSON.stringify(data)
-                api.openWin({
-                    name: 'gaoxiang_zhengceXQ_win',
-                    url: './gaoxiang_zhengceXQ_win.html',
-                    pageParam: {
-                        // data: data
-                    }
-                });
-
-                // console.log( JSON.stringify( ret ) );
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
+        zhc.post('http://www.yxke12.com/index.php/App/Shengfenzhengce/infos.html',{id:id},function(data){ 
+          localStorage.data = JSON.stringify(data)
+          rt.openPage('./gaoxiang_zhengceXQ_frm.html',{});
+        
+        },null,true);
 
     }
 
+    // 高中制度点击进入详情页事件
     function shengfenzhengce1(id) {
-        // alert(id)
-        api.showProgress({
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Gaozhongzhidu/infos.html',
-            method: 'post',
-            data: {
-                values: {
-                    id: id
-                },
-
-            }
-        }, function(ret, err) {
-          api.hideProgress();
-            if (ret) {
-
-                var data = ret.data
-                localStorage.data = JSON.stringify(data)
-                api.openWin({
-                    name: 'gaoxiang_zhengceXQ_win',
-                    url: './gaoxiang_zhengceXQ_win.html',
-                    pageParam: {
-                        // data: data
-                    }
-                });
-
-                console.log(JSON.stringify(ret));
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
+        zhc.post('http://www.yxke12.com/index.php/App/Gaozhongzhidu/infos.html',{id: id},function(data){
+            
+            localStorage.data = JSON.stringify(data);
+            rt.openPage('./gaoxiang_zhengceXQ_frm.html',{});
+        },null,true);
 
     }
-
+    // 社会机制点击进入详情页事件 
     function shengfenzhengce2(id) {
-        // alert(id)
-        api.showProgress({
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Shehuijizhi/infos.html',
-            method: 'post',
-            data: {
-                values: {
-                    id: id
-                },
-
-            }
-        }, function(ret, err) {
-          api.hideProgress();
-            if (ret) {
-
-                var data = ret.data
-                localStorage.data = JSON.stringify(data)
-                api.openWin({
-                    name: 'gaoxiang_zhengceXQ_win',
-                    url: './gaoxiang_zhengceXQ_win.html',
-                    pageParam: {
-                        // data: data
-                    }
-                });
-
-                console.log(JSON.stringify(ret));
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
-
+        zhc.post('http://www.yxke12.com/index.php/App/Shehuijizhi/infos.html',{id: id},function(data){
+            localStorage.data = JSON.stringify(data);
+            rt.openPage('./gaoxiang_zhengceXQ_frm.html',{});
+        },null,true);
     }
-
+    // 高校方案点击进入详情页事件
     function shengfenzhengce3(id) {
-        // alert(id)
-        api.showProgress({
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Gaoxiaofangan/infos.html',
-            method: 'post',
-            data: {
-                values: {
-                    id: id
-                },
-
-            }
-        }, function(ret, err) {
-          api.hideProgress();
-            if (ret) {
-
-                var data = ret.data
-                localStorage.data = JSON.stringify(data)
-                api.openWin({
-                    name: 'gaoxiang_zhengceXQ1_win',
-                    url: './gaoxiang_zhengceXQ1_win.html',
-                    pageParam: {
-                        // data: data
-                    }
-                });
-
-                console.log(JSON.stringify(ret));
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
+        zhc.post('http://www.yxke12.com/index.php/App/Gaoxiaofangan/infos.html',{id: id},function(data){
+            localStorage.data = JSON.stringify(data);
+            rt.openPage('./gaoxiang_zhengceXQ1_frm.html',{});
+        },null,true);
 
     }
 
+    // 下拉事件
     function yincang() {
         // document.getElementById('yincang3').className = 'grade-eject'
         document.getElementById('yincang4').className = 'grade-eject'
@@ -784,55 +652,52 @@
         $('#main2').removeClass('alpha');
     }
 
-
-
-    apiready = function() {
-
-
-        api.parseTapmode();
-        var data = JSON.parse(localStorage.datazhengce)
-
-        document.getElementById('pingjiaShengZhengCe').innerHTML = evalText(data);
-
+    //页面加载一进来显示的数据 
+    window.onload = function() {
+        
+        // var data = JSON.parse(localStorage.datazhengce);
+        var studentid = $api.getStorage('studentid');
+        zhc.post('http://www.yxke12.com/index.php/App/Shengfenzhengce/lists.html',{studentid:studentid},function(data){
+              document.getElementById('pingjiaShengZhengCe').innerHTML = evalText(data.zhengce);
+        },null,true);
     };
 
-
-
-
+    //下拉事件？
     function Sorts1(sbj) {
         var gaoxiaofangdiqu = document.getElementById("gaoxiaofangdiqu").innerHTML
         var gaoxiaofangdixuexiao = document.getElementById("gaoxiaofangdixuexiao").innerHTML = sbj.innerHTML
-        api.showProgress({
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Gaoxiaofangan/searchs.html',
-            method: 'post',
-            data: {
-                values: {
-                    province: gaoxiaofangdiqu.substring(5),
-                    school: gaoxiaofangdixuexiao
-                },
+        
+        zhc.post('http://www.yxke12.com/index.php/App/Gaoxiaofangan/searchs.html',{province: gaoxiaofangdiqu.substring(5),school: gaoxiaofangdixuexiao},function(data){
+            document.getElementById('gaoxiaofangxq').innerHTML = evalText9(data.infos);
+        },null,true);
 
-            }
-        }, function(ret, err) {
-          api.hideProgress();
-            if (ret) {
+      
+        // api.ajax({
+        //     url: 'http://www.yxke12.com/index.php/App/Gaoxiaofangan/searchs.html',
+        //     method: 'post',
+        //     data: {
+        //         values: {
+        //             province: gaoxiaofangdiqu.substring(5),
+        //             school: gaoxiaofangdixuexiao
+        //         },
+
+        //     }
+        // }, function(ret, err) {
+        //   api.hideProgress();
+        //     if (ret) {
 
 
 
-                document.getElementById('gaoxiaofangxq').innerHTML = evalText9(ret.data.infos);
-                // alert( JSON.stringify( ret ) );
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
+        //         document.getElementById('gaoxiaofangxq').innerHTML = evalText9(ret.data.infos);
+        //         // alert( JSON.stringify( ret ) );
+        //     } else {
+        //       api.toast({
+        //           msg: JSON.stringify(err.msg),
+        //           duration: 2000,
+        //           location: 'bottom'
+        //       });
+        //     }
+        // });
 
         var arr = document.getElementById("gaoxiaofanganXX").getElementsByTagName("li");
         for (var i = 0; i < arr.length; i++) {
@@ -844,81 +709,30 @@
         sbj.style.borderBottom = "solid 1px #ff7c08"
 
     }
-    //js点击事件监听开始
+
+    //高校方案选择省份出学校及信息
     function grade4(wbj) {
-
-
         var arr = document.getElementById("gaoxiaofanganDQ").getElementsByTagName("li");
         for (var i = 0; i < arr.length; i++) {
             var a = arr[i];
             a.style.background = "";
 
         };
+
         wbj.style.background = "#eee"
         var gaoxiaofangdiqu = document.getElementById("gaoxiaofangdiqu").innerHTML = "招生范围："+wbj.innerHTML
 
-
-        api.showProgress({
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Gaoxiaofangan/searchs.html',
-            method: 'post',
-            data: {
-                values: {
-                    province: gaoxiaofangdiqu.substring(5),
-
-                },
-
-            }
-        }, function(ret, err) {
-            if (ret) {
-                document.getElementById('gaoxiaofanganXX').innerHTML = evalText6(ret.data.school);
-                document.getElementById('gaoxiaofangdixuexiao').innerHTML = ret.data.school[0].dxmc
-                api.ajax({
-                    url: 'http://www.yxke12.com/index.php/App/Gaoxiaofangan/searchs.html',
-                    method: 'post',
-                    data: {
-                        values: {
-                            province: gaoxiaofangdiqu.substring(5),
-                            school: ret.data.school[0].dxmc
-                        },
-                    }
-                }, function(ret, err) {
-                  api.hideProgress();
-                    if (ret) {
-
-                        document.getElementById('gaoxiaofangxq').innerHTML = evalText9(ret.data.infos);
-                        console.log(JSON.stringify(ret));
-                    } else {
-                      api.toast({
-                          msg: JSON.stringify(err.msg),
-                          duration: 2000,
-                          location: 'bottom'
-                      });
-                    }
-                });
-
-
-
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
-
-
-        // alert()
+        zhc.post('http://www.yxke12.com/index.php/App/Gaoxiaofangan/searchs.html',{province: gaoxiaofangdiqu.substring(5)},function(data){
+            document.getElementById('gaoxiaofanganXX').innerHTML = evalText6(data.school);
+            document.getElementById('gaoxiaofangdixuexiao').innerHTML = data.school[0].dxmc;
+            zhc.post('http://www.yxke12.com/index.php/App/Gaoxiaofangan/searchs.html',{ province: gaoxiaofangdiqu.substring(5),school: data.school[0].dxmc},function(data){
+                document.getElementById('gaoxiaofangxq').innerHTML = evalText9(data.infos);
+            
+            },null,true);
+        },null,true);
     }
 
-
-
-
+    // 高中制度上海、浙江切换
     function qiehuan(obj) {
         if (obj.innerHTML == "上海") {
             document.getElementById('pingjiaGZS').style.display = "block";
@@ -933,7 +747,7 @@
             document.getElementById('shanghai').className = "annui"
         }
     }
-
+    // 社会机制二级切换
     function qiehuanhuodong(obj) {
         if (obj.innerHTML == "青年志愿者活动") {
             document.getElementById('qingnianzhiyuan1').style.display = "block";
@@ -949,17 +763,11 @@
         }
     }
 
+    // 国家政策
     function gaokaoXZXQ() {
-        api.openWin({
-            name: 'pingjianeirongfangfa_win',
-            url: './pingjianeirongfangfa_win.html',
-            pageParam: {
-                name: 'test'
-            }
-        });
-
+        rt.openPage('./pingjianeirongfangfa_frm.html',{});
     }
-
+    // tab栏切换
     var morenjiansuo = {};
     var tab = new auiTab({
         element: document.getElementById("tab"),
@@ -967,8 +775,6 @@
         var gzc = document.getElementById('gzc');
         var szc = document.getElementById('szc');
         if (ret.index == 1) {
-
-
             document.getElementById('guozhengce').style.display = "block";
             document.getElementById('shengzhengce').style.display = "none";
             document.getElementById('shengzhengce1').style.display = "none";
@@ -980,102 +786,35 @@
             document.getElementById('shengzhengce1').style.display = "none";
             document.getElementById('shengzhengce2').style.display = "none";
             document.getElementById('shengzhengce3').style.display = "none";
-            api.showProgress({
-                title: '努力加载中...',
-                text: '先喝杯茶...',
-                modal: false
-            });
-            api.ajax({
-                url: 'http://www.yxke12.com/index.php/App/Gaoxiaofangan/lists.html',
-                method: 'post',
-                data: {
 
-                }
-            }, function(ret, err) {
-              api.hideProgress();
-                if (ret) {
-
-                    document.getElementById('gaoxiaofangdiqu').innerHTML = "招生范围："+ret.data.province[0].recruitprovince
-                    document.getElementById('gaoxiaofangdixuexiao').innerHTML = ret.data.school[0].dxmc
-                    document.getElementById('gaoxiaofanganDQ').innerHTML = evalText5(ret.data.province);
-                    document.getElementById('gaoxiaofanganXX').innerHTML = evalText6(ret.data.school);
-                    document.getElementById('gaoxiaofangxq').innerHTML = evalText9(ret.data.infos);
-                    // console.log( JSON.stringify( ret.data.infos ) );
-                } else {
-                  api.toast({
-                      msg: JSON.stringify(err.msg),
-                      duration: 2000,
-                      location: 'bottom'
-                  });
-                }
-            });
+            zhc.post('http://www.yxke12.com/index.php/App/Gaoxiaofangan/lists.html',{},function(data){
+                document.getElementById('gaoxiaofangdiqu').innerHTML = "招生范围："+data.province[0].recruitprovince
+                    document.getElementById('gaoxiaofangdixuexiao').innerHTML = data.school[0].dxmc
+                    document.getElementById('gaoxiaofanganDQ').innerHTML = evalText5(data.province);
+                    document.getElementById('gaoxiaofanganXX').innerHTML = evalText6(data.school);
+                    document.getElementById('gaoxiaofangxq').innerHTML = evalText9(data.infos);
+            },null,true);
+           
         } else if (ret.index == 2) {
-
             document.getElementById('guozhengce').style.display = "none";
             document.getElementById('shengzhengce').style.display = "none";
             document.getElementById('shengzhengce1').style.display = "block";
             document.getElementById('shengzhengce2').style.display = "none";
             document.getElementById('shengzhengce3').style.display = "none";
-            api.showProgress({
-                title: '努力加载中...',
-                text: '先喝杯茶...',
-                modal: false
-            });
-            api.ajax({
-                url: 'http://www.yxke12.com/index.php/App/Gaozhongzhidu/lists.html',
-                method: 'post',
-                data: {
-
-                }
-            }, function(ret, err) {
-              api.hideProgress();
-                if (ret) {
-                    // console.log( JSON.stringify( ret ) );
-
-
-                    document.getElementById('pingjiaGZS').innerHTML = evalText1(ret.data.shanghai);
-
-                    document.getElementById('pingjiaGZZ').innerHTML = evalText2(ret.data.zhejiang);
-                } else {
-                  api.toast({
-                      msg: JSON.stringify(err.msg),
-                      duration: 2000,
-                      location: 'bottom'
-                  });
-                }
-            });
-
+            zhc.post('http://www.yxke12.com/index.php/App/Gaozhongzhidu/lists.html',{},function(data){
+                document.getElementById('pingjiaGZS').innerHTML = evalText1(data.shanghai);
+                document.getElementById('pingjiaGZZ').innerHTML = evalText2(data.zhejiang);
+            },null,true);
         } else if (ret.index == 3) {
             document.getElementById('guozhengce').style.display = "none";
             document.getElementById('shengzhengce').style.display = "none";
             document.getElementById('shengzhengce1').style.display = "none";
             document.getElementById('shengzhengce2').style.display = "block";
             document.getElementById('shengzhengce3').style.display = "none";
-            api.showProgress({
-                title: '努力加载中...',
-                text: '先喝杯茶...',
-                modal: false
-            });
-            // document. getElementById('shengzhengce3').style.display = "none";
-            api.ajax({
-                url: 'http://www.yxke12.com/index.php/App/Shehuijizhi/lists.html',
-                method: 'post',
-                data: {
-
-                }
-            }, function(ret, err) {
-              api.hideProgress();
-                if (ret) {
-
-                    document.getElementById('qingnianhuodong').innerHTML = evalText3(ret.data.zhiyuan);
-
-                    document.getElementById('jingsaihuodong').innerHTML = evalText4(ret.data.jingsai);
-                    // alert( JSON.stringify( ret ) );
-                } else {
-                    // alert( JSON.stringify( err ) );
-                }
-            });
-
+            zhc.post('http://www.yxke12.com/index.php/App/Shehuijizhi/lists.html',{},function(data){
+                document.getElementById('qingnianhuodong').innerHTML = evalText3(data.zhiyuan);
+                document.getElementById('jingsaihuodong').innerHTML = evalText4(data.jingsai);
+            },null,true);
 
         } else {
             document.getElementById('guozhengce').style.display = "none";
@@ -1083,44 +822,20 @@
             document.getElementById('shengzhengce1').style.display = "none";
             document.getElementById('shengzhengce2').style.display = "none";
             document.getElementById('shengzhengce3').style.display = "block";
-            api.showProgress({
-                title: '努力加载中...',
-                text: '先喝杯茶...',
-                modal: false
-            });
-            api.ajax({
-                url: 'http://www.yxke12.com/index.php/App/Gaozhi/jianzhang.html',
-                method: 'post',
-                data: {
-
-                }
-            }, function(ret, err) {
-              api.hideProgress();
-                if (ret) {
-
-                    // console.log( JSON.stringify( ret.data.info ) );
-                    document.getElementById('gzdz_dq').innerHTML = "招生范围："+ret.data.province[0].province
-                    document.getElementById('gzdz_xx').innerHTML = ret.data.school[0].univ_name
-                    document.getElementById('gzdz_dq_ul').innerHTML = gzdzdq(ret.data.province);
-                    document.getElementById('gzdz_xx_ul').innerHTML = gzdzxx(ret.data.school);
-                    document.getElementById('gzdz_ul').innerHTML = gzdzlist(ret.data.info);
-
-                } else {
-                  api.toast({
-                      msg: JSON.stringify(err.msg),
-                      duration: 2000,
-                      location: 'bottom'
-                  });
-                }
-            });
+            zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/jianzhang.html',{},function(data){
+                 document.getElementById('gzdz_dq').innerHTML = "招生范围："+data.province[0].province
+                    document.getElementById('gzdz_xx').innerHTML = data.school[0].univ_name
+                    document.getElementById('gzdz_dq_ul').innerHTML = gzdzdq(data.province);
+                    document.getElementById('gzdz_xx_ul').innerHTML = gzdzxx(data.school);
+                    document.getElementById('gzdz_ul').innerHTML = gzdzlist(data.info);
+            },null,true);
         }
 
     });
 
     //js点击事件监听开始
+    //高职单招点击全国的下拉事件
     function grade41(wbj) {
-
-
         var arr = document.getElementById("gzdz_dq_ul").getElementsByTagName("li");
         for (var i = 0; i < arr.length; i++) {
             var a = arr[i];
@@ -1130,88 +845,21 @@
         wbj.style.background = "#eee"
         var gaoxiaofangdiqu = document.getElementById("gzdz_dq").innerHTML = "招生范围："+wbj.innerHTML
 
-
-        api.showProgress({
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Gaozhi/searchs.html',
-            method: 'post',
-            data: {
-                values: {
-                    province: gaoxiaofangdiqu.substring(5),
-
-                },
-
-            }
-        }, function(ret, err) {
-          api.hideProgress();
-            if (ret) {
-
-
-                        document.getElementById('gzdz_ul').innerHTML = gzdzlist(ret.data.info);
-                        document.getElementById('gzdz_xx_ul').innerHTML = gzdzxx(ret.data.school);
-
-                        document.getElementById('gzdz_xx').innerHTML = ret.data.school[0].univ_name
-
-                        console.log(JSON.stringify(ret));
-
-
-
-
-            } else {
-                api.toast({
-                    msg: JSON.stringify(err.msg),
-                    duration: 2000,
-                    location: 'bottom'
-                });
-
-            }
-        });
-
-
-        // alert()
+        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/searchs.html',{province: gaoxiaofangdiqu.substring(5)},function(data){
+            document.getElementById('gzdz_ul').innerHTML = gzdzlist(data.info);
+            document.getElementById('gzdz_xx_ul').innerHTML = gzdzxx(data.school);
+            document.getElementById('gzdz_xx').innerHTML = data.school[0].univ_name
+        },null,true);
     }
 
 
-
+    // 高职单招点击下拉学校
     function Sorts11(sbj,id) {
         var gaoxiaofangdiqu = document.getElementById("gzdz_dq").innerHTML
         var gaoxiaofangdixuexiao = document.getElementById("gzdz_xx").innerHTML = sbj.innerHTML
-        api.showProgress({
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Gaozhi/searchs.html',
-            method: 'post',
-            data: {
-                values: {
-                    province: gaoxiaofangdiqu.substring(5),
-                    id: id
-                },
-
-            }
-        }, function(ret, err) {
-          api.hideProgress();
-            if (ret) {
-
-
-
-                document.getElementById('gzdz_ul').innerHTML = gzdzlist(ret.data.info);
-                console.log( JSON.stringify( ret ) );
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
-
+        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/searchs.html',{province: gaoxiaofangdiqu.substring(5),id: id},function(data){
+             document.getElementById('gzdz_ul').innerHTML = gzdzlist(data.info);
+        },null,true);
         var arr = document.getElementById("gzdz_xx_ul").getElementsByTagName("li");
         for (var i = 0; i < arr.length; i++) {
             var a = arr[i];
@@ -1224,47 +872,12 @@
     }
 
 
-
+    //点击高职单招进的详情页
     function shengfenzhengce4(id) {
-        // alert(id)
-        api.showProgress({
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Gaozhi/detail.html',
-            method: 'post',
-            data: {
-                values: {
-                    id: id
-                },
-
-            }
-        }, function(ret, err) {
-          api.hideProgress();
-            if (ret) {
-
-                var data = ret.data
-                localStorage.data = JSON.stringify(data)
-                api.openWin({
-                    name: 'gaoxiang_zhengceXQ2_win',
-                    url: './gaoxiang_zhengceXQ2_win.html',
-                    pageParam: {
-                        // data: data
-                    }
-                });
-
-                console.log(JSON.stringify(ret));
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
-
+        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/detail.html',{id: id},function(data){
+            localStorage.data = JSON.stringify(data);
+            rt.openPage('./gaoxiang_zhengceXQ2_frm.html',{});
+        },null,true);
     }
 
 </script>

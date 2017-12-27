@@ -5,9 +5,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
         header{ background-color: #f2f2f2; }
         header ul li { height: 50px; line-height: 50px; text-align: center; display: none; color: #323237; position: relative;font-size: 18px;  }
@@ -250,21 +250,25 @@
 
 </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/network.js"></script>
-<script type="text/javascript" src="../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
+
 <script type="text/javascript">
 var UIMediaScanner;
 var path1=[];
-var one,two;
-    apiready = function(){
+// var one,two;
+var toast = new auiToast({});
+    window.onload = function(){
         // $api.byId('title').innerHTML = api.pageParam.title;
 
-        api.parseTapmode();
-        $api.fixStatusBar($api.byId('aui-header'));
-        UIMediaScanner = api.require('UIMediaScanner');
-        one =  api.pageParam.one
-        two =  api.pageParam.two
+        // api.parseTapmode();
+        // $api.fixStatusBar($api.byId('aui-header'));
+        // UIMediaScanner = api.require('UIMediaScanner');
+        // one =  api.pageParam.one
+        // two =  api.pageParam.two
         // $api.byId('dabankuai').innerHTML = api.pageParam.titlea
         // $api.byId('zilanm').innerHTML = api.pageParam.titleb
     };
@@ -362,12 +366,13 @@ var one,two;
       params.files.f3 = path1[2];
       zhc.post('http://www.yxke12.com/index.php/App/Huodongjilu/addrealrecord.html',
       params,function(data) {
-            api.toast({
-                msg: data,
-                duration: 2000,
-                location: 'bottom'
+            toast.success({
+                title: data,
             });
-            api.closeWin();
+            setTimeout(function(){
+              rt.closePage();
+            },1000);
+            
         }, null, true);
 
     }

@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
-    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>开发</title>
-    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
-    <style>
-        .empty{ text-align: center; padding: 120px 0; }
-        .center{
-          display:flex;
-          align-items:center;
-          justify-content:center;
-        }
-        .content_item{
-          background-color:#ff6b00;
-          border-radius:10px;
-          width:90%;
-          height:90px;
-          overflow:hidden;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <title>开发</title>
+  <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+  <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+  <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
+  <style>
+  .empty{ text-align: center; padding: 120px 0; }
+  .center{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .content_item{
+    background-color:#ff6b00;
+    border-radius:10px;
+    width:90%;
+    height:90px;
+    overflow:hidden;
           /*display:flex;
           align-items:center;
           justify-content:center;*/
@@ -86,7 +86,7 @@
           background-color: #b699ea;
         }
         .zong_bg{
-            background-color: #36c7fa;
+          background-color: #36c7fa;
         }
         .grow_bg{
           background-color: #ffbc10;
@@ -97,10 +97,10 @@
         .suzhitisheng_bg{
           background: #ff4d50;
         }
-    </style>
-</head>
-<body>
-    <div id="main" class="flex-con flex-vertical center">
+      </style>
+    </head>
+    <body>
+      <div id="main" class="flex-con flex-vertical center">
 
         <div class="content_item ping_bg" tapmode="hover" onclick="neirongpingjia()" >
           <div class="left">
@@ -125,8 +125,8 @@
             </div>
           </div>
 
-            <img src="../../../image/arrow.png" class="right_arrow">
-            <div class="v_line"></div>
+          <img src="../../../image/arrow.png" class="right_arrow">
+          <div class="v_line"></div>
         </div>
         <div class="content_item zong_bg" tapmode onclick="lhpjClick();" style="display:none">
           <div class="left">
@@ -163,91 +163,64 @@
             </div>
           </div>
 
-            <img src="../../../image/arrow.png" class="right_arrow">
-            <div class="v_line"></div>
+          <img src="../../../image/arrow.png" class="right_arrow">
+          <div class="v_line"></div>
         </div>
 
-    </div>
-</body>
-</html>
-<script type="text/javascript" src="../../../script/api.js"></script>
-<script type="text/javascript">
-function diannao() {
-    api.openWin({
-        name: 'diannaochakan',
-        url: '../diannaochakan.html',
-        pageParam: {
-            name: 'test'
+      </div>
+    </body>
+    </html>
+    <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+    <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+    <script type="text/javascript" src="../../../script/api.js"></script>
+    <script type="text/javascript" src="../../../script/doT.js"></script>
+    <script type="text/javascript" src="../../../script/network.js"></script>
+    <script type="text/javascript">
+      var toast = new auiToast({});
+      // function diannao() {
+      //   api.openWin({
+      //     name: 'diannaochakan',
+      //     url: '../diannaochakan.html',
+      //     pageParam: {
+      //       name: 'test'
+      //     }
+      //   });
+
+      // }
+
+      function huodongjilu() {
+        // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
+        //   api.toast({
+        //       msg: "该功能付费用户才能使用",
+        //       duration: 2000,
+        //       location: 'bottom'
+        //   });
+        //   return;
+        // }
+        rt.openParentPage('../huodongjilu/huodongjilu_frm.html',{});
+      }
+
+      function neirongpingjia() {
+        rt.openParentPage('../suzhipingjia/pingjianeirong_frm.html',{});
+      }
+
+      function lhpjClick() {
+        rt.openParentPage('../lianghuapingjia/lianghuapingjia_list_frm.html',{});
+      }
+
+      function seftReport() {
+        if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
+          toast.fail({
+            title: "该功能付费用户才能使用"
+          });
+          return;
         }
-    });
+        rt.openParentPage('../baogaoyudangan/self_report_frm.html',{});
+      }
 
-}
+      function zonghesuzhi() {
+        rt.openParentPage('../zonghesuzhitisheng/zonghe_list_frm.html',{});
+      }
 
-function huodongjilu() {
-    // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-    //   api.toast({
-    //       msg: "该功能付费用户才能使用",
-    //       duration: 2000,
-    //       location: 'bottom'
-    //   });
-    //   return;
-    // }
-    api.openWin({
-        name: 'diannaochakan',
-        url: '../huodongjilu/huodongjilu_win.html',
-        pageParam: {
-            name: 'test'
-        }
-    });
-
-}
-
-  function neirongpingjia() {
-      // alert("ddddddddddddddddddd");
-      api.openWin({
-          name: 'pingjianeirong_win',
-          url: '../suzhipingjia/pingjianeirong_win.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
-
-  }
-
-  function lhpjClick() {
-    api.openWin({
-        name: 'lianghuapingjia_list_win',
-        url: '../lianghuapingjia/lianghuapingjia_list_win.html',
-        pageParam: {
-            name: 'test'
-        }
-    });
-  }
-  function seftReport() {
-    if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-      api.toast({
-          msg: "该功能付费用户才能使用",
-          duration: 2000,
-          location: 'bottom'
-      });
-      return;
-    }
-    api.openWin({
-        name: 'self_report_win',
-        url: '../baogaoyudangan/self_report_win.html',
-        pageParam: {
-            name: 'test'
-        }
-    });
-  }
-
-  function zonghesuzhi() {
-      api.openWin({
-          name: 'zonghe_list_win',
-          url: '../zonghesuzhitisheng/zonghe_list_win.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
-  }
-</script>
+    </script>
