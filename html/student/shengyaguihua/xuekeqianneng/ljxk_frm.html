@@ -5,10 +5,10 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
-    <script type="text/javascript" src="../../script/aui-tab.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css"/>
+    <script type="text/javascript" src="../../../../../script/aui-tab.js"></script>
     <style>
       #footer{  background-color: #f2f2f2; position: fixed;bottom: 0;width: 100%;z-index: 99}
         .empty{ text-align: center; padding: 120px 0;}
@@ -111,7 +111,7 @@
           <li class="aui-list-item" style="height: 6rem;" tapmode onclick="xuekejieshao(6)">
               <div class="aui-media-list-item-inner">
                   <div class="aui-list-item-media">
-                      <img src="../../../image/96@3x.png">
+                      <img src="../../../../../image/96@3x.png">
                   </div>
                   <div class="aui-list-item-inner zdivw">
                       <div class="aui-list-item-text">
@@ -127,7 +127,7 @@
           <li class="aui-list-item" style="height: 6rem;" tapmode onclick="xuekejieshao(2)">
               <div class="aui-media-list-item-inner">
                   <div class="aui-list-item-media">
-                      <img src="../../../image/97@3x.png">
+                      <img src="../../../../../image/97@3x.png">
                   </div>
                   <div class="aui-list-item-inner zdivw">
                       <div class="aui-list-item-text">
@@ -144,7 +144,7 @@
           <li class="aui-list-item" style="height: 6rem;" tapmode onclick="xuekejieshao(3)">
               <div class="aui-media-list-item-inner">
                   <div class="aui-list-item-media">
-                      <img src="../../../image/98@3x.png">
+                      <img src="../../../../../image/98@3x.png">
                   </div>
                   <div class="aui-list-item-inner zdivw">
                       <div class="aui-list-item-text">
@@ -161,7 +161,7 @@
           <li class="aui-list-item" style="height: 6rem;" tapmode onclick="xuekejieshao(1)">
               <div class="aui-media-list-item-inner">
                   <div class="aui-list-item-media">
-                      <img src="../../../image/99@3x.png">
+                      <img src="../../../../../image/99@3x.png">
                   </div>
                   <div class="aui-list-item-inner zdivw">
                       <div class="aui-list-item-text">
@@ -178,7 +178,7 @@
           <li class="aui-list-item" style="height: 6rem;" tapmode onclick="xuekejieshao(4)">
               <div class="aui-media-list-item-inner">
                   <div class="aui-list-item-media">
-                      <img src="../../../image/100@3x.png">
+                      <img src="../../../../../image/100@3x.png">
                   </div>
                   <div class="aui-list-item-inner zdivw">
                       <div class="aui-list-item-text">
@@ -195,7 +195,7 @@
           <li class="aui-list-item" style="height: 6rem;" tapmode onclick="xuekejieshao(5)">
               <div class="aui-media-list-item-inner">
                   <div class="aui-list-item-media">
-                      <img src="../../../image/101@3x.png">
+                      <img src="../../../../../image/101@3x.png">
                   </div>
                   <div class="aui-list-item-inner zdivw">
                       <div class="aui-list-item-text">
@@ -212,7 +212,7 @@
           <li class="aui-list-item" style="height: 6rem;" tapmode onclick="xuekejieshao(7)">
               <div class="aui-media-list-item-inner">
                   <div class="aui-list-item-media">
-                      <img src="../../../image/technology.png">
+                      <img src="../../../../../image/technology.png">
                   </div>
                   <div class="aui-list-item-inner zdivw">
                       <div class="aui-list-item-text">
@@ -232,11 +232,12 @@
   </div>
 </div>
 </body>
-<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
-    apiready = function(){
-        api.parseTapmode();
-    };
 
     var tab = new auiTab({
         element:document.getElementById("tab"),
@@ -244,93 +245,23 @@
       var gzc = document. getElementById('gzc');
         var szc = document. getElementById('szc');
         if (ret.index ==1) {
-
           gzc.className="zcText xiahuaxian";
           szc.className="zcText";
-        }
-        if (ret.index ==2) {
-
-        szc.className="zcText xiahuaxian";
-        gzc.className="zcText";
+        }else if (ret.index ==2) {
+          szc.className="zcText xiahuaxian";
+          gzc.className="zcText";
         }
     });
 
     function xuekejieshao(index) {
         var data=[]
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Xuanke/infos.html',
-            method: 'post',
-            data: {
-                values: {
-                    id: index
-                },
-            }
-        },function(ret, err){
-          api.hideProgress();
-            if (ret) {
-              data = ret.data.infos
-              api.openWin({
-                  name: 'kecheng_win',
-                  url: '../kecheng_win.html',
-                  pageParam: {
-                      data: data
-                  }
-              });
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
-    }
-
-
-    function xingXiangTest() {
-      api.openWin({
-          name: 'xingxiang_list_win',
-          url: './xingxiang_list_win.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
-
-    }
-
-    function fasonglaoshi() {
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Xuanke/xuanke.html',
-            method: 'post',
-            data: {
-                values: {
-                  studentid:$api.getStorage('studentid'),
-                    checks: xuankeId
-                },
-            }
-        },function(ret, err){
-            if (ret) {
-                api.toast({
-                    msg: JSON.stringify(ret),
-                    duration: 2000,
-                    location: 'bottom'
-                });
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
+        var parames = {}
+        parames.id = index;
+        zhc.post('http://www.yxke12.com/index.php/App/Xuanke/infos.html',
+            parames,function(_data) {
+                localStorage.data = JSON.stringify(_data.infos)
+                rt.openPage("./kecheng_frm.html", {});
+            },null, true);
     }
 </script>
 </html>
