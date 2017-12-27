@@ -6,7 +6,7 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>AUI快速完成布局</title>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
     <style type="text/css">
         #classify {
             color: #ffffff !important;
@@ -180,9 +180,9 @@
         <h2 style="text-align:center;margin:0.5rem auto" id="title"></h2>
         <div class="aui-list-item-text m-t-10" style="margin:10px auto;width:90%" >
 
-            <img src="../../image/yan.png" style="width:0.8rem;height:0.7rem" align = absmiddle alt="">
+            <img src="../../../image/yan.png" style="width:0.8rem;height:0.7rem" align = absmiddle alt="">
             <span class="biaoti"  id="yankan"></span>
-            <img id="pzan_img" src="../../image/big_zan_select.png" style="margin-left:8px;width:0.8rem;height:0.7rem" align = absmiddle alt="" tapmode onclick="zanPClick(this);">
+            <img id="pzan_img" src="../../../image/big_zan_select.png" style="margin-left:8px;width:0.8rem;height:0.7rem" align = absmiddle alt="" tapmode onclick="zanPClick(this);">
             <span class="biaoti"  id="p_zan"></span>
 
         </div>
@@ -269,14 +269,18 @@
         </div>
     </footer>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
     var cont = [];
     var huifucont = [];
     var pinglunListData = [];
     var paperData = {};
+    var toast = new auiToast({});
     var contpinluntext_dot = doT.template(document.getElementById('contpinluntext').innerHTML)
     function fasongbtn(index) {
       var value = $api.byId("textarea").value;
@@ -379,103 +383,60 @@
 
     var text = document.getElementById("textarea");
     autoTextarea(text); // 调用
-    apiready = function() {
+    window.onload = function() {
         // api.parseTapmode();
         // 文章id
-        var id = api.pageParam.data;
-        var url = api.pageParam.url;
-        var faurl = api.pageParam.faurl;
-        var hurl = api.pageParam.hurl;
+        var id = rt.getPageParame("data");
+        var url = rt.getPageParame("url");
+        var faurl = rt.getPageParame("faurl");
+        var hurl = rt.getPageParame("hurl");
         getPaperData(id, url);
     }
 
     function getPaperData(id, url) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: url,
-          method: 'post',
-          data: {
-              values: {
-                  id: id,
-                  studentid: $api.getStorage('studentid')
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-              if (ret.status == 100) {
-                  $api.byId('p_zan').innerHTML = ret.data.infos.likes;
-                  if (ret.data.infos.status == 0) {
-                      $api.byId('pzan_img').src = "../../image/big_zan_noram.png";
-                  }else {
-                      $api.byId('pzan_img').src = "../../image/big_zan_select.png";
-                  }
-                  $api.byId('zuozhename').innerHTML = ret.data.infos.expert;
-                  $api.byId('zuozheimg').src ="http://www.yxke12.com"+ ret.data.infos.thumb;
-                  $api.byId('zuozhejianjie').innerHTML = ret.data.infos.sample;
-                  $api.byId('content').innerHTML = ret.data.infos.viewpoint;
-                  $api.byId('title').innerHTML = ret.data.infos.title;
-                  $api.byId('cailiao').innerHTML = ret.data.infos.lead;
-                  if (ret.data.infos.epilogue) {
-                      $api.byId('luntikuan').style.display = 'block'
-                    $api.byId('lunti').innerHTML = ret.data.infos.epilogue;
-                  }else {
-                    $api.byId('luntikuan').style.display = 'none'
-                    $api.byId('lunti').innerHTML = ret.data.infos.epilogue;
-                  }
-
-                  $api.byId('yankan').innerHTML = ret.data.infos.browse;
-                  pinglunListData = ret.data.lists;
-                  paperData = ret.data.infos;
-                  console.log(JSON.stringify(paperData));
-                  document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
+      var parames = {};
+      parames.id = id;
+      parames.studentid = $api.getStorage('studentid');
+      zhc.post(url,
+          parames,function(_data) {
+              $api.byId('p_zan').innerHTML = _data.infos.likes;
+              if (_data.infos.status == 0) {
+                  $api.byId('pzan_img').src = "../../../image/big_zan_noram.png";
               }else {
-
+                  $api.byId('pzan_img').src = "../../../image/big_zan_select.png";
               }
-          } else {
-            api.hideProgress();
-            api.toast({
-                msg: JSON.stringify(err.msg),
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-      });
+              $api.byId('zuozhename').innerHTML = _data.infos.expert;
+              $api.byId('zuozheimg').src ="http://www.yxke12.com"+ _data.infos.thumb;
+              $api.byId('zuozhejianjie').innerHTML = _data.infos.sample;
+              $api.byId('content').innerHTML = _data.infos.viewpoint;
+              $api.byId('title').innerHTML = _data.infos.title;
+              $api.byId('cailiao').innerHTML = _data.infos.lead;
+              if (_data.infos.epilogue) {
+                  $api.byId('luntikuan').style.display = 'block'
+                $api.byId('lunti').innerHTML = _data.infos.epilogue;
+              }else {
+                $api.byId('luntikuan').style.display = 'none'
+                $api.byId('lunti').innerHTML = _data.infos.epilogue;
+              }
+
+              $api.byId('yankan').innerHTML = _data.infos.browse;
+              pinglunListData = _data.lists;
+              paperData = _data.infos;
+              document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
+          },null, true);
     }
 
     function sendComunit(value) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '发表中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-      api.ajax({
-          url: api.pageParam.faurl,
-          method: 'post',
-          data: {
-              values: {
-                  studentid: $api.getStorage('studentid'),
-                  id: paperData.id,
-                  title: paperData.title,
-                  content: value
-              }
-          }
-      },function(ret, err){
-          api.hideProgress();
-            console.log( JSON.stringify( ret ) );
-          if (ret) {
-            if (ret.status == 100) {
-              $api.byId("textarea").value = '';
-              var data = ret.data;
+      var url = rt.getPageParame("faurl");
+      var parames = {
+            studentid: $api.getStorage('studentid'),
+            id: paperData.id,
+            title: paperData.title,
+            content: value
+        }
+      zhc.post(url,parames,function(_data) {
+            $api.byId("textarea").value = '';
+              var data = _data;
               var pinglun = {};
               pinglun.touxiang = data.touxiang;
               pinglun.studentname = data.studentname;
@@ -486,78 +447,31 @@
               pinglun.comment = 0;
               pinglunListData.unshift(pinglun);
               document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
-              api.toast({
-                  msg: '发表成功',
-                  duration: 2000,
-                  location: 'bottom'
+              toast.success({
+                  title: '发表成功',
+                  duration: 2000
               });
-            }else{
-              api.toast({
-                  msg: '发表失败',
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-          } else {
-            api.toast({
-                msg: JSON.stringify(err),
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-      });
+          },null, true);
     }
-var cur_hf_data = [];
+    var cur_hf_data = [];
     function getHFData(index) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '获取中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: api.pageParam.hqurl,
-          method: 'post',
-          data: {
-              values: {
-                  id: pinglunListData[index].id,
-              }
-          }
-      },function(ret, err){
-          api.hideProgress();
-            console.log( JSON.stringify( ret ) );
-          if (ret) {
-            if (ret.status == 100) {
-              var e = $api.byId('huifucont' + index);
-
-
-              clearli(e);
-              var str = '';
-              cur_hf_data = ret.data;
-              if (cur_hf_data != null && cur_hf_data.length != 0) {
-                e.style.display = "block";
-              }
-              for (var i = 0; i < cur_hf_data.length; i++) {
-                str += '<li><span class="xuehao">' + cur_hf_data[i].studentname + ':</span><span class="xuehaoneirong">' + cur_hf_data[i].reply + '</span></li>';
-              }
-              $api.append(e, str);
-            }else{
-              api.toast({
-                  msg: '获取失败',
-                  duration: 2000,
-                  location: 'bottom'
-              });
+      var url = rt.getPageParame("hqurl");
+      var parames = {}
+      parames.id = pinglunListData[index].id;
+      zhc.post(url,
+          parames,function(_data) {
+            var e = $api.byId('huifucont' + index);
+            clearli(e);
+            var str = '';
+            cur_hf_data = _data;
+            if (cur_hf_data != null && cur_hf_data.length != 0) {
+              e.style.display = "block";
             }
-          } else {
-            api.toast({
-                msg: JSON.stringify(err),
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-      });
+            for (var i = 0; i < cur_hf_data.length; i++) {
+              str += '<li><span class="xuehao">' + cur_hf_data[i].studentname + ':</span><span class="xuehaoneirong">' + cur_hf_data[i].reply + '</span></li>';
+            }
+            $api.append(e, str);
+          },null, true);
     }
 
     function clearli(e) {
@@ -568,100 +482,42 @@ var cur_hf_data = [];
     }
 
     function dianzan(e, index) {
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '点赞中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-      console.log(pinglunListData[index].id);
-        api.ajax({
-            url: api.pageParam.durl,
-            method: 'post',
-            data: {
-                values: {
-                    studentid:$api.getStorage('studentid'),
-                    id: pinglunListData[index].id,
-                    num: pinglunListData[index].comment
-                }
-            }
-        },function(ret, err){
-            api.hideProgress();
-              console.log( JSON.stringify( ret ) );
-            if (ret) {
-              if (ret.status == 100) {
-                pinglunListData[index].num = ret.data.num;
-                e.innerHTML = ret.data.num;
-              }else{
-                api.toast({
-                    msg: '获取失败',
-                    duration: 2000,
-                    location: 'bottom'
-                });
-              }
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
+        var url = rt.getPageParame("durl");
+        var parames = {
+            studentid:$api.getStorage('studentid'),
+            id: pinglunListData[index].id,
+            num: pinglunListData[index].comment
+        }
+        zhc.post(url, parames,function(_data) {
+              pinglunListData[index].num = _data.num;
+              e.innerHTML = _data.num;
+            },null, true);    
     }
 
     function sendHuifu(value) {
         if (cur_index == -1) {
           return;
         }
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '回复中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-// console.log(api.pageParam.hurl)
-        api.ajax({
-            url: api.pageParam.hurl,
-            method: 'post',
-            data: {
-                values: {
-                    studentid: $api.getStorage('studentid'),
-                    id: pinglunListData[cur_index].id,
-                    content: value
-                }
-            }
-        },function(ret, err){
-            api.hideProgress();
-              console.log( JSON.stringify( ret ) );
-            if (ret) {
-              if (ret.status == 100) {
+        var url = rt.getPageParame("hurl");
+        var parames = {
+          studentid: $api.getStorage('studentid'),
+          id: pinglunListData[cur_index].id,
+          content: value
+        };
+        zhc.post(url, parames,function(_data) {
                 resetUI(cur_index);
                 var count = pinglunListData[cur_index].comment -0;
                 pinglunListData[cur_index].comment = count + 1;
                 var comment = $api.byId('comment' + cur_index);
                 comment.innerHTML = "&nbsp" + pinglunListData[cur_index].comment;
                 var e = $api.byId('huifucont' + cur_index);
-                var data = ret.data;
+                var data = _data;
                 var str = '<li><span class="xuehao">' + data.studentname + ':</span><span class="xuehaoneirong">' + data.reply + '</span></li>';
                 $api.append(e, str);
                 cur_index = -1;
-              }else{
-                api.toast({
-                    msg: '获取失败',
-                    duration: 2000,
-                    location: 'bottom'
-                });
-              }
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
+            },null, true);
+
+
     }
 
     function resetUI(index) {
@@ -683,63 +539,28 @@ var cur_hf_data = [];
        * 1 已点赞
       \*                   */
       sendPZan(obj);
-
-
     }
 
     function sendPZan(obj) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '操作中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-      api.ajax({
-          url: api.pageParam.pdurl,
-          method: 'post',
-          data: {
-              values: {
-                  id: api.pageParam.data,
-                  studentid: $api.getStorage('studentid')
-              }
-          }
-      },function(ret, err){
-          api.hideProgress();
-          if (ret) {
-              if (ret.status == 100) {
-                api.toast({
-                    msg: ret.message,
-                    duration: 2000,
-                    location: 'bottom'
-                });
-                paperData.likes = Number(paperData.likes);
-                if (paperData.status == 0) {
-                    paperData.likes += 1;
-                    obj.src = "../../image/big_zan_select.png";
-                }else {
-                    paperData.likes -= 1;
-                    obj.src = "../../image/big_zan_noram.png";
-                }
-                $api.byId('p_zan').innerHTML = paperData.likes;
-                paperData.status = ret.data;
+      var url = getPageParame("pdurl");
+      var parames = {
+        id: api.pageParam.data,
+        studentid: $api.getStorage('studentid')
+      }
+
+      zhc.post('http://www.yxke12.com/index.php/App/Gaokaoxinzheng/tuijian.html',
+          parames,function(_data) {
+              paperData.likes = Number(paperData.likes);
+              if (paperData.status == 0) {
+                  paperData.likes += 1;
+                  obj.src = "../../../image/big_zan_select.png";
               }else {
-                api.toast({
-                    msg: ret.data,
-                    duration: 2000,
-                    location: 'bottom'
-                });
+                  paperData.likes -= 1;
+                  obj.src = "../../../image/big_zan_noram.png";
               }
-          } else {
-              api.toast({
-                  msg: '网络错误',
-                  duration: 2000,
-                  location: 'bottom'
-              });
-
-          }
-      });
-
+              $api.byId('p_zan').innerHTML = paperData.likes;
+              paperData.status = _data;
+          },null, true);
     }
 </script>
 

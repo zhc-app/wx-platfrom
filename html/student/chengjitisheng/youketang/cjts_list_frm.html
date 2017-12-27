@@ -6,10 +6,10 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/demo.css" />
     <style>
     div.screening>ul {
         height: 40px;
@@ -34,7 +34,7 @@
         position: absolute;
         right: 10px;
         top:10px;
-        background: url("../../../image/on_1.png") no-repeat 100% center;
+        background: url("../../../../image/on_1.png") no-repeat 100% center;
         transition: 0.5s;
         background-position-x: 50%;
     }
@@ -266,7 +266,7 @@
               <li class="aui-list-item" tapmode onclick="onItemClick({{=it[i].kid}},'http://www.yxke12.com/Public/Home/images/videothumb/{{=it[i].kimage}}');">
                   <div class="aui-media-list-item-inner">
                       <div class="aui-list-item-media" style="border-right:none;display: block;">
-                          <img src="../../../image/uke_top.png"style="position:absolute;width:120px;height:6px;">
+                          <img src="../../../../image/uke_top.png"style="position:absolute;width:120px;height:6px;">
                           <img src="http://www.yxke12.com/Public/Home/images/videothumb/{{=it[i].kimage}}" class="icon">
                       </div>
                       <div class="aui-list-item-inner">
@@ -277,7 +277,7 @@
                               {{=it[i].neirong}} | 共：{{=it[i].shuliang}}讲
                           </div>
                           <div class="third">
-                              <img src="../../../image/ic_look.png" style="width:15px;height:10px;margin-top:3px;">
+                              <img src="../../../../image/ic_look.png" style="width:15px;height:10px;margin-top:3px;">
                               <span style="margin-top:1px;" class="f-s-14">&nbsp{{=it[i].looks}}</span>
                               <i class="aui-iconfont aui-icon-star m-l-8 f-s-14">&nbsp{{=it[i].stores}}</i>
                           </div>
@@ -291,9 +291,12 @@
     </div>
     </div>
 </body>
-<script type="text/javascript" src="../../../script/api.js"></script>
-<script type="text/javascript" src="../../../script/doT.js"></script>
-<script type="text/javascript" src="../../../script/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
 <script type="text/javascript">
     var grade_arr = ["不限", "高一", "高二", "高三"];
     var ke_arr = ["不限", "语文","数学","英语","历史","政治","物理","化学","生物","地理"];
@@ -309,44 +312,20 @@
     var cur_type;
     var cur_ban;
     var kecheng_data = doT.template(document.getElementById('kecheng_d').innerHTML)
-    apiready = function() {
+    window.onload = function() {
       selected_grade = $api.byId('selected_grade');
       selected_ke = $api.byId('selected_ke');
       selected_type = $api.byId('selected_type');
       selected_ban = $api.byId('selected_ban');
       hot_div = $api.byId('hot_div');
       getFilterData();
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Youketang/lists.html',
-          method: 'post',
-          data: {
-              values: {
-                studentid:$api.getStorage('studentid')
-              }
-          }
-      },function(ret, err){
-          api.hideProgress();
-          if (ret) {
-              // console.log( JSON.stringify( ret ) );
-              document.getElementById('kecheng_list').innerHTML = kecheng_data(ret.data.data);
-          } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-
-          }
-      });
-
+      
+      var parames = {}
+      parames.studentid = $api.getStorage('studentid');
+      zhc.post('http://www.yxke12.com/index.php/App/Youketang/lists.html',
+          parames,function(_data) {
+            document.getElementById('kecheng_list').innerHTML = kecheng_data(_data.data);
+          },null, true);
     };
 
     function yincang() {
@@ -491,52 +470,25 @@
     }
 
     function onItemClick(kid,img) {
-        api.openWin({
-            name: 'kecheng_win',
-            url: './kecheng_win.html',
-            pageParam: {
-                kid: kid,
-                img: img,
-                url:'http://www.yxke12.com/index.php/App/Youketang/seevideo.html',
-                paixu:1
-            }
-        });
-
+        rt.openPage("./kecheng_frm.html", {kid: kid,
+            img: img,
+            url:'http://www.yxke12.com/index.php/App/Youketang/seevideo.html',
+            paixu:1});
     }
 
     function getFilterData() {
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Youketang/datatypes.html',
-          method: 'post',
-          data: {
-              values: {
-              }
-          }
-      },function(ret, err){
-          // console.log(JSON.stringify(ret));
-          if (ret) {
-              if (ret.status == 100) {
-                type_arr = ret.data.leixing;
-                ban_arr = ret.data.banben;
-                type_arr.unshift("不限");
-                ban_arr.unshift("不限")
-                var type_dot = doT.template(document.getElementById('type_s').innerHTML);
-                document.getElementById('type_div').innerHTML = type_dot(type_arr);
-                var ban_dot = doT.template(document.getElementById('ban_s').innerHTML);
-                document.getElementById('ban_div').innerHTML = ban_dot(ban_arr);
-              }else {
-
-              }
-          } else {
-              api.toast({
-                  msg: JSON.stringify( err ),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-
-          }
-      });
-
+      var parames = {}
+      zhc.post('http://www.yxke12.com/index.php/App/Youketang/datatypes.html',
+          parames,function(_data) {
+              type_arr = _data.leixing;
+              ban_arr = _data.banben;
+              type_arr.unshift("不限");
+              ban_arr.unshift("不限")
+              var type_dot = doT.template(document.getElementById('type_s').innerHTML);
+              document.getElementById('type_div').innerHTML = type_dot(type_arr);
+              var ban_dot = doT.template(document.getElementById('ban_s').innerHTML);
+              document.getElementById('ban_div').innerHTML = ban_dot(ban_arr);
+          },null, true);
     }
 
     function loadData() {
@@ -558,41 +510,10 @@
         params.banben = cur_ban;
       }
 
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Youketang/lists.html',
-          method: 'post',
-          data: {
-              values:params
-          }
-      },function(ret, err){
-          // console.log(JSON.stringify(ret));
-          api.hideProgress();
-          if (ret) {
-            if (ret.status == 100) {
-              document.getElementById('kecheng_list').innerHTML = kecheng_data(ret.data.data);
-            }else {
-              api.toast({
-                  msg: ret.data.error,
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-          } else {
-              api.toast({
-                  msg: JSON.stringify( err ),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-          }
-      });
+      zhc.post('http://www.yxke12.com/index.php/App/Youketang/lists.html',
+          params,function(_data) {
+              document.getElementById('kecheng_list').innerHTML = kecheng_data(_data.data);
+          },null, true);
     }
 </script>
 
