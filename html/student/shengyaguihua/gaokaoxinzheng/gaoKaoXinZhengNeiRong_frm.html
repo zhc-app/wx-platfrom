@@ -6,12 +6,12 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
-    <script type="text/javascript" src="../../../script/aui-tab.js"></script>
-    <script src="../../../script/jquery-1.8.3.min.js"></script>
-    <script src="../../../script//demo.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <script type="text/javascript" src="../../../../script/aui-tab.js"></script>
+    <script src="../../../../script/jquery-1.8.3.min.js"></script>
+    <script src="../../../../script//demo.js"></script>
     <style>
         .titleDiv {
             width: 90%;
@@ -149,56 +149,5 @@
         <p style="color:#333;text-align: right;">2014年9月3日</p>
     </div>
 </body>
-<script type="text/javascript" src="../../../script/api.js"></script>
-<script type="text/javascript">
-    apiready = function() {
-
-        api.parseTapmode();
-
-        //   api.setRefreshHeaderInfo({
-        //       loadingImg: 'widget://image/refresh.png',
-        //       bgColor: '#ccc',
-        //       textColor: '#fff',
-        //       textDown: '下拉刷新...',
-        //       textUp: '松开刷新...'
-        //     }, function(ret, err) {
-        //     //在这里从服务器加载数据，加载完成后调用api.refreshHeaderLoadDone()方法恢复组件到默认状态
-        //     // alert("刷新");
-        //     api.refreshHeaderLoadDone();
-        //   });
-        //
-    };
-
-    var tab = new auiTab({
-        element: document.getElementById("tab"),
-    }, function(ret) {
-        var gzc = document.getElementById('gzc');
-        var szc = document.getElementById('szc');
-        if (ret.index == 1) {
-
-            gzc.className = "zcText xiahuaxian";
-            szc.className = "zcText";
-            document.getElementById('guozhengce').style.display = "block";
-            document.getElementById('shengzhengce').style.display = "none";
-        } else {
-
-            szc.className = "zcText xiahuaxian";
-            gzc.className = "zcText";
-            document.getElementById('guozhengce').style.display = "none";
-            document.getElementById('shengzhengce').style.display = "block";
-        }
-    });
-
-    function xingXiangTest() {
-        api.openWin({
-            name: 'xingxiang_list_win',
-            url: './xingxiang_list_win.html',
-            pageParam: {
-                name: 'test'
-            }
-        });
-
-    }
-</script>
-
+<script type="text/javascript" src="../../../../script/api.js"></script>
 </html>

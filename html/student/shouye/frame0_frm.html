@@ -419,7 +419,7 @@
                                                 <div class="aui-list-item-title aui-font-size-14">
 
                                                         <div style="float:left">
-                                                          <img  src="../../../image/shengf.png" alt="">
+                                                          <img  src="../../../../image/shengf.png" alt="">
 
                                                         </div>
                                                         <div class="aui-col-xs-10">
@@ -435,7 +435,7 @@
                                                 <div class="aui-list-item-title aui-font-size-14">
 
                                                         <div style="float:left">
-                                                          <img src="../../../image/cityAll.png" alt="">
+                                                          <img src="../../../../image/cityAll.png" alt="">
 
                                                         </div>
                                                         <div class="aui-col-xs-10">
@@ -540,6 +540,7 @@
       }
       zhc.post('http://www.yxke12.com/index.php/App/Shengyaketang/hotvideo.html',
           {},function(_data) {
+              localStorage.data=JSON.stringify(_data);
               document.getElementById('sykt_ul').innerHTML = sykt_dot(_data);
               // if ($api.getStorage("isbuy") == 1) {
               //   sykt_ul.style.display = "block";

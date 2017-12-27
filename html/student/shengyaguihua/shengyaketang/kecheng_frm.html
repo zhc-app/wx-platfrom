@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>云API</title>
-    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
+    <title>生涯课堂</title>
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css"/>
+
     <style>
 
     .top_img{
@@ -83,10 +84,10 @@
         <div id="load_id" class="top_img" style="position:relative;display:none;" tapmode onclick="playVideo();">
           <img class="top_img" src="http://www.yxke12.com/Public/Home/images/student/{{=it.image}}"  >
           <div class="top_img" style="opacity:0.5; background-color:black;"></div>
-          <img id="play_id" style="width:60px;height;60px;position:absolute;top:75px;" src="../../../image/play.png" >
+          <img id="play_id" style="width:60px;height;60px;position:absolute;top:75px;" src="../../../../image/play.png" >
         </div>
 
-        <video style="width:100%;height:10.55rem;" controls="controls"  id="shipin" onwebkitendfullscreen="onVideoPlaying();"></video>
+        <video style="width:100%;height:10.55rem;" controls="controls" autoplay id="shipin" onwebkitendfullscreen="onVideoPlaying();"></video>
 
         <!-- <div class="aui-tab" id="tab">
             <div class="aui-tab-item aui-active">目录</div>
@@ -97,7 +98,7 @@
 
          <li class="aui-list-item">
              <div class="aui-list-item-label-icon">
-                 <img src="../../../image/bofang.png" class="boimg"  alt="">
+                 <img src="../../../../image/bofang.png" class="boimg"  alt="">
              </div>
              <div class="aui-list-item-inner keTitle boTitle">
                  适合的教育是最好的教育(上)
@@ -106,7 +107,7 @@
          </li>
          <li class="aui-list-item">
              <div class="aui-list-item-label-icon">
-                <img src="../../../image/weibofang.png" class="boimg" alt="">
+                <img src="../../../../image/weibofang.png" class="boimg" alt="">
              </div>
              <div class="aui-list-item-inner keTitle">
                  适合的教育是最好的教育(中)
@@ -115,7 +116,7 @@
          </li>
          <li class="aui-list-item">
              <div class="aui-list-item-label-icon">
-                 <img src="../../../image/weibofang.png" class="boimg" alt="">
+                 <img src="../../../../image/weibofang.png" class="boimg" alt="">
              </div>
              <div class="aui-list-item-inner keTitle">
                  适合的教育是最好的教育(下)
@@ -133,7 +134,7 @@
 
         <ul class="aui-list aui-list-in" id="jiaoshijieshao" style="display:none">
           <div class="zhujiaoimg">
-            <img src="../../../image/tou.png" class="timg" alt="">
+            <img src="../../../../image/tou.png" class="timg" alt="">
             <span class="zhujiang">主讲教师: 翟鸿燊</span>
           </div>
 
@@ -150,21 +151,24 @@
 
 
 </body>
-<script type="text/javascript" src="../../../script/api.js" ></script>
-<script type="text/javascript" src="../../../script/aui-tab.js" ></script>
-<script type="text/javascript" src="../../../script/doT.js" ></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/api.js" ></script>
+<script type="text/javascript" src="../../../../script/aui-tab.js" ></script>
+<script type="text/javascript" src="../../../../script/doT.js" ></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
 <script type="text/javascript">
     var index;
     var data;
-    apiready = function(){
-        api.parseTapmode();
-        index = api.pageParam.index;
+    window.onload = function(){
+        index = rt.getPageParame("index");
         data = JSON.parse(localStorage.data);
-        console.log(JSON.stringify(data));
+        console.log(data);
         var evalText = doT.template(document.getElementById('evaluationtmpl').innerHTML);
         document.getElementById('sykt_div').innerHTML = evalText(data[index]);
         var play = $api.byId("play_id");
-        play.style.left = (api.winWidth/2 - $api.offset(play).w/2) + "px";
+        // play.style.left = (api.winWidth/2 - $api.offset(play).w/2) + "px";
         playVideo();
     }
 
@@ -212,10 +216,8 @@
 
     function playVideo() {
       if (data[index].videocsrc == null || data[index].videocsrc == '') {
-        api.toast({
-            msg: '数据错误',
-            duration: 2000,
-            location: 'bottom'
+        toast.fail({
+            title: '数据错误'
         });
         return;
       }
