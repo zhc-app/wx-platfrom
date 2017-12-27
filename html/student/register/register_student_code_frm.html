@@ -57,6 +57,7 @@
     position: absolute;
     font-size: 18px;
     bottom: 0px;
+    
   }
 
 </style>
@@ -95,7 +96,8 @@
     // parames.files = {file:uploadData.files};
     zhc.post("http://www.yxke12.com/index.php/App/Student/addinfo.html",
       uploadData,function(data) {
-        rt.openPage('./login_win.html',{});
+        login(uploadData.loginname, uploadData.password);
+        // rt.openPage('./login_frm.html',{});
       },null, true);
 
     // api.ajax({
@@ -145,66 +147,70 @@
   }
 
   function login(_usr, _pwd) {
-    api.showProgress({
-      style: 'default',
-      animationType: 'fade',
-      title: '努力加载中...',
-      text: '先喝杯茶...',
-      modal: true
-    });
-
-    api.ajax({
-      url: 'http://www.yxke12.com/index.php/App/Student/login.html',
-      method: 'post',
-      data: {
-        values: {
-                  username: _usr, // 'lichengming1',
-                  password: _pwd // "123456"
-                }
-              }
-            },function(ret, err){
-              api.hideProgress();
-              if (ret) {
-                if (ret.status == 100) {
-                  var infos = ret.data;
-                  if (infos != null) {
-                    for (var key in infos) {
-                      if (infos.hasOwnProperty(key)) {
-                    // console.log(key + "-------" + JSON.stringify(infos[key]));
-                    $api.setStorage(key, infos[key]);
-                  }
-                }
-                $api.setStorage('password', _pwd);
-                api.openWin({
-                  name: 'index',
-                  url: '../../index.html',
-                  pageParam: {
-                    name: 'test'
-                  },
-                  slidBackEnabled:false
-                });
-              }
-
-            }else {
-              // console.log( JSON.stringify( ret ) );
-              $api.clearStorage ();
-              api.toast({
-                msg: ret.data.error,
-                duration: 2000,
-                location: 'bottom'
-              });
-            }
-
-          } else {
-            $api.clearStorage();
-            api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-            });
+    var parames = {username: _usr, password: _pwd };
+   zhc.post("http://www.yxke12.com/index.php/App/Student/login.html",
+    parames,function(data) {
+      if (data != null) {
+        for (var key in data) {
+          if (data.hasOwnProperty(key)) {
+            $api.setStorage(key, data[key]);
           }
-        });
+        }
+        $api.setStorage('password', _pwd);
+        rt.openPage('../shouye/main_win.html',{});
+      }
+    },null, true)
   }
+
+  // api.ajax({
+  //   url: 'http://www.yxke12.com/index.php/App/Student/login.html',
+  //   method: 'post',
+  //   data: {
+  //     values: {username: _usr, /,password: _pwd }
+  //   },
+  //   function(ret, err){
+  //     api.hideProgress();
+  //     if (ret) {
+  //       if (ret.status == 100) {
+  //         var infos = ret.data;
+  //         if (infos != null) {
+  //           for (var key in infos) {
+  //             if (infos.hasOwnProperty(key)) {
+  //               $api.setStorage(key, infos[key]);
+  //             }
+  //           }
+  //           $api.setStorage('password', _pwd);
+  //           api.openWin({
+  //             name: 'index',
+  //             url: '../../index.html',
+  //             pageParam: {
+  //               name: 'test'
+  //             },
+  //             slidBackEnabled:false
+  //           });
+  //         }
+
+  //       }else {
+  //         $api.clearStorage ();
+  //         api.toast({
+  //           msg: ret.data.error,
+  //           duration: 2000,
+  //           location: 'bottom'
+  //         });
+  //       }
+
+  //     } else {
+  //       $api.clearStorage();
+  //       api.toast({
+  //         msg: JSON.stringify(err.msg),
+  //         duration: 2000,
+  //         location: 'bottom'
+  //       });
+  //     }
+
+  //   }
+  // });
+
 </script>
 
 </html>
