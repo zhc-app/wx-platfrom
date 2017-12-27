@@ -210,13 +210,13 @@
       }
 
       function seftReport() {
-        if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-          toast.fail({
-            title: "该功能付费用户才能使用"
-          });
-          return;
-        }
-        rt.openParentPage('../baogaoyudangan/self_report_frm.html',{});
+        // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
+        //   toast.fail({
+        //     title: "该功能付费用户才能使用"
+        //   });
+        //   return;
+        // }
+        rt.openParentPage('../baogaoyudangan/self_report_win.html',{});
       }
 
       function zonghesuzhi() {

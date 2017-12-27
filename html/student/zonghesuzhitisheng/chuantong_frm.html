@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>云API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <title>素质评价</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
 
     .top_img{
@@ -130,7 +130,7 @@
         </video>
         <div class="play-bottom" style="display:none">
           <div style="margin-left:10px;width:200px;float:left;line-height:50px;color:#a1a1a1;">播放：<span id="cishu"></span>次</div>
-          <img src="../../image/sp_shoucang_select.png" style="position:absolute;width:22px;height:22px;right:10px;top:14px;" id="shoucang" tapmode onclick="onShouCangClick();"></img>
+          <img src="../../../image/sp_shoucang_select.png" style="position:absolute;width:22px;height:22px;right:10px;top:14px;" id="shoucang" tapmode onclick="onShouCangClick();"></img>
         </div>
         <div class="aui-tab" style="width:100%;"id="tab">
             <div class="aui-tab-item aui-active">目录</div>
@@ -145,7 +145,7 @@
             {{for (var i = 0; i < it.length; i++) {}}
                     <li class="aui-list-item" tapmode onclick="onItemPlayClick({{=i}})">
                         <div class="aui-list-item-label-icon">
-                            <img src="../../image/weibofang.png" id='shipin_img{{=i}}' class="boimg"  alt="">
+                            <img src="../../../image/weibofang.png" id='shipin_img{{=i}}' class="boimg"  alt="">
                         </div>
                         <div class="aui-list-item-inner keTitle " id="shipin_name{{=i}}">
                             {{=it[i].videoname}}
@@ -179,10 +179,13 @@
 <div id="note_btn" style="position:fixed;bottom:0px;width:100%;display:none;z-index:2;"><div class="aui-btn aui-btn-primary aui-btn-block" tapmode onclick="saveNote()">保存笔记</div></div>
 
 </body>
-<script type="text/javascript" src="../../script/api.js" ></script>
-<script type="text/javascript" src="../../script/aui-tab.js" ></script>
-<script type="text/javascript" src="../../script/doT.js" ></script>
-<script type="text/javascript" src="../../script/network.js" ></script>
+ <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
+  <script type="text/javascript" src="../../../script/aui-tab.js"></script>
 <script type="text/javascript">
 var arr_flag = [1,0];
     var cur_data_list = [];
@@ -190,16 +193,15 @@ var arr_flag = [1,0];
     var evalText = doT.template(document.getElementById('shipin_list').innerHTML);
     var jieshao_dot = doT.template(document.getElementById('jieshao_s').innerHTML);
     var flag = true;
-    apiready = function(){
-        api.parseTapmode();
-        cur_index = api.pageParam.index;
+    window.onload = function(){
+        // api.parseTapmode();
+        // cur_index = api.pageParam.index;
         cur_data_list = JSON.parse(localStorage.list);
         getPlayAddress();
         var v = document.getElementById("shipin")
          autoFullScrenn(v)
-
     }
-
+    //全屏
     var fullscreen = function(elem) {
         var prefix = 'webkit';
           if ( elem[prefix + 'EnterFullScreen'] ) {
@@ -241,31 +243,33 @@ var arr_flag = [1,0];
         },false);
 
     };
-
+    //播放地址
     function getPlayAddress() {
+      console.log(cur_data_list);
         if (!flag) {
           $api.byId('shipin').autoplay = 'autoplay';
         }
         flag = false;
-        console.log(JSON.stringify(cur_data_list[cur_index]));
         $api.byId('shipin').poster = "http://www.yxke12.com/Public/Home/images/student/"+cur_data_list[cur_index].image;
         $api.byId('shipin').src = "http://www.yxke12.com/Public/Home/images/video/"+cur_data_list[cur_index].videocsrc;
         $api.byId('mulu').innerHTML = evalText(cur_data_list);
         var a =  document.getElementsByTagName('li');
-        $api.byId('shipin_img'+cur_index).src = '../../image/bofang.png';
+        $api.byId('shipin_img'+cur_index).src = '../../../image/bofang.png';
         $api.addCls($api.byId('shipin_name'+cur_index), 'boTitle');
 
     }
-
+    //下方的列表点击播放事件
     function onItemPlayClick(index) {
+      arr_flag[1] = 0;
       cur_index = index;
+      console.log(cur_index);
       var a =  document.getElementsByTagName('li')
       for (var i = 0; i < a.length; i++) {
         if (i == index) {
-          $api.byId('shipin_img'+i).src = '../../image/bofang.png'
+          $api.byId('shipin_img'+i).src = '../../../image/bofang.png'
           $api.addCls($api.byId('shipin_name'+i), 'boTitle');
         }else {
-          $api.byId('shipin_img'+i).src = '../../image/weibofang.png'
+          $api.byId('shipin_img'+i).src = '../../../image/weibofang.png'
           $api.removeCls($api.byId('shipin_name'+i), 'boTitle');
         }
       }
@@ -275,6 +279,7 @@ var arr_flag = [1,0];
     var tab = new auiTab({
         element:document.getElementById("tab"),
     },function(ret){
+      console.log(ret);
       if (ret.index == 1) {
         $api.byId('mulu').style.display = 'block';
         $api.byId('kechengxiangqing').style.display = 'none';
@@ -290,6 +295,7 @@ var arr_flag = [1,0];
           arr_flag[ret.index - 1] = 1;
           getInfoData();
         }
+       
       }else {
         $api.byId('mulu').style.display = 'none';
         $api.byId('kechengxiangqing').style.display = 'none';
@@ -300,19 +306,19 @@ var arr_flag = [1,0];
     });
 
     function getInfoData() {
-      var parames = {values:{}};
-      parames.values.id = cur_data_list[cur_index].viideoid;
-      zhc.post('http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/videoinfos.html',
-          parames,function(data) {
+      var parames = {};
+      console.log(cur_index);
+      parames.id = cur_data_list[cur_index].viideoid;
+      
+      zhc.post('http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/videoinfos.html', parames,function(data) {
             $api.byId('kechengxiangqing').innerHTML = jieshao_dot(data);
-            api.parseTapmode();
-          },null, true);
+      },null, true);
     }
 
-    function onVideoPlaying() {
-      api.setFullScreen({
-        fullScreen: false
-      });
-    }
+    // function onVideoPlaying() {
+    //   api.setFullScreen({
+    //     fullScreen: false
+    //   });
+    // }
 </script>
 </html>

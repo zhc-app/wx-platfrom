@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>AUI快速完成布局</title>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <title>知书明理</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
     <style type="text/css">
         #classify {
             color: #ffffff !important;
@@ -209,12 +209,12 @@
           <div class="aui-row" id="xuekeqianneng_id">
               <div class="aui-col-xs-6 mid_padding_8" tapmode onclick="dianzan(event);" >
                   <!-- <i class="aui-iconfont aui-icon-home"></i> -->
-                  <img id="zan_img" class="mid_img" src="../../image/big_zan_select.png" alt="">
+                  <img id="zan_img" class="mid_img" src="../../../image/big_zan_select.png" alt="">
                   <div><span class="mid_text" id="zan" >888</span></div>
               </div>
               <div class="aui-col-xs-6 mid_padding_8" tapmode onclick="">
                   <!-- <i class="aui-iconfont aui-icon-gear"></i> -->
-                  <img id="pl_img" class="mid_img" src="../../image/big_msg.png" alt="">
+                  <img id="pl_img" class="mid_img" src="../../../image/big_msg.png" alt="">
                   <div><span class="mid_text" id="pl">888</span></div>
               </div>
             </div>
@@ -284,17 +284,25 @@
         </div>
     </footer>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
+  <script type="text/javascript" src="../../../script/aui-tab.js"></script>
 <script type="text/javascript">
     var zan_img, zan, pl_img, pl;
     var cont = [];
     var huifucont = [];
     var pinglunListData = [];
     var paperData = {};
-    var contpinluntext_dot = doT.template(document.getElementById('contpinluntext').innerHTML)
-    var info_dot = doT.template(document.getElementById('info_s').innerHTML)
+    var contpinluntext_dot = doT.template(document.getElementById('contpinluntext').innerHTML);
+    var info_dot = doT.template(document.getElementById('info_s').innerHTML);
+    var toast = new auiToast({});
+    var uploadData={};
+    
+
     function fasongbtn(index) {
       var value = $api.byId("textarea").value;
         if (index == 1) {
@@ -310,6 +318,7 @@
 
     var cur_index = -1;
 
+    //回复别人回复的（已隐藏）
     function huifu(index) {
         cur_index = index;
         var pinglun = pinglunListData[index];
@@ -396,125 +405,105 @@
 
     var text = document.getElementById("textarea");
     autoTextarea(text); // 调用
-    apiready = function() {
-        zan = $api.byId('zan');
-        zan_img = $api.byId('zan_img');
-        pl = $api.byId('pl');
-        pl_img = $api.byId('pl_img');
+    window.onload = function() {
+      uploadData = rt.getPageParame("data");
+      uploadData = $api.strToJson(uploadData);
+      zan = $api.byId('zan');
+      zan_img = $api.byId('zan_img');
+      pl = $api.byId('pl');
+      pl_img = $api.byId('pl_img');
 
-        // 文章id
-        var id = api.pageParam.data;
-        var studentid = api.pageParam.studentid;
-        var url = api.pageParam.url;
-        getPaperData(id, studentid,url);
+      // 文章id
+      console.log(uploadData);
+      var id = uploadData.id;
+      var studentid = uploadData.studentid;
+      var url = uploadData.url;
+      getPaperData(id, studentid,url);
     }
 
     function getPaperData(id, sid, url) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
+     zhc.post(url,{id:id,studentid:sid},function(data) {
+        $api.byId('content').innerHTML = data.info.reasons;
+        $api.byId('simple').innerHTML = data.info.abstract;
+        pinglunListData = data.comment;
+        paperData =data.info;
+        if (paperData.myzan == 1) {
+          zan_img.src = "../../../image/big_zan_select.png";
+        }else {
+          zan_img.src = "../../../image/big_zan_noram.png";
+        }
 
-      api.ajax({
-          url: url,
-          method: 'post',
-          data: {
-              values: {
-                  id: id,
-                  studentid:sid
-              }
-          }
-      },function(ret, err){
-        console.log(JSON.stringify(ret));
-        api.hideProgress();
-          if (ret) {
-              if (ret.status == 100) {
-                  $api.byId('content').innerHTML = ret.data.info.reasons;
-                  $api.byId('simple').innerHTML = ret.data.info.abstract;
-                  pinglunListData = ret.data.comment;
-                  paperData = ret.data.info;
-                  if (paperData.myzan == 1) {
-                    zan_img.src = "../../image/big_zan_select.png";
-                  }else {
-                    zan_img.src = "../../image/big_zan_noram.png";
-                  }
+        pl.innerHTML = paperData.comments;
+        zan.innerHTML = paperData.likes;
 
-                  pl.innerHTML = paperData.comments;
-                  zan.innerHTML = paperData.likes;
+        document.getElementById('info_div').innerHTML = info_dot(paperData);
+        document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
+      },null, true);
 
-                  document.getElementById('info_div').innerHTML = info_dot(paperData);
-                  document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
-              }else {
+      // api.ajax({
+      //     url: url,
+      //     method: 'post',
+      //     data: {
+      //         values: {
+      //             id: id,
+      //             studentid:sid
+      //         }
+      //     }
+      // },function(ret, err){
+      //   console.log(JSON.stringify(ret));
+      //   api.hideProgress();
+      //     if (ret) {
+      //         if (ret.status == 100) {
+      //             $api.byId('content').innerHTML = ret.data.info.reasons;
+      //             $api.byId('simple').innerHTML = ret.data.info.abstract;
+      //             pinglunListData = ret.data.comment;
+      //             paperData = ret.data.info;
+      //             if (paperData.myzan == 1) {
+      //               zan_img.src = "../../image/big_zan_select.png";
+      //             }else {
+      //               zan_img.src = "../../image/big_zan_noram.png";
+      //             }
 
-              }
-          } else {
-            api.hideProgress();
-            console.log(JSON.stringify(err));
-          }
-      });
+      //             pl.innerHTML = paperData.comments;
+      //             zan.innerHTML = paperData.likes;
+
+      //             document.getElementById('info_div').innerHTML = info_dot(paperData);
+      //             document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
+      //         }else {
+
+      //         }
+      //     } else {
+      //       api.hideProgress();
+      //       console.log(JSON.stringify(err));
+      //     }
+      // });
     }
-
+    //发送回复
     function sendComunit(value) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '发表中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
+      
+      zhc.post(uploadData.faurl,
+        {
+          bookid: paperData.id,
+          studentid: $api.getStorage('studentid'),
+          studentname: $api.getStorage('studentname'),
+          message: value
+        },
+        function(data) {
+          $api.byId("textarea").value = '';
+          pl.innerHTML = data.count;
+          var pinglun = {};
+          pinglun.pic = $api.getStorage("img");
+          pinglun.restore_time = data.restore_time;
+          pinglun.restore_uname = data.restore_uname;
+          pinglun.restorebody = data.content;
+          pinglunListData.unshift(pinglun);
+          document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
+      },null, true);
 
-      api.ajax({
-          url: api.pageParam.faurl,
-          method: 'post',
-          data: {
-              values: {
-                  bookid: paperData.id,
-                  studentid: $api.getStorage('studentid'),
-                  studentname: $api.getStorage('studentname'),
-                  message: value
-              }
-          }
-      },function(ret, err){
-          api.hideProgress();
-            console.log( JSON.stringify( ret ) );
-          if (ret) {
-            if (ret.status == 100) {
-              $api.byId("textarea").value = '';
-              var data = ret.data;
-              pl.innerHTML = data.count;
-              var pinglun = {};
-              pinglun.pic = $api.getStorage("img");
-              pinglun.restore_time = data.restore_time;
-              pinglun.restore_uname = data.restore_uname;
-              pinglun.restorebody = data.content;
-              pinglunListData.unshift(pinglun);
-              document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
-              api.toast({
-                  msg: '发表成功',
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }else{
-              api.toast({
-                  msg: '发表失败',
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-          } else {
-            console.log(JSON.stringify(err));
-            api.toast({
-                msg: "网络错误",
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-      });
     }
-var cur_hf_data = [];
+
+    //获取回复信息（已隐藏）
+    var cur_hf_data = [];
     function getHFData(index) {
       api.showProgress({
           style: 'default',
@@ -573,56 +562,20 @@ var cur_hf_data = [];
           $api.remove(arr[i]);
         }
     }
-
+    //点赞
     function dianzan(e) {
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '点赞中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-
-        api.ajax({
-            url: api.pageParam.durl,
-            method: 'post',
-            data: {
-                values: {
-                    bookid: paperData.id,
-                    studentid: $api.getStorage("studentid"),
-                    studentname:$api.getStorage("studentname")
-                }
-            }
-        },function(ret, err){
-            api.hideProgress();
-            console.log( JSON.stringify( ret ) );
-            if (ret) {
-              if (ret.status == 100) {
-                // pinglunListData[index].likes = ret.data.likes;
-                // e.innerHTML = ret.data.likes;
-                zan.innerHTML = ret.data.count;
-                if (ret.data.myzan == 1) {
-                  zan_img.src = "../../image/big_zan_select.png";
-                }else {
-                  zan_img.src = "../../image/big_zan_noram.png";
-                }
-              }else{
-                api.toast({
-                    msg: '获取失败',
-                    duration: 2000,
-                    location: 'bottom'
-                });
-              }
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
+        
+      zhc.post(uploadData.durl,{bookid: paperData.id,studentid: $api.getStorage("studentid"),studentname:$api.getStorage("studentname")},function(data) {
+          zan.innerHTML = data.count;
+          if (data.myzan == 1) {
+            zan_img.src = "../../../image/big_zan_select.png";
+          }else {
+            zan_img.src = "../../../image/big_zan_noram.png";
+          }
+      },null, true);
     }
 
+    //已隐藏
     function sendHuifu(value) {
         if (cur_index == -1) {
           return;
@@ -634,7 +587,7 @@ var cur_hf_data = [];
             text: '先喝杯茶...',
             modal: true
         });
-// console.log(api.pageParam.hurl)
+        // console.log(api.pageParam.hurl)
         api.ajax({
             url: api.pageParam.hurl,
             method: 'post',

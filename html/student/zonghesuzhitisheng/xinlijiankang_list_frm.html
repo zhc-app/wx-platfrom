@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/demo.css" />
-    <script type="text/javascript" src="../../script/aui-tab.js"></script>
+    <title>心理健康</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/demo.css" />
     <style>
 
       .aui-icon-star:before {
@@ -119,7 +118,7 @@
                   <div class="aui-media-list-item-inner">
                       <div class="aui-list-item-media">
                           <img src="http://www.yxke12.com/Public/Home/images/student/{{=it[i].image}}" style="width: 94px;height: 83px;border-radius: 5px;">
-                          <img src="../../image/bofangtu.png" class="bofangtu">
+                          <img src="../../../image/bofangtu.png" class="bofangtu">
                       </div>
                       <div class="aui-list-item-inner">
                           <div class="aui-list-item-text">
@@ -156,9 +155,9 @@
 
                             <div class="aui-info aui-margin-t-5"  style="position: absolute;bottom: 0;width: 95%;">
                                 <div class="aui-info-item">
-                                  <img src="../../image/yan.png" alt="" style="width:0.9rem;height:0.6rem">
+                                  <img src="../../../image/yan.png" alt="" style="width:0.9rem;height:0.6rem">
                                   <span class="shuliang">{{=it[i].looks}}</span>
-                                  <img src="../../image/message.png" alt="" style="width:0.6rem;height:0.6rem">
+                                  <img src="../../../image/message.png" alt="" style="width:0.6rem;height:0.6rem">
                                   <span class="shuliang">{{=it[i].comments}}</span>
                                 </div>
                                 <!-- <div class="aui-info-item shijian">2017-01-01</div> -->
@@ -174,16 +173,20 @@
 
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
-<script type="text/javascript" src="../../script/network.js"></script>
-<script type="text/javascript" src="../../script/jquery-1.8.3.min.js"></script>
+  <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
+  <script type="text/javascript" src="../../../script/aui-tab.js"></script>
+
 <script type="text/javascript">
     var arr_flag = [1,0];
     var xgxj_dot, xldl_dot;
     var xgxjList = [];
     var xldlList = [];
-    apiready = function() {
+    window.onload = function() {
         xgxj_dot = doT.template(document.getElementById('xgxj_s').innerHTML);
         xldl_dot = doT.template(document.getElementById('xldl_s').innerHTML);
         getXGXJData();
@@ -195,7 +198,6 @@
             xgxjList = data;
             localStorage.list = JSON.stringify(xgxjList)
             document.getElementById('xgxj_ul').innerHTML = xgxj_dot(xgxjList);
-            api.parseTapmode();
           },null, true);
     }
 
@@ -208,14 +210,7 @@
       //   });
       //   return;
       // }
-      api.openWin({
-          name: 'chuantong_win',
-          url: './chuantong_win.html',
-          pageParam: {
-            index: index,
-            // list:xgxjList
-          }
-      });
+      rt.openPage('./chuantong_frm.html',{data:index});
     }
 
     var tab = new auiTab({
@@ -245,16 +240,12 @@
           {},function(data) {
             xldlList = data;
             document.getElementById('xldl_ul').innerHTML = xldl_dot(xldlList);
-            api.parseTapmode();
           },null, true);
     }
 
   function bookDetails(index) {
     console.log(xldlList[index].id);
-    api.openWin({
-        name: 'xldl_details_win',
-        url: './xldl_details_win.html',
-        pageParam: {
+    var parames = {
           data: xldlList[index].id,
           url: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/xinli_detail.html",
           faurl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/addcomment.html",
@@ -263,7 +254,22 @@
           durl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/dianzan.html",
           title:xldlList[index].name
         }
-    });
+
+    parames = $api.jsonToStr(parames);
+    rt.openPage('./xldl_details_frm.html',{data:parames});
+    // api.openWin({
+    //     name: 'xldl_details_win',
+    //     url: './xldl_details_win.html',
+    //     pageParam: {
+    //       data: xldlList[index].id,
+    //       url: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/xinli_detail.html",
+    //       faurl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/addcomment.html",
+    //       hurl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/reply.html",
+    //       hqurl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/getreply.html",
+    //       durl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/dianzan.html",
+    //       title:xldlList[index].name
+    //     }
+    // });
   }
 </script>
 

@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/demo.css" />
-    <script type="text/javascript" src="../../script/aui-tab.js"></script>
+    <title>榜样力量</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/demo.css" />
+    <script type="text/javascript" src="../../../script/aui-tab.js"></script>
     <style>
     div.screening>ul {
         height: 40px;
@@ -172,11 +172,7 @@
 </head>
 
 <body>
-
     <div class="flex-wrap flex-vertical">
-
-
-
     <div style="margin-top: 0px;display:block" id="shengzhengce">
       <div class="aui-content aui-margin-b-15" style="position: relative;">
 
@@ -197,9 +193,9 @@
                             <div class="aui-info aui-margin-t-5"  style="position: absolute;bottom: 0;width: 95%;">
 
                                 <div class="aui-info-item">
-                                  <img src="../../image/yan.png" alt="" style="width:0.9rem;height:0.6rem">
+                                  <img src="../../../image/yan.png" alt="" style="width:0.9rem;height:0.6rem">
                                   <span class="shuliang">{{=it[i].looks}}</span>
-                                  <img src="../../image/message.png" alt="" style="width:0.6rem;height:0.6rem">
+                                  <img src="../../../image/message.png" alt="" style="width:0.6rem;height:0.6rem">
                                   <span class="shuliang">{{=it[i].comments}}</span>
                                 </div>
                                 <!-- <div class="aui-info-item shijian">2017-01-01</div> -->
@@ -215,14 +211,16 @@
 
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
-<script type="text/javascript" src="../../script/network.js"></script>
-<script type="text/javascript" src="../../script/aui-collapse.js" ></script>
+  <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
     var xldlList = [];
     var xldl_dot;
-    apiready = function() {
+    window.onload = function() {
         xldl_dot = doT.template(document.getElementById('xldl_s').innerHTML);
         getBangList();
     };
@@ -232,7 +230,7 @@
           {},function(data) {
             xldlList = data;
             document.getElementById('xldl_ul').innerHTML = xldl_dot(xldlList);
-            api.parseTapmode();
+
           },null, true);
     }
 

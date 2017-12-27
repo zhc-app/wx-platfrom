@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>AUI快速完成布局</title>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <title>心理定律导读</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
     <style type="text/css">
         #classify {
             color: #ffffff !important;
@@ -187,8 +187,8 @@
                                 <span style="color:#6666ff;font-size:16px;line-height:40px;">{{=it[i].studentname}}</span>
                                 <span style="color:#a1a1a1;font-size:12px;line-height:40px;">{{=it[i].time}}</span>
 
-                                <span tapmode onclick="huifu({{=i}});" style="line-height:40px;float:right;"><i id="comment{{=i}}"style="color: #a1a1a1;" class="aui-iconfont aui-icon-comment">&nbsp{{=it[i].comment}}</i></span>
-                                <span style="line-height:40px;margin-right:10px;float:right;"><i class="aui-iconfont aui-icon-laud" style="color: #a1a1a1;" tapmode onclick="dianzan(this, {{=i}});">&nbsp{{=it[i].likes}}</i></span>
+                                <span tapmode onclick="huifu({{=i}});" style="line-height:40px;float:right;display: none;"><i id="comment{{=i}}"style="color: #a1a1a1;" class="aui-iconfont aui-icon-comment">&nbsp{{=it[i].comment}}</i></span>
+                                <span style="line-height:40px;margin-right:10px;float:right;display: none;"><i class="aui-iconfont aui-icon-laud" style="color: #a1a1a1;" tapmode onclick="dianzan(this, {{=i}});">&nbsp{{=it[i].likes}}</i></span>
                             </div>
                         <div style="display:inline-block;">
                           <div class="pinglunneirong">
@@ -223,15 +223,19 @@
         </div>
     </footer>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
     var cont = [];
     var huifucont = [];
     var pinglunListData = [];
     var paperData = {};
-    var contpinluntext_dot = doT.template(document.getElementById('contpinluntext').innerHTML)
+    var contpinluntext_dot = doT.template(document.getElementById('contpinluntext').innerHTML);
+    var uploadData = {};
     function fasongbtn(index) {
       var value = $api.byId("textarea").value;
         if (index == 1) {
@@ -247,6 +251,7 @@
 
     var cur_index = -1;
 
+    //已隐藏
     function huifu(index) {
         cur_index = index;
         var pinglun = pinglunListData[index];
@@ -333,132 +338,123 @@
 
     var text = document.getElementById("textarea");
     autoTextarea(text); // 调用
-    apiready = function() {
+    window.onload = function() {
         // api.parseTapmode();
         // 文章id
-        var id = api.pageParam.data;
-        var url = api.pageParam.url;
-        var faurl = api.pageParam.faurl;
-        var hurl = api.pageParam.hurl;
+        
+        uploadData = rt.getPageParame("data");
+        uploadData = $api.strToJson(uploadData);
+        var id = uploadData.data;
+        var url = uploadData.url;
+        var faurl = uploadData.faurl;
+        var hurl = uploadData.hurl;
         getPaperData(id, url);
     }
 
     function getPaperData(id, url) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
+     zhc.post(url,{id: id},function(data) {
+        $api.byId('content').innerHTML = data.info.content;
+        $api.byId('title').innerHTML = data.info.name;
+        pinglunListData = data.comment;
+        paperData = data.info;
+        document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
+        var player = $api.byId("player");
 
-      api.ajax({
-          url: url,
-          method: 'post',
-          data: {
-              values: {
-                  id: id
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-              if (ret.status == 100) {
-                  $api.byId('content').innerHTML = ret.data.info.content;
-                  $api.byId('title').innerHTML = ret.data.info.name;
-                  pinglunListData = ret.data.comment;
-                  paperData = ret.data.info;
-                  document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
-                  var player = $api.byId("player");
-
-                  var url = ret.data.info.video;
-                  if (url) {
-                      var arr = url.split(".");
-                      if (arr[1] == "swf") {
-                          url = arr[0]+".gif";
-                      }
-                  }else {
-                    return;
-                  }
-
-                  if (player != null) {
-                      if(ret.data.info)
-                      $api.append(player,'<img src=http://www.yxke12.com/Public/Home/images/flash/'+ url +'></img>');
-                  }
-              }else {
-
-              }
-          } else {
-            api.hideProgress();
-            api.toast({
-                msg: JSON.stringify(err.msg),
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-      });
-    }
-
-    function sendComunit(value) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '发表中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: api.pageParam.faurl,
-          method: 'post',
-          data: {
-              values: {
-                  studentid: $api.getStorage('studentid'),
-                  studentname: $api.getStorage('studentname'),
-                  img: $api.getStorage('img'),
-                  id: paperData.id,
-                  title: paperData.name,
-                  content: value
-              }
-          }
-      },function(ret, err){
-          api.hideProgress();
-            console.log( JSON.stringify( ret ) );
-          if (ret) {
-            if (ret.status == 100) {
-              $api.byId("textarea").value = '';
-              var data = ret.data;
-              var pinglun = {};
-              pinglun.touxiang = data.touxiang;
-              pinglun.studentname = data.studentname;
-              pinglun.content = data.content;
-              pinglun.id = data.pid;
-              pinglun.time = data.time;
-              pinglun.likes = 0;
-              pinglun.comment = 0;
-              pinglunListData.unshift(pinglun);
-              document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
-              api.toast({
-                  msg: '发表成功',
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }else{
-              api.toast({
-                  msg: '发表失败',
-                  duration: 2000,
-                  location: 'bottom'
-              });
+        var url = data.info.video;
+        if (url) {
+            var arr = url.split(".");
+            if (arr[1] == "swf") {
+                url = arr[0]+".gif";
             }
-          } else {
-            api.toast({
-                msg: JSON.stringify(err),
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-      });
+        }else {
+          return;
+        }
+
+        if (player != null) {
+            if(data.info)
+            $api.append(player,'<img src=http://www.yxke12.com/Public/Home/images/flash/'+ url +'></img>');
+        }
+      },null, true);
+
     }
+    //回复
+    function sendComunit(value) {
+      zhc.post(uploadData.faurl,
+      {
+        studentid: $api.getStorage('studentid'),
+        studentname: $api.getStorage('studentname'),
+        img: $api.getStorage('img'),
+        id: paperData.id,
+        title: paperData.name,
+        content: value
+      },function(data) {
+          console.log(data);
+          $api.byId("textarea").value = '';
+          var pinglun = {};
+          pinglun.touxiang = data.touxiang;
+          pinglun.studentname = data.studentname;
+          pinglun.content = data.content;
+          pinglun.id = data.pid;
+          pinglun.time = data.time;
+          pinglun.likes = 0;
+          pinglun.comment = 0;
+          pinglunListData.unshift(pinglun);
+          document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
+      },null, true);
+
+      // api.ajax({
+      //     url: api.pageParam.faurl,
+      //     method: 'post',
+      //     data: {
+      //         values: {
+      //             studentid: $api.getStorage('studentid'),
+      //             studentname: $api.getStorage('studentname'),
+      //             img: $api.getStorage('img'),
+      //             id: paperData.id,
+      //             title: paperData.name,
+      //             content: value
+      //         }
+      //     }
+      // },function(ret, err){
+      //     api.hideProgress();
+      //       console.log( JSON.stringify( ret ) );
+      //     if (ret) {
+      //       if (ret.status == 100) {
+      //         $api.byId("textarea").value = '';
+      //         var data = ret.data;
+      //         var pinglun = {};
+      //         pinglun.touxiang = data.touxiang;
+      //         pinglun.studentname = data.studentname;
+      //         pinglun.content = data.content;
+      //         pinglun.id = data.pid;
+      //         pinglun.time = data.time;
+      //         pinglun.likes = 0;
+      //         pinglun.comment = 0;
+      //         pinglunListData.unshift(pinglun);
+      //         document.getElementById('contpinlun').innerHTML = contpinluntext_dot(pinglunListData);
+      //         api.toast({
+      //             msg: '发表成功',
+      //             duration: 2000,
+      //             location: 'bottom'
+      //         });
+      //       }else{
+      //         api.toast({
+      //             msg: '发表失败',
+      //             duration: 2000,
+      //             location: 'bottom'
+      //         });
+      //       }
+      //     } else {
+      //       api.toast({
+      //           msg: JSON.stringify(err),
+      //           duration: 2000,
+      //           location: 'bottom'
+      //       });
+      //     }
+      // });
+    }
+    
+    //隐藏
 var cur_hf_data = [];
     function getHFData(index) {
       api.showProgress({
@@ -518,7 +514,7 @@ var cur_hf_data = [];
           $api.remove(arr[i]);
         }
     }
-
+    //隐藏
     function dianzan(e, index) {
         api.showProgress({
             style: 'default',
@@ -562,7 +558,7 @@ var cur_hf_data = [];
             }
         });
     }
-
+    //隐藏
     function sendHuifu(value) {
         if (cur_index == -1) {
           return;
@@ -574,7 +570,7 @@ var cur_hf_data = [];
             text: '先喝杯茶...',
             modal: true
         });
-// console.log(api.pageParam.hurl)
+
         api.ajax({
             url: api.pageParam.hurl,
             method: 'post',
@@ -619,7 +615,7 @@ var cur_hf_data = [];
             }
         });
     }
-
+    
     function resetUI(index) {
       var e = $api.byId('huifucont' + index);
       if (e.style.display == 'none') {
