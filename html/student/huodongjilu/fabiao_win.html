@@ -355,26 +355,26 @@ var toast = new auiToast({});
         alert("请输入标题!")
         return;
       }
-      var params = {values: {},files: {}}
-      params.values.studentid = $api.getStorage('studentid');
-      params.values.studentname = $api.getStorage('studentname');
-      params.values.classid = $api.getStorage('classid');
-      params.values.title = $api.byId('biaoti').value;
-      params.values.content = $api.byId('content').value;
-      params.files.f1 = path1[0];
-      params.files.f2 = path1[1];
-      params.files.f3 = path1[2];
-      zhc.post('http://www.yxke12.com/index.php/App/Huodongjilu/addrealrecord.html',
-      params,function(data) {
+      var params = {};
+      params.studentid = $api.getStorage('studentid');
+      params.studentname = $api.getStorage('studentname');
+      params.classid = $api.getStorage('classid');
+      params.title = $api.byId('biaoti').value;
+      params.content = $api.byId('content').value;
+
+      for (var i = 0; i < path1.length; i++) {
+        params["f" + (i+1)] = path1[i];
+      }
+
+      zhc.ajax('http://www.yxke12.com/index.php/App/Huodongjilu/addrealrecord.html',
+        params, function (_data) {
             toast.success({
-                title: data,
+                title: _data,
             });
             setTimeout(function(){
               rt.closePage();
             },1000);
-            
-        }, null, true);
-
+        }, null, true)
     }
 
 
@@ -403,13 +403,16 @@ var toast = new auiToast({});
         var picDiv=$(this).parents(".picDiv");
         //得到所有的图片文件
         var fileList = docObj.files;
+        var index = path1.length;
         //循环遍历
         for (var i = 0; i < fileList.length; i++) {
             //动态添加html元素
-            var picHtml="<div class='imageDiv' > <img id='img" + fileList[i].name + "'  /> <div class='cover'><i class='delbtn'>删除</i></div></div>"
+            var picHtml="<div class='imageDiv' > <img id='img" + index + "'  /> <div class='cover'><i class='delbtn'>删除</i></div></div>"
             picDiv.prepend(picHtml);
+            path1.unshift(fileList[i]);
+            // console.log(fileList[i]);
             //获取图片imgi的对象
-            var imgObjPreview = document.getElementById("img"+fileList[i].name);
+            var imgObjPreview = document.getElementById("img"+index);
             if (fileList && fileList[i]) {
                 //图片属性
                 imgObjPreview.style.display = 'block';
@@ -434,6 +437,8 @@ var toast = new auiToast({});
     $(document).on("click",".delbtn",function () {
         console.log("click")
         var _this=$(this);
+        var num = _this.parents(".cover").prev()[0].id.replace(/[^0-9]/ig,"");
+        path1.splice(num,1);
         _this.parents(".imageDiv").remove();
     });
 </script>

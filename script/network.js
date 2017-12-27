@@ -58,6 +58,23 @@
     });
   }
 
+  h.ajax = function(url, parames, suc, err_fun, isLoad) {
+    var fd = new FormData();
+    for(var key in parames){
+      fd.append(key, parames[key]);
+    }
+    $.ajax({
+      url: url,
+      type: "POST",
+      processData: false,
+      contentType: false,
+      data: fd,
+      success: function(d) {
+        suc(d);
+      }
+    });
+  }
+
   h.download = function(url, path, suc) {
     api.showProgress({
         style: 'default',
