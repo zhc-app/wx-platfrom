@@ -311,7 +311,7 @@
     var class_count = doT.template(document.getElementById('class_s').innerHTML);
 var sex_value = -1; // 未选择
 var cur_pic;
-var uploadData = {values:{}};
+var uploadData = {};
 var provinceList = [];
 var cityList = [{provincesname:"请选择",pid:"0",provincesid:"0"}];
 var quList = [{provincesname:"请选择",pid:"0",provincesid:"0"}];
@@ -319,6 +319,10 @@ var schoolList = [{schoolname:"请选择",pid:"0",schoolid:"0"}];
 var city_dot, qu_dot, school_dot;
 var cur_province, cur_city, cur_qu, cur_school;
 var toast = new auiToast({});
+uploadData = rt.getPageParame("data");
+uploadData = $api.strToJson(uploadData);
+
+console.log(uploadData);
 window.onload = function() {
 
 // api.parseTapmode();
@@ -386,9 +390,9 @@ cur_pic = ret.data;
 
 function checkInfos(pic, sex, name) {
     var sex_str = sex == 0 ? "女" : "男";
-    uploadData.values.studentname = name;
-    uploadData.values.sex = sex_str;
-    uploadData.values.touxiang = pic;
+    uploadData.studentname = name;
+    uploadData.sex = sex_str;
+    uploadData.touxiang = pic;
     api.openWin({
         name: 'register_sixth_win',
         url: './register_sixth_win.html',
@@ -405,58 +409,86 @@ function clearCardPWD() {
 
 function getProvinceData() {
 
-var parames = {};
+    var parames = {};
 
-zhc.post('http://www.yxke12.com/index.php/App/Student/address.html',parames,function(data){
-    provinceList = data.provinces;
-    var first = {provincesname:"请选择",pid:"0",provincesid:"0"};
-    provinceList.unshift(first);
-    var province_dot = doT.template(document.getElementById('province_s').innerHTML);
-    document.getElementById('province_div').innerHTML = province_dot(provinceList);
-},null,true)
+    zhc.post('http://www.yxke12.com/index.php/App/Student/address.html',parames,function(data){
+        provinceList = data.provinces;
+        var first = {provincesname:"请选择",pid:"0",provincesid:"0"};
+        provinceList.unshift(first);
+        var province_dot = doT.template(document.getElementById('province_s').innerHTML);
+        document.getElementById('province_div').innerHTML = province_dot(provinceList);
+    },null,true)
 
 }
 
 function getCityList(index) {
-var parames = {shengid: provinceList[index].provincesid};
-zhc.post('http://www.yxke12.com/index.php/App/Student/getshi.html',parames,function(data){
-    cityList = data.shi;
-    var first = {provincesname:"请选择",pid:"0",provincesid:"0"};
-    cityList.unshift(first);
-    if(city_dot == null){
-        city_dot = doT.template(document.getElementById('city_s').innerHTML);
+    if (index!=0) {
+        var parames = {shengid: provinceList[index].provincesid};
+        zhc.post('http://www.yxke12.com/index.php/App/Student/getshi.html',parames,function(data){
+            cityList = data.shi;
+            var first = {provincesname:"请选择",pid:"0",provincesid:"0"};
+            cityList.unshift(first);
+            if(city_dot == null){
+                city_dot = doT.template(document.getElementById('city_s').innerHTML);
+            }
+            document.getElementById('city_div').innerHTML = city_dot(cityList);
+        },null,true)
+    }else {
+        cityList = [];
+        var first = {provincesname:"请选择",pid:"0",provincesid:"0"};
+        cityList.unshift(first);
+        if(city_dot == null){
+            city_dot = doT.template(document.getElementById('city_s').innerHTML);
+        }
+        document.getElementById('city_div').innerHTML = city_dot(cityList);
     }
-    document.getElementById('city_div').innerHTML = city_dot(cityList);
-},null,true)
-
 }
 
 function getQu(index) {
-var parames = {shiid: cityList[index].provincesid};
-zhc.post('http://www.yxke12.com/index.php/App/Student/getxian.html',parames,function(data){
-    quList = data.xian;
-    var first = {provincesname:"请选择",pid:"0",provincesid:"0"};
-    quList.unshift(first);
-    if(qu_dot == null){
-        qu_dot = doT.template(document.getElementById('qu_s').innerHTML);
+    if (index!=0) {
+        var parames = {shiid: cityList[index].provincesid};
+        zhc.post('http://www.yxke12.com/index.php/App/Student/getxian.html',parames,function(data){
+            quList = data.xian;
+            var first = {provincesname:"请选择",pid:"0",provincesid:"0"};
+            quList.unshift(first);
+            if(qu_dot == null){
+                qu_dot = doT.template(document.getElementById('qu_s').innerHTML);
+            }
+            document.getElementById('qu_div').innerHTML = qu_dot(quList);
+        },null,true)
+    }else{
+        quList = [];
+        var first = {provincesname:"请选择",pid:"0",provincesid:"0"};
+        quList.unshift(first);
+        if(qu_dot == null){
+            qu_dot = doT.template(document.getElementById('qu_s').innerHTML);
+        }
+        document.getElementById('qu_div').innerHTML = qu_dot(quList);
     }
-    document.getElementById('qu_div').innerHTML = qu_dot(quList);
-},null,true)
 }
 
 function getSchool(index) {
+    if (index!=0) {
+        var parames = {xianid: quList[index].provincesid};
 
-var parames = {xianid: quList[index].provincesid};
-
-zhc.post('http://www.yxke12.com/index.php/App/Student/getschool.html',parames,function(data){
-    schoolList = data.school;
-    var first = {schoolname:"请选择",pid:"0",schoolid:"0"};
-    schoolList.unshift(first);
-    if(school_dot == null){
-        school_dot = doT.template(document.getElementById('school_s').innerHTML);
+        zhc.post('http://www.yxke12.com/index.php/App/Student/getschool.html',parames,function(data){
+            schoolList = data.school;
+            var first = {schoolname:"请选择",pid:"0",schoolid:"0"};
+            schoolList.unshift(first);
+            if(school_dot == null){
+                school_dot = doT.template(document.getElementById('school_s').innerHTML);
+            }
+            document.getElementById('school_div').innerHTML = school_dot(schoolList);
+        },null,true)
+    }else {
+        schoolList = [];
+        var first = {schoolname:"请选择",pid:"0",schoolid:"0"};
+        schoolList.unshift(first);
+        if(school_dot == null){
+            school_dot = doT.template(document.getElementById('school_s').innerHTML);
+        }
+        document.getElementById('school_div').innerHTML = school_dot(schoolList);
     }
-    document.getElementById('school_div').innerHTML = school_dot(schoolList);
-},null,true)
 }
 
 function selectProvince(value) {
@@ -484,56 +516,47 @@ function selectCity(value) {
 
 function selectQu(value) {
     cur_qu = quList[value].provincesid;
-    uploadData.values.xian = cur_qu
+    uploadData.xian = cur_qu;
     cur_school = null;
     getSchool(value);
 }
 
 function selectSchool(index) {
     cur_school = schoolList[index].schoolid;
-    uploadData.values.schoolid = cur_school
+    uploadData.schoolid = cur_school
     console.log(index);
 }
 
 function bindClick() {
-    uploadData.values.studentname=document.getElementById('name_in').value
-
-    uploadData.values.password = localStorage.password1
-    uploadData.values.phoneNumber = localStorage.phoneNum
-    uploadData.values.loginname = localStorage.phoneNum
-
+    uploadData.studentname=document.getElementById('name_in').value;
     zhc.post("http://www.yxke12.com/index.php/App/Student/register.html",
         uploadData,function(data) {
-
-            rt.openPage('../../index.html',{});
+            rt.openPage('./login_frm.html',{});
         },null, true);
-
-
-
 }
 
 
 
 
 function getYearData() {
-   
+
     var parames = {};
 
     zhc.post('http://www.yxke12.com/index.php/App/Student/endpage.html',parames,function(data){
         grade_arr = data;
-        uploadData.values.nianji = grade_arr[0];
+        uploadData.nianji = grade_arr[0];
         var grade = doT.template(document.getElementById('grade_s').innerHTML);
         document.getElementById('grade_id').innerHTML = grade(grade_arr);
     },null,true);
 
-    uploadData.values.type = banTypes[0];
+    uploadData.type = banTypes[0];
 }
 
 
 
 function getClassList() {
     var parames = {};
-    parames.schoolid = uploadData.values.schoolid;
+    parames.schoolid = uploadData.schoolid;
     parames.nianji = rGrade;
     zhc.post("http://www.yxke12.com/index.php/App/Student/banji.html",
         parames,function(data) {
@@ -544,17 +567,17 @@ function getClassList() {
                 return
             }
             document.getElementById('class_id').innerHTML = class_count(data);
-            uploadData.values.classid = data[0].classid;
+            uploadData.classid = data[0].classid;
         },null, true);
 }
 
 
 function gradeSelected(value) {
-    uploadData.values.nianji = value;
+    uploadData.nianji = value;
 }
 
 function classSelected(value) {
-    uploadData.values.classid = value;
+    uploadData.classid = value;
 }
 var rGrade = "请选择"
 function rGradeSelected(value) {
@@ -575,7 +598,7 @@ function selectBranch(e, value) {
         }
     }
     $api.addCls(e, "select");
-    uploadData.values.type = banTypes[value];
+    uploadData.type = banTypes[value];
 }
 </script>
 

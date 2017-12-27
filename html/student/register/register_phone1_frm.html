@@ -175,7 +175,7 @@
   var ph = document.getElementById('ph')
   yan = $api.byId('yan');
   toast = new auiToast({});
-
+  var uploadData = {};
 
 
 
@@ -228,8 +228,7 @@ function nextClick() {
  var password1 = document.getElementById("password").value; 
 
  var password_in1 = document.getElementById('password_in1').value;
- localStorage.password1 = password1;
- localStorage.phoneNum = $("#ph").val();
+
  phoneNum=$("#ph").val();
  if (phoneNum == null){
   toast.fail({
@@ -251,7 +250,8 @@ if (password1 != password_in1) {
   return ;
 
 }
-
+ uploadData.password1 = password1;
+ uploadData.phoneNum = $("#ph").val();
 compareACode();
 }
 
@@ -266,7 +266,9 @@ function compareACode() {
 
   zhc.post("http://www.yxke12.com/index.php/App/Sms/checkhao.html",
     parames,function(data) {
-        rt.openPage('./register_fourth1_frm.html',{});
+        uploadData = $api.jsonToStr(uploadData);
+        console.log(uploadData);
+        rt.openPage('./register_fourth1_frm.html',{data:uploadData});
       },null, true);
 }
 
