@@ -127,7 +127,7 @@
       parames.data = $api.jsonToStr(answer_obj);
       zhc.post(RESULT_URL, parames, function(_data) {
           localStorage.retdata = $api.jsonToStr(_data);
-          rt.openParentPage("zhiyexingqu_report_frm.html", {});
+          rt.openParentPage("./zhiyexingqu_report_frm.html", {});
       },null, true);
     }
 

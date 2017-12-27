@@ -5,105 +5,106 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
-    <script type="text/javascript" src="../../script/api.js"></script>
-    <script type="text/javascript" src="../../script/aui-tab.js" ></script>
-    <script type="text/javascript" src="../../script/doT.js"></script>
-    <script src="../../script/jquery-1.8.3.min.js"></script>
-    <script src="../../script//demo.js"></script>
-       <style>
-      .tou{
-        height: 104px;
-        width: 100%;
-        background: #6666ff;
-        position:fixed;
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css"/>
+    <script type="text/javascript" src="../../../../../script/api.js"></script>
+    <script type="text/javascript" src="../../../../../script/aui-tab.js" ></script>
+    <script type="text/javascript" src="../../../../../script/doT.js"></script>
+    <script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+    <script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+    <script type="text/javascript" src="../../../../../script/network.js"></script>
+    <script src="../../../../../script/demo.js"></script>
+    <style>
+        .tou{
+          height: 104px;
+          width: 100%;
+          background: #6666ff;
+          position:fixed;
 
-      }
-      .logo{
-        width: 71px;
-        height: 71px;
-        border-radius: 11px;
-        background-color: #ffffff;
-        margin: auto;
-        position: absolute;
-        top: 0; left: 30.5px; bottom: 0;
-      }
-      .daxueming {
-    font-family: "PingFang-SC";
-    font-size: 24px;
-    font-weight: 500;
-    text-align: left;
-    color: #ffffff;
-    padding-left: 125px;
-    padding-top: 20px;
-  }
+        }
+        .logo{
+          width: 71px;
+          height: 71px;
+          border-radius: 11px;
+          background-color: #ffffff;
+          margin: auto;
+          position: absolute;
+          top: 0; left: 30.5px; bottom: 0;
+        }
+        .daxueming {
+          font-family: "PingFang-SC";
+          font-size: 24px;
+          font-weight: 500;
+          text-align: left;
+          color: #ffffff;
+          padding-left: 125px;
+          padding-top: 20px;
+        }
 
-.logo img{
-  width: 61.5px;
-  height: 61.5px;
-  margin: auto;
-  position: absolute;
-  top: 0; left: 0; bottom: 0;right: 0;
-}
-p{
-  margin-top: 20px
-}
-.title1{
-  text-align: right;
-  width: 25%;
-}
-.title2{
-  margin-left: 20px;
-  font-size: 0.6rem;
-  width: 60%;
-}
-.left_line {
-    background-color: #6666ff;
-    height: 40px;
-    width: 4px;
-    margin-top: auto;
-    margin-bottom: auto;
-    float: left;
-}
-.section_title {
-    color: #333333;
-    font-size: 14px;
-    font-family: "PingFang-SC";
-    margin-left: 10px;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-.zhaoshengdiqu{
-  display: inline-block;
-  width: 80px;
-  height: 14.5px;
-  font-family: "PingFang-SC";
-  font-size: 16px;
-  line-height: 1.25;
-  text-align: left;
-  color: #666666;
-}
-.zhaoshengdiqu1{
-  width: 69.5px;
- height: 23px;
- border-radius: 5px;
-background: url("../../image/41-8.png") no-repeat scroll 50px center transparent;
-background-size: 15px;
-    line-height: 19px;
- border: solid 1px #6666ff;
-}
-.aui-tab-item.aui-active {
+        .logo img{
+          width: 61.5px;
+          height: 61.5px;
+          margin: auto;
+          position: absolute;
+          top: 0; left: 0; bottom: 0;right: 0;
+        }
+        p{
+          margin-top: 20px
+        }
+        .title1{
+          text-align: right;
+          width: 25%;
+        }
+        .title2{
+          margin-left: 20px;
+          font-size: 0.6rem;
+          width: 60%;
+        }
+        .left_line {
+          background-color: #6666ff;
+          height: 40px;
+          width: 4px;
+          margin-top: auto;
+          margin-bottom: auto;
+          float: left;
+        }
+        .section_title {
+          color: #333333;
+          font-size: 14px;
+          font-family: "PingFang-SC";
+          margin-left: 10px;
+          margin-top: auto;
+          margin-bottom: auto;
+        }
+        .zhaoshengdiqu{
+          display: inline-block;
+          width: 80px;
+          height: 14.5px;
+          font-family: "PingFang-SC";
+          font-size: 16px;
+          line-height: 1.25;
+          text-align: left;
+          color: #666666;
+        }
+        .zhaoshengdiqu1{
+          width: 69.5px;
+          height: 23px;
+          border-radius: 5px;
+          background: url("../../../../../image/41-8.png") no-repeat scroll 50px center transparent;
+          background-size: 15px;
+          line-height: 19px;
+          border: solid 1px #6666ff;
+        }
+        .aui-tab-item.aui-active {
           color: #6666ff;
           border-bottom: 2px solid #6666ff;
-      }
-
- </style>
+        }
+    </style>
 </head>
 
 <body >
-    <!-- <div class="empty"> -->
       <div id="main" class="flex-con z-col" >
 
         <div style="height:104px" id="touxiang">
@@ -120,7 +121,6 @@ background-size: 15px;
           </div>
           </script>
         </div>
-
             <div style="height:50px;" id="tab_p">
               <div class="aui-tab" id="tab" style="position:fixed;width:100%;padding-top: 0px;">
                   <div class="aui-tab-item aui-active">简介</div>
@@ -128,8 +128,6 @@ background-size: 15px;
 
               </div>
             </div>
-
-
       </div>
       <div id="jieshao" style="width:90%;margin:auto;display:block">
         <script id="evaluationtmpl1" type="text/x-dot-template">
@@ -247,45 +245,52 @@ background-size: 15px;
 </body>
 
 <script type="text/javascript">
-var tab = new auiTab({
-    element:document.getElementById("tab"),
-},function(ret){
-  if (ret.index==1) {
-      document.getElementById("jieshao").style.display = 'block'
-      document.getElementById("xuankemu").style.display = 'none'
-  }else {
-    document.getElementById("jieshao").style.display = 'none'
-    document.getElementById("xuankemu").style.display = 'block'
-  }
-    console.log(ret)
-});
-    apiready = function(){
-          api.parseTapmode();
-          var data =  api.pageParam.data
-          var data1 =  api.pageParam.data1
-
-          if (data == null) {
-              var img = $api.byId("touxiang");
-              var tab_p = $api.byId("tab_p");
-              var jieshao = $api.byId("jieshao");
-              var xuankemu = $api.byId("xuankemu");
-              img.style.display = "none";
-              tab_p.style.display = "none";
-              jieshao.style.display = "none";
-              xuankemu.style.display = "block";
-          }else {
-            var evalText = doT.template(document.getElementById('evaluationtmpl').innerHTML);
-            var evalText1 = doT.template(document.getElementById('evaluationtmpl1').innerHTML);
-            document.getElementById('touxiang').innerHTML = evalText(data);
-            document.getElementById('jieshao').innerHTML = evalText1(data);
-          }
-
-          var evalText2 = doT.template(document.getElementById('evaluationtmpl2').innerHTML);
-
-          document.getElementById('xuankemu').innerHTML = evalText2(data1);
-
+    var data , data1;
+    var tab = new auiTab({
+        element:document.getElementById("tab"),
+    },function(ret){
+      if (ret.index==1) {
+          document.getElementById("jieshao").style.display = 'block'
+          document.getElementById("xuankemu").style.display = 'none'
+      }else {
+        document.getElementById("jieshao").style.display = 'none'
+        document.getElementById("xuankemu").style.display = 'block'
+      }
+    });
+    window.onload = function(){
+          getSchoolDetails();
     }
 
+    function getSchoolDetails(argument) {
+        var parames = {}
+        parames.xueli = rt.getPageParame("xueli");
+        parames.school = rt.getPageParame("school");
+        zhc.post('http://www.yxke12.com/index.php/App/Zhuanyexueke/infos.html',
+            parames,function(_data) {
+                data = _data.school;
+                data1 = _data.lists;
+                bindData();
+            },null, true);
+    }
 
+    function bindData() {
+        if (data == null) {
+            var img = $api.byId("touxiang");
+            var tab_p = $api.byId("tab_p");
+            var jieshao = $api.byId("jieshao");
+            var xuankemu = $api.byId("xuankemu");
+            img.style.display = "none";
+            tab_p.style.display = "none";
+            jieshao.style.display = "none";
+            xuankemu.style.display = "block";
+        }else {
+          var evalText = doT.template(document.getElementById('evaluationtmpl').innerHTML);
+          var evalText1 = doT.template(document.getElementById('evaluationtmpl1').innerHTML);
+          document.getElementById('touxiang').innerHTML = evalText(data);
+          document.getElementById('jieshao').innerHTML = evalText1(data);
+        }
+        var evalText2 = doT.template(document.getElementById('evaluationtmpl2').innerHTML);
+        document.getElementById('xuankemu').innerHTML = evalText2(data1);
+    }
 </script>
 </html>

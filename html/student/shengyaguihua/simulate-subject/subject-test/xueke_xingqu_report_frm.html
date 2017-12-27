@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
 
     <style>
         .auto {
@@ -218,15 +218,16 @@
       </script>
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/echart.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/echart.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
 <script type="text/javascript">
     var data;
     var source;
-    apiready = function() {
+    window.onload = function() {
       data = $api.strToJson(localStorage.report_data);
-      source = api.pageParam.source;
+      source = rt.getPageParame("source");
       var conText = doT.template(document.getElementById('interpolationtmpl').innerHTML);
       document.getElementById('report').innerHTML = conText(data);
       var teacher = data.teacher;
@@ -344,13 +345,6 @@
     };
 
     function sendTeacher() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
       console.log($api.getStorage('studentid') + "=====" + data.num + "========" + data.name)
       // api.ajax({
       //     url: 'http://www.yxke12.com/index.php/App/Baogao/result.html',
@@ -401,12 +395,12 @@
 
     function backClick() {
       if (source == null) {
-        api.closeToWin({name:'xueke_test_win'});
+        rt.closeToPage('xueke_test_win');
       }else if (source == 0) {
          // 我的测试
-        api.closeWin();
+        rt.closePage();
       }else {
-        api.closeWin();
+        api.closePage();
       }
     }
 </script>
