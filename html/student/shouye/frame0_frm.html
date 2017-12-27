@@ -520,13 +520,7 @@
     var sykt_dot = null;
     var  shengfen1 = doT.template(document.getElementById('shengfen').innerHTML);
     function gaoKaoXinZheng() {
-      api.openWin({
-          name: 'gaoKaoXinZheng_win',
-          url: '../shengyaguihua/gaokaoxinzheng/gaoKaoXinZheng_win.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
+      rt.openParentPage("../shengyaguihua/gaokaoxinzheng/gaoKaoXinZheng_win.html", {});
     }
 
     window.onload = function(){
@@ -543,13 +537,6 @@
 
     function getListData(source) {
       if (source == 0) {
-        // api.showProgress({
-        //     style: 'default',
-        //     animationType: 'fade',
-        //     title: '努力加载中...',
-        //     text: '先喝杯茶...',
-        //     modal: true
-        // });
       }
       zhc.post('http://www.yxke12.com/index.php/App/Shengyaketang/hotvideo.html',
           {},function(_data) {
@@ -596,7 +583,6 @@
     }
 
     function simulateXuanke() {
-      console.log($api.getStorage("isbuy"));
       // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
       //   api.toast({
       //       msg: "该功能付费用户才能使用",
@@ -622,43 +608,28 @@
     }
  
   function onKeItemClick(index) {
-// var data1={}
-// data1.da=data
-if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-  api.toast({
-      msg: "该功能付费用户才能使用",
-      duration: 2000,
-      location: 'bottom'
-  });
-  return;
-}
-$api.setStorage('da',data);
-    api.openWin({
-        name: "kecheng_win",
-        url: '../shengyaguihua/shengyaketang/kecheng_win.html',
-        pageParam: {
-          index: index,
-          // data: data1
-        }
-    });
+      // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
+      //   api.toast({
+      //       msg: "该功能付费用户才能使用",
+      //       duration: 2000,
+      //       location: 'bottom'
+      //   });
+      //   return;
+      // }
+      $api.setStorage('da',data);
+      rt.openParentPage("../shengyaguihua/shengyaketang/kecheng_frm.html", {index: index});
   }
 
   function loadMore() {
-    if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-      api.toast({
-          msg: "该功能付费用户才能使用",
-          duration: 2000,
-          location: 'bottom'
-      });
-      return;
-    }
-    api.openWin({
-        name: "shengyaketang_win",
-        url: '../shengyaguihua/shengyaketang/shengyaketang_win.html',
-        pageParam: {
-            name: 'test'
-        }
-    });
+    // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
+    //   api.toast({
+    //       msg: "该功能付费用户才能使用",
+    //       duration: 2000,
+    //       location: 'bottom'
+    //   });
+    //   return;
+    // }
+    rt.openParentPage("../shengyaguihua/shengyaketang/shengyaketang_frm.html", {});
   }
 
   function onLJXKClick() {
