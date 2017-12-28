@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
+    <link rel="stylesheet" href="../../../script/jedate/skin/jedate.css" media="screen" title="no title">
     <style>
     .aui-list .aui-list-item-title {
         font-size: 0.8rem;
@@ -48,6 +49,11 @@
         margin-left: 10px;
         margin-top: auto;
         margin-bottom: auto;
+    }
+    .workinput{
+      text-align: right;
+      position: absolute;
+      right: 1.5rem;
     }
     </style>
 </head>
@@ -164,15 +170,16 @@
                         <div class="aui-list-item-right">{{=it.sex}}</div>
                     </div>
                 </li>
-                <li class="aui-list-item" tapmode onclick="birthday()">
-
+                
+                <li class="aui-list-item">
                     <div class="aui-list-item-inner aui-list-item-arrow">
                         <div class="aui-list-item-title" >出生日期</div>
-
+                        
                         {{if (it.birthday == null || it.birthday == '' || it.birthday == undefined) {}}
                           <div class="aui-list-item-right" id="birthday">暂无</div>
                         {{}else {}}
-                          <div class="aui-list-item-right" id="birthday">{{=it.birthday}}</div>
+                          <input type="text" class="workinput" id="inpstart" readonly>
+                          <!--<div class="aui-list-item-right" id="birthday">{{=it.birthday}}</div>-->
                         {{}}}
                     </div>
                 </li>
@@ -366,7 +373,8 @@
   <script type="text/javascript" src="../../../script/api.js"></script>
   <script type="text/javascript" src="../../../script/doT.js"></script>
   <script type="text/javascript" src="../../../script/network.js"></script>
-<script type="text/javascript" src="../../../script/tools.js"></script>
+  <script type="text/javascript" src="../../../script/tools.js"></script>
+  <script type="text/javascript" src='../../../script/jedate/jquery.jedate.js'></script>
 <script type="text/javascript">
     var data = {};
     var cur_pic = null;
@@ -374,17 +382,19 @@
     var new_type = null;
     var center_dot=doT.template(document.getElementById('center_s').innerHTML);
     var xsjl1=doT.template(document.getElementById('jl').innerHTML);
-
+    var toast = new auiToast({});
     window.onload = function(){
         getData();
         setCurData();
+        $('#inpstart').jeDate(start);
+        $api.byId('inpstart').value = data.birthday
+
         if ($api.getStorage('jsons')==""||$api.getStorage('jsons')==null||$api.getStorage('jsons')==undefined) {
           $api.byId('wodejili').style.display="none";
         }else {
           $api.byId('wodejili').style.display="block";
           var jldata = $api.getStorage('jsons')
           var jlDate =$api.strToJson(jldata);
-          console.log(jlDate);
           document.getElementById('xsjl').innerHTML = xsjl1(jlDate);
         }
 
@@ -392,17 +402,24 @@
         //第一种方式：createObjectURL
         //图片上传预览功能
       var userAgent = navigator.userAgent;//用于判断浏览器类型
-      console.log(211);
       $(".file").change(function () {
           //获取选择图片的对象
           var docObj =$(this)[0];
           var picDiv=$(this).parents(".tou_icon");
           //得到所有的图片文件
           var fileList = docObj.files;
+          if (fileList.length > 1) {
+            toast.fail({
+              title:"只能选择一张图片"
+            })
+            return
+          }
           //循环遍历
           for (var i = 0; i < fileList.length; i++) {
               $(".real_tou").attr("id","img"+fileList[i].name);
               // picDiv.prepend(picHtml);
+              cur_pic = fileList[i];
+              uploadData();
               //获取图片imgi的对象
               var imgObjPreview = document.getElementById("img"+fileList[i].name);
               console.log(imgObjPreview);
@@ -432,7 +449,6 @@
     function setCurData() {
         cur_type = data.type;
         new_type = data.type;
-        // cur_pic = data.img;
     }
 
     function getData() {
@@ -467,7 +483,6 @@
       data.class = $api.getStorage('banji');
       data.birthday = $api.getStorage('birthday');
       data.tel = $api.getStorage('tel');
-      console.log(data);
       if (data.tel != null && tools.isPhone(data.tel)) {
           data.hideTel = tools.hidePhone(data.tel);
       }
@@ -477,98 +492,33 @@
 
 
     function onTypeChange(value) {
-        // console.log(type_arr[value]);
         new_type = type_arr[value];
         uploadData()
     }
 
-    // function selectImg() {
-    //     api.getPicture({
-    //         sourceType: 'album',
-    //         mediaValue: 'pic',
-    //         destinationType: 'url',
-    //         allowEdit: true,
-    //         quality: 50,
-    //         targetWidth: 130,
-    //         targetHeight: 130,
-    //         saveToPhotoAlbum: false
-    //     }, function(ret, err){
-    //      //  console.log(JSON.stringify(ret));
-    //         if(ret){
-    //             if (ret.data != null) {
-    //               cur_pic = ret.data;
-    //               uploadData();
-    //             }
-
-    //         }else{
-    //              console.log(JSON.stringify(err));
-    //         }
-    //     });
-
-    // }
-
-
-
-
     function uploadData() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Member/editinfo.html',
-          method: 'post',
-          data: {
-              values: {
-                  studentid: $api.getStorage('studentid'),
-                  type: new_type,
-              },
-              files: {
-                  file: cur_pic
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-        console.log( JSON.stringify( ret ) );
-          if (ret) {
-            if (ret.status == 100) {
-              if (ret.data.touxiang != null) {
-                data.img = ret.data.touxiang;
-                cur_pic = ret.data.touxiang;
-                $api.setStorage('img', cur_pic);
-
-              }
-
-              if (ret.data.type != null) {
-                data.type = ret.data.type;
-                cur_type = ret.data.type;
-                $api.setStorage('type', cur_type);
-              }else{
-                new_type = cur_type;
-              }
-
-            }else {
-              api.toast({
-                  msg: ret.data.error,
-                  duration: 2000,
-                  location: 'bottom'
-              });
+      var params = {studentid: $api.getStorage('studentid'),
+                  type: new_type,file:cur_pic}
+      zhc.ajax('http://www.yxke12.com/index.php/App/Member/editinfo.html',
+        params, function (_data) {
+            
+            toast.success({
+              title:"修改成功"
+            })
+            if (_data.touxiang != null) {
+              data.img = _data.touxiang;
+              $api.setStorage('img', _data.touxiang);
             }
-          } else {
-              api.toast({
-                  msg: JSON.stringify( err ),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-          }
-          document.getElementById('center_ul').innerHTML = center_dot(data);
-          api.parseTapmode();
-      });
 
+            if (_data.type != null) {
+              data.type = _data.type;
+              cur_type = _data.type;
+              $api.setStorage('type', cur_type);
+            }else{
+              new_type = cur_type;
+            }
+            document.getElementById('center_ul').innerHTML = center_dot(data);
+        }, null, true)
     }
 
 
@@ -581,19 +531,7 @@
           if (ret) {
               $api.byId('birthday').innerHTML = ret.year+'-'+ret.month+'-'+ret.day;
               var date = ret.year+'-'+ret.month+'-'+ret.day;
-              var parames = {values:{}}
-              parames.values.studentid=$api.getStorage('studentid');
-              parames.values.date=date;
-              zhc.post('http://www.yxke12.com/index.php/App/Member/savememberinfo.html',parames,function(data) {
-              if (data.status == 100) {
-                api.toast({
-                  msg: '保存成功',
-                  duration: 2000,
-                  location: 'bottom'
-              });
-
-              }
-              },null,true)
+              
           } else {
 
           }
@@ -603,25 +541,42 @@
     function onTelClick() {
       if (data.tel) {
         rt.openPage('./cell-phone/auth_phone_frm.html',{data:data.tel});
-        // api.openWin({
-        //     name: "auth_phone_win",
-        //     url: './cell-phone/auth_phone_win.html',
-        //     pageParam: {
-        //         phone: data.tel
-        //     }
-        // });
       }else {
         rt.openPage('./cell-phone/new_phone_frm.html',{data:0});
-        // api.openWin({
-        //     name: "new_phone_win",
-        //     url: './cell-phone/new_phone_win.html',
-        //     pageParam: {
-        //       source: 0
-        //     }
-        // });
       }
-
-
     }
+
+    //开盘时间和结束时间
+    var start = {
+        format: 'YYYY-MM-DD ',
+        minDate: '1222-01-01', //设定最小日期为当前日期
+        isinitVal: true,
+        festival: true,
+        ishmsVal: false,
+        maxDate: '2099-06-30 ', //最大日期
+        choosefun: function(elem, datas) {
+            var parames = {}
+              parames.studentid=$api.getStorage('studentid');
+              parames.date=datas;
+              zhc.post('http://www.yxke12.com/index.php/App/Member/savememberinfo.html',parames,function(data) {
+                    $api.setStorage('birthday', datas);
+                    toast.success({
+                        title: '保存成功',
+                        duration: 2000,
+                    });
+              },null,true)
+        }
+    };
+    var end = {
+        format: 'YYYY-MM-DD ',
+        minDate: $.nowDate(0), //设定最小日期为当前日期
+        isinitVal: true,
+        festival: true,
+        maxDate: '2099-06-16', //最大日期
+        choosefun: function(elem, datas) {
+            start.maxDate = datas; //将结束日的初始值设定为开始日的最大日期
+        }
+    };
+    
 </script>
 </html>
