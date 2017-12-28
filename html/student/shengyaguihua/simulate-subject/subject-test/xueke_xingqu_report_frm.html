@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>学科兴趣测试报告</title>
     <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
@@ -211,7 +211,7 @@
             <p class="final_text">{{= it.name}}</p>
         </div>
 
-        <div class="operation-panel">
+        <div class="operation-panel" id="again_id">
             <div id="st_id" class="aui-btn aui-btn-primary aui-btn-block white-btn " tapmode onclick="sendTeacher()">发送老师</div>
             <div class="aui-btn aui-btn-primary aui-btn-block z-btn margin-left-10" tapmode onclick="continueTest()">重新测试</div>
         </div>
@@ -228,6 +228,7 @@
     window.onload = function() {
       data = $api.strToJson(localStorage.report_data);
       source = rt.getPageParame("source");
+
       var conText = doT.template(document.getElementById('interpolationtmpl').innerHTML);
       document.getElementById('report').innerHTML = conText(data);
       var teacher = data.teacher;
@@ -341,7 +342,10 @@
         }
     };
     myChart.setOption(option);
-
+      if (source == 0) {
+        var again = $api.byId('again_id');
+        again.style.display = "none";
+      }
     };
 
     function sendTeacher() {

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>职业性格测试报告</title>
     <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
@@ -620,7 +620,7 @@
         </p>
     </div>
 
-    <div class="operation-panel">
+    <div class="operation-panel" id="op_id">
         <div id="st_id" style="display:none;" class="aui-btn aui-btn-primary aui-btn-block white-btn " tapmode onclick="sendTeacher()">发送老师</div>
         <div class="aui-btn aui-btn-primary aui-btn-block z-btn margin-left-10" tapmode onclick="continueTest()">继续测试</div>
     </div>
@@ -629,6 +629,7 @@
 </body>
 <script type="text/javascript" src="../../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
 <script type="text/javascript">
     var data;
     window.onload = function() {
@@ -640,6 +641,14 @@
           var st = $api.byId('st_id');
           st.disabled = true;
         }
+        var op = $api.byId('op_id');
+        var source = rt.getPageParame("source");
+
+        if (source == 0) {
+            op.style.display = 'none'
+        }
+        
+
     };
 
     function sendTeacher() {
@@ -685,14 +694,7 @@
     }
 
     function continueTest() {
-        api.openWin({
-            name: 'zhuanYe_win',
-            url: './zhuanYe_win.html',
-            pageParam: {
-                name: 'test'
-            }
-        });
-
+        rt.openPage("./zhuanYe_win.html", {})
     }
 </script>
 

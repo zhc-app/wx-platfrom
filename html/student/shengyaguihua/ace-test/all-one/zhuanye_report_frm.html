@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>专业倾向报告</title>
     <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
@@ -201,7 +201,7 @@
 
 
 
-        <div class="operation-panel">
+        <div class="operation-panel" id="op_id">
             <div id="st_id" class="aui-btn aui-btn-primary aui-btn-block white-btn " tapmode onclick="sendTeacher()">发送老师</div>
             <div style="display:none" class="aui-btn aui-btn-primary aui-btn-block z-btn margin-left-10" tapmode onclick="againTest()">重新测试</div>
         </div>
@@ -227,6 +227,12 @@
         //   var st = $api.byId('st_id');
         //   st.disabled = true;
         // }
+
+        var op = $api.byId('op_id');
+        var source = rt.getPageParame("source");
+        if (source == 0) {
+          op.style.display = 'none'
+        }
 
     };
 
