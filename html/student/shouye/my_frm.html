@@ -9,7 +9,6 @@
     <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
-        .empty{ text-align: center; padding: 120px 0; }
         .top_bg{
           height: 190px;
           width: 100%;
@@ -32,11 +31,6 @@
           font-size: 18px;
           color: white;
           font-weight:bold;
-        }
-        .gaokao_s_red_text{
-          font-family: "PingFang-SC";
-          font-size: 18px;
-          color:red;font-weight:bold;
         }
 
         .gaokao_red_text{
@@ -233,147 +227,6 @@
         </div>
         <!-- <div class="text_pos"><span class="gaokao_white_text geyan_text">将来的你，会感谢现在努力的自己！</span></div> -->
       </div>
-
-
-      <!-- <section class="aui-grid">
-        <div class="aui-row">
-
-            <div class="aui-col-xs-3 mid_padding_8 " tapmode onclick="wodeceping()">
-                <i class="aui-iconfont aui-icon-gear"></i>
-                <img class="mid_img" src="../../image/my_test.png" alt="">
-                <div><span class="mid_text">我的测评</span></div>
-            </div>
-            <div class="aui-col-xs-3 mid_padding_8 left_line" tapmode onclick="huodongjilu()">
-                <i class="aui-iconfont aui-icon-map"></i>
-                <img class="mid_img" src="../../image/huodongjilu.png" alt="">
-                <div><span class="mid_text">活动记录</span></div>
-            </div>
-            <div class="aui-col-xs-3 mid_padding_8 left_line" tapmode onclick="xuankejilu()">
-                <i class="aui-iconfont aui-icon-home"></i>
-                <img class="mid_img" src="../../image/xuanke.png" alt="">
-                <div><span class="mid_text">选科记录</span></div>
-            </div>
-            <div class="aui-col-xs-3 mid_padding_8 left_line" tapmode onclick="baokaofangan()">
-                <i class="aui-iconfont aui-icon-map"></i>
-                <img class="mid_img" src="../../image/baokaofangan.png" alt="">
-                <div><span class="mid_text">报考方案</span></div>
-            </div>
-          </div>
-        </section> -->
-
-        <!-- <section class="aui-content">
-        <ul class="aui-list aui-list-in aui-margin-b-15 aui-margin-t-15">
-            <li class="aui-list-item" tapmode onclick="guanzhuyuanxiao()">
-                <div class="aui-list-item-label-icon">
-                    <i class="aui-iconfont aui-icon-location aui-text-info"></i>
-                    <img src="../../image/my_school.png" class="item_image"/>
-                </div>
-                <div class="aui-list-item-inner aui-list-item-arrow">
-                    <div class="aui-list-item-title">关注院校</div>
-                </div>
-            </li>
-            <li class="aui-list-item" style="display:none">
-                <div class="aui-list-item-label-icon">
-                    <i class="aui-iconfont aui-icon-like aui-text-danger"></i>
-                    <img src="../../image/my_exam.png" class="item_image"/>
-                </div>
-                <div class="aui-list-item-inner aui-list-item-arrow">
-                    <div class="aui-list-item-title">收藏试题</div>
-                </div>
-            </li>
-            <li class="aui-list-item"  tapmode onclick="ketangbiji()" >
-                <div class="aui-list-item-label-icon">
-                    <i class="aui-iconfont aui-icon-image aui-text-info"></i>
-                    <img src="../../image/my_note.png" class="item_image"/>
-                </div>
-                <div class="aui-list-item-inner aui-list-item-arrow">
-                    <div class="aui-list-item-title">课堂笔记</div>
-                </div>
-            </li>
-            <li class="aui-list-item" tapmode onclick="chenshubaogao()" id="xuankejilu_id">
-                <div class="aui-list-item-label-icon">
-                    <i class="aui-iconfont aui-icon-like aui-text-danger"></i>
-                    <img src="../../image/csbg.png" class="item_image"/>
-                </div>
-                <div class="aui-list-item-inner aui-list-item-arrow">
-                    <div class="aui-list-item-title">陈述报告</div>
-                </div>
-            </li>
-
-        </ul>
-
-        <ul class="aui-list aui-list-in aui-margin-b-15 aui-margin-t-15">
-            <li class="aui-list-item" onclick="myScore()" style="display:none;">
-                <div class="aui-list-item-label-icon">
-                    <i class="aui-iconfont aui-icon-location aui-text-info"></i>
-                    <img src="../../image/huodongjilu.png" class="item_image"/>
-                </div>
-                <div class="aui-list-item-inner aui-list-item-arrow">
-                    <div class="aui-list-item-title">我的成绩</div>
-                </div>
-            </li>
-            <li class="aui-list-item" tapmode onclick="chengzhangdanan()" >
-                <div class="aui-list-item-label-icon">
-                    <i class="aui-iconfont aui-icon-location aui-text-info"></i>
-                    <img src="../../image/my_dang.png" class="item_image"/>
-                </div>
-                <div class="aui-list-item-inner aui-list-item-arrow">
-                    <div class="aui-list-item-title">成长档案</div>
-                </div>
-            </li>
-            <li class="aui-list-item" tapmode onclick="xuankejilu()" style="display:none">
-                <div class="aui-list-item-label-icon">
-                    <i class="aui-iconfont aui-icon-like aui-text-danger"></i>
-                    <img src="../../image/xuanke.png" class="item_image"/>
-                </div>
-                <div class="aui-list-item-inner aui-list-item-arrow">
-                    <div class="aui-list-item-title">选科记录</div>
-                </div>
-            </li>
-            <li class="aui-list-item" tapmode onclick="shishengguanxi()">
-                <div class="aui-list-item-label-icon">
-                    <i class="aui-iconfont aui-icon-image aui-text-info"></i>
-                    <img src="../../image/shishenguanxi.png" class="item_image"/>
-                </div>
-                <div class="aui-list-item-inner aui-list-item-arrow">
-                    <div class="aui-list-item-title">师生关系</div>
-                </div>
-            </li>
-            <li class="aui-list-item" tapmode onclick="shezhi()">
-                <div class="aui-list-item-label-icon">
-                    <i class="aui-iconfont aui-icon-cert aui-text-warning"></i>
-                    <img src="../../image/my_setting.png" class="item_image"/>
-                </div>
-                <div class="aui-list-item-inner aui-list-item-arrow">
-                    <div class="aui-list-item-title">设置</div>
-                    <div class="aui-list-item-right">未开通</div>
-                </div>
-            </li>
-        </ul>
-        <ul class="aui-list aui-list-in" style="display:none">
-            <li class="aui-list-item">
-                <div class="aui-list-item-label-icon">
-                    <i class="aui-iconfont aui-icon-cart aui-text-info"></i>
-                    <img src="../../image/my_help.png" class="item_image"/>
-                </div>
-                <div class="aui-list-item-inner aui-list-item-arrow">
-                    <div class="aui-list-item-title">帮助中心</div>
-                    <div class="aui-list-item-right">0元好物在这里</div>
-                </div>
-            </li>
-            <li class="aui-list-item" tapmode onclick="shezhi()" style="display:none">
-                <div class="aui-list-item-label-icon">
-                     <i class="aui-iconfont aui-icon-cert aui-text-warning"></i>
-                    <img src="../../image/my_setting.png" class="item_image"/>
-                </div>
-                <div class="aui-list-item-inner aui-list-item-arrow">
-                    <div class="aui-list-item-title">设置</div>
-                    <div class="aui-list-item-right">未开通</div>
-                </div>
-            </li>
-        </ul>
-    </section> -->
-
 <!-- 改版后 -->
 <section class="aui-content">
 <ul class="aui-list aui-list-in aui-margin-b-15 aui-margin-t-15">
