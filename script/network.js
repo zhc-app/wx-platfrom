@@ -70,7 +70,7 @@
       contentType: false,
       data: fd,
       success: function(d) {
-        suc(d);
+        suc(d.data);
       }
     });
   }

@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/z.css"/>
-    <script type="text/javascript" src="../../script/aui-tab.js"></script>
-    <script src="../../script/jquery-1.8.3.min.js"></script>
-    <script src="../../script/doT.js"></script>
-    <script src="../../script/demo.js"></script>
+    <title>活动记录</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/z.css"/>
+    <script type="text/javascript" src="../../../script/aui-tab.js"></script>
+    <script src="../../../script/jquery-1.8.3.min.js"></script>
+    <script src="../../../script/doT.js"></script>
+    <script src="../../../script/demo.js"></script>
     <style>
 .title_nm{
   width: 34%;
@@ -57,40 +57,41 @@
     <script id="gyhd_biao" type="text/x-dot-template">
             <div class="title_con">
               <span class="title_nm">选题名称:</span>
-              <span class="cont_pjb">{{=it.info.mingcheng}}</span>
+              <span class="cont_pjb">{{=it.info.newjson.mingcheng}}</span>
             </div>
             <div class="title_con">
               <span class="title_nm">学生姓名:</span>
-              <span class="cont_pjb">{{=it.info.xingming}}</span>
+              <span class="cont_pjb">{{=it.info.newjson.xingming}}</span>
             </div>
             <div class="title_con">
               <span class="title_nm">年级:</span>
-              <span class="cont_pjb">{{=it.info.nianji}}</span>
+              <span class="cont_pjb">{{=it.info.newjson.nianji}}</span>
             </div>
             <div class="title_con">
               <span class="title_nm">选题来源:</span>
-              <span class="cont_pjb">{{=it.info.pingjianr}}</span>
+              <span class="cont_pjb">{{=it.info.newjson.pingjianr}}</span>
             </div>
             <div class="title_con">
               <span class="title_nm">论文收录:</span>
-              <span class="cont_pjb">{{=it.info.shoulu}}</span>
+              <span class="cont_pjb">{{=it.info.newjson.shoulu}}</span>
             </div>
             <div class="title_con">
               <span class="title_nm">期刊编号:</span>
-              <span class="cont_pjb">{{=it.info.bianhao}}</span>
+              <span class="cont_pjb">{{=it.info.newjson.bianhao}}</span>
             </div>
             <div class="title_con">
               <span class="title_nm">选题原因问题策略:</span>
-              <span class="cont_pjb">{{=it.info.yuanyin}}</span>
+              <span class="cont_pjb">{{=it.info.newjson.yuanyin}}</span>
             </div>
             <div class="title_con">
               <span class="title_nm">体验与收获:</span>
-              <span class="cont_pjb">{{=it.info.tiyan}}</span>
+              <span class="cont_pjb">{{=it.info.newjson.tiyan}}</span>
             </div>
             <div class="title_con">
               <span class="title_nm">指导教师评语:</span>
-              <span class="cont_pjb">{{=it.info.pingyu}}</span>
+              <span class="cont_pjb">{{=it.info.newjson.pingyu}}</span>
             </div>
+            <div id="imgs"></div>
             <div style="margin-left:10px;margin-top:1rem;height:auto;display: inline-flex;">
                 <div class="left_line"></div>
                 <span class="section_title">评价</span>
@@ -119,15 +120,42 @@
     <!-- {{}}} -->
   </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
 
 var gyhd = doT.template(document.getElementById('gyhd_biao').innerHTML);
-apiready = function(){
-    api.parseTapmode();
-    var data = api.pageParam.data
-    document.getElementById('gyhdcon').innerHTML = gyhd(data);
+window.onload = function(){
+    var id = rt.getPageParame("id")
+    getDetails(id);
 };
+
+function getDetails(id){
+    var parames = {hid:id}
+    zhc.post('http://www.yxke12.com/index.php/App/Member/huodongjilucon.html',
+    parames,function(_data) {
+      document.getElementById('gyhdcon').innerHTML = gyhd(_data);
+      var pics = _data.info.picture;
+      if (pics.length != 0) {
+        var img_tag = "";
+        for (var i = 0; i < pics.length; i++) {
+          img_tag = img_tag + "<img style='margin-top:10px;' src='http://www.yxke12.com/Public/Home/images/huodong/" + getPicName(pics[i]) + "'>";
+        }
+        $("#imgs").append(img_tag)
+      }
+    },null, true);
+}
+
+function getPicName(_name) {
+  if (_name.indexOf("\"") != -1) {
+      return _name.substring(1, _name.length - 1);
+  }else {
+      return _name;
+  }
+}
 
 
 </script>

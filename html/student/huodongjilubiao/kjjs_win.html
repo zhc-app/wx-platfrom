@@ -5,15 +5,15 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
         header{ background-color: #f2f2f2; }
         header ul li { height: 50px; line-height: 50px; text-align: center; display: none; color: #323237; position: relative;font-size: 18px;  }
         header ul li.active{ display: block; }
         .ic-message{
-                background-image: url(../../image/career.png);
+                background-image: url(../../../image/career.png);
                 float: right;}
 
 
@@ -33,7 +33,7 @@
         }
 
         .mystyle{
-          background-image: url(../../image/message.png) !important;
+          background-image: url(../../../image/message.png) !important;
           background-repeat: no-repeat !important;
           background-position: center !important;
           width: 42px;
@@ -64,12 +64,13 @@
 
 </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
-    apiready = function(){
-
-        api.parseTapmode();
-
+    window.onload = function(){
         $api.fixStatusBar($api.byId('aui-header'));
         var body_h = $api.offset($api.dom('body')).h,
 
@@ -85,7 +86,7 @@
                     h: body_h-headerh
                 },
                 pageParam: {
-                    data: api.pageParam.data
+                    data: rt.getPageParame("data")
                 },
                 vScrollBarEnabled: false,
                 hScrollBarEnabled: false
