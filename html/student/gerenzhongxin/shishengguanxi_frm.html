@@ -6,11 +6,11 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
-    <script type="text/javascript" src="../../script/aui-tab.js"></script>
-    <script src="../../script/doT.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <script type="text/javascript" src="../../../script/aui-tab.js"></script>
+
     <style>
         .empty {
             text-align: center;
@@ -169,7 +169,7 @@
                             <div class="aui-media-list-item-inner">
                                 <div class="aui-list-item-media" style="width: 3rem;">
                                 {{if (it.touxiang == null) {}}
-                                  <img src="../../image/gerentouxiang.png" class="aui-img-round aui-list-img-sm">
+                                  <img src="../../../image/gerentouxiang.png" class="aui-img-round aui-list-img-sm">
                                 {{}else {}}
                                   <img src="http://www.yxke12.com/Public/Parent/images/touxiang/{{=it.touxiang}}" class="aui-img-round aui-list-img-sm">
                                 {{}}}
@@ -197,7 +197,7 @@
                             <div class="aui-media-list-item-inner">
                                 <div class="aui-list-item-media"  style="width:3rem">
                                 {{if (it[i].img == null) {}}
-                                  <img style="width: 3rem;height: 3rem;" src="../../image/gerentouxiang.png" class="aui-img-round aui-list-img-sm">
+                                  <img style="width: 3rem;height: 3rem;" src="../../../image/gerentouxiang.png" class="aui-img-round aui-list-img-sm">
                                 {{}else {}}
                                   <img style="width: 3rem;height: 3rem;" src="http://www.yxke12.com/Public/Home/images/touxiang/{{=it[i].img}}" class="aui-img-round aui-list-img-sm">
                                 {{}}}
@@ -221,27 +221,30 @@
 
         <div id="wdxz" style="display:none">
           <div class="bull">
-              <img src="../../image/bull.png" alt="">
+              <img src="../../../image/bull.png" alt="">
           </div>
         </div>
 
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/network.js"></script>
+  <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
     var wodetongxue1;
     var wodetongxue2 = doT.template(document.getElementById('wdls').innerHTML);
-    apiready = function() {
+    window.onload = function() {
         var parames = {
-            values: {}
         }
         if ($api.getStorage('teacherid') == null) {
           alert("您还未绑定学校！")
         }else {
-          parames.values.teacherid = $api.getStorage('teacherid');
+          parames.teacherid = $api.getStorage('teacherid');
           zhc.post('http://www.yxke12.com/index.php/App/Member/teacherinfo.html', parames, function(data) {
-              console.log(JSON.stringify(data));
+    
               document.getElementById('wodelaoshi').innerHTML = wodetongxue2(data);
           }, null, true)
         }
@@ -282,34 +285,38 @@
     });
 
     function loadClassmates() {
-        api.showProgress({
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Member/wodetongxue.html',
-            method: 'post',
-            data: {
-                values: {
-                    studentid: $api.getStorage('studentid')
-                },
-            }
-        }, function(ret, err) {
-            api.hideProgress();
-            if (ret) {
-                if (wodetongxue1 == null) {
+
+        zhc.post('http://www.yxke12.com/index.php/App/Member/wodetongxue.html', {studentid: $api.getStorage('studentid')}, function(data) {
+              if (wodetongxue1 == null) {
                     wodetongxue1 = doT.template(document.getElementById('wodetongxue').innerHTML);
                 }
-                document.getElementById('xueshenglist').innerHTML = wodetongxue1(ret.data.lists);
-            } else {
-              api.toast({
-                  msg: JSON.stringify(err.msg),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-        });
+                document.getElementById('xueshenglist').innerHTML = wodetongxue1(data.lists);
+          }, null, true)
+
+
+        // api.ajax({
+        //     url: 'http://www.yxke12.com/index.php/App/Member/wodetongxue.html',
+        //     method: 'post',
+        //     data: {
+        //         values: {
+        //             studentid: $api.getStorage('studentid')
+        //         },
+        //     }
+        // }, function(ret, err) {
+        //     api.hideProgress();
+        //     if (ret) {
+        //         if (wodetongxue1 == null) {
+        //             wodetongxue1 = doT.template(document.getElementById('wodetongxue').innerHTML);
+        //         }
+        //         document.getElementById('xueshenglist').innerHTML = wodetongxue1(ret.data.lists);
+        //     } else {
+        //       api.toast({
+        //           msg: JSON.stringify(err.msg),
+        //           duration: 2000,
+        //           location: 'bottom'
+        //       });
+        //     }
+        // });
     }
 </script>
 
