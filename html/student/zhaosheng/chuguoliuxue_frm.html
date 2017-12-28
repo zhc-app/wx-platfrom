@@ -5,9 +5,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>云API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
 
         .zizhuzhaosheng {
@@ -43,7 +43,7 @@
             height: 23px;
            border-radius: 5px;
            border: solid 1px #6666ff;
-           background: url(../../image/41-8.png) no-repeat scroll 90% center transparent;
+           background: url(../../../image/41-8.png) no-repeat scroll 90% center transparent;
            background-size: 14px;
           }
           table{
@@ -155,7 +155,7 @@
         <li class="aui-list-item">
           <div class="aui-media-list-item-inner">
               <div class="aui-list-item-media">
-                  <img src="../../image/chuguo_01.png">
+                  <img src="../../../image/chuguo_01.png">
               </div>
               <div class="aui-list-item-inner">
                   <div class="aui-list-item-text">
@@ -169,16 +169,23 @@
     </div>
 
 </body>
-<script type="text/javascript" src="../../script/api.js" ></script>
-<script type="text/javascript" src="../../script/aui-tab.js" ></script>
-<script type="text/javascript" src="../../script/doT.js" ></script>
+<script type="text/javascript" src="../../../script/api.js" ></script>
+<script type="text/javascript" src="../../../script/aui-tab.js" ></script>
+<script type="text/javascript" src="../../../script/doT.js" ></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
     var ziXunDataList = [];
     var fanglueDataList = [];
     var waiguoDataList = [];
     var flag_arr = [1,0,0,0];
-    apiready = function(){
-        api.parseTapmode();
+    var gkgz_dot, zizhuzhaosheng, waiguo_dot;
+    window.onload = function(){
+        gkgz_dot = doT.template(document.getElementById('zixun_s').innerHTML);
+        zizhuzhaosheng = doT.template(document.getElementById('fanglue_s').innerHTML);
+        waiguo_dot = doT.template(document.getElementById('waiguo_s').innerHTML);
         getZiXunData();
     }
     var tab = new auiTab({
@@ -216,136 +223,48 @@
     });
 
     function getZiXunData() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Chuguo/zixun.html',
-          method: 'post',
-          data: {
-              values: {
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-              // alert( JSON.stringify( ret ) );
-              if (ret.status == 100) {
-                ziXunDataList = ret.data;
-                var gkgz_dot = doT.template(document.getElementById('zixun_s').innerHTML);
+        var parames = {}
+        zhc.post('http://www.yxke12.com/index.php/App/Chuguo/zixun.html',
+            parames,function(_data) {
+                ziXunDataList = _data;
                 document.getElementById('zixun_ul').innerHTML = gkgz_dot(ziXunDataList);
-                api.parseTapmode();
-              }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+            },null, true);
     }
 
     function getFangLV() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Chuguo/fanglue.html',
-          method: 'post',
-          data: {
-              values: {
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-            if (ret.status == 100) {
-                // console.log( JSON.stringify( ret ) );
-                fanglueDataList = ret.data;
-                var zizhuzhaosheng = doT.template(document.getElementById('fanglue_s').innerHTML);
-                document.getElementById('fanglue_ul').innerHTML = zizhuzhaosheng(fanglueDataList);
-                api.parseTapmode();
-            }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      var parames = {}
+      zhc.post('http://www.yxke12.com/index.php/App/Chuguo/fanglue.html',
+          parames,function(_data) {
+              fanglueDataList = _data;
+              document.getElementById('fanglue_ul').innerHTML = zizhuzhaosheng(fanglueDataList);
+          },null, true);
     }
 
     function getWaiGuo() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Chuguo/schools.html',
-          method: 'post',
-          data: {
-              values: {
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-            if (ret.status == 100) {
-                // console.log( JSON.stringify( ret ) );
-                waiguoDataList = ret.data;
-                var waiguo_dot = doT.template(document.getElementById('waiguo_s').innerHTML);
-                document.getElementById('waiguo_ul').innerHTML = waiguo_dot(waiguoDataList);
-                api.parseTapmode();
-            }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      var parames = {}
+      zhc.post('http://www.yxke12.com/index.php/App/Chuguo/schools.html',
+          parames,function(_data) {
+              waiguoDataList = _data;
+              document.getElementById('waiguo_ul').innerHTML = waiguo_dot(waiguoDataList);
+          },null, true);
     }
 
     // 资讯item点击回调
     function onZItemClick(index) {
       var id = ziXunDataList[index].id;
-      api.openWin({
-          name: 'zzzs_zxfl_details_win',
-          url: './zzzs_zxfl_details_win.html',
-          pageParam: {
+      rt.openParentPage('./zzzs_zxfl_details_frm.html', {
               id: id,
               title:"出国留学"
-          }
-      });
+          });
     }
 
     // 方略item点击回调
     function onFItemClick(index) {
       var id = fanglueDataList[index].id;
-      api.openWin({
-          name: 'zzzs_zxfl_details_win',
-          url: './zzzs_zxfl_details_win.html',
-          pageParam: {
+      rt.openParentPage('./zzzs_zxfl_details_frm.html', {
               id: id,
               title:"出国留学"
-          }
-      });
+          })
     }
 
     function onWItemClick(index) {
@@ -353,15 +272,11 @@
       // console.log(name);
       var param = {};
       param.name = name;
-      api.openWin({
-          name: 'dyzs_details_win',
-          url: './dyzs_details_win.html',
-          pageParam: {
+      rt.openParentPage('./dyzs_details_frm.html', {
               url:"http://www.yxke12.com/index.php/App/Chuguo/detail.html",
               values:$api.jsonToStr(param),
               title:name
-          }
-      });
+          })
     }
 </script>
 </html>

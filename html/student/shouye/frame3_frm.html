@@ -98,7 +98,7 @@
 <body>
     <div id="" class="flex-wrap flex-vertical center">
 
-        <div class="content_item " tapmode="hover" onclick="itemClick1('zizhuzhaosheng_win')">
+        <div class="content_item " tapmode="hover" onclick="itemClick1('zizhuzhaosheng_frm')">
             <img class="left_img" src="../../../image/xingxiang_left.png" />
             <div class="text_pos">
                 <p class="title">自主招生</p>
@@ -111,7 +111,7 @@
             </div>
         </div>
 
-        <div class="content_item xingge_bg" tapmode="hover" onclick="itemClick1('sanweiyiti_win')">
+        <div class="content_item xingge_bg" tapmode="hover" onclick="itemClick1('sanweiyiti_frm')">
             <img class="left_img" src="../../../image/xingxiang_left.png" />
             <div class="text_pos">
                 <p class="title">三位一体</p>
@@ -137,7 +137,7 @@
             </div>
         </div>
 
-        <div class="content_item zhuanye_bg" tapmode="hover" onclick="itemClick1('chuguoliuxue_win')">
+        <div class="content_item zhuanye_bg" tapmode="hover" onclick="itemClick1('chuguoliuxue_frm')">
             <img class="left_img" src="../../../image/xingxiang_left.png" />
             <div class="text_pos">
                 <p class="title">出国留学</p>
@@ -149,7 +149,7 @@
                 </ul>
             </div>
         </div>
-        <div class="content_item zhongwai_bg" tapmode="hover" onclick="itemClick1('zhongwaihezuo_win')">
+        <div class="content_item zhongwai_bg" tapmode="hover" onclick="itemClick1('zhongwaihezuo_frm')">
             <img class="left_img" src="../../../image/xingxiang_left.png" />
             <div class="text_pos">
                 <p class="title">中外合作</p>
@@ -161,7 +161,7 @@
                 </ul>
             </div>
         </div>
-        <div class="content_item danzhao_bg" tapmode="hover" onclick="itemClick1('gaokaogaozhao_win')">
+        <div class="content_item danzhao_bg" tapmode="hover" onclick="itemClick1('gaokaogaozhao_frm')">
             <img class="left_img" src="../../../image/xingxiang_left.png" />
             <div class="text_pos">
                 <p class="title">高职单招</p>
@@ -177,21 +177,10 @@
     </div>
 </body>
 <script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
 <script type="text/javascript">
-    apiready = function() {
-
-    };
-
     function itemClick1(url) {
-        api.openWin({
-            name: url,
-            url: '../zhaosheng/'+ url +'.html',
-            pageParam: {
-                name: 'test'
-            }
-        });
-
+        rt.openParentPage('../zhaosheng/'+ url +'.html', {});
     }
 </script>
-
 </html>

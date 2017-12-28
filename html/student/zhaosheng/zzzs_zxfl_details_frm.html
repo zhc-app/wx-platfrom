@@ -5,9 +5,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
     .titleDiv{
         width:90%;
@@ -70,50 +70,26 @@
     <!-- <p style="color:#333;text-align: right;">教 育 部</p>
     <p style="color:#333;text-align: right;">2014年12月10日</p> -->
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
-    apiready = function(){
-        api.parseTapmode();
-        getDetailsByID(api.pageParam.id);
+    window.onload = function(){
+        var id = rt.getPageParame("id");
+        getDetailsByID(id);
     };
 
     function getDetailsByID(id) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: false
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Zizhuzhaosheng/infos.html',
-          method: 'post',
-          data: {
-              values: {
-                  id: id
-              },
-
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-              console.log( JSON.stringify( ret ) );
-              var details = doT.template(document.getElementById('details_s').innerHTML);
-              document.getElementById('details_b').innerHTML = details(ret.data);
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      var parames = {id: id}
+      parames.sheng = $api.getStorage('sheng');
+      zhc.post('http://www.yxke12.com/index.php/App/Zizhuzhaosheng/infos.html',
+          parames,function(_data) {
+            var details = doT.template(document.getElementById('details_s').innerHTML);
+              document.getElementById('details_b').innerHTML = details(_data);
+          },null, true);
     }
-
-
-
-
 </script>
 </html>

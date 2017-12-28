@@ -5,9 +5,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>云API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
 
         .zizhuzhaosheng {
@@ -43,7 +43,7 @@
             height: 23px;
            border-radius: 5px;
            border: solid 1px #6666ff;
-           background: url(../../image/41-8.png) no-repeat scroll 90% center transparent;
+           background: url(../../../image/41-8.png) no-repeat scroll 90% center transparent;
            background-size: 14px;
           }
           table{
@@ -184,14 +184,19 @@
     </div>
 
 </body>
-<script type="text/javascript" src="../../script/api.js" ></script>
-<script type="text/javascript" src="../../script/aui-tab.js" ></script>
-<script type="text/javascript" src="../../script/doT.js" ></script>
+<script type="text/javascript" src="../../../script/api.js" ></script>
+<script type="text/javascript" src="../../../script/aui-tab.js" ></script>
+<script type="text/javascript" src="../../../script/doT.js" ></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
+    var gkgz_dot;
     var BanXueDataList = [];
-    apiready = function(){
+    window.onload = function(){
+        gkgz_dot = doT.template(document.getElementById('zwzx_s').innerHTML);
         getZiXunData();
-        api.parseTapmode();
     }
     var tab = new auiTab({
         element:document.getElementById("tab"),
@@ -215,38 +220,12 @@
 
     // 资讯列表
     function getZiXunData() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Zhongwai/zixun.html',
-          method: 'post',
-          data: {
-              values: {
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-              // alert( JSON.stringify( ret ) );
-              if (ret.status == 100) {
-                ziXunDataList = ret.data;
-                var gkgz_dot = doT.template(document.getElementById('zwzx_s').innerHTML);
-                document.getElementById('zwzx_ul').innerHTML = gkgz_dot(ziXunDataList);
-                api.parseTapmode();
-              }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      var parames = {}
+      zhc.post('http://www.yxke12.com/index.php/App/Zhongwai/zixun.html',
+          parames,function(_data) {
+              ziXunDataList = _data;
+              document.getElementById('zwzx_ul').innerHTML = gkgz_dot(ziXunDataList);
+          },null, true);
     }
 
     // 方略列表
@@ -255,151 +234,67 @@
       var banxue_one_dot = doT.template(document.getElementById('banxue_one_s').innerHTML);
       var banxue_two_dot = doT.template(document.getElementById('banxue_two_s').innerHTML);
     function getFangLV(){
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Zhongwai/fanglue.html',
-          method: 'post',
-          data: {
-              values: {
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-            if (ret.status == 100) {
-                // console.log( JSON.stringify( ret ) );
-                fanglueDataList = ret.data;
-
-                document.getElementById('fanglue_ul').innerHTML = zizhuzhaosheng(fanglueDataList);
-                api.parseTapmode();
-
-            }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      var parames = {}
+      zhc.post('http://www.yxke12.com/index.php/App/Zhongwai/fanglue.html',
+          parames,function(_data) {
+              fanglueDataList = _data;
+              document.getElementById('fanglue_ul').innerHTML = zizhuzhaosheng(fanglueDataList);
+          },null, true);
     }
 
     function getBanXueList() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Zhongwai/jigou.html',
-          method: 'post',
-          data: {
-              values: {
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-            if (ret.status == 100) {
-                console.log( JSON.stringify( ret ) );
-                BanXueDataList = ret.data.lists;
-                banxueOneList = ret.data.one;
-                banxueTwoList = ret.data.two;
-
-                document.getElementById('banxue_ul').innerHTML = banxue_dot(BanXueDataList);
-
-
-                document.getElementById('banxue_one_ul').innerHTML = banxue_one_dot(banxueOneList);
-
-
-                document.getElementById('banxue_two_ul').innerHTML = banxue_two_dot(banxueTwoList);
-                api.parseTapmode();
-
-            }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
-    }
-
-    function nianfenxuan(index) {
-        // alert(index)
+      var parames = {}
+      zhc.post('http://www.yxke12.com/index.php/App/Zhongwai/jigou.html',
+          parames,function(_data) {
+              BanXueDataList = _data.lists;
+              banxueOneList = _data.one;
+              banxueTwoList = _data.two;
+              document.getElementById('banxue_ul').innerHTML = banxue_dot(BanXueDataList);
+              document.getElementById('banxue_one_ul').innerHTML = banxue_one_dot(banxueOneList);
+              document.getElementById('banxue_two_ul').innerHTML = banxue_two_dot(banxueTwoList);
+          },null, true);
     }
 
     // 资讯item点击回调
     function onZItemClick(index) {
       var id = ziXunDataList[index].id;
-      api.openWin({
-          name: 'zzzs_zxfl_details_win',
-          url: './zzzs_zxfl_details_win.html',
-          pageParam: {
+      rt.openPage('./zzzs_zxfl_details_frm.html', {
               id: id,
               title:"中外合作"
-          }
-      });
+          });
     }
 
     // 方略item点击回调
     function onFItemClick(index) {
       var id = fanglueDataList[index].id;
-      api.openWin({
-          name: 'zzzs_zxfl_details_win',
-          url: './zzzs_zxfl_details_win.html',
-          pageParam: {
+      rt.openPage('./zzzs_zxfl_details_frm.html', {
               id: id,
               title:"中外合作"
-          }
-      });
+          });
     }
 
     function onBXItemClick(index) {
       var id = BanXueDataList[index].id;
-      api.openWin({
-          name: 'zzzs_zxfl_details_win',
-          url: './zzzs_zxfl_details_win.html',
-          pageParam: {
+      rt.openPage('./zzzs_zxfl_details_frm.html', {
               id: id,
               title:"中外合作"
-          }
-      });
+          });
     }
 
     function onOneItemClick(index) {
       var id = banxueOneList[index].id;
-      api.openWin({
-          name: 'dyzs_jz_details_win',
-          url: './dyzs_jz_details_win.html',
-          pageParam: {
+      rt.openPage('./dyzs_jz_details_frm.html', {
               id: id,
               url:'http://www.yxke12.com/index.php/App/Zhongwai/detail.html'
-          }
-      });
+          });
     }
 
     function onTwoItemClick(index) {
       var id = banxueTwoList[index].id;
-      api.openWin({
-          name: 'dyzs_jz_details_win',
-          url: './dyzs_jz_details_win.html',
-          pageParam: {
+      rt.openPage('./dyzs_jz_details_frm.html', {
               id: id,
               url:'http://www.yxke12.com/index.php/App/Zhongwai/detail.html'
-          }
-      });
+          });
     }
 </script>
 </html>

@@ -5,9 +5,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>云API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
 
         .zizhuzhaosheng {
@@ -43,7 +43,7 @@
             height: 23px;
            border-radius: 5px;
            border: solid 1px #6666ff;
-           background: url(../../image/41-8.png) no-repeat scroll 95% center transparent;
+           background: url(../../../../image/41-8.png) no-repeat scroll 95% center transparent;
            background-size: 14px;
           }
 
@@ -201,9 +201,13 @@
         </ul>
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js" ></script>
-<script type="text/javascript" src="../../script/aui-tab.js" ></script>
-<script type="text/javascript" src="../../script/doT.js" ></script>
+<script type="text/javascript" src="../../../script/api.js" ></script>
+<script type="text/javascript" src="../../../script/aui-tab.js" ></script>
+<script type="text/javascript" src="../../../script/doT.js" ></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
 
     var ziXunDataList = [];
@@ -213,10 +217,12 @@
     var ydyDataList = [];
     var provinceList = [];
     var flag_arr = [1,0,0,0];
-    var jianzhang_dot;
+    var jianzhang_dot, zizhuzhaosheng, fanglv_dot;
     var ydy_dot;
     var cur_zhuanye_type = 1;
-    apiready = function(){
+    window.onload = function(){
+      zizhuzhaosheng = doT.template(document.getElementById('tyzx_s').innerHTML);
+      fanglv_dot = doT.template(document.getElementById('fanglue_s').innerHTML);
       getZiXunData();
     }
     var tab = new auiTab({
@@ -258,184 +264,69 @@
     });
 
     function getZiXunData() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Tiyulei/zixun.html',
-          method: 'post',
-          data: {
-              values: {
-              },
-          }
-      },function(ret, err){
-          api.hideProgress();
-          if (ret) {
-              // console.log( JSON.stringify( ret ) );
-              if (ret.status == 100) {
-                ziXunDataList = ret.data;
-                var zizhuzhaosheng = doT.template(document.getElementById('tyzx_s').innerHTML);
-                document.getElementById('tyzx_ul').innerHTML = zizhuzhaosheng(ziXunDataList);
-                api.parseTapmode();
-              }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      var parames = {};
+      zhc.post('http://www.yxke12.com/index.php/App/Tiyulei/zixun.html',
+          parames,function(_data) {
+              ziXunDataList = _data;
+              document.getElementById('tyzx_ul').innerHTML = zizhuzhaosheng(ziXunDataList);
+          },null, true);
     }
 
     function getFangLV() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Tiyulei/fanglue.html',
-          method: 'post',
-          data: {
-              values: {
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-            if (ret.status == 100) {
-                // console.log( JSON.stringify( ret ) );
-                fanglueDataList = ret.data;
-                var zizhuzhaosheng = doT.template(document.getElementById('fanglue_s').innerHTML);
-                document.getElementById('fanglue_ul').innerHTML = zizhuzhaosheng(fanglueDataList);
-                api.parseTapmode();
-
-            }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      var parames = {};
+      zhc.post('http://www.yxke12.com/index.php/App/Tiyulei/fanglue.html',
+          parames,function(_data) {
+              fanglueDataList = _data;
+              document.getElementById('fanglue_ul').innerHTML = fanglv_dot(fanglueDataList);
+          },null, true);
     }
 
     function getJianZhangYD() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Tiyulei/yundong.html',
-          method: 'post',
-          data: {
-              values: {
+      var parames = {};
+      zhc.post('http://www.yxke12.com/index.php/App/Tiyulei/yundong.html',
+          parames,function(_data) {
+              jzydDataList = _data;
+              if (jianzhang_dot == null) {
+                jianzhang_dot = doT.template(document.getElementById('jz_s').innerHTML);
               }
-          }
-      },function(ret, err){
-        api.hideProgress();
-
-          if (ret) {
-            // console.log( JSON.stringify( ret ) );
-            jzydDataList = ret.data;
-            if (jianzhang_dot == null) {
-              jianzhang_dot = doT.template(document.getElementById('jz_s').innerHTML);
-            }
-            document.getElementById('jz_ul').innerHTML = jianzhang_dot(jzydDataList);
-            api.parseTapmode();
-
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+              document.getElementById('jz_ul').innerHTML = jianzhang_dot(jzydDataList);
+          },null, true);
     }
 
     function getYDYData() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Tiyulei/gaoshuiping.html',
-          method: 'post',
-          data: {
-              values: {
+      var parames = {};
+      zhc.post('http://www.yxke12.com/index.php/App/Tiyulei/gaoshuiping.html',
+          parames,function(_data) {
+              ydyDataList = _data.lists;
+              provinceList = _data.province;
+              if (ydy_dot == null) {
+                ydy_dot = doT.template(document.getElementById('ydy_s').innerHTML);
               }
-          }
-      },function(ret, err){
-        api.hideProgress();
-
-          if (ret) {
-            console.log( JSON.stringify( ret ) );
-            ydyDataList = ret.data.lists;
-            provinceList = ret.data.province;
-            if (ydy_dot == null) {
-              ydy_dot = doT.template(document.getElementById('ydy_s').innerHTML);
-            }
-            document.getElementById('ydy_tb').innerHTML = ydy_dot(ydyDataList);
-            var province;
-            if (province == null) {
-              province = doT.template(document.getElementById('province_s').innerHTML);
-            }
-            document.getElementById('province_sl').innerHTML = province(provinceList);
-            api.parseTapmode();
-
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+              document.getElementById('ydy_tb').innerHTML = ydy_dot(ydyDataList);
+              var province;
+              if (province == null) {
+                province = doT.template(document.getElementById('province_s').innerHTML);
+              }
+              document.getElementById('province_sl').innerHTML = province(provinceList);
+          },null, true);
     }
 
     // 查看资讯详情
     function onZItemClick(index) {
       var id = ziXunDataList[index].id;
-      api.openWin({
-          name: 'zzzs_zxfl_details_win',
-          url: './zzzs_zxfl_details_win.html',
-          pageParam: {
+      rt.openParentPage("zzzs_zxfl_details_frm.html", {
               id: id,
               title:"艺体招生"
-          }
-      });
+          });
     }
 
     // 查看方略详情
     function onFItemClick(index) {
       var id = fanglueDataList[index].id;
-      api.openWin({
-          name: 'zzzs_zxfl_details_win',
-          url: './zzzs_zxfl_details_win.html',
-          pageParam: {
+      rt.openParentPage("zzzs_zxfl_details_frm.html", {
               id: id,
               title:"艺体招生"
-          }
-      });
+          });
     }
 
     // 查看资讯详情
@@ -448,26 +339,19 @@
         // 武术
         id = jzwsDataList[index].id;
       }
-      api.openWin({
-          name: 'dyzs_jz_details_win',
-          url: './dyzs_jz_details_win.html',
-          pageParam: {
+
+      rt.openParentPage("dyzs_jz_details_frm.html", {
               id: id,
               url:'http://www.yxke12.com/index.php/App/Tiyulei/details.html'
-          }
-      });
+          });
     }
 
     function checkJZDetails(index) {
       var id = ydyDataList[index].id;
-      api.openWin({
-          name: 'dyzs_jz_details_win',
-          url: './dyzs_jz_details_win.html',
-          pageParam: {
+      rt.openParentPage("dyzs_jz_details_frm.html", {
               id: id,
               url:'http://www.yxke12.com/index.php/App/Tiyulei/gaoinfos.html'
-          }
-      });
+          });
     }
 
     function zhuanyeSelect(value) {
@@ -481,39 +365,15 @@
         }else {
            // 武术
            if (jzwsDataList == null || jzwsDataList.length == 0) {
-             api.showProgress({
-                 style: 'default',
-                 animationType: 'fade',
-                 title: '努力加载中...',
-                 text: '先喝杯茶...',
-                 modal: true
-             });
-
-              api.ajax({
-                  url: 'http://www.yxke12.com/index.php/App/Tiyulei/wushu.html',
-                  method: 'post',
-                  data: {
-                      values: {
-                      }
-                  }
-              },function(ret, err){
-                  api.hideProgress();
-
-                  if (ret && ret.status == 100) {
-                      // console.log( JSON.stringify( ret ) );
-                      jzwsDataList = ret.data;
-                      if (jianzhang_dot == null) {
-                        jianzhang_dot = doT.template(document.getElementById('jz_s').innerHTML);
-                      }
-                      document.getElementById('jz_ul').innerHTML = jianzhang_dot(jzwsDataList);
-                  } else {
-                    api.toast({
-                    msg: JSON.stringify(err.msg),
-                    duration: 2000,
-                    location: 'bottom'
-                });
-                  }
-              });
+              var parames = {}
+              zhc.post('http://www.yxke12.com/index.php/App/Tiyulei/wushu.html',
+                  parames,function(_data) {
+                    jzwsDataList = _data;
+                    if (jianzhang_dot == null) {
+                      jianzhang_dot = doT.template(document.getElementById('jz_s').innerHTML);
+                    }
+                    document.getElementById('jz_ul').innerHTML = jianzhang_dot(jzwsDataList);
+                  },null, true);     
            }else{
              if (jianzhang_dot == null) {
                jianzhang_dot = doT.template(document.getElementById('jz_s').innerHTML);
@@ -524,42 +384,15 @@
     }
 
     function provinceSelect(value) {
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Tiyulei/province.html',
-            method: 'post',
-            data: {
-                values: {
-                    province: value
-                }
-            }
-        },function(ret, err){
-          api.hideProgress();
-
-            if (ret && ret.status == 100) {
-                // console.log( JSON.stringify( ret ) );
+        var parames = {province: value}
+        zhc.post('http://www.yxke12.com/index.php/App/Tiyulei/province.html',
+            parames,function(_data) {
                 ydyDataList = ret.data;
                 if (ydy_dot == null) {
                   ydy_dot = doT.template(document.getElementById('ydy_s').innerHTML);
                 }
                 document.getElementById('ydy_tb').innerHTML = ydy_dot(ydyDataList);
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
-
-
+            },null, true);
     }
 </script>
 </html>

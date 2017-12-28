@@ -5,9 +5,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>云API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
 
         .zizhuzhaosheng {
@@ -48,7 +48,7 @@
             height: 23px;
            border-radius: 5px;
            border: solid 1px #6666ff;
-           background: url(../../image/41-8.png) no-repeat scroll 95% center transparent;
+           background: url(../../../image/41-8.png) no-repeat scroll 95% center transparent;
            background-size: 14px;
           }
 
@@ -249,9 +249,13 @@
         </ul>
     </div>
 </body>
-<script type="text/javascript" src="../../script/api.js" ></script>
-<script type="text/javascript" src="../../script/aui-tab.js" ></script>
-<script type="text/javascript" src="../../script/doT.js" ></script>
+<script type="text/javascript" src="../../../script/api.js" ></script>
+<script type="text/javascript" src="../../../script/aui-tab.js" ></script>
+<script type="text/javascript" src="../../../script/doT.js" ></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
     var zixunData = [];
     var fangLueData = [];
@@ -260,10 +264,12 @@
     var provinceList = [];
     var yuanxiao;
 
-    var ystjz_dot;
-    apiready = function(){
-        api.parseTapmode();
-
+    var ystjz_dot, zixun_dot, fanglue_dot, addr;
+    window.onload = function(){
+        zixun_dot = doT.template(document.getElementById('yishuzx_s').innerHTML);
+        fanglue_dot = doT.template(document.getElementById('fanglue_s').innerHTML);
+        yuanxiao = doT.template(document.getElementById('ptgx_s').innerHTML);
+        addr = doT.template(document.getElementById('addr_s').innerHTML);
         getZiXunData();
     }
     var tab = new auiTab({
@@ -307,272 +313,100 @@
 
     // 初次打开资讯
     function getZiXunData() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: false
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Yishulei/zixun.html',
-          method: 'post',
-          data: {
-              values: {
-                  name: 'haha'
-              },
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-              zixunData = ret.data;
-              var zixun = doT.template(document.getElementById('yishuzx_s').innerHTML);
-              document.getElementById('yishuzx_ul').innerHTML = zixun(zixunData);
-              api.parseTapmode();
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      var parames = {}
+      zhc.post('http://www.yxke12.com/index.php/App/Yishulei/zixun.html',
+          parames,function(_data) {
+            zixunData = _data;
+            document.getElementById('yishuzx_ul').innerHTML = zixun_dot(zixunData);
+          },null, true);
     }
 
     // 初次打开方略
     function getFangLV() {
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Yishulei/fanglue.html',
-            method: 'post',
-            data: {
-                values: {
-
-                }
-            }
-        },function(ret, err){
-          api.hideProgress();
-            if (ret) {
-              if (ret.status == 100) {
-                  // console.log( JSON.stringify( ret ) );
-                  fangLueData = ret.data;
-                  var zizhuzhaosheng = doT.template(document.getElementById('fanglue_s').innerHTML);
-                  document.getElementById('fanglue_ul').innerHTML = zizhuzhaosheng(fangLueData);
-                  api.parseTapmode();
-              }
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
+        var parames = {}
+        zhc.post('http://www.yxke12.com/index.php/App/Yishulei/fanglue.html',
+            parames,function(_data) {
+              fangLueData = _data;
+              document.getElementById('fanglue_ul').innerHTML = fanglue_dot(fangLueData);
+            },null, true);
     }
 
     // 普通高校 简章列表
     function getPuTongGaoXiao() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Yishulei/feiduli.html',
-          method: 'post',
-          data: {
-              values: {
-
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-            if (ret.status == 100) {
-                // console.log( JSON.stringify( ret ) );
-                feiduliList = ret.data.lists;
+      var parames = {}
+        zhc.post('http://www.yxke12.com/index.php/App/Yishulei/feiduli.html',
+            parames,function(_data) {
+                feiduliList = _data.lists;
                 provinceList = [];
-                 var provinceObj = ret.data.province;
-                 for (var key in provinceObj) {
-                   if (provinceObj.hasOwnProperty(key)) {
+                var provinceObj = _data.province;
+                for (var key in provinceObj) {
+                  if (provinceObj.hasOwnProperty(key)) {
                       provinceList.push(provinceObj[key]);
-                   }
-                 }
+                  }
+                }
                 var obj = {};
                 obj.list = feiduliList;
                 obj.province = provinceList;
-                // console.log(JSON.stringify(obj));
-                yuanxiao = doT.template(document.getElementById('ptgx_s').innerHTML);
                 document.getElementById('ptgx_ul').innerHTML = yuanxiao(obj);
-
-                var addr = doT.template(document.getElementById('addr_s').innerHTML);
                 document.getElementById('addr_sl').innerHTML = addr(provinceList);
-                api.parseTapmode();
-            }
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+            },null, true);         
     }
+
     var ystProvinceList = [];
     var ystJZList = [];
     function getYiShuTuan() {
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Yishulei/yishutuan.html',
-            method: 'post',
-            data: {
-                values: {
-                }
-            }
-        },function(ret, err){
-          api.hideProgress();
-            if (ret) {
-                if (ret.status == 100) {
-                  console.log( JSON.stringify( ret ) );
-                  ystProvinceList = ret.data.province;
-                  ystJZList = ret.data.lists;
-                  if (ystjz_dot == null) {
+        var parames = {}
+        zhc.post('http://www.yxke12.com/index.php/App/Yishulei/yishutuan.html',
+            parames,function(_data) {
+                ystProvinceList = _data.province;
+                ystJZList = _data.lists;
+                if (ystjz_dot == null) {
                     ystjz_dot = doT.template(document.getElementById('ystjz_s').innerHTML);
-                  }
-                  document.getElementById('ystjz_tb').innerHTML = ystjz_dot(ystJZList);
-
-                  var province = doT.template(document.getElementById('shengfen_s').innerHTML);
-                  document.getElementById('shengfen_sl').innerHTML = province(ystProvinceList);
-                  api.parseTapmode();
-
                 }
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
-
-
+                document.getElementById('ystjz_tb').innerHTML = ystjz_dot(ystJZList);
+                if (province == null) {
+                    var province = doT.template(document.getElementById('shengfen_s').innerHTML);
+                }
+                document.getElementById('shengfen_sl').innerHTML = province(ystProvinceList);
+            },null, true);
     }
     var duliDataList31 = [];
     function getDuliYS() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Yishulei/dulione.html',
-          method: 'post',
-          data: {
-              values: {
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-              console.log( JSON.stringify( ret ) );
-              duliDataList31 = ret.data;
+      var parames = {}
+      zhc.post('http://www.yxke12.com/index.php/App/Yishulei/dulione.html',
+          parames,function(_data) {
+              duliDataList31 = _data;
               var obj = {};
               obj.list = duliDataList31;
               obj.province = provinceList;
               document.getElementById('ptgx_ul').innerHTML = yuanxiao(obj);
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
-
+          },null, true);
     }
+
     var duli13;
     var duliDataList = [];
     function getDuliYS13() {
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Yishulei/dulitwo.html',
-            method: 'post',
-            data: {
-                values: {
-                }
-            }
-        },function(ret, err){
-          api.hideProgress();
-            if (ret) {
-              duliDataList = ret.data;
-                // console.log("getDuliYS13 " + JSON.stringify( ret ) );
+        var parames = {}
+        zhc.post('http://www.yxke12.com/index.php/App/Yishulei/dulitwo.html',
+            parames,function(_data) {
+                duliDataList = _data;
                 if (duli13 == null) {
                   duli13 = doT.template(document.getElementById('list13_s').innerHTML);
                 }
                 document.getElementById('list13_ul').innerHTML = duli13(duliDataList);
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
+            },null, true);
     }
 
     // 资讯item点击回调 复用自主招生详情界面 包括详情url
     function onZItemClick(index) {
-      var id = zixunData[index].id
-      api.openWin({
-          name: 'zzzs_zxfl_details_win',
-          url: './zzzs_zxfl_details_win.html',
-          pageParam: {
-              id: id,
-              title:"艺体招生"
-          }
-      });
-
+      var id = zixunData[index].id;
+      rt.openParentPage("./zzzs_zxfl_details_frm.html", {id: id, title:"艺体招生"});
     }
 
     // 方略item点击回调 复用自主招生详情界面 包括详情url
     function onFItemClick(index) {
       var id = fangLueData[index].id;
-      api.openWin({
-          name: 'zzzs_zxfl_details_win',
-          url: './zzzs_zxfl_details_win.html',
-          pageParam: {
-              id: id,
-              title:"艺体招生"
-          }
-      });
+      rt.openParentPage("./zzzs_zxfl_details_frm.html", {id: id, title:"艺体招生"});
     }
 
     var schooltype_flag = [1, 0];
@@ -624,40 +458,15 @@
     }
 
     function onProvince(value) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Yishulei/province.html',
-            method: 'post',
-            data: {
-                values: {
-                    province: value
-                },
-            }
-        },function(ret, err){
-          api.hideProgress();
-
-            if (ret) {
-                console.log( JSON.stringify( ret ) );
-                feiduliList = ret.data;
+        var parames = {province: value};
+        zhc.post('http://www.yxke12.com/index.php/App/Yishulei/province.html',
+            parames,function(_data) {
+                feiduliList = _data;
                 var obj = {};
                 obj.list = feiduliList;
                 obj.province = provinceList;
                 document.getElementById('ptgx_ul').innerHTML = yuanxiao(obj);
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
+            },null, true);
     }
 
     function onFirstItemClick(index) {
@@ -669,80 +478,35 @@
         // 独立
         id = duliDataList31[index].id;
       }
-
-      api.openWin({
-          name: 'dyzs_jz_details_win',
-          url: './dyzs_jz_details_win.html',
-          pageParam: {
-              id: id,
-              url:'http://www.yxke12.com/index.php/App/Yishulei/details.html'
-          }
-      });
+      rt.openParentPage("./dyzs_jz_details_frm.html", {id: id, url:'http://www.yxke12.com/index.php/App/Yishulei/details.html'});
     }
 
     function onSecondItemClick(index) {
       var id = duliDataList[index].id;
-      api.openWin({
-          name: 'dyzs_jz_details_win',
-          url: './dyzs_jz_details_win.html',
-          pageParam: {
+      rt.openParentPage("./dyzs_jz_details_frm.html", {
               id: id,
               url:'http://www.yxke12.com/index.php/App/Yishulei/details.html'
-          }
-      });
+          });
+      
     }
 
     function checkYSTJZDetails(index) {
       var id = ystJZList[index].id;
-      api.openWin({
-          name: 'dyzs_jz_details_win',
-          url: './dyzs_jz_details_win.html',
-          pageParam: {
+      rt.openParentPage("./dyzs_jz_details_frm.html", {
               id: id,
               url:'http://www.yxke12.com/index.php/App/Yishulei/yishudetail.html'
-          }
-      });
+          });
     }
     function shengfen(value) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Yishulei/yishutuansearch.html',
-          method: 'post',
-          data: {
-              values: {
-                  province: value
+      var parames = {province: value};
+      zhc.post('http://www.yxke12.com/index.php/App/Yishulei/yishutuansearch.html',
+          parames,function(_data) {
+              ystJZList = _data;
+              if (ystjz_dot == null) {
+                  ystjz_dot = doT.template(document.getElementById('ystjz_s').innerHTML);
               }
-          }
-      },function(ret, err){
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-        if (ret) {
-            api.hideProgress();
-            ystJZList = ret.data;
-            if (ystjz_dot == null) {
-              ystjz_dot = doT.template(document.getElementById('ystjz_s').innerHTML);
-            }
-            document.getElementById('ystjz_tb').innerHTML = ystjz_dot(ystJZList);
-        } else {
-          api.toast({
-          msg: JSON.stringify(err.msg),
-          duration: 2000,
-          location: 'bottom'
-      });
-        }
-      });
+              document.getElementById('ystjz_tb').innerHTML = ystjz_dot(ystJZList);
+          },null, true);
     }
 </script>
 </html>

@@ -5,9 +5,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>云API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
 
         .zizhuzhaosheng {
@@ -43,7 +43,7 @@
             height: 23px;
            border-radius: 5px;
            border: solid 1px #6666ff;
-           background: url(../../image/41-8.png) no-repeat scroll 90% center transparent;
+           background: url(../../../image/41-8.png) no-repeat scroll 90% center transparent;
            background-size: 14px;
           }
           table{
@@ -177,10 +177,13 @@
     </div>
 
 </body>
-<script type="text/javascript" src="../../script/api.js" ></script>
-<script type="text/javascript" src="../../script/doT.js" ></script>
-<script type="text/javascript" src="../../script/aui-tab.js" ></script>
-  <script type="text/javascript" src="../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/api.js" ></script>
+<script type="text/javascript" src="../../../script/doT.js" ></script>
+<script type="text/javascript" src="../../../script/aui-tab.js" ></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
     var zixunData = [];
     var fangLueData = [];
@@ -188,11 +191,8 @@
     var jianzhangData = [];
     var yearList = [];
     var jianzhang;
-    apiready = function(){
-          // console.log( JSON.stringify( data ) );
+    window.onload = function(){
       getZiXunLV()
-
-        api.parseTapmode();
     }
 
     var tab = new auiTab({
@@ -225,185 +225,66 @@
 
     // 初次打开方略
     function getZiXunLV() {
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-
-        $.ajax({
-                  url : "http://www.yxke12.com/index.php/App/Zizhuzhaosheng/zixun.html",
-                  type : "POST",
-                 data : {},
-                 dataType : "json",
-                 success : function(data) {
-                   api.hideProgress();
-
-                   if (data.status == 100) {
-                     zixunData = data.data;
-                     var zizhuzhaosheng = doT.template(document.getElementById('zizhuzhaosheng_s').innerHTML);
-                     document.getElementById('zizhuzhaosheng_ul').innerHTML = zizhuzhaosheng(zixunData);
-                   }
-                 },
-                 error:function(err){
-                   console.log( JSON.stringify( err ) );
-                 }
-               })
+        var parames = {}
+        zhc.post('http://www.yxke12.com/index.php/App/Zizhuzhaosheng/zixun.html',
+            parames,function(_data) {
+                zixunData = _data;
+                var zizhuzhaosheng = doT.template(document.getElementById('zizhuzhaosheng_s').innerHTML);
+                document.getElementById('zizhuzhaosheng_ul').innerHTML = zizhuzhaosheng(zixunData);
+            },null, true);   
     }
     // 初次打开方略
     function getFangLV() {
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Zizhuzhaosheng/fanglue.html',
-            method: 'post',
-            data: {
-                values: {
-
-                }
-            }
-        },function(ret, err){
-          api.hideProgress();
-            if (ret) {
-              if (ret.status == 100) {
-                  // console.log( JSON.stringify( ret ) );
-                  fangLueData = ret.data;
-                  var zizhuzhaosheng = doT.template(document.getElementById('fanglue_s').innerHTML);
-                  document.getElementById('fanglue_ul').innerHTML = zizhuzhaosheng(fangLueData);
-                  api.parseTapmode();
-
-              }
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
+        var parames = {}
+        zhc.post('http://www.yxke12.com/index.php/App/Zizhuzhaosheng/fanglue.html',
+            parames,function(_data) {
+                fangLueData = _data;
+                var zizhuzhaosheng = doT.template(document.getElementById('fanglue_s').innerHTML);
+                document.getElementById('fanglue_ul').innerHTML = zizhuzhaosheng(fangLueData);
+            },null, true); 
     }
 
     // 初次打开招生简章
     function getJianZhang() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Zizhuzhaosheng/lists.html',
-          method: 'post',
-          data: {
-              values: {
-              }
-          }
-      },function(ret, err){
-        api.hideProgress();
-
-          if (ret) {
-            console.log( JSON.stringify( ret ) );
-
-            jianzhangData = ret.data.lists;
-            yearList = ret.data.year;
-            jianzhang = doT.template(document.getElementById('jianzhang_s').innerHTML);
-            document.getElementById('jianzhang_tb').innerHTML = jianzhang(jianzhangData);
-
-            var years = doT.template(document.getElementById('years_s').innerHTML);
-            document.getElementById('years_sl').innerHTML = years(yearList);
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+      var parames = {}
+      zhc.post('http://www.yxke12.com/index.php/App/Zizhuzhaosheng/lists.html',
+          parames,function(_data) {
+              jianzhangData = _data.lists;
+              yearList = _data.year;
+              jianzhang = doT.template(document.getElementById('jianzhang_s').innerHTML);
+              document.getElementById('jianzhang_tb').innerHTML = jianzhang(jianzhangData);
+              var years = doT.template(document.getElementById('years_s').innerHTML);
+              document.getElementById('years_sl').innerHTML = years(yearList);
+          },null, true);
     }
 
     // 资讯item 点击跳转详情界面
     function onZItemClick(index) {
       var id = zixunData[index].id;
-      api.openWin({
-          name: 'zzzs_zxfl_details_win',
-          url: './zzzs_zxfl_details_win.html',
-          pageParam: {
-              id: id,
-              title:"自主招生"
-          }
-      });
+      rt.openPage("zzzs_zxfl_details_frm.html", {id: id, title:"自主招生"});
     }
 
     // 方略item 点击跳转详情界面
     function onFItemClick(index) {
       var id = fangLueData[index].id;
-      api.openWin({
-          name: 'zzzs_zxfl_details_win',
-          url: './zzzs_zxfl_details_win.html',
-          pageParam: {
-              id: id,
-              title:"自主招生"
-          }
-      });
+      rt.openPage("zzzs_zxfl_details_frm.html", {id: id, title:"自主招生"});
     }
 
     // 年份筛选
     function nianfenxuan(index) {
-        // alert(index)
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Zizhuzhaosheng/year.html',
-            method: 'post',
-            data: {
-                values: {
-                    year: index
-                }
-            }
-        },function(ret, err){
-          api.hideProgress();
-            if (ret) {
-              if (ret.status == 100) {
-                // console.log( JSON.stringify( ret ) );
-                jianzhangData = ret.data;
+        var parames = {}
+        parames.year = index;
+        zhc.post('http://www.yxke12.com/index.php/App/Zizhuzhaosheng/year.html',
+            parames,function(_data) {
+                jianzhangData = _data;
                 document.getElementById('jianzhang_tb').innerHTML = jianzhang(jianzhangData);
-              }
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
+            },null, true);
     }
 
     // 查看招生简章
     function checkJZDetails(index) {
       localStorage.m_jz_data = jianzhangData[index].detail;
-      api.openWin({
-          name: 'zzzs_jz_details_win',
-          url: './zzzs_jz_details_win.html',
-          pageParam: {
-              // data: data
-          }
-      });
+      rt.openPage("zzzs_jz_details_frm.html", {});
     }
 </script>
 </html>

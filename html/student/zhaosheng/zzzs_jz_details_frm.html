@@ -5,9 +5,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
 
 
@@ -39,15 +39,12 @@
       <div id="main" class="flex-con my-content" >
       </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/doT.js"></script>
 <script type="text/javascript">
-    apiready = function(){
-        api.parseTapmode();
+    window.onload = function(){
         var data = localStorage.m_jz_data;
         $api.byId('main').innerHTML = data;
-
-        console.log(JSON.stringify(data));
         // var details = doT.template(document.getElementById('details_s').innerHTML);
         // document.getElementById('details_b').innerHTML = details(data);
       };

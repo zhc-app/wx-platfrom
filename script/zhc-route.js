@@ -47,7 +47,7 @@
     }
     parent.location.href = url;
   }
-
+  var frameList = {};
   h.openFrame = function (url, _name, rect, parames) {
     if ((typeof parames) == 'object') {
       var i = 0;
@@ -61,16 +61,32 @@
       }
     }
 
-    var iframe = document.createElement('iframe');
-    iframe.scrolling = "auto";
-    iframe.src = url;
-    iframe.id = _name;
-    iframe.style.border = 0;
-    iframe.style.marginLeft = rect.x + "px";
-    iframe.style.marginTop = rect.y + "px";
-    iframe.style.height = rect.height + "px";
-    iframe.style.width = rect.width + "px";
-    document.body.appendChild(iframe);
+    if(frameList[_name]){
+        for(var _n in frameList){
+          var el = document.getElementById(_n);
+          if(_name == _n){
+            el.style.display = "block";
+          }else{
+            el.style.display = "none";
+          }
+        }
+    }else{
+      for(var _n in frameList){
+        var el = document.getElementById(_n);
+        el.style.display = "none";
+      }
+      frameList[_name] = 1;
+      var iframe = document.createElement('iframe');
+      iframe.scrolling = "auto";
+      iframe.src = url;
+      iframe.id = _name;
+      iframe.style.border = 0;
+      iframe.style.marginLeft = rect.x + "px";
+      iframe.style.marginTop = rect.y + "px";
+      iframe.style.height = rect.height + "px";
+      iframe.style.width = rect.width + "px";
+      document.body.appendChild(iframe);
+    }
   }
 
   h.execFun = function (func) {
