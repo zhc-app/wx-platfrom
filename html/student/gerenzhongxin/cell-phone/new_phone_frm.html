@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <title>绑定手机号</title>
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
     <style>
       .p{
         border: 1px solid #c9c9c9;
@@ -119,25 +119,28 @@
     <div class="flex-wrap flex-vertical">
       <div class="p">
         <div class="tel">
-          <img class="ic" src="../../../image/ic_ph.png"></img>
+          <img class="ic" src="../../../../image/ic_ph.png"></img>
           <input id="ph" type="number" placeholder="请输入手机号"></input>
           <div id="yan" class="yan" tapmode onclick="yanClick();">验证码</div>
-          <img id="del" class="del" src="../../../image/ic_del.png" tapmode onclick="delClick();"></img>
+          <img id="del" class="del" src="../../../../image/ic_del.png" tapmode onclick="delClick();"></img>
 
         </div>
 
         <div class="pwd">
-          <img class="ic" src="../../../image/ic_pwd.png"></img>
+          <img class="ic" src="../../../../image/ic_pwd.png"></img>
           <input id="code_i" type="number" placeholder="请输入收到的验证码"></input>
         </div>
       </div>
       <div id="next_btn" class="next_btn" tapmode onclick="nextClick();">绑定</div>
     </div>
 </body>
-<script type="text/javascript" src="../../../script/api.js"></script>
-<script type="text/javascript" src="../../../script/common.js"></script>
-<script type="text/javascript" src="../../../script/tools.js"></script>
-<script type="text/javascript" src="../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/common.js"></script>
+<script type="text/javascript" src="../../../../script/tools.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
 <script type="text/javascript">
 var MAX_TIME = 60;
 var count = MAX_TIME;
@@ -145,7 +148,11 @@ var timer;
 var yan;
 var phoneNum;
 var uploadData = {};
-apiready = function() {
+var toast = new auiToast({});
+  uploadData = rt.getPageParame("data");
+
+  uploadData = $api.strToJson(uploadData);
+window.onload = function() {
   // ph.innerHTML = tools.hidePhone("18612699026");
   yan = $api.byId('yan');
 
@@ -153,7 +160,7 @@ apiready = function() {
 
 // 验证码btn 点击回调
 function yanClick() {
-    if (tools.isPhone(ph.value)) {
+    if (tools.isPhone($("#ph").val())) {
       yan.disabled = true;
       count = MAX_TIME;
       $api.addCls(yan, 'yan_dis');
@@ -162,10 +169,8 @@ function yanClick() {
       timer = window.setInterval(timeCall,1000);
       getAuthCode();
     }else {
-      api.toast({
-          msg: '请输入正确的手机号',
-          duration: 2000,
-          location: 'bottom'
+      toast.fail({
+          title: '请输入正确的手机号'
       });
     }
 }
@@ -183,29 +188,26 @@ function timeCall() {
 }
 
 function getAuthCode() {
-  phoneNum = ph.value;
+  phoneNum = $("#ph").val();
   // 服务器获取验证码
-  var parames = {values:{}};
+  var parames = {};
   // 没绑定手机号时在UI获取
-  parames.values.shoujihao = phoneNum;
-  parames.values.type = api.pageParam.source == 0 ? c.MSG_REGI : c.MSG_INFO;
-  parames.values.leixing = 'student';
-  zhc.post("http://www.yxke12.com/index.php/App/Sms/send.html",
-      parames,function(data) {
-        api.toast({
-            msg: '验证码'+data,
-            duration: 2000,
-            location: 'bottom'
+  parames.shoujihao = phoneNum;
+  parames.type = uploadData.source == 0 ? c.MSG_REGI : c.MSG_INFO;
+  parames.leixing = 'student';
+  console.log(parames);
+  zhc.post("http://www.yxke12.com/index.php/App/Sms/send.html",parames,function(data) {
+        toast.fail({
+            title: '验证码'+data
         });
       },null, true);
 }
 
 function nextClick() {
+  phoneNum = $("#ph").val();
     if (phoneNum == null){
-      api.toast({
-          msg: '请填写手机号再操作',
-          duration: 2000,
-          location: 'bottom'
+      toast.fail({
+          title: '请填写手机号再操作'
       });
       return;
     }
@@ -213,10 +215,10 @@ function nextClick() {
 }
 
 function compareACode() {
-  var parames = {values:{}};
-  parames.values.yanzhengma = code_i.value;
-  parames.values.shoujihao = phoneNum;
-  parames.values.leixing = 'student';
+  var parames = {};
+  parames.yanzhengma = code_i.value;
+  parames.shoujihao = phoneNum;
+  parames.leixing = 'student';
   zhc.post("http://www.yxke12.com/index.php/App/Sms/checkhao.html",
       parames,function(data) {
         updateServer(phoneNum);
@@ -224,20 +226,21 @@ function compareACode() {
 }
 
 function updateServer(_ph) {
-  var parames = {values:{}};
-  parames.values.studentid = $api.getStorage("studentid");
-  parames.values.shoujihao = _ph;
+  var parames = {};
+  var jldata = $api.getStorage('jsons')
+  var jlDate =$api.strToJson(jldata);
+  parames.studentid = $api.getStorage("studentid");
+  parames.shoujihao = _ph;
   zhc.post("http://www.yxke12.com/index.php/App/Student/modifymobile.html",
       parames,function(data) {
-        api.closeToWin({
-            name: 'gerenxinxi_win'
-        });
+        $api.setStorage("tel",_ph);
+        rt.openPage('../gerenxinxi_frm.html',{});
 
       },null, true);
 }
 
 function delClick() {
-    ph.value = '';
+    $("#ph").val("");
 }
 </script>
 

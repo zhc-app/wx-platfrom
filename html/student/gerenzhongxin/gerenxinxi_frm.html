@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <title>个人信息</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
     .aui-list .aui-list-item-title {
         font-size: 0.8rem;
@@ -59,11 +59,12 @@
   <section class="aui-content" id="center_ul">
     <script id="center_s" type="text/x-dot-template">
     <ul class="aui-list aui-list-in aui-margin-b-15">
-        <li class="aui-list-item" tapmode onclick="selectImg();">
+        <li class="aui-list-item" >
             <div class="aui-list-item-inner aui-list-item-arrow">
                 <div class="aui-list-item-title">头像</div>
                 <div class="aui-list-item-right">
-                  <img src="http://www.yxke12.com/Public/Home/images/touxiang/{{=it.img}}" style='width:3rem;height:3rem;margin:0.5rem 0;border-radius:1.5rem;' alt="">
+                  <input type="file" class="file" id="fileInput" multiple accept="image/*" style="display: none;" />
+                  <img class="real_tou" src="http://www.yxke12.com/Public/Home/images/touxiang/{{=it.img}}" style='width:3rem;height:3rem;margin:0.5rem 0;border-radius:1.5rem;'   id="tou_img" alt="">
                 </div>
             </div>
         </li>
@@ -359,10 +360,13 @@
 
 </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
-<script type="text/javascript" src="../../script/doT.js"></script>
-<script type="text/javascript" src="../../script/network.js"></script>
-<script type="text/javascript" src="../../script/tools.js"></script>
+  <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
+<script type="text/javascript" src="../../../script/tools.js"></script>
 <script type="text/javascript">
     var data = {};
     var cur_pic = null;
@@ -371,8 +375,7 @@
     var center_dot=doT.template(document.getElementById('center_s').innerHTML);
     var xsjl1=doT.template(document.getElementById('jl').innerHTML);
 
-    apiready = function(){
-        api.parseTapmode();
+    window.onload = function(){
         getData();
         setCurData();
         if ($api.getStorage('jsons')==""||$api.getStorage('jsons')==null||$api.getStorage('jsons')==undefined) {
@@ -380,9 +383,50 @@
         }else {
           $api.byId('wodejili').style.display="block";
           var jldata = $api.getStorage('jsons')
-          var jlDate =$api.strToJson(jldata)
+          var jlDate =$api.strToJson(jldata);
+          console.log(jlDate);
           document.getElementById('xsjl').innerHTML = xsjl1(jlDate);
         }
+
+         //上传图片
+        //第一种方式：createObjectURL
+        //图片上传预览功能
+      var userAgent = navigator.userAgent;//用于判断浏览器类型
+      console.log(211);
+      $(".file").change(function () {
+          //获取选择图片的对象
+          var docObj =$(this)[0];
+          var picDiv=$(this).parents(".tou_icon");
+          //得到所有的图片文件
+          var fileList = docObj.files;
+          //循环遍历
+          for (var i = 0; i < fileList.length; i++) {
+              $(".real_tou").attr("id","img"+fileList[i].name);
+              // picDiv.prepend(picHtml);
+              //获取图片imgi的对象
+              var imgObjPreview = document.getElementById("img"+fileList[i].name);
+              console.log(imgObjPreview);
+              if (fileList && fileList[i]) {
+                  //图片属性
+                  // imgObjPreview.src = docObj.files[0].getAsDataURL();
+                  //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要以下方式
+                  if(userAgent.indexOf('MSIE') == -1){//IE以外浏览器
+                      imgObjPreview.src = window.URL.createObjectURL(docObj.files[i]);   //获取上传图片文件的物理路径
+                  }else{//IE浏览器
+                      if(docObj.value.indexOf(",")!=-1){
+                          var srcArr=docObj.value.split(",");
+                          imgObjPreview.src = srcArr[i];
+                      }else{
+                          imgObjPreview.src = docObj.value;
+                      }
+                  }
+              }
+          }
+      });
+
+      $("#tou_img").click(function(event) {
+          $(".file").click();
+      });
     };
 
     function setCurData() {
@@ -393,7 +437,7 @@
 
     function getData() {
       // img
-      console.log($api.getStorage('enrollmentno'));
+     
       data.img = $api.getStorage('img');
       data.insuranceno = $api.getStorage('insuranceno');
       data.enrollmentno = $api.getStorage('enrollmentno');
@@ -423,6 +467,7 @@
       data.class = $api.getStorage('banji');
       data.birthday = $api.getStorage('birthday');
       data.tel = $api.getStorage('tel');
+      console.log(data);
       if (data.tel != null && tools.isPhone(data.tel)) {
           data.hideTel = tools.hidePhone(data.tel);
       }
@@ -437,30 +482,33 @@
         uploadData()
     }
 
-    function selectImg() {
-        api.getPicture({
-            sourceType: 'album',
-            mediaValue: 'pic',
-            destinationType: 'url',
-            allowEdit: true,
-            quality: 50,
-            targetWidth: 130,
-            targetHeight: 130,
-            saveToPhotoAlbum: false
-        }, function(ret, err){
-         //  console.log(JSON.stringify(ret));
-            if(ret){
-                if (ret.data != null) {
-                  cur_pic = ret.data;
-                  uploadData();
-                }
+    // function selectImg() {
+    //     api.getPicture({
+    //         sourceType: 'album',
+    //         mediaValue: 'pic',
+    //         destinationType: 'url',
+    //         allowEdit: true,
+    //         quality: 50,
+    //         targetWidth: 130,
+    //         targetHeight: 130,
+    //         saveToPhotoAlbum: false
+    //     }, function(ret, err){
+    //      //  console.log(JSON.stringify(ret));
+    //         if(ret){
+    //             if (ret.data != null) {
+    //               cur_pic = ret.data;
+    //               uploadData();
+    //             }
 
-            }else{
-                 console.log(JSON.stringify(err));
-            }
-        });
+    //         }else{
+    //              console.log(JSON.stringify(err));
+    //         }
+    //     });
 
-    }
+    // }
+
+
+
 
     function uploadData() {
       api.showProgress({
@@ -554,21 +602,23 @@
 
     function onTelClick() {
       if (data.tel) {
-        api.openWin({
-            name: "auth_phone_win",
-            url: './cell-phone/auth_phone_win.html',
-            pageParam: {
-                phone: data.tel
-            }
-        });
+        rt.openPage('./cell-phone/auth_phone_frm.html',{data:data.tel});
+        // api.openWin({
+        //     name: "auth_phone_win",
+        //     url: './cell-phone/auth_phone_win.html',
+        //     pageParam: {
+        //         phone: data.tel
+        //     }
+        // });
       }else {
-        api.openWin({
-            name: "new_phone_win",
-            url: './cell-phone/new_phone_win.html',
-            pageParam: {
-              source: 0
-            }
-        });
+        rt.openPage('./cell-phone/new_phone_frm.html',{data:0});
+        // api.openWin({
+        //     name: "new_phone_win",
+        //     url: './cell-phone/new_phone_win.html',
+        //     pageParam: {
+        //       source: 0
+        //     }
+        // });
       }
 
 

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
+    <title>意见反馈</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <style>
           textarea{
             width: 90%;
@@ -40,12 +40,17 @@
 </div>
 <p><div class="aui-btn aui-btn-primary aui-btn-block" tapmode onclick="feedback()">确定</div></p>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
-    apiready = function(){
-        api.parseTapmode();
-    };
-
+    // apiready = function(){
+    //     api.parseTapmode();
+    // };
+var toast = new auiToast({});
     function feedback() {
       var feedback = $api.byId('feedback_t').value;
       if (feedback != null && feedback != '') {
@@ -53,59 +58,62 @@
         sendFeedBack(feedback);
       }else {
         //
-        api.toast({
-            msg: '反馈信息不能为空,请填写您的反馈意见',
-            duration: 2000,
-            location: 'bottom'
+        toast.fail({
+            title: '反馈信息不能为空,请填写您的反馈意见'
         });
       }
     }
 
     function sendFeedBack(value) {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '发送中...',
-          text: '感谢您的反馈...',
-          modal: true
-      });
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Member/feedback.html',
-          method: 'post',
-          data: {
-              values: {
-                  studentid: $api.getStorage("studentid"),
-                  studentname:$api.getStorage("studentname"),
-                  content:value
-              }
-          }
-      },function(ret, err){
-          api.hideProgress();
-          // console.log( JSON.stringify( ret ) );
-          if (ret) {
-            if (ret.status == 100) {
-              $api.byId('feedback_t').value = '';
-              api.toast({
-                  msg: ret.data,
-                  duration: 2000,
-                  location: 'bottom'
+      var parames = {
+                      studentid: $api.getStorage("studentid"),
+                      studentname:$api.getStorage("studentname"),
+                      content:value
+                    }
+      zhc.post('http://www.yxke12.com/index.php/App/Member/feedback.html',parames,function(data){
+        $api.byId('feedback_t').value = '';
+              toast.success({
+                  title: data
               });
-            }else {
-              api.toast({
-                  msg: "提交失败",
-                  duration: 2000,
-                  location: 'bottom'
-              });
-            }
-          } else {
-              // console.log( JSON.stringify( err ) );
-              api.toast({
-                  msg: JSON.stringify( err ),
-                  duration: 2000,
-                  location: 'bottom'
-              });
-          }
-      });
+      },null,true);
+
+      // api.ajax({
+      //     url: 'http://www.yxke12.com/index.php/App/Member/feedback.html',
+      //     method: 'post',
+      //     data: {
+      //         values: {
+      //             studentid: $api.getStorage("studentid"),
+      //             studentname:$api.getStorage("studentname"),
+      //             content:value
+      //         }
+      //     }
+      // },function(ret, err){
+      //     api.hideProgress();
+      //     // console.log( JSON.stringify( ret ) );
+      //     if (ret) {
+      //       if (ret.status == 100) {
+      //         $api.byId('feedback_t').value = '';
+      //         api.toast({
+      //             msg: ret.data,
+      //             duration: 2000,
+      //             location: 'bottom'
+      //         });
+      //       }else {
+      //         api.toast({
+      //             msg: "提交失败",
+      //             duration: 2000,
+      //             location: 'bottom'
+      //         });
+      //       }
+      //     } else {
+      //         // console.log( JSON.stringify( err ) );
+      //         api.toast({
+      //             msg: JSON.stringify( err ),
+      //             duration: 2000,
+      //             location: 'bottom'
+      //         });
+      //     }
+      // });
     }
 </script>
 </html>
