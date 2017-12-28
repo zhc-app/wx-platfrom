@@ -431,30 +431,15 @@ width: 80%;
 <script type="text/javascript" src="../../../script/doT.js"></script>
 <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+ <script type="text/javascript" src="../../../script/zhc-route.js"></script>
 <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
 var szc1 = doT.template(document.getElementById('szc').innerHTML);
+var toast = new auiToast({});
 function gaoKaoXinZheng() {
-  api.openWin({
-      name: 'gaoKaoXinXi_win',
-      url: '../zhiyuantianbao/gaoKaoXinXi_win.html',
-      pageParam: {
-          name: 'test'
-      }
-  });
-
-
+  rt.openParentPage('../zhiyuantianbao/gaoKaoXinXi_frm.html',{});
 }
-function diannao() {
-    api.openWin({
-        name: 'diannaochakan',
-        url: '../diannaochakan.html',
-        pageParam: {
-            name: 'test'
-        }
-    });
 
-}
     var video_dot;
     var videoList;
     window.onload = function(){
@@ -463,48 +448,12 @@ function diannao() {
 
     };
 
-    function xingXiangTest() {
-      api.openWin({
-          name: 'xingxiang_list_win',
-          url: '../xingxiang_list_win.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
 
-    }
-    function xuankezhinan() {
-      api.openWin({
-          name: 'moNiXuanKe_win',
-          url: '../moNiXuanKe_win.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
 
-    }
-    function simulateXuanke() {
-      api.openWin({
-          name: 'simulate_xuanke_list_win',
-          url: '../simulate_xuanke_list_win.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
-    }
 
-    function nextPage(url) {
-      api.openWin({
-          name: url,
-          url: './' + url + '.html',
-          pageParam: {
-              name: 'test'
-          }
-      });
-    }
 
     function getVideoList() {
-      var parames = {values:{}}
+      var parames = {}
       parames.studentid = $api.getStorage('studentid');
       zhc.post('http://www.yxke12.com/index.php/Apa/Default/hotzixun.html',
           parames,function(data) {
@@ -528,19 +477,26 @@ function diannao() {
       // }
       var url = "http://www.yxke12.com/Public/Home/images/video/" + videoList[index].videocsrc;
       if (videoList[index].videocsrc != null) {
-        api.openWin({
-            name: 'sp_list_win',
-            url: '../zhiyuantianbao/zhiyuantianbao/sp_list_win.html',
-            pageParam: {
-                url:url,
-                img:"http://www.yxke12.com/Public/Home/images/student/" + videoList[index].image
-            }
-        });
+        var uploadData = "";
+        uploadData = {
+                        url:url,
+                        img:"http://www.yxke12.com/Public/Home/images/student/" + videoList[index].image
+                      }
+        uploadData = $api.jsonToStr(uploadData);
+
+        rt.openParentPage('../zhiyuantianbao/zhiyuantianbao/sp_list_win.html',{pageParam:uploadData});
+
+        // api.openWin({
+        //     name: 'sp_list_win',
+        //     url: '../zhiyuantianbao/zhiyuantianbao/sp_list_win.html',
+        //     pageParam: {
+        //         url:url,
+        //         img:"http://www.yxke12.com/Public/Home/images/student/" + videoList[index].image
+        //     }
+        // });
       }else {
-        api.toast({
-            msg: '播放地址错误',
-            duration: 2000,
-            location: 'bottom'
+        toast.fail({
+            title: '播放地址错误'
         });
       }
     }
@@ -554,13 +510,14 @@ function diannao() {
         //   });
         //   return;
         // }
-        api.openWin({
-            name: 'dis_main_win',
-            url: '../zhiyuantianbao/discussion/dis_main_win.html',
-            pageParam: {
-                name: 'test'
-            }
-        });
+        rt.openParentPage('../zhiyuantianbao/discussion/dis_main_frm.html',{});
+        // api.openWin({
+        //     name: 'dis_main_win',
+        //     url: '../zhiyuantianbao/discussion/dis_main_win.html',
+        //     pageParam: {
+        //         name: 'test'
+        //     }
+        // });
 
     }
 </script>

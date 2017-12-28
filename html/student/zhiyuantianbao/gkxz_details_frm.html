@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
-      <script src="../../script/doT.js"></script>
+    <title>高考信息</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
+
 
     <style>
       .flex-con h2{
@@ -17,7 +17,7 @@
       }
       .flex-con p{
         text-indent: 1.5em;
-        font-size: 18px;
+        font-size: 16px;
       }
       span{
         display: block;
@@ -45,43 +45,57 @@
 
       </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
-    apiready = function(){
-        api.parseTapmode();
-        var id = api.pageParam.id;
+    window.onload = function(){
+        var toast = new auiToast({});
+        var uploadData = "";
+        var parames = {};
+        uploadData = rt.getPageParame("data");
+        uploadData = $api.strToJson(uploadData);
+        var id = uploadData.id;
+        var url = uploadData.url;
         // var evalText = doT.template(document.getElementById('evaluationtmpl1').innerHTML);
         // document.getElementById('main').innerHTML = evalText(data);
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
+        // api.showProgress({
+        //     style: 'default',
+        //     animationType: 'fade',
+        //     title: '努力加载中...',
+        //     text: '先喝杯茶...',
+        //     modal: true
+        // });
+      zhc.post(url,{id:id},function(data){
+        var evalText = doT.template(document.getElementById('evaluationtmpl1').innerHTML);
+        document.getElementById('main').innerHTML = evalText(data);
+      },null,true);
 
-        api.ajax({
-            url: api.pageParam.url,
-            method: 'post',
-            data: {
-                values: {
-                    id: id
-                }
-            }
-        },function(ret, err){
-          api.hideProgress();
-          console.log( JSON.stringify( ret ) );
-            if (ret) {
-              var evalText = doT.template(document.getElementById('evaluationtmpl1').innerHTML);
-              document.getElementById('main').innerHTML = evalText(ret.data);
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
+        // api.ajax({
+        //     url: api.pageParam.url,
+        //     method: 'post',
+        //     data: {
+        //         values: {
+        //             id: id
+        //         }
+        //     }
+        // },function(ret, err){
+        //   api.hideProgress();
+        //   console.log( JSON.stringify( ret ) );
+        //     if (ret) {
+        //       var evalText = doT.template(document.getElementById('evaluationtmpl1').innerHTML);
+        //       document.getElementById('main').innerHTML = evalText(ret.data);
+        //     } else {
+        //       api.toast({
+        //       msg: JSON.stringify(err.msg),
+        //       duration: 2000,
+        //       location: 'bottom'
+        //   });
+        //     }
+        // });
 
 
     };

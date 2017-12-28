@@ -5,14 +5,11 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/aui.css"/>
-    <link rel="stylesheet" type="text/css" href="../../css/z.css"/>
-    <script type="text/javascript" src="../../script/aui-tab.js"></script>
-    <script src="../../script/jquery-1.8.3.min.js"></script>
-    <script src="../../script/doT.js"></script>
-    <script src="../../script/demo.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../css/z.css"/>
+
     <style>
         .empty{ text-align: center; padding: 120px 0;}
         .top_img{
@@ -126,7 +123,7 @@
             text-align: center;
             line-height: 1.7rem;
             border-left: solid 1px #d3d3d3;
-            background: url(../../../image/on_1.png) no-repeat 85% center;
+            background: url(../../../../image/on_1.png) no-repeat 85% center;
         }
 
         .m-t-45{
@@ -149,7 +146,7 @@
           height: 23px;
          border-radius: 5px;
          border: solid 1px #6666ff;
-         background: url(../../image/41-8.png) no-repeat scroll 90% center transparent;
+         background: url(../../../image/41-8.png) no-repeat scroll 90% center transparent;
          background-size: 14px;
         }
         .zizhuzhaoshengkuan {
@@ -284,23 +281,32 @@
 <!-- list end -->
 </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/aui-tab.js"></script>
+  <script src="../../../script/demo.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
     var flag_arr = [1, 0, 0];
     var zixun_dot;
     var fanglue_dot;
     var jianzhang_dot;
     var province_dot;
-    var data;
+    var datas;
     var fangLueData = [];
     var jianzhangData = [];
     var provinceList = [];
-    apiready = function(){
-        api.parseTapmode();
-        data = JSON.parse(localStorage.data)
-        console.log(JSON.stringify(data));
+    window.onload = function(){
+      zhc.post('http://www.yxke12.com/index.php/App/Gaokaoxinxi/quanguozixun.html',{},function(data){
+        datas = data;
+
         zixun_dot = doT.template(document.getElementById('zixun_s').innerHTML);
         document.getElementById('zixun_ul').innerHTML = zixun_dot(data);
+      },null,true);
+        
     };
 
     var tab = new auiTab({
@@ -351,52 +357,61 @@
       }
       values.sheng = $api.getStorage('sheng');
 
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: true
-        });
 
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Gaokaoxinxi/difangzixun.html',
-            method: 'post',
-            data: {
-                values: values
-            }
-        },function(ret, err){
-          api.hideProgress();
-            if (ret) {
-              if (ret.status == 100) {
-                  // console.log( JSON.stringify( ret ) );
-                  // fangLueData = ret.data;
-                  // var zizhuzhaosheng = doT.template(document.getElementById('fanglue_s').innerHTML);
-                  // document.getElementById('fanglue_ul').innerHTML = zizhuzhaosheng(fangLueData);
+      zhc.post('http://www.yxke12.com/index.php/App/Gaokaoxinxi/difangzixun.html',values,function(data){
 
-                  fangLueData = ret.data.lists;
-                  if (fanglue_dot == null) {
-                    fanglue_dot = doT.template(document.getElementById('fanglue_s').innerHTML);
-                  }
-                  document.getElementById('fanglue_ul').innerHTML = fanglue_dot(fangLueData);
+        fangLueData = data.lists;
+        if (fanglue_dot == null) {
+          fanglue_dot = doT.template(document.getElementById('fanglue_s').innerHTML);
+        }
+        document.getElementById('fanglue_ul').innerHTML = fanglue_dot(fangLueData);
 
-                  provinceList = ret.data.province;
+        provinceList = data.province;
 
-                  if (province_dot == null) {
-                    province_dot = doT.template(document.getElementById('province_s').innerHTML);
-                    document.getElementById('province_sl').innerHTML = province_dot(provinceList);
-                  }
-                  api.parseTapmode();
+        if (province_dot == null) {
+          province_dot = doT.template(document.getElementById('province_s').innerHTML);
+          document.getElementById('province_sl').innerHTML = province_dot(provinceList);
+        }
+      },null,true);
 
-              }
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
+        // api.ajax({
+        //     url: 'http://www.yxke12.com/index.php/App/Gaokaoxinxi/difangzixun.html',
+        //     method: 'post',
+        //     data: {
+        //         values: values
+        //     }
+        // },function(ret, err){
+        //   api.hideProgress();
+        //     if (ret) {
+        //       if (ret.status == 100) {
+        //           // console.log( JSON.stringify( ret ) );
+        //           // fangLueData = ret.data;
+        //           // var zizhuzhaosheng = doT.template(document.getElementById('fanglue_s').innerHTML);
+        //           // document.getElementById('fanglue_ul').innerHTML = zizhuzhaosheng(fangLueData);
+
+        //           fangLueData = ret.data.lists;
+        //           if (fanglue_dot == null) {
+        //             fanglue_dot = doT.template(document.getElementById('fanglue_s').innerHTML);
+        //           }
+        //           document.getElementById('fanglue_ul').innerHTML = fanglue_dot(fangLueData);
+
+        //           provinceList = ret.data.province;
+
+        //           if (province_dot == null) {
+        //             province_dot = doT.template(document.getElementById('province_s').innerHTML);
+        //             document.getElementById('province_sl').innerHTML = province_dot(provinceList);
+        //           }
+        //           api.parseTapmode();
+
+        //       }
+        //     } else {
+        //       api.toast({
+        //       msg: JSON.stringify(err.msg),
+        //       duration: 2000,
+        //       location: 'bottom'
+        //   });
+        //     }
+        // });
     }
 
     // 初次打开招生简章
@@ -438,30 +453,45 @@
 
     // 资讯item 点击跳转详情界面
     function onZItemClick(index) {
-      var id = data[index].id;
-      api.openWin({
-          name: 'gkxz_details_win',
-          url: './gkxz_details_win.html',
-          pageParam: {
-              id: id,
-              url: "http://www.yxke12.com/index.php/App/Gaokaoxinxi/allinfos.html",
-              title:"全国资讯"
-          }
-      });
-    }
+      var id = datas[index].id;
+      var uploadData = {
+                        id: id,
+                        url: "http://www.yxke12.com/index.php/App/Gaokaoxinxi/allinfos.html",
+                        title:"全国资讯"
+                        }
+      uploadData = $api.jsonToStr(uploadData);
+       rt.openPage('./gkxz_details_frm.html',{data:uploadData});
+      }
+      // api.openWin({
+      //     name: 'gkxz_details_win',
+      //     url: './gkxz_details_win.html',
+      //     pageParam: {
+      //         id: id,
+      //         url: "http://www.yxke12.com/index.php/App/Gaokaoxinxi/allinfos.html",
+      //         title:"全国资讯"
+      //     }
+      // });
+    // }
 
     // 方略item 点击跳转详情界面
     function onFItemClick(index) {
       var id = fangLueData[index].id;
-      api.openWin({
-          name: 'gkxz_details_win',
-          url: './gkxz_details_win.html',
-          pageParam: {
-              id: id,
-              url: "http://www.yxke12.com/index.php/App/Gaokaoxinxi/provinceinfos.html",
-              title:"地方资讯"
-          }
-      });
+      var uploadData = {
+                        id: id,
+                        url: "http://www.yxke12.com/index.php/App/Gaokaoxinxi/provinceinfos.html",
+                        title:"地方资讯"
+                        }
+      uploadData = $api.jsonToStr(uploadData);
+       rt.openPage('./gkxz_details_frm.html',{data:uploadData});
+      // api.openWin({
+      //     name: 'gkxz_details_win',
+      //     url: './gkxz_details_win.html',
+      //     pageParam: {
+      //         id: id,
+      //         url: "http://www.yxke12.com/index.php/App/Gaokaoxinxi/provinceinfos.html",
+      //         title:"地方资讯"
+      //     }
+      // });
     }
 
     function onJItemClick(index) {
