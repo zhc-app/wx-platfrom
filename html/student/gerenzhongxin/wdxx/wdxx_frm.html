@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>我的学习</title>
     <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
@@ -174,11 +174,11 @@
          text-align: center;
          line-height: 1.99rem;
          border-left: solid 1px #d3d3d3;
-         background: url(../../image/on_1.png) no-repeat 85% center;
+         background: url(../../../../image/on_1.png) no-repeat 85% center;
       }
 
       .jiantou{
-         background: url(../../../image/on_1.png) no-repeat 85% center!important;
+         background: url(../../../../image/on_1.png) no-repeat 85% center!important;
       }
 
       .grade-w-roll {
@@ -320,7 +320,7 @@
 
       <div id="kb" >
         <div class="bull">
-            <img src="../../../image/bull.png" alt="">
+            <img src="../../../../image/bull.png" alt="">
         </div>
         <!-- <table style="margin-top:50px;width:100%;text-align:center">
           <tr>
@@ -371,7 +371,7 @@
 
 
       <div id="jh" style="display:none;margin-top:2.5rem;">
-        <img src="../../../image/cjjh.png" class="mid_img2 fabiao" alt="" tapmode onclick="Hplan()">
+        <img src="../../../../image/cjjh.png" class="mid_img2 fabiao" alt="" tapmode onclick="Hplan()">
         <div class="aui-content aui-margin-b-15" style="width: 95%;margin: auto;border-radius: 4px;">
             <ul class="aui-list" id="myPlan_list" >
               <script id="myPlan_script" type="text/x-dot-template">
@@ -386,10 +386,10 @@
                                         </div>
                                         <div class="aui-info" style="padding-top:0">
                                            <div class="aui-info-item" style="padding-top:0.4rem">
-                                               <img src="../../../image/zhouqi.png" style="width:0.5rem;height:0.45rem" class="aui-img-round" /><span class="aui-margin-l-5 zsj">周期：{{=it[i].starttime}}至{{=it[i].endtime}}</span>
+                                               <img src="../../../../image/zhouqi.png" style="width:0.5rem;height:0.45rem" class="aui-img-round" /><span class="aui-margin-l-5 zsj">周期：{{=it[i].starttime}}至{{=it[i].endtime}}</span>
                                            </div>
                                            <div class="aui-info-item" style="padding-top:0.4rem">
-                                              <img src="../../../image/cjss.png" style="width:0.5rem;height:0.45rem" class="aui-img-round" /><span class="aui-margin-l-5 zsj">{{=it[i].time}}</span>
+                                              <img src="../../../../image/cjss.png" style="width:0.5rem;height:0.45rem" class="aui-img-round" /><span class="aui-margin-l-5 zsj">{{=it[i].time}}</span>
                                            </div>
                                         </div>
                                           <div class="flex-wrap right-btns">
@@ -485,7 +485,7 @@
 
       <div id="cj" style="display:none">
         <div class="bull">
-            <img src="../../../image/bull.png" alt="">
+            <img src="../../../../image/bull.png" alt="">
         </div>
         <!-- <section class="aui-content-padded">
             <ul class="aui-list aui-collapse aui-border">
@@ -543,6 +543,7 @@
 <script type="text/javascript" src="../../../../script/aui-tab.js"></script>
 <script type="text/javascript" src="../../../../script/doT.js"></script>
 <script type="text/javascript" src="../../../../script/aui-list-swipe.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
 <script src="../../../../script/jquery-1.11.1.min.js"></script>
 <script src="../../../../script/demo.js"></script>
 <script src="../../../../script/network.js"></script>
@@ -551,14 +552,14 @@
 <script type="text/javascript">
     var listHD = doT.template(document.getElementById('tuijianzc').innerHTML);
     window.onload = function() {
-        var swipe = new auiListSwipe(function(ret){
-            // console.log(ret)
-        });
+        // var swipe = new auiListSwipe(function(ret){
+        //     // console.log(ret)
+        // });
 
     };
-    var collapse = new auiCollapse({
-        autoHide:false //是否自动隐藏已经展开的容器
-    });
+    // var collapse = new auiCollapse({
+    //     autoHide:false //是否自动隐藏已经展开的容器
+    // });
 
 
     var tab = new auiTab({
@@ -591,8 +592,8 @@
     });
 
     function first() {
-      var parames = {values:{}}
-      parames.values.studentid=$api.getStorage('studentid');
+      var parames = {}
+      parames.studentid=$api.getStorage('studentid');
       zhc.post('http://www.yxke12.com/index.php/App/Member/wodebiji.html',parames,function(data) {
       document.getElementById('ceshi_id').innerHTML = listHD(data);
       },null,true)
@@ -604,9 +605,9 @@
       document.getElementById('yincang1').className = 'Sort-eject Sort-height'
     }
     function quanbuxianshi(){
-      var parames = {values:{}}
+      var parames = {}
         document.getElementById("quanbu1").className = "quanbu"
-        parames.values.studentid=$api.getStorage('studentid');
+        parames.studentid=$api.getStorage('studentid');
         zhc.post('http://www.yxke12.com/index.php/App/Member/wodebiji.html',parames,function(data) {
         document.getElementById('ceshi_id').innerHTML = listHD(data);
         },null,true)
@@ -616,18 +617,18 @@
 
      //js点击事件监听开始
     function grade1(wbj,e){
-      var parames = {values:{}}
-      document.getElementById("quanbu1").className = "quanbubianse"
-      $api.byId('shudu').innerHTML = wbj.innerHTML;
+        var parames = {values:{}}
+        document.getElementById("quanbu1").className = "quanbubianse"
+        $api.byId('shudu').innerHTML = wbj.innerHTML;
         e.cancelBubble =true
-       var arr = document.getElementById("gradew").getElementsByTagName("li");
+        var arr = document.getElementById("gradew").getElementsByTagName("li");
         for (var i = 0; i < arr.length; i++){
             var a = arr[i];
             a.style.background = "";
         };
         wbj.style.background = "#eee"
-        parames.values.studentid=$api.getStorage('studentid');
-        parames.values.nianji=$api.byId('shudu').innerHTML;
+        parames.studentid = $api.getStorage('studentid');
+        parames.nianji = $api.byId('shudu').innerHTML;
         zhc.post('http://www.yxke12.com/index.php/App/Member/wodebiji.html',parames,function(data) {
         document.getElementById('ceshi_id').innerHTML = listHD(data);
         },null,true)
@@ -635,183 +636,159 @@
     }
 
 
-     function Sorts(sbj,e){
-       var parames = {values:{}}
-       e.cancelBubble =true
-       document.getElementById("quanbu1").className = "quanbubianse"
-         $api.byId('xuelicengci').innerHTML = sbj.innerHTML;
+    function Sorts(sbj,e){
+        var parames = {}
+        e.cancelBubble = true;
+        document.getElementById("quanbu1").className = "quanbubianse"
+        $api.byId('xuelicengci').innerHTML = sbj.innerHTML;
         var arr = document.getElementById("Sort-Sort").getElementsByTagName("li");
         for (var i = 0; i < arr.length; i++){
             var a = arr[i];
             a.style.borderBottom = "";
         };
         sbj.style.borderBottom = "solid 1px #ff7c08"
-        parames.values.studentid=$api.getStorage('studentid');
-        parames.values.nianji=$api.byId('shudu').innerHTML;
-        parames.values.kemu=$api.byId('xuelicengci').innerHTML;
+        parames.studentid=$api.getStorage('studentid');
+        parames.nianji=$api.byId('shudu').innerHTML;
+        parames.kemu=$api.byId('xuelicengci').innerHTML;
         zhc.post('http://www.yxke12.com/index.php/App/Member/wodebiji.html',parames,function(data) {
-        document.getElementById('ceshi_id').innerHTML = listHD(data);
+            document.getElementById('ceshi_id').innerHTML = listHD(data);
         },null,true)
         yincang(event)
     }
 
-
-
     function onItemClick(kid,img) {
-        api.openWin({
-            name: 'kecheng_win',
-            url: '../../chengjitisheng/youketang/kecheng_win.html',
-            pageParam: {
+        rt.openPage("../../chengjitisheng/youketang/kecheng_frm.html", {
                 kid: kid,
                 img: img,
                 url:'http://www.yxke12.com/index.php/App/Youketang/seevideo.html',
                 paixu:1
-            }
-        });
-
+            });
     }
 
 
     // 我的计划
     var myPlan_dot = doT.template(document.getElementById('myPlan_script').innerHTML);
     function myPlan() {
-        api.parseTapmode();
-        var parames = {values:{}}
-        parames.values.studentid = $api.getStorage('studentid');
+        var parames = {}
+        parames.studentid = $api.getStorage('studentid');
         zhc.post('http://www.yxke12.com/index.php/App/Member/planlist.html',parames,function(data) {
         document.getElementById('myPlan_list').innerHTML = myPlan_dot(data);
-        iniRightBtns( 'ul li' );
         },null,true)
 
     }
 
 
-// 删除
-function dele(id,e) {
-  e.cancelBubble = true;
-  var parames = {values:{}}
-  parames.values.id = id;
-  zhc.post('http://www.yxke12.com/index.php/App/Member/delplan.html',parames,function(data) {
-  myPlan()
-    iniRightBtns( 'ul li' );
-  },null,true)
-}
-
-//详情
-function particulars(id) {
-  api.openWin({
-      name: 'PlanParticulars',
-      url: './PlanParticulars.html',
-      pageParam: {
-          id: id
-      }
-  });
-
-}
-
-    function Hplan() {
-      api.openWin({
-          name: 'ActivityPlan_win',
-          url: './ActivityPlan_win.html',
-          pageParam: {
-              title: '创建计划'
-          }
-      });
-
+    // 删除
+    function dele(id,e) {
+      e.cancelBubble = true;
+      var parames = {}
+      parames.id = id;
+      zhc.post('http://www.yxke12.com/index.php/App/Member/delplan.html',
+        parames, function(data) {
+          myPlan()
+      },null,true)
     }
 
+    //详情
+    function particulars(id) {
+      rt.openPage("./PlanParticulars.html", {id: id});
+    }
 
+    function Hplan() {
+      rt.openPage("./ActivityPlan_win.html", {title: '创建计划'});
+    }
 
     function iniRightBtns( selector ){
-            var eLi = $api.domAll( selector ),
-                clientX = 0,
-                hasLeft = false;
-                for( var x in eLi ){
-                    if( eLi[x] instanceof Element ){
-                        eLi[x].addEventListener('touchstart', handleTouchEvent, false);
-                        eLi[x].addEventListener('touchmove', handleTouchEvent, false);
-                        eLi[x].addEventListener('touchend', handleTouchEvent, false);
-                    }
-                }
+        var eLi = $api.domAll( selector ),
+            clientX = 0,
+            hasLeft = false;
 
-            function handleTouchEvent(event) {
-                //只跟踪一次触摸
-                if (event.touches.length <= 1) {
-                    switch (event.type) {
-                        case 'touchstart':
-                            $api.addCls( $api.dom('body'), 'overflow');
-                            clientX = event.changedTouches[0].clientX;
-                            if( this.offsetLeft < 0 ){
-                                hasLeft = true;
-                            }else{
-                                hasLeft = false;
+        for( var x in eLi ){
+            if( eLi[x] instanceof Element ){
+                eLi[x].addEventListener('touchstart', handleTouchEvent, false);
+                eLi[x].addEventListener('touchmove', handleTouchEvent, false);
+                eLi[x].addEventListener('touchend', handleTouchEvent, false);
+            }
+        }
+
+        function handleTouchEvent(event) {
+            //只跟踪一次触摸
+            if (event.touches.length <= 1) {
+                switch (event.type) {
+                    case 'touchstart':
+                        $api.addCls( $api.dom('body'), 'overflow');
+                        clientX = event.changedTouches[0].clientX;
+                        if( this.offsetLeft < 0 ){
+                            hasLeft = true;
+                        }else{
+                            hasLeft = false;
+                        }
+                        var eLeft = $api.domAll( selector + '.animation');
+                        if( eLeft.length ){
+                            for( var x in eLeft ){
+                                if( eLeft[x] instanceof Element ){
+                                    $api.removeCls( eLeft[x], 'animation');
+                                    $api.removeCls( eLeft[x], 'left');
+                                }
                             }
-                            var eLeft = $api.domAll( selector + '.animation');
+                        }
+                        break;
+                    case 'touchend':
+                        $api.removeCls( $api.dom('body'), 'overflow');
+                        var current = this;
+                        if( Math.abs( this.offsetLeft ) <= this.querySelector('.right-btns').offsetWidth / 2 ){
+                            $api.addCls( current, 'animation');
+                            current.style.left =  0;
+                            setTimeout(function(){
+                                $api.removeCls( current, 'animation');
+                                $api.removeCls( current, 'left');
+                            },300);
+                        }else{
+                            var eLeft = $api.domAll( selector +'.left' );
                                 if( eLeft.length ){
                                     for( var x in eLeft ){
                                         if( eLeft[x] instanceof Element ){
-                                            $api.removeCls( eLeft[x], 'animation');
-                                            $api.removeCls( eLeft[x], 'left');
-                                        }
-                                    }
-                                }
-                            break;
-                        case 'touchend':
-                            $api.removeCls( $api.dom('body'), 'overflow');
-                            var current = this;
-                            if( Math.abs( this.offsetLeft ) <= this.querySelector('.right-btns').offsetWidth / 2 ){
-                                $api.addCls( current, 'animation');
-                                current.style.left =  0;
-                                setTimeout(function(){
-                                    $api.removeCls( current, 'animation');
-                                    $api.removeCls( current, 'left');
-                                },300);
-                            }else{
-                                var eLeft = $api.domAll( selector +'.left' );
-                                    if( eLeft.length ){
-                                        for( var x in eLeft ){
-                                            if( eLeft[x] instanceof Element ){
-                                                if( current != eLeft[x] ){
-                                                    $api.addCls( eLeft[x], 'animation');
-                                                    eLeft[x].style.left =  0;
-                                                }
+                                            if( current != eLeft[x] ){
+                                                $api.addCls( eLeft[x], 'animation');
+                                                eLeft[x].style.left =  0;
                                             }
                                         }
                                     }
-                                $api.addCls( current, 'animation');
-                                $api.addCls( current, 'left');
-                                current.style.left =  - current.querySelector('.right-btns').offsetWidth + 'px';
-                                setTimeout(function(){
-                                    $api.removeCls( current, 'animation');
-                                },300);
-                            }
-                            break;
-                        case 'touchmove':
-                            // event.preventDefault(); //阻止滚动
-                            var x = event.changedTouches[0].clientX - clientX;
-                            console.log( hasLeft )
-                            if( hasLeft ){
-                                if( x >= this.querySelector('.right-btns').offsetWidth ){
-                                    this.style.left = '0';
-                                }else{
-                                    if( x < 0  ){
-                                        this.style.left =  - this.querySelector('.right-btns').offsetWidth + 'px';
-                                    }else{
-                                        this.style.left =  - ( this.querySelector('.right-btns').offsetWidth - x ) + 'px';
-                                    }
                                 }
+                            $api.addCls( current, 'animation');
+                            $api.addCls( current, 'left');
+                            current.style.left =  - current.querySelector('.right-btns').offsetWidth + 'px';
+                            setTimeout(function(){
+                                $api.removeCls( current, 'animation');
+                            },300);
+                        }
+                        break;
+                    case 'touchmove':
+                        // event.preventDefault(); //阻止滚动
+                        var x = event.changedTouches[0].clientX - clientX;
+                        console.log( hasLeft )
+                        if( hasLeft ){
+                            if( x >= this.querySelector('.right-btns').offsetWidth ){
+                                this.style.left = '0';
                             }else{
-                                if( x > 0 ){
-                                    this.style.left = '0';
+                                if( x < 0  ){
+                                    this.style.left =  - this.querySelector('.right-btns').offsetWidth + 'px';
                                 }else{
-                                    if( x <= - this.querySelector('.right-btns').offsetWidth ){
-                                        this.style.left =  - this.querySelector('.right-btns').offsetWidth + 'px';
-                                    }else{
-                                        this.style.left =  x + 'px';
-                                    }
+                                    this.style.left =  - ( this.querySelector('.right-btns').offsetWidth - x ) + 'px';
                                 }
                             }
-                            break;
+                        }else{
+                            if( x > 0 ){
+                                this.style.left = '0';
+                            }else{
+                                if( x <= - this.querySelector('.right-btns').offsetWidth ){
+                                    this.style.left =  - this.querySelector('.right-btns').offsetWidth + 'px';
+                                }else{
+                                    this.style.left =  x + 'px';
+                                }
+                            }
+                        }
+                        break;
                     }
                 }
             }

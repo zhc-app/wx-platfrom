@@ -129,9 +129,9 @@
     };
 
     function finishClick() {
-      if (pwd.value.length < 8) {
+      if (pwd.value.length < 6) {
           toast.fail({
-              title: '密码长度至少为8位',
+              title: '密码长度至少为6位',
               duration: 2000,
           });
           return;
@@ -160,8 +160,7 @@
       parames.studentid = sid;
       parames.password = _pwd;
       parames.rpassword = _r_pwd;
-      zhc.post("http://www.yxke12.com/index.php/App/Student/modifyoldmima.html",
-          parames,function(data) {
+      zhc.post("http://www.yxke12.com/index.php/App/Student/modifyoldmima.html", parames,function(data) {
             toast.success({
                 title: data,
                 duration: 2000,

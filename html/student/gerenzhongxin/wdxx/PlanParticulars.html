@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
     <style>
         header {
             background-color: #fff!important;
@@ -88,7 +88,7 @@
     </style>
 </head>
 <header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
-    <a class="aui-pull-left aui-btn" tapmode onclick='api.closeWin();'>
+    <a class="aui-pull-left aui-btn" tapmode onclick='onBackClick()'>
         <span class="aui-iconfont aui-icon-left left_btn_c_b"></span>
     </a>
     <div id="title" class="aui-title" style="color:#333">计划详细</div>
@@ -105,7 +105,7 @@
       <script id="planS" type="text/x-dot-template">
         <h3>{{=it.name}}</h3>
         <div class="aui-list-item-label planDate">
-            <img src="../../../image/time.png" class="planImg " alt="">发表于: {{=it.time}}
+            <img src="../../../../image/time.png" class="planImg " alt="">发表于: {{=it.time}}
         </div>
         <p>
           {{=it.content}}
@@ -144,47 +144,37 @@
       </script>
     </div>
 </body>
-<script type="text/javascript" src="../../../script/api.js"></script>
-<script type="text/javascript" src="../../../script/network.js"></script>
-<script type="text/javascript" src="../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
 <script type="text/javascript">
     var UIMediaScanner;
     var path1 = [];
-    var one, two;
-
-    apiready = function() {
-        api.parseTapmode();
-        $api.fixStatusBar($api.byId('aui-header'));
+    window.onload = function() {
         planParticulars()
-
-
     };
 
-
-
-
-  var planS = doT.template(document.getElementById('planS').innerHTML);
+    var planS = doT.template(document.getElementById('planS').innerHTML);
     function planParticulars() {
-
-        var parames = {
-            values: {}
-        }
-        parames.values.id = api.pageParam.id;
+        var parames = {};
+        parames.id = rt.getPageParame("id");
         zhc.post('http://www.yxke12.com/index.php/App/Member/plandetail.html', parames, function(data) {
         document.getElementById('planP').innerHTML = planS(data);
         }, null, true)
     }
 
     function planModification() {
-      api.openWin({
-          name: 'ActivityPlan_win',
-          url: './ActivityPlan_win.html',
-          pageParam: {
-              title: '修改计划',
-              id:api.pageParam.id
-          }
-      });
+        rt.openPage("./ActivityPlan_win.html", {
+            title: '修改计划',
+            id: rt.getPageParame("id")
+        })
+    }
 
+    function onBackClick() {
+        rt.closePage();
     }
 </script>
 
