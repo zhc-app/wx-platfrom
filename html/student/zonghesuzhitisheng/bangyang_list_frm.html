@@ -256,10 +256,20 @@
 
 
   function gaokaoXZXQ3(index) {
-    api.openWin({
-        name: 'bangyangxiangqing_win',
-        url: './bangyangxiangqing_win.html',
-        pageParam: {
+    // api.openWin({
+    //     name: 'bangyangxiangqing_win',
+    //     url: './bangyangxiangqing_win.html',
+    //     pageParam: {
+    //       data: xldlList[index].id,
+    //       url: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/xinli_detail.html",
+    //       faurl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/addcomment.html",
+    //       hurl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/reply.html",
+    //       hqurl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/getreply.html",
+    //       durl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/dianzan.html",
+    //       title:xldlList[index].name
+    //     }
+    // });
+    var uploadData = {
           data: xldlList[index].id,
           url: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/xinli_detail.html",
           faurl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/addcomment.html",
@@ -267,8 +277,10 @@
           hqurl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/getreply.html",
           durl: "http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/dianzan.html",
           title:xldlList[index].name
-        }
-    });
+        };
+   
+    uploadData = $api.jsonToStr(uploadData);
+      rt.openPage('./bangyangxiangqing_frm.html',{data:uploadData});
 }
 
 
