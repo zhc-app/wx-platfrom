@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <title>专业排名</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
     <style>
       .aui-collapse-header.aui-active {
           background: white;
@@ -50,14 +50,15 @@
       </section>
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/aui-tab.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
 <script type="text/javascript">
     var data = [];
     var benke_second;
-    apiready = function() {
-        api.parseTapmode();
+    window.onload = function() {
+        document.title = rt.getPageParame("title");
         switchSecond(JSON.parse(localStorage.third));
     };
 
@@ -70,13 +71,7 @@
     }
 
     function onItemClick(index) {
-      api.openWin({
-          name: 'major_rank_details_win',
-          url: './major_rank_details_win.html',
-          pageParam: {
-              name: data[index]
-          }
-      });
+      rt.openPage("./major_rank_details_frm.html", {name: data[index]})
     }
 
 </script>

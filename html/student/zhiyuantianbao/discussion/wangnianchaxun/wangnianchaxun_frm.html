@@ -5,15 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/z.css" />
-    <script type="text/javascript" src="../../../../script/aui-tab.js"></script>
-    <script src="../../../../script/jquery-1.8.3.min.js"></script>
-    <script src="../../../../script/doT.js"></script>
-    <script src="../../../../script/demo.js"></script>
+    <title>往年录取查询</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/z.css" />
+    <script type="text/javascript" src="../../../../../script/aui-tab.js"></script>
+    <script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+    <script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+    <script type="text/javascript" src="../../../../../script/network.js"></script>
+    <script src="../../../../../script/doT.js"></script>
+    <script src="../../../../../script/demo.js"></script>
     <style>
         .wenzi {
             font-family: 'PingFang-SC';
@@ -159,40 +162,46 @@
         <div class="aui-content aui-margin-b-15" style="margin-top:2rem" id="wccx">
             <ul class="aui-list aui-form-list">
               <div id="pchnf">
-                <script id="pcnf" type="text/x-dot-template">
+
                   <li class="aui-list-item">
+
                       <div class="aui-list-item-inner">
                           <div class="aui-list-item-label titleC">
                               报考年份：
                           </div>
-                          <div class="aui-list-item-input">
-                              <select id="nf">
+                          <div class="aui-list-item-input" id="rank_year_d">
+                            <script id="rank_year_s" type="text/x-dot-template">
+                              <select id="nf" onchange="onRankYear(this.value)">
                                <option value="1" style="color: #b6b6b6" disabled selected>请选择</option>
-                              {{for (var i = 0; i < it.date.length; i++) {}}
-                                <option>{{=it.date[i]}}</option>
+                              {{for (var i = 0; i < it.length; i++) {}}
+                                <option>{{=it[i]}}</option>
                               {{}}}
-
                               </select>
+                            </script>
                           </div>
                       </div>
+
                   </li>
+
                   <li class="aui-list-item">
                       <div class="aui-list-item-inner">
                           <div class="aui-list-item-label titleC">
                               报考批次：
                           </div>
-                          <div class="aui-list-item-input">
+                          <div class="aui-list-item-input" id="rank_batch_d">
+                            <script id="rank_batch_s" type="text/x-dot-template">
                               <select id="pc">
                                   <option value="1" style="color: #b6b6b6" disabled selected>请选择</option>
                                   {{for (var i = 0; i < it.pici.length; i++) {}}
-                                    <option>{{=it.pici[i]}}</option>
+                                    <option>{{=it.pici[i].name}}</option>
                                   {{}}}
 
                               </select>
+                            </script>
                           </div>
                       </div>
                   </li>
-                  </script>
+
               </div>
 
                 <li class="aui-list-item">
@@ -217,19 +226,21 @@
         <div class="aui-content aui-margin-b-15" style="margin-top:2rem;display:none" id="fscx">
             <ul class="aui-list aui-form-list">
               <div id="afscx">
-                <script id="fscxD" type="text/x-dot-template">
+
                         <li class="aui-list-item">
                             <div class="aui-list-item-inner">
                                 <div class="aui-list-item-label titleC">
                                     报考年份：
                                 </div>
-                                <div class="aui-list-item-input">
-                                    <select id="fscxnf">
-                                        <option value="1" style="color: #b6b6b6" disabled selected>请选择</option>
-                                        {{for (var i = 0; i < it.date.length; i++) {}}
-                                          <option>{{=it.date[i]}}</option>
-                                        {{}}}
-                                    </select>
+                                <div class="aui-list-item-input" id="score_year_d">
+                                    <script id="score_year_s" type="text/x-dot-template">
+                                      <select id="fscxnf" onchange="onScoreYear(this.value)">
+                                          <option value="1" style="color: #b6b6b6" disabled selected>请选择</option>
+                                          {{for (var i = 0; i < it.length; i++) {}}
+                                            <option>{{=it[i]}}</option>
+                                          {{}}}
+                                      </select>
+                                    </script>
                                 </div>
                             </div>
                         </li>
@@ -238,17 +249,19 @@
                                 <div class="aui-list-item-label titleC">
                                     报考批次：
                                 </div>
-                                <div class="aui-list-item-input">
+                                <div class="aui-list-item-input" id="score_batch_d">
+                                  <script id="score_batch_s" type="text/x-dot-template">
                                     <select id="fscxpc">
                                           <option value="1" style="color: #b6b6b6" disabled selected>请选择</option>
                                           {{for (var i = 0; i < it.pici.length; i++) {}}
-                                            <option>{{=it.pici[i]}}</option>
+                                            <option>{{=it.pici[i].name}}</option>
                                           {{}}}
                                     </select>
+                                  </script>
                                 </div>
                             </div>
                         </li>
-                </script>
+
               </div>
 
                 <li class="aui-list-item">
@@ -272,19 +285,21 @@
 
         <div class="aui-content aui-margin-b-15" style="margin-top:2rem;display:none" id="zycx">
             <ul class="aui-list aui-form-list" id="zhuanyechaxun">
-              <script id="zhuanye" type="text/x-dot-template">
+
                 <li class="aui-list-item">
                     <div class="aui-list-item-inner">
                         <div class="aui-list-item-label titleC">
                             报考年份：
                         </div>
-                        <div class="aui-list-item-input">
-                            <select id="zynf">
+                        <div class="aui-list-item-input" id="major_year_d">
+                          <script id="major_year_s" type="text/x-dot-template">
+                            <select id="zynf" onchange="onMajorYear(this.value)">
                               <option value="1" style="color: #b6b6b6" disabled selected>请选择</option>
-                              {{for (var i = 0; i < it.date.length; i++) {}}
-                                <option>{{=it.date[i]}}</option>
+                              {{for (var i = 0; i < it.length; i++) {}}
+                                <option>{{=it[i]}}</option>
                               {{}}}
                             </select>
+                          </script>
                         </div>
                     </div>
                 </li>
@@ -293,13 +308,15 @@
                         <div class="aui-list-item-label titleC">
                             报考批次：
                         </div>
-                        <div class="aui-list-item-input">
+                        <div class="aui-list-item-input" id="major_batch_d">
+                          <script id="major_batch_s" type="text/x-dot-template">
                             <select id="zypc">
                               <option value="1" style="color: #b6b6b6" disabled selected>请选择</option>
                               {{for (var i = 0; i < it.pici.length; i++) {}}
-                                <option>{{=it.pici[i]}}</option>
+                                <option>{{=it.pici[i].name}}</option>
                               {{}}}
                             </select>
+                          </script>
                         </div>
                     </div>
                 </li>
@@ -313,7 +330,7 @@
                         </div>
                     </div>
                 </li>
-              </script>
+
             </ul>
             <div class="aui-content-padded">
                 <div class="aui-btn aui-btn-block aui-btn-sm cx" tapmode onclick="chaxun(3)">查询</div>
@@ -323,19 +340,21 @@
 
         <div class="aui-content aui-margin-b-15" style="margin-top:2rem;display:none" id="xxcx">
             <ul class="aui-list aui-form-list" id="daxuechaxun">
-              <script id="dxcx" type="text/x-dot-template">
+
                 <li class="aui-list-item">
                     <div class="aui-list-item-inner">
                         <div class="aui-list-item-label titleC">
                             报考年份：
                         </div>
-                        <div class="aui-list-item-input">
-                            <select id="dxnf">
+                        <div class="aui-list-item-input" id="univ_year_d">
+                          <script id="univ_year_s" type="text/x-dot-template">
+                            <select id="dxnf" onchange="onUnivYear(this.value)">
                               <option value="1" style="color: #b6b6b6" disabled selected>请选择</option>
-                              {{for (var i = 0; i < it.date.length; i++) {}}
-                                <option>{{=it.date[i]}}</option>
+                              {{for (var i = 0; i < it.length; i++) {}}
+                                <option>{{=it[i]}}</option>
                               {{}}}
                             </select>
+                          </script>
                         </div>
                     </div>
                 </li>
@@ -344,13 +363,15 @@
                         <div class="aui-list-item-label titleC">
                             报考批次：
                         </div>
-                        <div class="aui-list-item-input">
+                        <div class="aui-list-item-input" id="univ_batch_d">
+                          <script id="univ_batch_s" type="text/x-dot-template">
                             <select id="dxpc">
                               <option value="1" style="color: #b6b6b6" disabled selected>请选择</option>
                               {{for (var i = 0; i < it.pici.length; i++) {}}
-                                <option>{{=it.pici[i]}}</option>
+                                <option>{{=it.pici[i].name}}</option>
                               {{}}}
                             </select>
+                          </script>
                         </div>
                     </div>
                 </li>
@@ -364,7 +385,7 @@
                         </div>
                     </div>
                 </li>
-              </script>
+
             </ul>
             <div class="aui-content-padded">
                 <div class="aui-btn aui-btn-block aui-btn-sm cx" tapmode onclick="chaxun(4)">查询</div>
@@ -374,17 +395,25 @@
 
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
-var pcnf1 = doT.template(document.getElementById('pcnf').innerHTML);
-var fscx1 = doT.template(document.getElementById('fscxD').innerHTML);
-var zhuanye1 = doT.template(document.getElementById('zhuanye').innerHTML);
-var dxcx1 = doT.template(document.getElementById('dxcx').innerHTML);
-    apiready = function() {
-      api.parseTapmode();
-      nianfenpici(1)
+var yearList = [];
+var rank_year_dot = doT.template(document.getElementById('rank_year_s').innerHTML);
+var rank_batch_dot = doT.template(document.getElementById('rank_batch_s').innerHTML);
+
+var score_year_dot = doT.template(document.getElementById('score_year_s').innerHTML);
+var score_batch_dot = doT.template(document.getElementById('score_batch_s').innerHTML);
+
+var major_year_dot = doT.template(document.getElementById('major_year_s').innerHTML);
+var major_batch_dot = doT.template(document.getElementById('major_batch_s').innerHTML);
+
+var univ_year_dot = doT.template(document.getElementById('univ_year_s').innerHTML);
+var univ_batch_dot = doT.template(document.getElementById('univ_batch_s').innerHTML);
+var toast = new auiToast();
+
+    window.onload = function() {
+      getYearList();
     };
 
     var bar = document.querySelectorAll(".aui-bar-btn");
@@ -400,26 +429,25 @@ var dxcx1 = doT.template(document.getElementById('dxcx').innerHTML);
                     $api.byId('fscx').style.display = 'none';
                     $api.byId('zycx').style.display = 'none';
                     $api.byId('xxcx').style.display = 'none';
-                    nianfenpici(1)
-
+                    document.getElementById('rank_year_d').innerHTML = rank_year_dot(yearList);
                 } else if (ret.index == 2) {
                     $api.byId('wccx').style.display = 'none';
                     $api.byId('fscx').style.display = 'block';
                     $api.byId('zycx').style.display = 'none';
                     $api.byId('xxcx').style.display = 'none';
-                    nianfenpici(2)
+                    document.getElementById('score_year_d').innerHTML = score_year_dot(yearList);
                 } else if (ret.index == 3) {
                     $api.byId('wccx').style.display = 'none';
                     $api.byId('fscx').style.display = 'none';
                     $api.byId('zycx').style.display = 'block';
                     $api.byId('xxcx').style.display = 'none';
-                    nianfenpici(3)
+                    document.getElementById('major_year_d').innerHTML = major_year_dot(yearList);
                 } else {
                     $api.byId('wccx').style.display = 'none';
                     $api.byId('fscx').style.display = 'none';
                     $api.byId('zycx').style.display = 'none';
                     $api.byId('xxcx').style.display = 'block';
-                    nianfenpici(4)
+                    document.getElementById('univ_year_d').innerHTML = univ_year_dot(yearList);
                 }
 
             });
@@ -427,21 +455,48 @@ var dxcx1 = doT.template(document.getElementById('dxcx').innerHTML);
         }
     }
 
-
-    function nianfenpici(index) {
-      var parames = {values:{}}
+    /*
+        获取年份信息
+    */
+    function getYearList() {
+      var parames = {}
+      parames.studentid = $api.getStorage('studentid');
+      parames.ctype = $api.getStorage('type');
+      parames.year = 2016
       zhc.post('http://www.yxke12.com/index.php/App/Zhiyuantianbao/wangnianluquyap.html',
           parames,function(data) {
-            // console.log(JSON.stringify(data));
-            api.refreshHeaderLoadDone();
+            yearList = data.date;
+            document.getElementById('rank_year_d').innerHTML = rank_year_dot(yearList);
+          },null, true);
+    }
+
+    function getYearByIndex(_index) {
+        if (_index == 1) {
+            return ($api.byId('nf') == null || $api.byId('nf').value == 1) ? 2016 : $api.byId('nf').value;
+        }else if (_index == 2) {
+            return ($api.byId('fscxnf') == null || $api.byId('fscxnf').value == 1) ? 2016 : $api.byId('fscxnf').value;
+        }else if (_index == 3) {
+            return ($api.byId('zynf') == null || $api.byId('zynf').value == 1) ? 2016 : $api.byId('zynf').value;
+        }else if (_index == 4) {
+            return ($api.byId('dxnf') == null || $api.byId('dxnf').value == 1) ? 2016 : $api.byId('dxnf').value;
+        }
+    }
+
+    function nianfenpici(index) {
+      var parames = {}
+      parames.studentid = $api.getStorage('studentid');
+      parames.ctype = $api.getStorage('type');
+      parames.year = getYearByIndex(index);
+      zhc.post('http://www.yxke12.com/index.php/App/Zhiyuantianbao/wangnianluquyap.html',
+          parames,function(data) {
             if (index == 1) {
-              document.getElementById('pchnf').innerHTML = pcnf1(data);
+              document.getElementById('rank_batch_d').innerHTML = rank_batch_dot(data);
             }else if (index == 2) {
-              document.getElementById('afscx').innerHTML = fscx1(data);
+              document.getElementById('score_batch_d').innerHTML = score_batch_dot(data);
             }else if (index == 3) {
-              document.getElementById('zhuanyechaxun').innerHTML = zhuanye1(data);
+              document.getElementById('major_batch_d').innerHTML = major_batch_dot(data);
             }else if (index == 4) {
-              document.getElementById('daxuechaxun').innerHTML = dxcx1(data);
+              document.getElementById('univ_batch_d').innerHTML = univ_batch_dot(data);
             }
 
           },null, true);
@@ -449,7 +504,7 @@ var dxcx1 = doT.template(document.getElementById('dxcx').innerHTML);
 
     function chaxun(index) {
       if (index == 1 ) {
-        var parames = {values:{}}
+        var parames = {}
         if ($api.byId('nf').value == 1) {
           alert("请选择年份！")
           return;
@@ -462,35 +517,23 @@ var dxcx1 = doT.template(document.getElementById('dxcx').innerHTML);
           alert("请正确填写分数范围！")
           return;
         }else {
-          parames.values.type = $api.getStorage('type');
-          parames.values.year = $api.byId('nf').value;
-          parames.values.pici = $api.byId('pc').value;
-          parames.values.maxInp = $api.byId('xiaofen').value;
-          parames.values.minInp = $api.byId('dafen').value;
-          parames.values.provinceid = $api.getStorage('provinceid');
-          parames.values.studentid = $api.getStorage('studentid');
-          console.log(JSON.stringify(parames));
+          parames.type = $api.getStorage('type');
+          parames.year = $api.byId('nf').value;
+          parames.pici = $api.byId('pc').value;
+          parames.maxInp = $api.byId('xiaofen').value;
+          parames.minInp = $api.byId('dafen').value;
+          parames.provinceid = $api.getStorage('provinceid');
+          parames.studentid = $api.getStorage('studentid');
           zhc.post('http://www.yxke12.com/index.php/App/Zhiyuantianbao/wangnianluquweici.html',
               parames,function(data) {
-                localStorage.data = JSON.stringify(data)
-                console.log(JSON.stringify(data));
-                api.refreshHeaderLoadDone();
+                localStorage.data = $api.jsonToStr(data);
                 if (data == null) {
-                  api.toast({
-                      msg: "未查询到相关位次",
+                  toast.fail({
+                      title: "未查询到相关位次",
                       duration: 2000,
-                      location: 'bottom'
                   });
                 }else {
-                  api.openWin({
-                      name: 'chaxunjieguo_win',
-                      url: './chaxunjieguo_win.html',
-                      pageParam: {
-                          // data: data,
-                          title:"位次查询"
-                      }
-                  });
-
+                    rt.openPage("./chaxunjieguo_frm.html", {title:"位次查询"})
                 }
               },null, true);
         }
@@ -508,34 +551,23 @@ var dxcx1 = doT.template(document.getElementById('dxcx').innerHTML);
           alert("请正确填写分数范围！")
           return;
         }else {
-          parames.values.type = $api.getStorage('type');
-          parames.values.year = $api.byId('fscxnf').value;
-          parames.values.pici = $api.byId('fscxpc').value;
-          parames.values.maxInp = $api.byId('fscxxf').value;
-          parames.values.minInp = $api.byId('fscxdf').value;
-          parames.values.provinceid = $api.getStorage('provinceid');
-          // parames.values.studentid = $api.getStorage('studentid');
+          parames.type = $api.getStorage('type');
+          parames.year = $api.byId('fscxnf').value;
+          parames.pici = $api.byId('fscxpc').value;
+          parames.maxInp = $api.byId('fscxxf').value;
+          parames.minInp = $api.byId('fscxdf').value;
+          parames.provinceid = $api.getStorage('provinceid');
+          // parames.studentid = $api.getStorage('studentid');
           zhc.post('http://www.yxke12.com/index.php/App/Zhiyuantianbao/wangnianluqufenshu.html',
               parames,function(data) {
-                localStorage.data = JSON.stringify(data)
-                console.log(JSON.stringify(data));
-                api.refreshHeaderLoadDone();
+                localStorage.data = $api.jsonToStr(data);
                 if (data == null) {
-                  api.toast({
-                      msg: "未查询到相关位次",
-                      duration: 2000,
-                      location: 'bottom'
+                  toast.fail({
+                      title: "未查询到相关位次",
+                      duration: 2000
                   });
                 }else {
-                  api.openWin({
-                      name: 'chaxunjieguo_win',
-                      url: './chaxunjieguo_win.html',
-                      pageParam: {
-                          // data: data,
-                          title:"分数查询"
-                      }
-                  });
-
+                    rt.openPage("./chaxunjieguo_frm.html", {title:"分数查询"})
                 }
               },null, true);
         }
@@ -553,33 +585,22 @@ var dxcx1 = doT.template(document.getElementById('dxcx').innerHTML);
           alert("请填写专业！")
           return;
         }else {
-          parames.values.type = $api.getStorage('type');
-          parames.values.year = $api.byId('zynf').value;
-          parames.values.pici = $api.byId('zypc').value;
-          parames.values.majorname = $api.byId('zy').value;
-          parames.values.provinceid = $api.getStorage('provinceid');
-          // parames.values.studentid = $api.getStorage('studentid');
+          parames.type = $api.getStorage('type');
+          parames.year = $api.byId('zynf').value;
+          parames.pici = $api.byId('zypc').value;
+          parames.majorname = $api.byId('zy').value;
+          parames.provinceid = $api.getStorage('provinceid');
+          // parames.studentid = $api.getStorage('studentid');
           zhc.post('http://www.yxke12.com/index.php/App/Zhiyuantianbao/wangnianluquzhuanye.html',
               parames,function(data) {
-                localStorage.data = JSON.stringify(data)
-                console.log(JSON.stringify(data));
-                api.refreshHeaderLoadDone();
+                localStorage.data = $api.jsonToStr(data);
                 if (data == null) {
-                  api.toast({
-                      msg: "未查询到相关位次",
-                      duration: 2000,
-                      location: 'bottom'
+                  toast.fail({
+                      title: "未查询到相关位次",
+                      duration: 2000
                   });
                 }else {
-                  api.openWin({
-                      name: 'zhuanyechaxun_win',
-                      url: './zhuanyechaxun_win.html',
-                      pageParam: {
-                          // data: data,
-                          title:"专业查询"
-                      }
-                  });
-
+                    rt.openPage("./zhuanyechaxun_frm.html", {title:"专业查询"})
                 }
               },null, true);
         }
@@ -598,40 +619,44 @@ var dxcx1 = doT.template(document.getElementById('dxcx').innerHTML);
           alert("请填写专业！")
           return;
         }else {
-          parames.values.type = $api.getStorage('type');
-          parames.values.year = $api.byId('dxnf').value;
-          parames.values.pici = $api.byId('dxpc').value;
-          parames.values.schoolname = $api.byId('dx').value;
-          parames.values.provinceid = $api.getStorage('provinceid');
-          // parames.values.studentid = $api.getStorage('studentid');
+          parames.type = $api.getStorage('type');
+          parames.year = $api.byId('dxnf').value;
+          parames.pici = $api.byId('dxpc').value;
+          parames.schoolname = $api.byId('dx').value;
+          parames.provinceid = $api.getStorage('provinceid');
+          // parames.studentid = $api.getStorage('studentid');
           zhc.post('http://www.yxke12.com/index.php/App/Zhiyuantianbao/wangnianluquyuanxiao.html',
               parames,function(data) {
-                localStorage.data = JSON.stringify(data)
-                console.log(JSON.stringify(data));
-                api.refreshHeaderLoadDone();
+                localStorage.data = $api.jsonToStr(data);
                 if (data == null) {
-                  api.toast({
-                      msg: "未查询到相关位次",
+                  toast.fail({
+                      title: "未查询到相关位次",
                       duration: 2000,
-                      location: 'bottom'
                   });
                 }else {
-                  api.openWin({
-                      name: 'daxuechaxun_win',
-                      url: './daxuechaxun_win.html',
-                      pageParam: {
-                          // data: data,
-                          title:"大学查询"
-                      }
-                  });
-
+                    rt.openPage('./daxuechaxun_frm.html', {title:"大学查询"});
                 }
               },null, true);
         }
       }
     }
 
-    
+    function onRankYear(value) {
+        nianfenpici(1);
+    }
+
+    function onScoreYear(value) {
+        nianfenpici(2);
+    }
+
+    function onMajorYear(value) {
+        nianfenpici(3)
+    }
+
+    function onUnivYear(value) {
+        nianfenpici(4);
+    }
+
 </script>
 
 </html>

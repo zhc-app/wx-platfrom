@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <title>专业排名</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
     <style>
       .aui-collapse-header.aui-active {
           background: white;
@@ -79,97 +79,53 @@
       </section>
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/aui-tab.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
     var benkeFirstList = [];
     var zhuankeFirstList = [];
-    apiready = function() {
-        api.parseTapmode();
+    var zhuanke_first_dot = null;
+    var benke_first_dot = null;
+    window.onload = function() {
+        zhuanke_first_dot = doT.template(document.getElementById('zhuanke_first_s').innerHTML);
+        benke_first_dot = doT.template(document.getElementById('benke_first_s').innerHTML);
         benKeFirst();
-
     };
 
     function zhuankeFirst() {
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Zhuanyeku/zhuanke.html',
-          method: 'post',
-          data: {
-              values: {
-
-              },
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-              zhuankeFirstList = ret.data.one;
-              console.log(JSON.stringify(ret));
+      var parames = {}
+      zhc.post('http://www.yxke12.com/index.php/App/Zhuanyeku/zhuanke.html',
+          parames,function(_data) {
+              zhuankeFirstList = _data.one;
               document.getElementById('zhuanke_first_ul').innerHTML =
-              doT.template(document.getElementById('zhuanke_first_s').innerHTML)(zhuankeFirstList);
-              api.parseTapmode();
-          } else {
-            api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-          }
-      });
+              zhuanke_first_dot(zhuankeFirstList);
+          },null, true);
     }
 
     function benKeFirst() {
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: '努力加载中...',
-            text: '先喝杯茶...',
-            modal: false
-        });
-
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Zhuanyeku/benke.html',
-            method: 'post',
-            data: {
-                values: {
-
-                },
-            }
-        },function(ret, err){
-          api.hideProgress();
-            if (ret) {
-                benkeFirstList = ret.data.one;
-                // console.log(JSON.stringify(benkeFirstList));
+        var parames = {}
+        zhc.post('http://www.yxke12.com/index.php/App/Zhuanyeku/benke.html',
+            parames,function(_data) {
+                benkeFirstList = _data.one;
                 document.getElementById('benke_first_ul').innerHTML =
-                doT.template(document.getElementById('benke_first_s').innerHTML)(benkeFirstList);
-                api.parseTapmode();
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
+                benke_first_dot(benkeFirstList);
+            },null, true);        
     }
 
     function zSwitchSecond(index) {
-      api.openWin({
-          name: 'major_rank_second_win',
-          url: './major_rank_second_win.html',
-          pageParam: {
-              category: zhuankeFirstList[index].main_category_id,
-          }
+      rt.openPage("./major_rank_second_frm.html", {
+          category: zhuankeFirstList[index].main_category_id,
       });
     }
 
     function switchSecond(index) {
-      api.openWin({
-          name: 'major_rank_second_win',
-          url: './major_rank_second_win.html',
-          pageParam: {
-              category: benkeFirstList[index].main_category_id
-          }
+      rt.openPage("./major_rank_second_frm.html", {
+          category: benkeFirstList[index].main_category_id,
       });
     }
 

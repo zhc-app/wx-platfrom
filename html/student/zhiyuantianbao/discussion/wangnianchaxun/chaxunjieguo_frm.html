@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../../css/z.css"/>
-    <script type="text/javascript" src="../../../../script/aui-tab.js"></script>
-    <script src="../../../../script/jquery-1.8.3.min.js"></script>
-    <script src="../../../../script/doT.js"></script>
-    <script src="../../../../script/demo.js"></script>
+    <title>查询结果</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/z.css"/>
+    <script type="text/javascript" src="../../../../../script/aui-tab.js"></script>
+    <script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+    <script src="../../../../../script/demo.js"></script>
     <style>
         .empty{ text-align: center; padding: 120px 0;}
         .top_img{
@@ -322,15 +321,16 @@
 
 
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
 var esi1 = doT.template(document.getElementById('esi').innerHTML);
 var wushu1 = doT.template(document.getElementById('wushu').innerHTML);
 var xiaoyouhui1 = doT.template(document.getElementById('xiaoyouhui').innerHTML);
-    apiready = function(){
-      api.parseTapmode();
+    window.onload = function(){
       document.getElementById('esipaiming').innerHTML = esi1(JSON.parse(localStorage.data));
     };
 
@@ -374,11 +374,9 @@ var xiaoyouhui1 = doT.template(document.getElementById('xiaoyouhui').innerHTML);
 
 function paiming(type) {
   var parames = {values:{}}
-  parames.values.type = type
+  parames.type = type
   zhc.post('http://www.yxke12.com/index.php/App/Zhiyuantianbao/daxuepaiming.html',
       parames,function(data) {
-        // console.log(JSON.stringify(data));
-        api.refreshHeaderLoadDone();
         if (type == "esi") {
           document.getElementById('esipaiming').innerHTML = esi1(data);
         }else if (type == "wushu") {
@@ -392,22 +390,11 @@ function paiming(type) {
 }
 function xuexiaoname(name) {
   var parames = {values:{}}
-  parames.values.name = name
+  parames.name = name
   zhc.post('http://www.yxke12.com/index.php/App/Yuanxiaoku/infos.html',
       parames,function(data) {
-        // console.log(JSON.stringify(data));
-        api.refreshHeaderLoadDone();
-        api.openWin({
-            name: 'school_storage_details_win',
-            url: '../../../shengyaguihua/school_storage_details_win.html',
-            pageParam: {
-                title: name
-            }
-        });
-
-
+        rt.openPage('../../../shengyaguihua/school-storage/school_storage_details_frm.html',{title: name});
       },null, true);
-
 }
 
 </script>

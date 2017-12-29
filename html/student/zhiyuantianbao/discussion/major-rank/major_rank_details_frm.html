@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <title>专业排名</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
     <style>
       .top_tip{
         height: 44px;
@@ -83,18 +83,22 @@
       </table>
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
 var zhuanye1 = doT.template(document.getElementById('zhuanye').innerHTML);
-    apiready = function() {
-      var parames = {values:{}}
-      parames.values.major = api.pageParam.name
+    window.onload = function() {
+      document.title = rt.getPageParame("name");
+      var parames = {}
+      parames.major = rt.getPageParame("name");
+      console.log(parames)
       zhc.post('http://www.yxke12.com/index.php/App/Zhiyuantianbao/zhuanyepaiming.html',
           parames,function(data) {
-            // console.log(JSON.stringify(data));
-            api.refreshHeaderLoadDone();
+            console.log(data)
               document.getElementById('zy').innerHTML = zhuanye1(data);
           },null, true);
     };

@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/demo.css" />
+    <title>分段排名</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/demo.css" />
     <style>
     div.screening>ul {
         height: 40px;
@@ -34,7 +34,7 @@
         position: absolute;
         right: 10px;
         top:10px;
-        background: url("../../../../image/on_1.png") no-repeat 100% center;
+        background: url("../../../../../image/on_1.png") no-repeat 100% center;
         transition: 0.5s;
         background-position-x: 50%;
     }
@@ -208,17 +208,19 @@
     </div>
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
-<script type="text/javascript" src="../../../../script/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
     var selected_subject,hot_div;
     var cur_subject;
     var section_dot, filter_dot;
     var filterData = [];
     var flag = 0;
-    apiready = function() {
+    window.onload = function() {
       selected_subject = $api.byId('selected_subject');
       hot_div = $api.byId('hot_div');
       section_dot = doT.template(document.getElementById('section_s').innerHTML);
@@ -228,11 +230,11 @@
     };
 
     function getDataList(year) {
-      var parames = {values:{}}
-      parames.values.type = $api.getStorage("type");
-      parames.values.provinceid = $api.getStorage("provinceid");
+      var parames = {}
+      parames.type = $api.getStorage("type");
+      parames.provinceid = $api.getStorage("provinceid");
       if (year) {
-        parames.values.year = year;
+        parames.year = year;
       }
       zhc.post('http://www.yxke12.com/index.php/App/Zhiyuantianbao/fenduanpaiming.html',
           parames,function(data) {

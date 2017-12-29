@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/demo.css" />
+    <title>学科排名</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/demo.css" />
     <style>
     div.screening>ul {
         height: 40px;
@@ -34,7 +34,7 @@
         position: absolute;
         right: 10px;
         top:10px;
-        background: url("../../../../image/on_1.png") no-repeat 100% center;
+        background: url("../../../../../image/on_1.png") no-repeat 100% center;
         transition: 0.5s;
         background-position-x: 50%;
     }
@@ -211,10 +211,12 @@
     </div>
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
-<script type="text/javascript" src="../../../../script/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
     var selected_subject,hot_div;
     var cur_subject;
@@ -222,7 +224,7 @@
 
     var filterData=[];
 
-    apiready = function() {
+    window.onload = function() {
       selected_subject = $api.byId('selected_subject');
       hot_div = $api.byId('hot_div');
       filter_dot = doT.template(document.getElementById('filter_s').innerHTML);
@@ -239,7 +241,7 @@
     }
 
     function getFilterData() {
-      var parames = {values:{}}
+      var parames = {}
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/xuekepaiming.html",
           parames,function(data) {
             filterData = data.list;
@@ -251,7 +253,7 @@
 
     function getDataList(filter){
       var parames = {values:{}}
-      parames.values.subject = filter;
+      parames.subject = filter;
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/xuekecon.html",
           parames,function(data) {
             selected_subject.innerHTML = filter;
