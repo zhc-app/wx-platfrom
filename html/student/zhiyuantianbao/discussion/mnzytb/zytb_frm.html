@@ -6,14 +6,14 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/z.css" />
-    <script type="text/javascript" src="../../../../script/aui-tab.js"></script>
-    <script src="../../../../script/jquery-1.8.3.min.js"></script>
-    <script src="../../../../script/doT.js"></script>
-    <script src="../../../../script/demo.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/z.css" />
+    <script type="text/javascript" src="../../../../../script/aui-tab.js"></script>
+    <script src="../../../../../script/jquery-1.8.3.min.js"></script>
+    <script src="../../../../../script/doT.js"></script>
+    <script src="../../../../../script/demo.js"></script>
     <style>
         .bg-white{
           background-color: white !important;
@@ -301,7 +301,7 @@
     <div id="main" class="flex-con ">
         <div class="con">
           <div style="width:80%;margin:auto">
-            <img src="../../../../image/tishi.png" alt="" class="ti">
+            <img src="../../../../../image/tishi.png" alt="" class="ti">
             <span class="tishi">提示：您可以根据自己的成绩，选择填报批次线低于您的总分的批次</span>
           </div>
         </div>
@@ -366,7 +366,7 @@
                               <div class="yuanzi">{{=it.sort[i]}}</div>
                             </div>
                               <div style="display:inline-block">
-                                <img class="jia" src="../../../../image/jiaxuexiao.png" alt="">
+                                <img class="jia" src="../../../../../image/jiaxuexiao.png" alt="">
                                 <div class="jiaxuex">
                                   添加学校
                                 </div>
@@ -415,7 +415,7 @@
                                   </div>
                                   <div class="fgx"></div>
                                   <div style="display:inline-block;position: absolute;top: 3.2rem;" tapmode onclick="xuanzhuanye({{=i}})">
-                                    <img class="jia" src="../../../../image/jiaxuexiao.png" alt="">
+                                    <img class="jia" src="../../../../../image/jiaxuexiao.png" alt="">
                                     <div class="jiaxuex">
                                       添加专业
                                     </div>
@@ -436,10 +436,13 @@
 
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
-<script type="text/javascript" src="../../../../script/tools.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/tools.js"></script>
 
 <script type="text/javascript">
     var sort = ["A", "B","C", "D","E", "F","G",
@@ -461,16 +464,19 @@
 
     var source = 0;
     var my_data = {};
+    var g_rank = null;
+    var g_score = null;
+    window.onload = function() {
+        g_rank = rt.getPageParame("rank");
+        g_score = rt.getPageParame("score");
 
-
-    apiready = function() {
         na = $api.byId('name_id');
         rank = $api.byId('rank_id');
         score = $api.byId('score_id');
         na.innerHTML = $api.getStorage('studentname') + "/" + $api.getStorage('sheng');
-        rank.innerHTML = api.pageParam.rank+"名";
-        score.innerHTML = api.pageParam.score+"分";
-        source = api.pageParam.source;
+        rank.innerHTML = g_rank+"名";
+        score.innerHTML = g_score+"分";
+        source = rt.getPageParame("source");
         batch_dot = doT.template(document.getElementById('batch_s').innerHTML);
         school_dot = doT.template(document.getElementById('school_s').innerHTML);
         my_data = $api.strToJson(localStorage.m_my_data);
@@ -480,7 +486,7 @@
             data.info = my_data.zu;
             document.getElementById('batch_ul').innerHTML = batch_dot(data);
             batch_index = my_data.batch.index;
-            planid = api.pageParam.planid;
+            planid = rt.getPageParame("planid");
             flag = false;
             var arr = document.getElementById("batch_ul").getElementsByClassName("batch");
             var remark = document.getElementById("batch_ul").getElementsByTagName("li");
@@ -582,11 +588,11 @@
     }
 
     function getData(){
-      var parames = {values:{}};
-      parames.values.type = $api.getStorage('type');
-      parames.values.provinceid = $api.getStorage('provinceid');
-      parames.values.score = api.pageParam.score;
-      parames.values.rank = api.pageParam.rank;
+      var parames = {};
+      parames.type = $api.getStorage('type');
+      parames.provinceid = $api.getStorage('provinceid');
+      parames.score = g_score;
+      parames.rank = g_rank;
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/tianbaopici.html",
           parames,function(_data) {
             data = _data;
@@ -604,13 +610,13 @@
     }
 
     function createCloudVolun(index) {
-        var parames = {values:{}};
-        parames.values.studentid = $api.getStorage('studentid');
-        parames.values.type = $api.getStorage('type');
-        parames.values.provinceid = $api.getStorage('provinceid');
-        parames.values.score = api.pageParam.score;
-        parames.values.rank = api.pageParam.rank;
-        parames.values.batchid = data.info[index].id;
+        var parames = {};
+        parames.studentid = $api.getStorage('studentid');
+        parames.type = $api.getStorage('type');
+        parames.provinceid = $api.getStorage('provinceid');
+        parames.score = g_score;
+        parames.rank = g_rank;
+        parames.batchid = data.info[index].id;
         zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/saveplan.html",
             parames,function(_data) {
               planid = _data.planid;
@@ -661,16 +667,7 @@
 
     function onSelectSchool(index) {
       sort_index = index;
-      api.openWin({
-          name: 'select_university_win',
-          url: './select_university_win.html',
-          pageParam: {
-              // data: total_data.data[index],
-              score: api.pageParam.score,
-              rank: api.pageParam.rank,
-              batchid:batchid
-          }
-      });
+      rt.openPage("./select_university_win.html", {score: g_score, rank: g_rank, batchid:batchid})
     }
 
     function xuanzhuanye(index) {
@@ -686,11 +683,11 @@
               major_num: data.info[batch_index].major_num,
               batchid: batchid,
               planid: planid,
-              score: api.pageParam.score,
+              score: g_score,
               // major_data: major_data,
               obey: total_data.data[sort_index].obey,
               source: source,
-              rank: api.pageParam.rank,
+              rank: g_rank,
               univ_name: total_data.data[sort_index].univ_name,
           }
       });
@@ -710,8 +707,6 @@
           o.plan = sortData.major_plan[k]
           major_data.push(o)
         }
-
-
     }
 
     function winBackResult() {
@@ -758,7 +753,7 @@
     }
 
     function save() {
-      var parames = {values:{}};
+      var parames = {};
       var data = [];
       for (var i = 0; i < total_data.data.length; i++) {
         if(total_data.data[i].major.length != 0){
@@ -769,8 +764,8 @@
           data.push(obj);
         }
       }
-      parames.values.data = $api.jsonToStr(data);
-      parames.values.planid = planid;
+      parames.data = $api.jsonToStr(data);
+      parames.planid = planid;
       console.log("source: " + source + " data: " + JSON.stringify(parames));
       var url = "";
       if (source == 1) {

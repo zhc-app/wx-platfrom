@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
     <style>
     table{
       margin: 0px auto;
@@ -157,20 +157,27 @@
       </ul>
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-dialog.js"></script>
+
 <script type="text/javascript">
     var vol_dot;
     var data = [];
-    apiready = function() {
+    var dialog = new auiDialog({});
+    var toast = new auiToast({});
+    window.onload = function() {
         vol_dot = doT.template(document.getElementById('vol_s').innerHTML);
         getVoluntData();
     };
 
     function getVoluntData() {
-      var parames = {values:{}}
-      parames.values.studentid = $api.getStorage('studentid');
+      var parames = {}
+      parames.studentid = $api.getStorage('studentid');
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/zhiyuanbiao.html",
           parames,function(_data) {
             // console.log(JSON.stringify(_data));
@@ -197,59 +204,50 @@
     }
 
     function onDelItem(_index) {
-      api.confirm({
-          title: '提示',
-          msg: '确定删除该条填报记录？',
-          buttons: ['确定', '取消']
-      }, function(ret, err) {
-          var index = ret.buttonIndex;
-          if (index == 1) {
-            var parames = {values:{}}
-            parames.values.planid = data[_index].id;
-            zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/delpici.html",
-                parames,function(_data) {
-                  if (_data == "yes") {
-                    data.splice(_index, 1);
-                    document.getElementById('vol_ul').innerHTML = vol_dot(data);
-                    api.execScript({
-                        name: 'my_volunt_list_win',
-                        script: 'restEdite();'
-                    });
-
-                    api.toast({
-                        msg: '删除成功',
-                        duration: 2000,
-                        location: 'bottom'
-                    });
-                  }
-                },null, true);
-          }
-      });
-
+        dialog.alert({
+            title:"提示",
+            msg:'确定删除该条填报记录？',
+            buttons:['取消','确定']
+        },function(ret){
+            if(ret){
+                var index = ret.buttonIndex;
+                console.log(index)
+                if (index == 2) {
+                  var parames = {}
+                  parames.planid = data[_index].id;
+                  zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/delpici.html",
+                      parames,function(_data) {
+                        console.log(_data)
+                        if (_data == "yes") {
+                          data.splice(_index, 1);
+                          document.getElementById('vol_ul').innerHTML = vol_dot(data);
+                          rt.execParentFun("restEdite", {})
+                          toast.success({
+                              title: '删除成功',
+                              duration: 2000,
+                          });
+                        }
+                      },null, true);
+                }
+            }
+        })
     }
 
     function onItemClick(index) {
       var d = data[index];
       var parames = {values:{}}
-      parames.values.batchid = d.batchid;
-      parames.values.planid = d.id;
-      parames.values.type = $api.getStorage("type");
-      parames.values.provinceid = $api.getStorage("provinceid");
+      parames.batchid = d.batchid;
+      parames.planid = d.id;
+      parames.type = $api.getStorage("type");
+      parames.provinceid = $api.getStorage("provinceid");
       // console.log(JSON.stringify(parames));
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/showzhiyuan.html",
           parames,function(_data) {
             localStorage.m_my_data = $api.jsonToStr(_data);
-            api.openWin({
-                name: 'zytb_win',
-                url: '../mnzytb/zytb_win.html',
-                pageParam: {
-                    data: _data,
-                    rank: _data.rank,
+            rt.openParentPage("../mnzytb/zytb_win.html", {rank: _data.rank,
                     score: _data.score,
                     source: 1,
-                    planid: d.id
-                }
-            });
+                    planid: d.id});
           },null, true);
     }
 </script>

@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
     <style>
       .con {
           width: 100%;
@@ -131,7 +131,7 @@
     <div class="flex-wrap flex-vertical">
       <div class="con">
         <div style="width:80%;margin:auto">
-          <!-- <img src="../../../../image/tishi.png" alt=""> -->
+          <!-- <img src="../../../../../image/tishi.png" alt=""> -->
           <span class="tishi">根据你的成绩和排名，智能推荐适合你的学校</span>
         </div>
       </div>
@@ -196,28 +196,42 @@
       </ul>
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
     var school_dot;
     var data_list = [];
-    apiready = function() {
+    var g_rank, g_score, g_batchid = null;
+    window.onload = function() {
+      g_rank = rt.getPageParame("rank");
+      g_score = rt.getPageParame("score");
       na.innerHTML = "考生信息：" + $api.getStorage('studentname') + "/" + $api.getStorage('sheng');
-      rank.innerHTML = "高考排名：" + api.pageParam.rank+"名";
-      score.innerHTML = "高考总分：" + api.pageParam.score+"分";
+      rank.innerHTML = "高考排名：" + g_rank+"名";
+      score.innerHTML = "高考总分：" + g_score+"分";
       school_dot = doT.template(document.getElementById('school_s').innerHTML);
       getUniversityData();
+
+          window.onpopstate = function(event) {
+          if (event.state.page === 'state1') {
+            // parent.WeixinJSBridge.call('closeWindow');
+            console.log('dddddddddddddddddddddddddddd')
+          }
+        }
     };
 
     function getUniversityData() {
-      var parames = {values:{}};
-      parames.values.type = $api.getStorage('type');
-      parames.values.provinceid = $api.getStorage('provinceid');
-      parames.values.score = api.pageParam.score;
-      parames.values.lowrank = api.pageParam.rank;
-      parames.values.batchid = api.pageParam.batchid;
-      zhc.post("http://192.168.1.247/index.php/App/Zhiyuantianbao/selectschool.html",
+      var parames = {};
+      parames.type = $api.getStorage('type');
+      parames.provinceid = $api.getStorage('provinceid');
+      parames.score = g_score;
+      parames.lowrank = g_rank;
+      parames.batchid = g_batchid;
+      zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/selectschool.html",
           parames,function(_data) {
             // console.log(JSON.stringify(_data));
             data_list = _data.result;
@@ -227,13 +241,14 @@
 
     function onItemClick(index) {
         localStorage.univ_data = $api.jsonToStr(data_list[index]);
+        // rt.execParentFun("")
 
-        api.execScript({
-            name: 'zytb_win',
-            frameName: 'zytb_frm',
-            script: 'winBackResult();'
-        });
-        api.closeWin();
+        // api.execScript({
+        //     name: 'zytb_win',
+        //     frameName: 'zytb_frm',
+        //     script: 'winBackResult();'
+        // });
+        // api.closeWin();
     }
 </script>
 
