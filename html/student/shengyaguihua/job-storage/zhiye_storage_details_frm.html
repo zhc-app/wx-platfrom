@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>职业详情</title>
     <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
@@ -34,7 +34,7 @@
 
         .part_c{
             background-color: white;
-            margin-top: 50px;
+            margin-top: 96px;
         }
 
         .title_panel{
@@ -49,13 +49,55 @@
           width: 90%;
         }
 
+         header {
+            background-color: #f2f2f2;
+        }
+
+        header ul li {
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            display: none;
+            color: #323237;
+            position: relative;
+            font-size: 18px;
+        }
+
+        header ul li.active {
+            display: block;
+        }
+
+        .aui-bar-mystyle {
+            color: #333333;
+            font-family: "PingFang-SC";
+            background-color: #ffffff;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .left_btn_c_b {
+            color: #a1a1a1!important;
+        }
+
+        #aui-header>img {
+          position: absolute;
+          top: 15px;
+          right: 20px;
+        }
+
     </style>
 </head>
 
 <body>
+    <header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
+        <a class="aui-pull-left aui-btn" tapmode onclick='rt.closePage();'>
+            <span class="aui-iconfont aui-icon-left left_btn_c_b"></span>
+        </a>
+        <div id="title" class="aui-title"></div>
+        <img id="shoucang" src="../../../../../../image/shoucang.png" style="height:16px;width:18px;">
+    </header>
     <div id="details_div" class="flex-wrap flex-vertical">
         <script id="details_s" type="text/x-dot-template">
-      <div class="aui-tab" id="tab" style="width:100%;color:#6666ff;position:fixed;z-index:2;">
+      <div class="aui-tab" id="tab" style="width:100%;color:#6666ff;position:fixed;z-index:2;margin-top: 46px;">
           <div class="aui-tab-item aui-active">专业概述</div>
           <div class="aui-tab-item">从业资格</div>
           {{if(it.lists[4] == null && it.lists[5] == null){}}
@@ -170,6 +212,7 @@
 </body>
 <script type="text/javascript" src="../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../../../script/echart.js"></script>
 <script type="text/javascript" src="../../../../script/doT.js"></script>
 <script type="text/javascript" src="../../../../script/zhc-route.js"></script>
 <script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
@@ -177,6 +220,10 @@
 <script type="text/javascript" src="../../../../script/network.js"></script>
 <script type="text/javascript">
     var zhiyeDetails;
+
+    var studentid = $api.getStorage("studentid");
+    var job_id = "";
+
     window.onload = function() {
         getDetailsData(rt.getPageParame("name"));
     };
@@ -185,8 +232,17 @@
     function getDetailsData(_name) {
       var params = {};
       params.name = _name;
+      params.studentid = studentid;
+
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyeku/infos.html", params, function(_data) {
           var data = _data;
+          console.log(data);
+          if (data.collect_data==null) {
+             $("#shoucang").attr("src","../../../../../../image/shoucang.png");
+            }else {
+              $("#shoucang").attr("src","../../../../../../image/shoucang_select.png");
+            }
+          job_id = data.content.id;
               if (zhiyeDetails == null) {
                 zhiyeDetails = doT.template(document.getElementById('details_s').innerHTML);
               }
@@ -210,6 +266,21 @@
               });
       }, null, true);
     }
+
+      $("#shoucang").click(function(event) {
+        var _this = $(this);
+        event.stopPropagation();
+        zhc.post('http://www.yxke12.com/index.php/App/Professional/setJobCollect.html',{job_id:job_id,studentid:studentid},function(data){
+          console.log(data);
+          if (data.type == "关注") {
+            console.log(111);
+            _this.attr("src","../../../../../../image/shoucang_select.png");
+            
+          }else {
+             _this.attr("src","../../../../../../image/shoucang.png");
+          }
+          },null,true);
+      })
 </script>
 
 </html>
