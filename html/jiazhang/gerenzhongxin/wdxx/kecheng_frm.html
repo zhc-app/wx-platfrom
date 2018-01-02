@@ -261,6 +261,7 @@
 
     function getPlayAddress() {
       var url = rt.getPageParame("url");
+      console.log(url);
       var parames = {};
       parames.studentid = $api.getStorage('studentid');
       parames.kid = rt.getPageParame("kid");
