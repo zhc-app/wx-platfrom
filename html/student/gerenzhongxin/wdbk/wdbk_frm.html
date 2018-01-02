@@ -5,126 +5,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>我的报考</title>
     <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/z.css"/>
 
     <style>
-    .aui-list .aui-list-item-media {
-        width: 4.5rem;
-        position: relative;
-        padding: 0.5rem 0;
-        padding-right: 0.75rem;
-        display: block;
-        -webkit-flex-shrink: 0;
-        flex-shrink: 0;
-        -webkit-flex-wrap: nowrap;
-        flex-wrap: nowrap;
-        -webkit-box-align: center;
-        -webkit-align-items: flex-start;
-        align-items: flex-start;
-    }
-    .aui-list .aui-list-item-text {
-        font-size: 10px;
-        color: #757575;
-        position: relative;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: justify;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-align-items: center;
-        align-items: center;
-    }
-    .biaoqian{
-      /*width: 2rem;
-      height: 1rem;*/
-      padding: 2px 4px;
-      border-radius: 5px;
-      background-color: #6f47b6;
-      color: #fff!important;
-      margin-left: 4px;
-      font-family: 'PingFang-SC';
-    }
-    .biaoqian-orange{
-      background-color: #ef5b1f;
-    }
+        .aui-list .aui-list-item-media {
+            width: 4.5rem;
+            position: relative;
+            padding: 0.5rem 0;
+            padding-right: 0.75rem;
+            display: block;
+            -webkit-flex-shrink: 0;
+            flex-shrink: 0;
+            -webkit-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            -webkit-box-align: center;
+            -webkit-align-items: flex-start;
+            align-items: flex-start;
+        }
+        .aui-list .aui-list-item-text {
+            font-size: 10px;
+            color: #757575;
+            position: relative;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+        .biaoqian{
+          /*width: 2rem;
+          height: 1rem;*/
+          padding: 2px 4px;
+          border-radius: 5px;
+          background-color: #6f47b6;
+          color: #fff!important;
+          margin-left: 4px;
+          font-family: 'PingFang-SC';
+        }
+        .biaoqian-orange{
+          background-color: #ef5b1f;
+        }
 
-    .biaoqian-blue{
-      background-color: #2cb3eb;
-    }
+        .biaoqian-blue{
+          background-color: #2cb3eb;
+        }
 
-    .biaoqian-green{
-      background-color: #32c785;
-    }
+        .biaoqian-green{
+          background-color: #32c785;
+        }
 
-    .margin-t-14{
-         margin-top: 14px;
-    }
+        .margin-t-14{
+             margin-top: 14px;
+        }
 
-    .aui-list-item-media .gray_color{
-      color: #a1a1a1;
-    }
+        .aui-list-item-media .gray_color{
+          color: #a1a1a1;
+        }
 
-    .aui-list-item-media .text_color{
-      color: #a1a1a1;
-      /*font-family: ''*/
-      /*font-family: 'PingFang-SC' !important;*/
-    }
+        .aui-list-item-media .text_color{
+          color: #a1a1a1;
+          /*font-family: ''*/
+          /*font-family: 'PingFang-SC' !important;*/
+        }
 
-    .shoucang{
-      color: #6666ff;
-      /*background-color: #6666ff;*/
-    }
-    .bull{
-      width: 43.9%;
-      height: 31.2%;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-    }
-    table{
-      margin:0px auto;
-    }
+        .shoucang{
+          color: #6666ff;
+          /*background-color: #6666ff;*/
+        }
+        .bull{
+          width: 43.9%;
+          height: 31.2%;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: auto;
+        }
+        table{
+          margin:0px auto;
+        }
 
-    tr th{
-        background: #f5f5f5;
-        height: 40px;
-        width: 20%;
-        color: #8e8eb2;
-        font-size: 14px;
-        font-family: "PingFang-SC";
-        text-align: center;
+        tr th{
+            background: #f5f5f5;
+            height: 40px;
+            width: 20%;
+            color: #8e8eb2;
+            font-size: 14px;
+            font-family: "PingFang-SC";
+            text-align: center;
 
-    }
+        }
 
-    tr td{
-        background: white;
-        height: 40px;
-        width: 20%;
-        color: #222222;
-        font-size: 14px;
-        font-family: "PingFang-SC";
-        text-align: center;
-    }
-    tr{
-      border-bottom:1px solid #dcdcdc;
-    }
-    tr .f{
-      width: 40%;
+        tr td{
+            background: white;
+            height: 40px;
+            width: 20%;
+            color: #222222;
+            font-size: 14px;
+            font-family: "PingFang-SC";
+            text-align: center;
+        }
+        tr{
+          border-bottom:1px solid #dcdcdc;
+        }
+        tr .f{
+          width: 40%;
 
-    }
-    .c{
-      color: #6666ff;
-    }
+        }
+        .c{
+          color: #6666ff;
+        }
     </style>
 </head>
 
@@ -134,6 +134,7 @@
       <div class="aui-tab" id="tab" style="width:100%;color:#6666ff;position:fixed;z-index:2;">
           <div class="aui-tab-item aui-active">关注院校</div>
           <div class="aui-tab-item">关注专业</div>
+          <div class="aui-tab-item">关注职业</div>
           <div class="aui-tab-item" style="display: none">报考方案</div>
       </div>
 
@@ -191,6 +192,11 @@
 
 
       <div id="gzzy" style="display:none">
+        <div class="bull">
+            <img src="../../../../image/bull.png" alt="">
+        </div>
+      </div>
+      <div id="gzzhiye" style="display:none">
         <div class="bull">
             <img src="../../../../image/bull.png" alt="">
         </div>
@@ -375,6 +381,7 @@
 
           $api.byId('gzyx').style.display = "block";
           $api.byId('gzzy').style.display = "none";
+          $api.byId('gzzhiye').style.display = "none";
           // $api.byId('bkfa').style.display = "none";
         //   api.execScript({
         //       name: 'wdbk_win',
@@ -387,6 +394,7 @@
         }else if (ret.index == 2) {
           $api.byId('gzyx').style.display = "none";
           $api.byId('gzzy').style.display = "block";
+          $api.byId('gzzhiye').style.display = "none";
           // $api.byId('bkfa').style.display = "none";
         //   api.execScript({
         //       name: 'wdbk_win',
@@ -395,37 +403,42 @@
         //   api.closeFrame({
         //     name: 'my_volunt_list_frm'
         // });
+          // zhc.post('http://www.yxke12.com/index.php/App/Professional/myMajorCollect.html',{studentid: $api.getStorage('studentid')},function(data){
+          //   total_data = data;
+          //   document.getElementById('schools_ul').innerHTML = list(data);
+          // },null,true);
         }else {
           $api.byId('gzyx').style.display = "none";
           $api.byId('gzzy').style.display = "none";
+          $api.byId('gzzhiye').style.display = "block";
           // $api.byId('bkfa').style.display = "block";
           // api.execScript({
           //     name: 'wdbk_win',
           //     script:' editeClick("block")'
           // });
-          bkfa()
+          // bkfa()
         }
     });
-function bkfa() {
-  api.openFrame({
-      name: 'my_volunt_list_frm',
-      url: 'my_volunt_list_frm.html',
-      rect: {
-          x: 0,
-          y: 115,
-          w: 'auto',
-          h: 'auto'
-      },
-      pageParam: {
-          name: 'test'
-      },
-      bounces: true,
-      bgColor: 'rgba(0,0,0,0)',
-      vScrollBarEnabled: true,
-      hScrollBarEnabled: true
-  });
+// function bkfa() {
+//   api.openFrame({
+//       name: 'my_volunt_list_frm',
+//       url: 'my_volunt_list_frm.html',
+//       rect: {
+//           x: 0,
+//           y: 115,
+//           w: 'auto',
+//           h: 'auto'
+//       },
+//       pageParam: {
+//           name: 'test'
+//       },
+//       bounces: true,
+//       bgColor: 'rgba(0,0,0,0)',
+//       vScrollBarEnabled: true,
+//       hScrollBarEnabled: true
+//   });
 
-}
+// }
 
 </script>
 

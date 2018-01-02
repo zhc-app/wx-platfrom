@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>院校信息</title>
     <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
@@ -246,7 +246,6 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
               total_data.xlcc.unshift(xlcc);
 
               total_data.yxts.unshift("不限");
-              console.log(JSON.stringify(total_data));
               // start 筛选
               document.getElementById('Sort-Sort').innerHTML = province1(total_data.province);
               document.getElementById('SchoolType_ul').innerHTML = schooltype(total_data.yxlx);
@@ -329,8 +328,9 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
         }
 
         zhc.post("http://www.yxke12.com/index.php/App/Yuanxiaoku/search.html", char, function(_data) {
-              total_data.lists = _data;
-              document.getElementById('schools_ul').innerHTML = list(_data);
+              total_data.lists = _data.list;
+              console.log(_data);
+              document.getElementById('schools_ul').innerHTML = list(_data.list);
         }, null, true);
     }
 
