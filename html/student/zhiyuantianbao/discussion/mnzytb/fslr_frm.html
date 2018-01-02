@@ -6,14 +6,14 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>端API</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/z.css" />
-    <script type="text/javascript" src="../../../../script/aui-tab.js"></script>
-    <script src="../../../../script/jquery-1.8.3.min.js"></script>
-    <script src="../../../../script/doT.js"></script>
-    <script src="../../../../script/demo.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/z.css" />
+    <script type="text/javascript" src="../../../../../script/aui-tab.js"></script>
+    <script src="../../../../../script/jquery-1.8.3.min.js"></script>
+    <script src="../../../../../script/doT.js"></script>
+    <script src="../../../../../script/demo.js"></script>
     <style>
         h3 {
             font-family: 'PingFang-SC';
@@ -110,7 +110,7 @@
     <div id="main" class="flex-con ">
         <div class="con">
           <div style="width:80%;margin:auto">
-            <img src="../../../../image/tishi.png" alt="">
+            <img src="../../../../../image/tishi.png" alt="">
             <span class="tishi">提示：信息填写后不可更改，请仔细核对后正确输入!</span>
           </div>
         </div>
@@ -155,23 +155,27 @@
         <div class="lianjie" style="display:none">
             <div class="con">
                 <h4>相关链接</h4>
-                <p class="lianjieP"><img src="../../../../image/lianjie.png" class="lianjieT" alt="">博士后流动站</p>
-                <p class="lianjieP"><img src="../../../../image/lianjie.png" class="lianjieT" alt="">博士后工作站</p>
+                <p class="lianjieP"><img src="../../../../../image/lianjie.png" class="lianjieT" alt="">博士后流动站</p>
+                <p class="lianjieP"><img src="../../../../../image/lianjie.png" class="lianjieT" alt="">博士后工作站</p>
             </div>
 
         </div>
 
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
-    var na, type;
-    apiready = function() {
+    var na, type, score;
+    window.onload = function() {
+        console.log(parent)
         na = $api.byId('name_id');
         type = $api.byId('type');
+        score = $api.byId('score');
         na.innerHTML = $api.getStorage('studentname') + "/" + $api.getStorage('sheng');
-        // $api.html(na,'<h1>world</h1>');
         type.innerHTML = $api.getStorage('type');
     };
 
@@ -182,21 +186,17 @@
     }
 
     function getFilterData(score) {
-      var parames = {values:{}};
-      parames.values.type = $api.getStorage('type');
-      parames.values.provinceid = $api.getStorage('provinceid');
-      parames.values.score = score;
+      var parames = {};
+      parames.type = $api.getStorage('type');
+      parames.provinceid = $api.getStorage('provinceid');
+      parames.score = score;
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/monizhiyuantianbaochapaiming.html",
           parames,function(data) {
             rank.innerHTML = data.low_rank+"名";
             var p = {};
             p.score = score;
             p.rank = data.low_rank;
-            p = $api.jsonToStr(p);
-            api.execScript({
-                name: 'fslr_win',
-                script: 'setRank(' + p + ');'
-            });
+            parent.setRank(p);
           },null, true);
     }
 </script>

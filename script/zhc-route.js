@@ -89,8 +89,11 @@
     }
   }
 
-  h.execFun = function (func) {
-      
+  h.execFrmFun = function (_name, func, parames) {
+      var el = document.getElementById(_name);
+      if(func && el.contentWindow && el.contentWindow[func]){
+        el.contentWindow[func](parames);
+      }
   }
 
   h.execParentFun = function (func, parames) {

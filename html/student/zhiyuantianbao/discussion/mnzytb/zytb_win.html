@@ -5,15 +5,15 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css"/>
     <style>
         header{ background-color: #f2f2f2; }
         header ul li { height: 50px; line-height: 50px; text-align: center; display: none; color: #323237; position: relative;font-size: 18px;  }
         header ul li.active{ display: block; }
         .ic-message{
-                background-image: url(../../../../image/career.png);
+                background-image: url(../../../../../image/career.png);
                 float: right;}
 
 
@@ -56,73 +56,55 @@
             background-color: #6666ff;
         }
         .l-btn{
-          font-family: 'PingFang-SC';
+          position: absolute;
+          bottom: 0px;
+          margin: 10px 5%;
           font-size: 0.8rem;
           text-align: center;
           color: #fefefe;
         }
     </style>
 </head>
-<header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
-    <a class="aui-pull-left aui-btn" tapmode onclick= 'api.closeWin();'>
-        <span class="aui-iconfont aui-icon-left left_btn_c_b"></span>
-    </a>
-    <div class="aui-title">志愿填报</div>
-</header>
-
-<div id="wrap" class="flex-wrap flex-vertical">
-
-
-
-    <div id="main" class="flex-con">
-
-    </div>
-    <div id="footer" class="border-t" style="background:#fff">
-        <ul class="flex-wrap" >
-             <div class="aui-btn aui-btn-primary aui-btn-block l-btn" tapmode onclick="save()">发送老师</div>
-        </ul>
-    </div>
-</div>
+<body>
+  <header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
+      <a class="aui-pull-left aui-btn" tapmode onclick= 'onBackClick()'>
+          <span class="aui-iconfont aui-icon-left left_btn_c_b"></span>
+      </a>
+      <div class="aui-title">志愿填报</div>
+  </header>
+  <div class="aui-btn aui-btn-primary aui-btn-block l-btn" tapmode onclick="save()">发送老师</div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
-    apiready = function(){
-        api.parseTapmode();
-        $api.fixStatusBar($api.byId('aui-header'));
-        // $api.fixTabBar($api.byId('footer'))
-        var body_h = $api.offset($api.dom('body')).h,
-            footerh = $api.offset($api.byId('footer')).h,
-            headerh = $api.offset($api.byId('aui-header')).h;
-        api.openFrame({
-            name: 'zytb_frm',
-            url: 'zytb_frm.html',
-            bounces: false,
-            rect: {
-                x: 0,
-                y: headerh,
-                w: 'auto',
-                h: body_h-footerh-headerh
-            },
-            pageParam: {
-                rank: api.pageParam.rank,
-                score: api.pageParam.score,
-                // data: api.pageParam.data,
-                source: api.pageParam.source,
-                planid: api.pageParam.planid,
-            },
-            vScrollBarEnabled: false,
-            hScrollBarEnabled: false
-        });
+    window.onload = function(){
+        var headerH = $('header').outerHeight(true);
+        var height = $(document.body).height() - $(".l-btn").outerHeight(true) - headerH;
+        rt.openFrame("./zytb_frm.html",
+          "zytb_frm",{
+              x: 0,
+              y: headerH,
+              width: $(window).width(),
+              height: height,
+          },
+          {
+              rank: rt.getPageParame("rank"),
+              score: rt.getPageParame("score"),
+              // data: api.pageParam.data,
+              source: rt.getPageParame("source"),
+              planid: rt.getPageParame("planid"),
+          })
     };
 
     function save() {
-      api.execScript({
-          name: 'zytb_win',
-          frameName: 'zytb_frm',
-          script: 'save();'
-      });
+      rt.execFrmFun("zytb_frm", "save")
+    }
 
+    function onBackClick(argument) {
+      rt.closePage()
     }
 </script>
 </html>
