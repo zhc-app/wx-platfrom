@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>端API</title>
+    <title>志愿填报</title>
     <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
@@ -294,6 +294,14 @@
         text-overflow:ellipsis;
         white-space: nowrap;
       }
+
+      .ll-btn{
+          width: 90%;
+          margin: 10px 5%;
+          font-size: 0.8rem;
+          text-align: center;
+          color: #fefefe;
+        }
     </style>
 </head>
 
@@ -432,9 +440,10 @@
                 <div class="aui-btn aui-btn-block aui-btn-sm cx">查询</div>
             </div>
         </div>
-
-
+    <div class="aui-btn aui-btn-primary aui-btn-block ll-btn" tapmode onclick="save()">发送老师</div>
+      
     </div>
+
 </body>
 <script type="text/javascript" src="../../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../../script/doT.js"></script>
@@ -445,6 +454,7 @@
 <script type="text/javascript" src="../../../../../script/tools.js"></script>
 
 <script type="text/javascript">
+    var toast = new auiToast({});
     var sort = ["A", "B","C", "D","E", "F","G",
     "H","I", "J","K", "L","M", "N","O", "P","Q",
     "R","S", "T","U", "V","W", "X","Y", "Z"];
@@ -513,7 +523,6 @@
 
     function setTotalData() {
         // my_data
-        console.log(JSON.stringify(my_data));
         if (my_data.batch.index == null) {
             return;
         };
@@ -667,7 +676,20 @@
 
     function onSelectSchool(index) {
       sort_index = index;
-      rt.openPage("./select_university_win.html", {score: g_score, rank: g_rank, batchid:batchid})
+      var headerH = $('header').outerHeight(true);
+      var height = $(document.body).height() - $(".l-btn").outerHeight(true);
+      rt.openFrame("./select_university_win.html",
+        "select_university_win",{
+            x: 0,
+            y: 0,
+            width: $(window).width(),
+            height: height,
+        },
+        {
+            score: g_score, rank: g_rank, batchid:batchid
+        })
+        $api.byId("main").style.display = "none"
+      // rt.openPage("./select_university_win.html", {})
     }
 
     function xuanzhuanye(index) {
@@ -675,29 +697,33 @@
       getMajorData(index);
       localStorage.m_data = $api.jsonToStr(results[index]);
       localStorage.m_major_data = $api.jsonToStr(major_data);
-      api.openWin({
-          name: 'select_major_win',
-          url: './select_major_win.html',
-          pageParam: {
-              // data: results[index],
-              major_num: data.info[batch_index].major_num,
-              batchid: batchid,
-              planid: planid,
-              score: g_score,
-              // major_data: major_data,
-              obey: total_data.data[sort_index].obey,
-              source: source,
-              rank: g_rank,
-              univ_name: total_data.data[sort_index].univ_name,
-          }
-      });
+
+      var headerH = $('header').outerHeight(true);
+      var height = $(document.body).height() - $(".l-btn").outerHeight(true);
+      rt.openFrame("./select_major_win.html",
+        "select_major_win",{
+            x: 0,
+            y: 0,
+            width: $(window).width(),
+            height: height,
+        },
+        {
+            // data: results[index],
+            major_num: data.info[batch_index].major_num,
+            batchid: batchid,
+            planid: planid,
+            score: g_score,
+            // major_data: major_data,
+            obey: total_data.data[sort_index].obey,
+            source: source,
+            rank: g_rank,
+            univ_name: total_data.data[sort_index].univ_name,
+        })
+        $api.byId("main").style.display = "none"
     }
 
     function getMajorData(_index) {
-      console.log(JSON.stringify(total_data));
       var sortData = total_data.data[_index];
-
-
         major_data = [];
         for (var k = 0; k < sortData.major_plan.length; k++) {
           var o = {};
@@ -709,7 +735,8 @@
         }
     }
 
-    function winBackResult() {
+    function winBackResult(parames) {
+        frameBack(parames);
         var _result = $api.strToJson(localStorage.univ_data);
         results[sort_index] = _result;
         if (total_data.data[sort_index].univ_name !=  _result.univ_name) {
@@ -724,7 +751,8 @@
         document.getElementById('school_ul').innerHTML = school_dot(total_data);
     }
 
-    function majorBackResult() {
+    function majorBackResult(parames) {
+        frameBack(parames);
         var _result = $api.strToJson(localStorage.re_major_list);
         total_data.data[sort_index].obey = _result.obey ? 1 : 0;
         var majors = _result.data;
@@ -752,7 +780,18 @@
         document.getElementById('school_ul').innerHTML = school_dot(total_data);
     }
 
+
+    // school major back
+    function frameBack(parames) {
+      rt.closeFrame(parames.name);
+      $api.byId('main').style.display = 'block'
+    }
+
     function save() {
+      if (isEmptyObject(total_data)) {
+        return;
+      }
+
       var parames = {};
       var data = [];
       for (var i = 0; i < total_data.data.length; i++) {
@@ -766,7 +805,6 @@
       }
       parames.data = $api.jsonToStr(data);
       parames.planid = planid;
-      console.log("source: " + source + " data: " + JSON.stringify(parames));
       var url = "";
       if (source == 1) {
         url = "http://www.yxke12.com/index.php/App/Zhiyuantianbao/modifyzhuanye.html";
@@ -777,17 +815,26 @@
       zhc.post(url,
           parames,function(_data) {
             if (_data == 1) {
-              console.log("_data: " + JSON.stringify(_data));
-              console.log(JSON.stringify(_data))
-              api.toast({
-                  msg: '保存成功',
+              toast.success({
+                  title: '保存成功',
                   duration: 2000,
                   location: 'bottom'
               });
-              api.closeWin();
+              setTimeout(timeCall, 1000);
             }
           },null, true);
     }
+
+    function timeCall() {
+      rt.closePage();
+    }
+
+    function isEmptyObject(obj){
+      for(var key in obj){
+        return false
+      };
+      return true
+    };
 </script>
 
 </html>

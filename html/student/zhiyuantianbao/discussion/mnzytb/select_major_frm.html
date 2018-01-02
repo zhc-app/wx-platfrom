@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
     <style>
       .con {
           width: 100%;
@@ -215,10 +215,10 @@
 </head>
 
 <body>
-    <div class="flex-wrap flex-vertical">
+    <div class="flex-wrap flex-vertical" id="main">
       <div class="con">
         <div style="width:80%;margin:auto">
-          <!-- <img src="../../../../image/tishi.png" alt=""> -->
+          <!-- <img src="../../../../../image/tishi.png" alt=""> -->
           <span class="tishi">根据你的成绩和排名，智能推荐适合你的学校</span>
         </div>
       </div>
@@ -293,7 +293,7 @@
                 </div>
               {{}else {}}
                 <div style="text-align:center;display:block;" tapmode onclick="onMajorSelect({{=i}})">
-                  <img src="../../../../image/add.png"></img>
+                  <img src="../../../../../image/add.png"></img>
                   <span class="desc">添加专业</span>
                 </div>
               {{}}}
@@ -303,17 +303,17 @@
                 <div id="op_id_{{=i}}" class="op_p" style="display:none;">
               {{}}}
                   <div class="op" tapmode onclick="onUpMove({{=i}});">
-                    <img src="../../../../image/m_u.png"></img>
+                    <img src="../../../../../image/m_u.png"></img>
                     <span>上移</span>
                   </div>
 
                   <div class="op" tapmode onclick="onDownMove({{=i}});">
-                    <img src="../../../../image/m_d.png"></img>
+                    <img src="../../../../../image/m_d.png"></img>
                     <span>下移</span>
                   </div>
 
                   <div class="op" tapmode onclick="onDelete({{=i}});">
-                    <img src="../../../../image/d.png"></img>
+                    <img src="../../../../../image/d.png"></img>
                     <span>删除</span>
                   </div>
               </div>
@@ -328,22 +328,23 @@
 
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
     var school_dot, major_dot;
     var major_data = {};
     var major_index = 0;
     var source;
-    apiready = function() {
+    window.onload = function() {
         school_dot = doT.template(document.getElementById('school_s').innerHTML);
         major_dot = doT.template(document.getElementById('major_s').innerHTML);
         document.getElementById('school_ul').innerHTML = school_dot($api.strToJson(localStorage.m_data));
-        source = api.pageParam.source;
-        setMajors(api.pageParam.major_num);
-        api.parseTapmode();
-
+        source = rt.getPageParame("source");
+        setMajors(rt.getPageParame("major_num"));
     };
 
     function setMajors(num) {
@@ -352,7 +353,7 @@
       major_data.editEnable = false;
       var tmp = $api.strToJson(localStorage.m_major_data);
       if (tmp != null && tmp != []) {
-        major_data.obey = api.pageParam.obey == 1 ? true : false;
+        major_data.obey = rt.getPageParame("obey") == 1 ? true : false;
         for (var i = 0; i < num; i++) {
             if (i < tmp.length) {
                 major_data.data.push(tmp[i]);
@@ -371,17 +372,27 @@
 
     function onMajorSelect(index) {
       major_index = index;
-      api.openWin({
-          name: 'select_major_list_win',
-          url: './select_major_list_win.html',
-          pageParam: {
-              univname: $api.strToJson(localStorage.m_data).univ_name,
-              batchid: api.pageParam.batchid,
-              score: api.pageParam.score,
-              planid: api.pageParam.planid,
-              rank: api.pageParam.rank
-          },
-      });
+      rt.execParentFun('hideBar', {});
+      $api.byId("main").style.display = "none"
+
+      var headerH = $('header').outerHeight(true);
+      var height = $(document.body).height() - $(".l-btn").outerHeight(true);
+      rt.openFrame("./select_major_list_win.html",
+        "select_major_list_win",{
+            x: 0,
+            y: 0,
+            width: $(window).width(),
+            height: height,
+        },
+        {
+            univname: $api.strToJson(localStorage.m_data).univ_name,
+            batchid: rt.getPageParame("batchid"),
+            score: rt.getPageParame("score"),
+            planid: rt.getPageParame("planid"),
+            rank: rt.getPageParame("rank")
+        })
+
+
     }
 
     function onUpMove(index) {
@@ -412,19 +423,30 @@
         document.getElementById('major_ul').innerHTML = major_dot(major_data);
     }
 
-    function winBackResult() {
+    function winBackResult(parames) {
+        rt.execParentFun('showBar', {});
+        $api.byId("main").style.display = "block"
+        rt.closeFrame(parames.name)
+
         major_data.data[major_index] = $api.strToJson(localStorage.re_major_data);
         document.getElementById('major_ul').innerHTML = major_dot(major_data);
+    }
+
+    function listBack(parames) {
+      rt.execParentFun('showBar', {});
+      $api.byId("main").style.display = "block"
+      rt.closeFrame(parames.name)
     }
 
     // 返回按钮回调
     function winCall() {
       major_data.obey = obey.checked;
       localStorage.re_major_list = $api.jsonToStr(major_data);
-      api.execScript({
-          name: 'select_major_win',
-          script: 'selfFrmResult();'
-      });
+      rt.execParentFun("selfFrmResult", {name:'select_major_frm'});
+      // api.execScript({
+      //     name: 'select_major_win',
+      //     script: 'selfFrmResult();'
+      // });
     }
 
 

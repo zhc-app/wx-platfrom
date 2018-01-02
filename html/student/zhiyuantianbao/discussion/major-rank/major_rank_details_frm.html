@@ -95,10 +95,8 @@ var zhuanye1 = doT.template(document.getElementById('zhuanye').innerHTML);
       document.title = rt.getPageParame("name");
       var parames = {}
       parames.major = rt.getPageParame("name");
-      console.log(parames)
       zhc.post('http://www.yxke12.com/index.php/App/Zhiyuantianbao/zhuanyepaiming.html',
           parames,function(data) {
-            console.log(data)
               document.getElementById('zy').innerHTML = zhuanye1(data);
           },null, true);
     };

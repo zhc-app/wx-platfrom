@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <title>选择专业</title>
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
     <style>
         header {
             background-color: #f2f2f2;
@@ -57,60 +57,60 @@
             <span id="ed_id">编辑</span>
         </a>
     </header>
-
-    <div id="content" class="flex-wrap flex-vertical" >
-
-    </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
-    apiready = function() {
-        api.parseTapmode();
-        $api.fixStatusBar($api.byId('aui-header'));
-        var headerh = $api.offset($api.byId('aui-header')).h;
-        api.openFrame({
-            name: 'select_major_frm',
-            url: './select_major_frm.html',
-            rect: {
-                x: 0,
-                y: headerh,
-                w: 'auto',
-                h: 'auto'
-            },
-            pageParam: {
-                // data: api.pageParam.data,
-                major_num: api.pageParam.major_num,
-                batchid: api.pageParam.batchid,
-                planid: api.pageParam.planid,
-                score: api.pageParam.score,
-                // major_data: api.pageParam.major_data,
-                obey: api.pageParam.obey,
-                source: api.pageParam.source,
-                rank:api.pageParam.rank,
-                univ_name: api.pageParam.univ_name,
-            },
-            bounces: false,
-            bgColor: 'rgba(0,0,0,0)',
-            vScrollBarEnabled: false,
-            hScrollBarEnabled: false
-        });
+    var headerH;
+    var height;
+    window.onload = function() {
+        headerH = $('header').outerHeight(true);
+        height = $(document.body).height() - $(".l-btn").outerHeight(true) - headerH;
+        rt.openFrame("./select_major_frm.html",
+        "select_major_frm",{
+            x: 0,
+            y: headerH,
+            width: $(window).width(),
+            height: height,
+        },
+        {
+            // data: results[index],
+            major_num: rt.getPageParame('major_num'),
+            batchid: rt.getPageParame('batchid'),
+            planid: rt.getPageParame('planid'),
+            score: rt.getPageParame('score'),
+            // major_data: major_data,
+            obey: rt.getPageParame('obey'),
+            source: rt.getPageParame('source'),
+            rank: rt.getPageParame('rank'),
+            univ_name: rt.getPageParame('univ_name'),
+        })
     };
 
     function backClick() {
-      api.execScript({
-          frameName: 'select_major_frm',
-          script: 'winCall();'
-      });
+      // api.execScript({
+      //     frameName: 'select_major_frm',
+      //     script: 'winCall();'
+      // });
+      $api.byId('select_major_frm').contentWindow.winCall();
+
+      // rt.execParentFun("winCall", {});
     }
 
     function selfFrmResult(result) {
         // var result = $api.jsonToStr(result);
-        api.execScript({
-            name: 'zytb_win',
-            frameName: 'zytb_frm',
-            script: 'majorBackResult();'
-        });
-        api.closeWin();
+        rt.execParentFun("majorBackResult", {name:'select_major_win'});
+        rt.closeFrame(result.name)
+
+        // api.execScript({
+        //     name: 'zytb_win',
+        //     frameName: 'zytb_frm',
+        //     script: 'majorBackResult();'
+        // });
+        // api.closeWin();
     }
 
     var edite = false;
@@ -122,10 +122,23 @@
           ed_id.innerHTML = "完成";
           edite = true;
       }
-      api.execScript({
-          frameName: 'select_major_frm',
-          script: 'winEditeCall();'
-      });
+      $api.byId('select_major_frm').contentWindow.winEditeCall();
+      // api.execScript({
+      //     frameName: 'select_major_frm',
+      //     script: 'winEditeCall();'
+      // });
+    }
+
+    function hideBar({}) {
+        $api.byId('aui-header').style.display = 'none';
+        $api.byId('select_major_frm').style.marginTop = '0px';
+        $api.byId('select_major_frm').style.height = height + headerH + 'px';
+    }
+
+    function showBar({}){
+        $api.byId('aui-header').style.display = 'table'
+        $api.byId('select_major_frm').style.marginTop = headerH + 'px';
+        $api.byId('select_major_frm').style.height = height + 'px';
     }
 </script>
 

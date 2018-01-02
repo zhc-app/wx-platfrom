@@ -210,6 +210,7 @@
     window.onload = function() {
       g_rank = rt.getPageParame("rank");
       g_score = rt.getPageParame("score");
+      g_batchid = rt.getPageParame("batchid");
       na.innerHTML = "考生信息：" + $api.getStorage('studentname') + "/" + $api.getStorage('sheng');
       rank.innerHTML = "高考排名：" + g_rank+"名";
       score.innerHTML = "高考总分：" + g_score+"分";
@@ -241,7 +242,7 @@
 
     function onItemClick(index) {
         localStorage.univ_data = $api.jsonToStr(data_list[index]);
-        // rt.execParentFun("")
+        rt.execParentFun("winBackResult", {name:"select_university_frm"});
 
         // api.execScript({
         //     name: 'zytb_win',

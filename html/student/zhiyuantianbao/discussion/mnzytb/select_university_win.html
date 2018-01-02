@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>选择学校</title>
     <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
@@ -71,12 +71,18 @@
               score: rt.getPageParame("score"),
               // data: api.pageParam.data,
               source: rt.getPageParame("source"),
-              planid: rt.getPageParame("batchid"),
+              batchid: rt.getPageParame("batchid"),
+              planid: rt.getPageParame("planid"),
           })
     };
 
     function onBackClick() {
-        rt.closePage();
+        rt.execParentFun('frameBack', {name:'select_university_win'});
+    }
+
+    function winBackResult(parames) {
+        rt.execParentFun("winBackResult", {name:"select_university_win"});
+        rt.closeFrame(parames);
     }
 </script>
 

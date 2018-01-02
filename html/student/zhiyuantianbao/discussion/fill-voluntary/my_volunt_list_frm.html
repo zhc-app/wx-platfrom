@@ -211,13 +211,11 @@
         },function(ret){
             if(ret){
                 var index = ret.buttonIndex;
-                console.log(index)
                 if (index == 2) {
                   var parames = {}
                   parames.planid = data[_index].id;
                   zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/delpici.html",
                       parames,function(_data) {
-                        console.log(_data)
                         if (_data == "yes") {
                           data.splice(_index, 1);
                           document.getElementById('vol_ul').innerHTML = vol_dot(data);
@@ -244,7 +242,7 @@
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/showzhiyuan.html",
           parames,function(_data) {
             localStorage.m_my_data = $api.jsonToStr(_data);
-            rt.openParentPage("../mnzytb/zytb_win.html", {rank: _data.rank,
+            rt.openParentPage("../mnzytb/zytb_frm.html", {rank: _data.rank,
                     score: _data.score,
                     source: 1,
                     planid: d.id});

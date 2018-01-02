@@ -6,9 +6,9 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
     <style>
       .con {
           width: 100%;
@@ -119,15 +119,15 @@
 </head>
 
 <body>
-    <div class="flex-wrap flex-vertical">
+    <div class="flex-wrap flex-vertical" id="main">
       <div class="con" style="display:none">
         <div style="width:80%;margin:auto">
-          <!-- <img src="../../../../image/tishi.png" alt=""> -->
+          <!-- <img src="../../../../../image/tishi.png" alt=""> -->
           <span class="tishi">选择专业时请务必阅读《2017年山东大学招生章程》</span>
         </div>
       </div>
       <div class="top"  tapmode onclick="wn()">
-        <img src="../../../../image/last_y.png"></img>
+        <img src="../../../../../image/last_y.png"></img>
         <span>往年专业录取信息</span>
       </div>
       <ul id="major_ul">
@@ -159,54 +159,72 @@
 
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
 <script type="text/javascript">
     var major_dot;
     var majorList = [];
-    apiready = function() {
-        api.parseTapmode();
+    window.onload = function() {
         major_dot = doT.template(document.getElementById('major_s').innerHTML);
         getMajorList();
     };
 
     function getMajorList() {
       var parames = {values:{}};
-      parames.values.univname = api.pageParam.univname;
-      parames.values.type = $api.getStorage('type');
-      parames.values.provinceid = $api.getStorage('provinceid');
-      parames.values.batchid = api.pageParam.batchid;
-      parames.values.score = api.pageParam.score;
-      parames.values.studentid = $api.getStorage('studentid');
-      parames.values.planid = api.pageParam.planid;
+      parames.univname = rt.getPageParame("univname");
+      parames.type = $api.getStorage('type');
+      parames.provinceid = $api.getStorage('provinceid');
+      parames.batchid = rt.getPageParame("batchid");
+      parames.score = rt.getPageParame("score");
+      parames.studentid = $api.getStorage('studentid');
+      parames.planid = rt.getPageParame("planid");
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/getzhuanye.html",
           parames,function(_data) {
-            console.log(JSON.stringify(_data));
             majorList = _data;
             document.getElementById('major_ul').innerHTML = major_dot(_data);
           },null, true);
     }
     function wn() {
-      api.openWin({
-          name: 'last_major_list_win',
-          url: './last_major_list_win.html',
-          pageParam: {
-              univ_name: api.pageParam.univname,
-              batchid: api.pageParam.batchid,
-              rank: api.pageParam.rank
-          }
-      });
+      rt.execParentFun('hideBar', {});
+      $api.byId("main").style.display = "none";
+
+      var headerH = $('header').outerHeight(true);
+      var height = $(document.body).height() - $(".l-btn").outerHeight(true) - headerH;
+      rt.openFrame("./last_major_list_win.html",
+      "last_major_list_win",{
+          x: 0,
+          y: 0,
+          width: $(window).width(),
+          height: height,
+      },
+      {
+          univname: rt.getPageParame("univname"),
+          batchid: rt.getPageParame("batchid"),
+          rank: rt.getPageParame("rank")
+      })
+
+
     }
 
     function onItemClick(index) {
         localStorage.re_major_data= $api.jsonToStr(majorList[index]);
-        api.execScript({
-            name: 'select_major_win',
-            frameName: 'select_major_frm',
-            script: 'winBackResult();'
-        });
-        api.closeWin();
+        // api.execScript({
+        //     name: 'select_major_win',
+        //     frameName: 'select_major_frm',
+        //     script: 'winBackResult();'
+        // });
+
+        rt.execParentFun("winBackResult", {name:'select_major_list_frm'})
+    }
+
+    function lastBackClick(parames) {
+      rt.closeFrame(parames.name);
+      rt.execParentFun('showBar', {});
+      $api.byId("main").style.display = "block";
     }
 </script>
 

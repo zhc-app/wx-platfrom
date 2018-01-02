@@ -6,10 +6,10 @@
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
     <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../css/demo.css" />
     <style>
       div.screening>ul {
           height: 40px;
@@ -34,7 +34,7 @@
           position: absolute;
           right: 10px;
           top:10px;
-          background: url("../../../../image/on_1.png") no-repeat 100% center;
+          background: url("../../../../../image/on_1.png") no-repeat 100% center;
           transition: 0.5s;
           background-position-x: 50%;
       }
@@ -228,17 +228,19 @@
       </ul>
     </div>
 </body>
-<script type="text/javascript" src="../../../../script/api.js"></script>
-<script type="text/javascript" src="../../../../script/doT.js"></script>
-<script type="text/javascript" src="../../../../script/network.js"></script>
-<script type="text/javascript" src="../../../../script/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../../script/network.js"></script>
+
 <script type="text/javascript">
     var filter = [2016, 2015];
     var major_dot;
-    apiready = function() {
+    window.onload = function() {
         major_dot = doT.template(document.getElementById('major_s').innerHTML);
         lastMajorList(2016);
-        api.parseTapmode();
     };
 
     function toggleFilter(e) {
@@ -276,13 +278,13 @@
     }
 
     function lastMajorList(year) {
-      var parames = {values:{}};
-      parames.values.year = year;
-      parames.values.schoolname = api.pageParam.univ_name;
-      parames.values.type = $api.getStorage('type');
-      parames.values.provinceid = $api.getStorage('provinceid');
-      parames.values.batchid = api.pageParam.batchid;
-      parames.values.rank = api.pageParam.rank;
+      var parames = {};
+      parames.year = year;
+      parames.schoolname = rt.getPageParame("univname");
+      parames.type = $api.getStorage('type');
+      parames.provinceid = $api.getStorage('provinceid');
+      parames.batchid = rt.getPageParame("batchid");
+      parames.rank = rt.getPageParame("rank");
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/getwangnian.html",
           parames,function(_data) {
             document.getElementById('major_ul').innerHTML = major_dot(_data);

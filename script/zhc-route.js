@@ -103,6 +103,7 @@
   h.closeFrame = function(_name) {
     var el = document.getElementById(_name);
     document.body.removeChild(el);
+    delete frameList[_name];
   }
 
   h.closeToPage = function (_name) {
