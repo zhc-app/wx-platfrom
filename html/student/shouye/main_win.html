@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
+    <script type="text/javascript" src="../../../script/zhc-route.js"></script>
     <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../../script/api.js"></script>
     <script type="text/javascript" src="../../../script/aui-tab.js" ></script>
@@ -40,14 +41,14 @@
     </style>
 </head>
 <body>
-    <iframe id="frm0" scrolling="auto" class="frme" src="./frame0_frm.html"></iframe>
+    <!-- <iframe id="frm0" scrolling="auto" class="frme" src="./frame0_frm.html"></iframe> -->
     <!-- <iframe id="frm1" class="frme" style="display: none" src="./frame1_frm.html"></iframe>
     <iframe id="frm2" class="frme" style="display: none" src="./frame2_frm.html"></iframe>
     <iframe id="frm3" class="frme" style="display: none" src="./frame3_frm.html"></iframe>
     <iframe id="frm4" class="frme" style="display: none" src="./frame4_frm.html"></iframe> -->
 
     <footer class="aui-bar aui-bar-tab" id="footer">
-        <div class="aui-bar-tab-item aui-active">
+        <div class="aui-bar-tab-item">
             <!-- <i class="aui-iconfont aui-icon-home"></i> -->
             <img class="ic" src="../../../image/careerS.png"></img>
             <div class="aui-bar-tab-label">生涯规划</div>
@@ -80,12 +81,38 @@
 </html>
 
 <script type="text/javascript">
+    var cur_index = 0;
     var pic = ["career", "868_1", "quality", "duoyuanzhaosheng_1", "867-3@3x"];
     var pic_h = ["careerS", "868@3x", "qualityS", "duoyuanzhaosheng", "zhiyuantianbao"];
-    var id_map = {frm0:1, frm1:0, frm2:0, frm3:0, frm4:0};
+    var id_map = {frm0:0, frm1:0, frm2:0, frm3:0, frm4:0};
     window.onload = function () {
-        var el = document.getElementById("frm0");
-        el.style.height = $(document.body).height() - $("#footer").height() + "px";
+        // var el = document.getElementById("frm0");
+        // el.style.height = $(document.body).height() - $("#footer").height() + "px";removeClass
+
+        cur_index = $api.getStorage('main_index') ? $api.getStorage('main_index') : 0;
+        var height = $(document.body).height() - $("#l-footer").outerHeight(true);
+        rt.openFrame("./frame" + cur_index + "_frm.html",
+        "frm" + cur_index,{
+            x: 0,
+            y: 0,
+            width: $(window).width(),
+            height: height,
+        });
+
+        id_map["frm" + cur_index] = 1;
+        var imgs = document.getElementsByTagName("img");
+        var arr = $("#footer .aui-bar-tab-item");
+
+        // aui-active
+        for (var i = 0; i < imgs.length; i++) {
+            if (i == cur_index) {
+                arr.eq(i).addClass('aui-active');
+                imgs[i].src = "../../../image/"+ pic_h[i] +".png";
+            }else {
+                arr.eq(i).removeClass('aui-active');
+                imgs[i].src = "../../../image/"+ pic[i] +".png";
+            }
+        }
     }
 
 
@@ -93,6 +120,8 @@
         element:document.getElementById("footer")
     },function(ret){
         if(ret){
+            cur_index = ret.index - 1;
+            $api.setStorage('main_index', cur_index);
             var tabs = document.getElementsByTagName("iframe");
             var imgs = document.getElementsByTagName("img");
 
