@@ -85,9 +85,10 @@ function guanyuwomen() {
 
 function loginOut() {
   $api.clearStorage ();
+  $api.setStorage('tiyan', '1');
   rt.openPage('../register/login_frm.html',{});
 
-    $api.setStorage('tiyan', '1');
+    
 }
 </script>
 </html>
