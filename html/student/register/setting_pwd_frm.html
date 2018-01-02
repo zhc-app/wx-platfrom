@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>忘记密码</title>
     <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
@@ -165,12 +165,13 @@
                 title: data,
                 duration: 2000,
             });
-            rt.openPage("./login_frm.html", {})
 
-            // api.closeToWin({
-            //     name: 'login_win'
-            // });
+            setTimeout(timeCall, 1000);
           },null, true);
+    }
+
+    function timeCall() {
+      rt.openPage("./login_frm.html", {})
     }
 </script>
 
