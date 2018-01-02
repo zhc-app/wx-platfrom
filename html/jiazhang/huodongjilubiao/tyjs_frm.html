@@ -56,68 +56,60 @@
   <div style="width:95%;margin:auto;margin-top:1rem;" id="gyhdcon">
     <script id="gyhd_biao" type="text/x-dot-template">
           <div class="title_con">
-            <span class="title_nm">姓 名:</span>
-            <span class="cont_pjb">{{=it.info.newjson.xingming}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">学校名称:</span>
-            <span class="cont_pjb">{{=it.info.newjson.school}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">性别:</span>
-            <span class="cont_pjb">{{=it.info.newjson.sex}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">年级:</span>
-            <span class="cont_pjb">{{=it.info.newjson.nianji}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">身份证号:</span>
-            <span class="cont_pjb">{{=it.info.newjson.sfz}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">指导教师:</span>
-            <span class="cont_pjb">{{=it.info.newjson.zhidaoteacher}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">已获专利证书类型:</span>
+            <span class="title_nm">大赛主题:</span>
             <span class="cont_pjb">{{=it.info.newjson.biaoti}}</span>
           </div>
           <div class="title_con">
-            <span class="title_nm">名称:</span>
-            <span class="cont_pjb">{{=it.info.newjson.biaoti}}</span>
+            <span class="title_nm">参赛者:</span>
+            <span class="cont_pjb">{{=it.info.newjson.cansaizhe}}</span>
           </div>
           <div class="title_con">
-            <span class="title_nm">发明人:</span>
-            <span class="cont_pjb">{{=it.info.newjson.famingren}}</span>
+            <span class="title_nm">参赛项目:</span>
+            <span class="cont_pjb">{{=it.info.newjson.cansaixiangmu}}</span>
           </div>
           <div class="title_con">
-            <span class="title_nm">专利权人:</span>
+            <span class="title_nm">省市区域:</span>
+            <span class="cont_pjb">{{=it.info.newjson.shengshiquyu}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">所在学校:</span>
+            <span class="cont_pjb">{{=it.info.newjson.suozaixuexiao}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">主办单位:</span>
+            <span class="cont_pjb">{{=it.info.newjson.zhubandanwei}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">指导教练:</span>
+            <span class="cont_pjb">{{=it.info.newjson.zhidaojiaoshi}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">比赛时间:</span>
+            <span class="cont_pjb">{{=it.info.newjson.bisaishijian}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">比赛地点:</span>
+            <span class="cont_pjb">{{=it.info.newjson.bisaididian}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">参赛总成绩:</span>
+            <span class="cont_pjb">{{=it.info.newjson.cansaizongchengji}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">获奖等级:</span>
+            <span class="cont_pjb">{{=it.info.newjson.huojiangdengji}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">体验与收获(自评):</span>
             <span class="cont_pjb">{{=it.info.newjson.neirong}}</span>
           </div>
           <div class="title_con">
-            <span class="title_nm">专利号:</span>
-            <span class="cont_pjb">{{=it.info.newjson.zhuyanlihao}}</span>
+            <span class="title_nm">教练评语:</span>
+            <span class="cont_pjb">{{=it.info.newjson.jiaolianpingyu}}</span>
           </div>
           <div class="title_con">
-            <span class="title_nm">证件号:</span>
-            <span class="cont_pjb">{{=it.info.newjson.zhengjianhao}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">公示日期:</span>
-            <span class="cont_pjb">{{=it.info.newjson.gongshiriqi}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">学校公式网址:</span>
-            <span class="cont_pjb">{{=it.info.newjson.wangzhi}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">公式结果:</span>
-            <span class="cont_pjb">{{=it.info.newjson.jieguo}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">指导教师评语:</span>
-            <span class="cont_pjb">{{=it.info.newjson.pingyu}}</span>
+            <span class="title_nm">评价内容其他:</span>
+            <span class="cont_pjb">{{=it.info.newjson.content}}</span>
           </div>
           <div id="imgs"></div>
           <div style="margin-left:10px;margin-top:1rem;height:auto;display: inline-flex;">
@@ -142,11 +134,10 @@
 
           {{}}}
         </div>
-
     </script>
-    <!-- {{for (var i = 0; i < it.picture.length; i++) {}}
-      <img class="top_img" src="http://www.yxke12.com/Public/Home/images/huodong/{{=it.picture[i]}}"  >
-    {{}}} -->
+    <!-- {{for (var i = 0; i < it.picture.length; i++) {}} -->
+      <!-- <img class="top_img" src="http://www.yxke12.com/Public/Home/images/huodong/{{=it.picture[i]}}"  > -->
+    <!-- {{}}} -->
   </div>
 </body>
 <script type="text/javascript" src="../../../script/api.js"></script>
@@ -155,9 +146,10 @@
 <script type="text/javascript" src="../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
+
 var gyhd = doT.template(document.getElementById('gyhd_biao').innerHTML);
 window.onload = function(){
-    var id = rt.getPageParame("datas")
+    var id = rt.getPageParame("id")
     getDetails(id);
 };
 
@@ -184,5 +176,6 @@ function getPicName(_name) {
       return _name;
   }
 }
+
 </script>
 </html>

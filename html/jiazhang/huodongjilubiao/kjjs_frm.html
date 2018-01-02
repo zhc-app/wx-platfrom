@@ -56,68 +56,72 @@
   <div style="width:95%;margin:auto;margin-top:1rem;" id="gyhdcon">
     <script id="gyhd_biao" type="text/x-dot-template">
           <div class="title_con">
+            <span class="title_nm">竞赛名称:</span>
+            <span class="cont_pjb">{{=it.info.newjson.biaoti}}</span>
+          </div>
+          <div class="title_con">
             <span class="title_nm">姓 名:</span>
             <span class="cont_pjb">{{=it.info.newjson.xingming}}</span>
           </div>
           <div class="title_con">
-            <span class="title_nm">学校名称:</span>
-            <span class="cont_pjb">{{=it.info.newjson.school}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">性别:</span>
-            <span class="cont_pjb">{{=it.info.newjson.sex}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">年级:</span>
+            <span class="title_nm">年 级:</span>
             <span class="cont_pjb">{{=it.info.newjson.nianji}}</span>
           </div>
           <div class="title_con">
-            <span class="title_nm">身份证号:</span>
-            <span class="cont_pjb">{{=it.info.newjson.sfz}}</span>
+            <span class="title_nm">学 校:</span>
+            <span class="cont_pjb">{{=it.info.newjson.xuexiao}}</span>
           </div>
           <div class="title_con">
             <span class="title_nm">指导教师:</span>
-            <span class="cont_pjb">{{=it.info.newjson.zhidaoteacher}}</span>
+            <span class="cont_pjb">{{=it.info.newjson.zhidaolaoshi}}</span>
           </div>
           <div class="title_con">
-            <span class="title_nm">已获专利证书类型:</span>
-            <span class="cont_pjb">{{=it.info.newjson.biaoti}}</span>
+            <span class="title_nm">竞赛项目:</span>
+            <span class="cont_pjb">{{=it.info.newjson.jingsaixiangmu}}</span>
           </div>
           <div class="title_con">
-            <span class="title_nm">名称:</span>
-            <span class="cont_pjb">{{=it.info.newjson.biaoti}}</span>
+            <span class="title_nm">参赛团队:</span>
+            <span class="cont_pjb">{{=it.info.newjson.cansaituandui}}</span>
           </div>
           <div class="title_con">
-            <span class="title_nm">发明人:</span>
-            <span class="cont_pjb">{{=it.info.newjson.famingren}}</span>
+            <span class="title_nm">比赛时间:</span>
+            <span class="cont_pjb">{{=it.info.newjson.bisaishijian}}</span>
           </div>
           <div class="title_con">
-            <span class="title_nm">专利权人:</span>
+            <span class="title_nm">比赛地点:</span>
+            <span class="cont_pjb">{{=it.info.newjson.bisaididian}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">总成绩:</span>
+            <span class="cont_pjb">{{=it.info.newjson.zongchengji}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">获奖等级:</span>
+            <span class="cont_pjb">{{=it.info.newjson.huojiang}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">体验与收获:</span>
             <span class="cont_pjb">{{=it.info.newjson.neirong}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">专利号:</span>
-            <span class="cont_pjb">{{=it.info.newjson.zhuyanlihao}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">证件号:</span>
-            <span class="cont_pjb">{{=it.info.newjson.zhengjianhao}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">公示日期:</span>
-            <span class="cont_pjb">{{=it.info.newjson.gongshiriqi}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">学校公式网址:</span>
-            <span class="cont_pjb">{{=it.info.newjson.wangzhi}}</span>
-          </div>
-          <div class="title_con">
-            <span class="title_nm">公式结果:</span>
-            <span class="cont_pjb">{{=it.info.newjson.jieguo}}</span>
           </div>
           <div class="title_con">
             <span class="title_nm">指导教师评语:</span>
             <span class="cont_pjb">{{=it.info.newjson.pingyu}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">评价内容思想性科学性:</span>
+            <span class="cont_pjb">{{=it.info.newjson.kexuexing}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">评价内容创新性:</span>
+            <span class="cont_pjb">{{=it.info.newjson.pingjianeirong}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">评价内容艺术性技术性:</span>
+            <span class="cont_pjb">{{=it.info.newjson.jishuxing}}</span>
+          </div>
+          <div class="title_con">
+            <span class="title_nm">评价内容其他:</span>
+            <span class="cont_pjb">{{=it.info.newjson.pingjianr}}</span>
           </div>
           <div id="imgs"></div>
           <div style="margin-left:10px;margin-top:1rem;height:auto;display: inline-flex;">
@@ -142,11 +146,10 @@
 
           {{}}}
         </div>
-
-    </script>
-    <!-- {{for (var i = 0; i < it.picture.length; i++) {}}
-      <img class="top_img" src="http://www.yxke12.com/Public/Home/images/huodong/{{=it.picture[i]}}"  >
-    {{}}} -->
+      </script>
+      <!-- {{for (var i = 0; i < it.picture.length; i++) {}} -->
+        <!-- <img class="top_img" src="http://www.yxke12.com/Public/Home/images/huodong/{{=it.picture[i]}}"  > -->
+      <!-- {{}}} -->
   </div>
 </body>
 <script type="text/javascript" src="../../../script/api.js"></script>
@@ -155,9 +158,10 @@
 <script type="text/javascript" src="../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
+
 var gyhd = doT.template(document.getElementById('gyhd_biao').innerHTML);
 window.onload = function(){
-    var id = rt.getPageParame("datas")
+    var id = rt.getPageParame("id")
     getDetails(id);
 };
 

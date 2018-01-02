@@ -127,87 +127,106 @@
         </div>
     </div>
 </body>
-<script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
-    apiready = function() {
-        api.parseTapmode();
-    };
+    var toast = new auiToast({});
     var password;
     function loginClick() {
       var username = $api.byId('username_in').value;
       password = $api.byId('password_in').value;
       if (username == '') {
-        api.toast({
-           msg: '请输入用户名'
+        toast.fail({
+           title: '请输入用户名'
        });
         return;
       }
       if (password == '') {
-        api.toast({
-           msg: '请输入密码'
+        toast.fail({
+           title: '请输入密码'
        });
         return;
       }
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
 
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/Apa/Parent/login.html',
-          method: 'post',
-          data: {
-              values: {
-                  loginuser: username, // 'lichengming1',
-                  password: password // "123456"
-              }
-          }
-      },function(ret, err){
-          api.hideProgress();
-          console.log(JSON.stringify(ret));
-          if (ret) {
-            if (ret.status == 100) {
-              var infos = ret.data;
-              if (infos != null) {
-                for (var key in infos) {
-                  if (infos.hasOwnProperty(key)) {
-                    console.log(key + "-------" + JSON.stringify(infos[key]));
-                      $api.setStorage(key, infos[key]);
-                  }
-                }
-                $api.setStorage('password', password);
-                api.openWin({
-                    name: 'index',
-                    url: '../shouye/frame1_win.html',
-                    pageParam: {
-                        name: 'test'
-                    },
-                    slidBackEnabled:false
-                });
-              }
-
-            }else {
-              // console.log( JSON.stringify( ret ) );
-              $api.clearStorage ();
-              api.toast({
-                  msg: ret.data.error,
-                  duration: 2000,
-                  location: 'bottom'
-              });
+      zhc.post('http://www.yxke12.com/index.php/Apa/Parent/login.html',{loginuser: username, password: password},function(data){
+      
+        var infos = data;
+        if (infos != null) {
+          for (var key in infos) {
+            if (infos.hasOwnProperty(key)) {
+              
+                $api.setStorage(key, infos[key]);
             }
-
-          } else {
-            $api.clearStorage();
-            api.toast({
-                msg: JSON.stringify(err.msg),
-                duration: 2000,
-                location: 'bottom'
-            });
           }
-      });
+          $api.setStorage('password', password);
+          rt.openPage('../shouye/frame1_frm.html',{});
+          // api.openWin({
+          //     name: 'index',
+          //     url: '../shouye/frame1_win.html',
+          //     pageParam: {
+          //         name: 'test'
+          //     },
+          //     slidBackEnabled:false
+          // });
+        }
+      },null,true);
+
+      // api.ajax({
+      //     url: 'http://www.yxke12.com/index.php/Apa/Parent/login.html',
+      //     method: 'post',
+      //     data: {
+      //         values: {
+      //             loginuser: username, // 'lichengming1',
+      //             password: password // "123456"
+      //         }
+      //     }
+      // },function(ret, err){
+      //     api.hideProgress();
+      //     console.log(JSON.stringify(ret));
+      //     if (ret) {
+      //       if (ret.status == 100) {
+      //         var infos = ret.data;
+      //         if (infos != null) {
+      //           for (var key in infos) {
+      //             if (infos.hasOwnProperty(key)) {
+      //               console.log(key + "-------" + JSON.stringify(infos[key]));
+      //                 $api.setStorage(key, infos[key]);
+      //             }
+      //           }
+      //           $api.setStorage('password', password);
+      //           api.openWin({
+      //               name: 'index',
+      //               url: '../shouye/frame1_win.html',
+      //               pageParam: {
+      //                   name: 'test'
+      //               },
+      //               slidBackEnabled:false
+      //           });
+      //         }
+
+      //       }else {
+      //         // console.log( JSON.stringify( ret ) );
+      //         $api.clearStorage ();
+      //         api.toast({
+      //             msg: ret.data.error,
+      //             duration: 2000,
+      //             location: 'bottom'
+      //         });
+      //       }
+
+      //     } else {
+      //       $api.clearStorage();
+      //       api.toast({
+      //           msg: JSON.stringify(err.msg),
+      //           duration: 2000,
+      //           location: 'bottom'
+      //       });
+      //     }
+      // });
     }
 
     function registerClick() {

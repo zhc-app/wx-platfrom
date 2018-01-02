@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>TA的学习</title>
     <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
@@ -516,19 +516,21 @@ ul li .right-btns .flex-con.red{ background-color: #ff4c00; }
 <script type="text/javascript" src="../../../../script/aui-tab.js"></script>
 <script type="text/javascript" src="../../../../script/doT.js"></script>
 <script type="text/javascript" src="../../../../script/aui-list-swipe.js"></script>
-<script src="../../../../script/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
 <script src="../../../../script/demo.js"></script>
 <script src="../../../../script/network.js"></script>
 <script type="text/javascript" src="../../../../script/aui-collapse.js" ></script>
 <script type="text/javascript">
     var listHD = doT.template(document.getElementById('tuijianzc').innerHTML);
-      var wodetongxue2 = doT.template(document.getElementById('wdls').innerHTML);
-    apiready = function() {
-        api.parseTapmode();
+    var wodetongxue2 = doT.template(document.getElementById('wdls').innerHTML);
+      var toast = new auiToast({});
+    window.onload = function() {
         var swipe = new auiListSwipe(function(ret){
             // console.log(ret)
         });
-wodels()
+        wodels()
     };
     var collapse = new auiCollapse({
         autoHide:false //是否自动隐藏已经展开的容器
@@ -566,7 +568,7 @@ wodels()
 
 function first() {
   var parames = {values:{}}
-  parames.values.studentid=$api.getStorage('studentid');
+  parames.studentid=$api.getStorage('studentid');
   zhc.post('http://www.yxke12.com/index.php/App/Member/wodebiji.html',parames,function(data) {
 
   if (data==0) {
@@ -585,9 +587,9 @@ function first() {
       document.getElementById('yincang1').className = 'Sort-eject Sort-height'
     }
     function quanbuxianshi(){
-      var parames = {values:{}}
+      var parames = {}
         document.getElementById("quanbu1").className = "quanbu"
-        parames.values.studentid=$api.getStorage('studentid');
+        parames.studentid=$api.getStorage('studentid');
         zhc.post('http://www.yxke12.com/index.php/App/Member/wodebiji.html',parames,function(data) {
         document.getElementById('ceshi_id').innerHTML = listHD(data);
         },null,true)
@@ -597,7 +599,7 @@ function first() {
 
      //js点击事件监听开始
     function grade1(wbj,e){
-      var parames = {values:{}}
+      var parames = {}
       document.getElementById("quanbu1").className = "quanbubianse"
       $api.byId('shudu').innerHTML = wbj.innerHTML;
         e.cancelBubble =true
@@ -607,8 +609,8 @@ function first() {
             a.style.background = "";
         };
         wbj.style.background = "#eee"
-        parames.values.studentid=$api.getStorage('studentid');
-        parames.values.nianji=$api.byId('shudu').innerHTML;
+        parames.studentid=$api.getStorage('studentid');
+        parames.nianji=$api.byId('shudu').innerHTML;
         zhc.post('http://www.yxke12.com/index.php/App/Member/wodebiji.html',parames,function(data) {
         document.getElementById('ceshi_id').innerHTML = listHD(data);
         },null,true)
@@ -639,27 +641,36 @@ function first() {
 
 
     function onItemClick(kid,img) {
-        api.openWin({
-            name: 'kecheng_win',
-            url: '../../../chengjitisheng/youketang/kecheng_win.html',
-            pageParam: {
-                kid: kid,
-                img: img,
-                url:'http://www.yxke12.com/index.php/App/Youketang/seevideo.html',
-                paixu:1
-            }
-        });
+
+      var uploadData = {
+                          kid: kid,
+                          img: img,
+                          url:'http://www.yxke12.com/index.php/App/Youketang/seevideo.html',
+                          paixu:1
+                       };
+
+      uploadData = $api.jsonToStr(uploadData);
+      rt.openPage('./kecheng_frm.html',{data:uploadData});
+        // api.openWin({
+        //     name: 'kecheng_win',
+        //     url: '../../../chengjitisheng/youketang/kecheng_win.html',
+        //     pageParam: {
+        //         kid: kid,
+        //         img: img,
+        //         url:'http://www.yxke12.com/index.php/App/Youketang/seevideo.html',
+        //         paixu:1
+        //     }
+        // });
 
     }
 
 
 function wodels() {
 
-    var datas={values:{}}
-      datas.values.studentid = $api.getStorage('studentid');
-      zn.post("http://www.yxke12.com/index.php/Apa/Member/tadelaoshi.html",datas,function (data) {
-        console.log(JSON.stringify(data));
-              document.getElementById('wodelaoshi').innerHTML = wodetongxue2(data.data);
+    var datas={}
+      datas.studentid = $api.getStorage('studentid');
+      zhc.post("http://www.yxke12.com/index.php/Apa/Member/tadelaoshi.html",datas,function (data) {
+              document.getElementById('wodelaoshi').innerHTML = wodetongxue2(data);
       },true)
 
 

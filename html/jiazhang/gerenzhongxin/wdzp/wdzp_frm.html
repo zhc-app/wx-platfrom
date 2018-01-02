@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>TA的综评</title>
     <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
@@ -391,8 +391,8 @@
 
             <section class="aui-content-padded" >
                 <ul class="aui-list aui-collapse aui-border" id="jiaoshi_url">
-                    <script id="jiaoshi_s" type="text/x-dot-template"> -->
-                          <!-- {{for (var i = 0; i < it.length; i++) {}}
+                    <script id="jiaoshi_s" type="text/x-dot-template"> 
+                          {{for (var i = 0; i < it.length; i++) {}}
                             <div class="aui-collapse-item"  tapmode>
                                 <li class="aui-list-item aui-collapse-header" tapmode>
                                     <div class="aui-list-item-inner">
@@ -438,7 +438,9 @@
 <script type="text/javascript" src="../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../script/aui-tab.js"></script>
 <script type="text/javascript" src="../../../../script/doT.js"></script>
-<script src="../../../../script/jquery-1.8.3.min.js"></script>
+  <script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../../script/aui-toast.js"></script>
 <script src="../../../../script/demo.js"></script>
 <script src="../../../../script/network.js"></script>
 <script type="text/javascript" src="../../../../script/aui-collapse.js" ></script>
@@ -446,8 +448,8 @@
 var listHD = doT.template(document.getElementById('HDlist').innerHTML);
 var bg = doT.template(document.getElementById('BGlist').innerHTML);
 var jisoshiS = doT.template(document.getElementById('jiaoshi_s').innerHTML);
-    apiready = function() {
-        api.parseTapmode();
+    window.onload = function() {
+        // api.parseTapmode();
         huodonglist()
 
 
@@ -478,84 +480,15 @@ var jisoshiS = doT.template(document.getElementById('jiaoshi_s').innerHTML);
 // 活动记录
 var imageId
   function huodonglist() {
-    api.showProgress({
-        style: 'default',
-        animationType: 'fade',
-        title: '努力加载中...',
-        text: '先喝杯茶...',
-        modal: false
-    });
-    api.ajax({
-        url: 'http://www.yxke12.com/index.php/App/Member/huodongjilu.html',
-        method: 'post',
-        data: {
-            values: {
-                studentid: $api.getStorage("studentid")
-            },
-        }
-    },function(ret, err){
-      api.hideProgress();
-      // alert( JSON.stringify( ret ) );
-        if (ret) {
-          if (ret.status==100) {
-
-
-            document.getElementById('listCon').innerHTML = listHD(ret.data);
-
-
-          }
-
-
-        } else {
-          api.toast({
-              msg: '暂无活动记录',
-              duration: 2000,
-              location: 'bottom'
-          });
-        }
-    });
-
-
+    zhc.post('http://www.yxke12.com/index.php/App/Member/huodongjilu.html',{studentid: $api.getStorage("studentid")},function(data){
+        document.getElementById('listCon').innerHTML = listHD(data);
+    },null,true);
   }
 
   function bglist() {
-    api.showProgress({
-        style: 'default',
-        animationType: 'fade',
-        title: '努力加载中...',
-        text: '先喝杯茶...',
-        modal: false
-    });
-    api.ajax({
-        url: 'http://www.yxke12.com/index.php/App/Member/chenshubaogao.html',
-        method: 'post',
-        data: {
-            values: {
-                studentid: $api.getStorage("studentid")
-            },
-        }
-    },function(ret, err){
-      api.hideProgress();
-        if (ret) {
-          if (ret.status==100) {
-
-
-            document.getElementById('listBG').innerHTML = bg(ret.data);
-
-
-
-          }
-
-            console.log( JSON.stringify( ret ) );
-        } else {
-          api.toast({
-              msg: '暂无活动记录',
-              duration: 2000,
-              location: 'bottom'
-          });
-        }
-    });
-
+    zhc.post('http://www.yxke12.com/index.php/App/Member/chenshubaogao.html',{studentid: $api.getStorage("studentid")},function(data){
+        document.getElementById('listBG').innerHTML = bg(data);
+    },null,true);
 
   }
 // 陈述报告
@@ -605,121 +538,220 @@ function BGxiangqing(id,url) {
 
 // 活动记录
 function huodongxiangqing(id,url) {
-  api.showProgress({
-      style: 'default',
-      animationType: 'fade',
-      title: '努力加载中...',
-      text: '先喝杯茶...',
-      modal: false
-  });
-  api.ajax({
-      url: 'http://www.yxke12.com/index.php/App/Member/huodongjilucon.html',
-      method: 'post',
-      data: {
-          values: {
-              hid:id
-          },
-      }
-  },function(ret, err){
-    api.hideProgress();
+  // api.showProgress({
+  //     style: 'default',
+  //     animationType: 'fade',
+  //     title: '努力加载中...',
+  //     text: '先喝杯茶...',
+  //     modal: false
+  // });
+  
+  zhc.post('http://www.yxke12.com/index.php/App/Member/huodongjilucon.html',{hid:id},function(data){
+    console.log(data);
+    return;
+          var datas = $api.jsonToStr(data);
 
-      if (ret) {
-// alert( JSON.stringify( ret ) );
-        if (ret.status==100) {
           if (url == 'huoquzhuanli') {
-
-              api.openWin({
-                  name: 'hqzl_win',
-                  url: '../../huodongjilubiao/hqzl_win.html',
-                  pageParam: {
-                      data: ret.data
-                  }
-              });
+             rt.openPage('../../huodongjilubiao/hqzl_frm.html',{data:datas});
+              // api.openWin({
+              //     name: 'hqzl_win',
+              //     url: '../../huodongjilubiao/hqzl_win.html',
+              //     pageParam: {
+              //         data: ret.data
+              //     }
+              // });
           }else if (url == 'xuekejingsai') {
-            api.openWin({
-                name: 'xkjs_win',
-                url: '../../huodongjilubiao/xkjs_win.html',
-                pageParam: {
-                    data: ret.data
-                }
-            });
+            rt.openPage('../../huodongjilubiao/xkjs_frm.html',{data:datas});
+            // api.openWin({
+            //     name: 'xkjs_win',
+            //     url: '../../huodongjilubiao/xkjs_win.html',
+            //     pageParam: {
+            //         data: ret.data
+            //     }
+            // });
           }else if (url == 'shehui') {
-            api.openWin({
-                name: 'shsj_win',
-                url: '../../huodongjilubiao/shsj_win.html',
-                pageParam: {
-                    data: ret.data
-                }
-            });
+            rt.openPage('../../huodongjilubiao/shsj_frm.html',{data:datas});
+            // api.openWin({
+            //     name: 'shsj_win',
+            //     url: '../../huodongjilubiao/shsj_win.html',
+            //     pageParam: {
+            //         data: ret.data
+            //     }
+            // });
           }else if (url == 'yanjiu') {
-            api.openWin({
-                name: 'gzxs_win',
-                url: '../../huodongjilubiao/gzxs_win.html',
-                pageParam: {
-                    data: ret.data
-                }
-            });
+            rt.openPage('../../huodongjilubiao/gzxs_frm.html',{data:datas});
+            // api.openWin({
+            //     name: 'gzxs_win',
+            //     url: '../../huodongjilubiao/gzxs_win.html',
+            //     pageParam: {
+            //         data: ret.data
+            //     }
+            // });
           }else if (url == 'gongyi') {
-            api.openWin({
-                name: 'gyhd_win',
-                url: '../../huodongjilubiao/gyhd_win.html',
-                pageParam: {
-                    data:ret.data
-                }
-            });
+            rt.openPage('../../huodongjilubiao/gyhd_frm.html',{data:datas});
+            // api.openWin({
+            //     name: 'gyhd_win',
+            //     url: '../../huodongjilubiao/gyhd_win.html',
+            //     pageParam: {
+            //         data:ret.data
+            //     }
+            // });
           }else if (url == 'shetuan') {
-            api.openWin({
-                name: 'xsst_win',
-                url: '../../huodongjilubiao/xsst_win.html',
-                pageParam: {
-                    data: ret.data
-                }
-            });
+            rt.openPage('../../huodongjilubiao/xsst_frm.html',{data:datas});
+            // api.openWin({
+            //     name: 'xsst_win',
+            //     url: '../../huodongjilubiao/xsst_win.html',
+            //     pageParam: {
+            //         data: ret.data
+            //     }
+            // });
           }else if (url == 'lunwenfabiao') {
-            api.openWin({
-                name: 'lwfb_win',
-                url: '../../huodongjilubiao/lwfb_win.html',
-                pageParam: {
-                    data: ret.data
-                }
-            });
+            rt.openPage('../../huodongjilubiao/lwfb_frm.html',{data:datas});
+            // api.openWin({
+            //     name: 'lwfb_win',
+            //     url: '../../huodongjilubiao/lwfb_win.html',
+            //     pageParam: {
+            //         data: ret.data
+            //     }
+            // });
           }else if (url == 'kejijingsai') {
-            api.openWin({
-                name: 'kjjs_win',
-                url: '../../huodongjilubiao/kjjs_win.html',
-                pageParam: {
-                    data: ret.data
-                }
-            });
+            rt.openPage('../../huodongjilubiao/kjjs_frm.html',{data:datas});
+            // api.openWin({
+            //     name: 'kjjs_win',
+            //     url: '../../huodongjilubiao/kjjs_win.html',
+            //     pageParam: {
+            //         data: ret.data
+            //     }
+            // });
           }else if (url == 'tiyujingsai') {
-            api.openWin({
-                name: 'tyjs_win',
-                url: '../../huodongjilubiao/tyjs_win.html',
-                pageParam: {
-                    data: ret.data
-                }
-            });
+            rt.openPage('../../huodongjilubiao/tyjs_frm.html',{data:datas});
+            // api.openWin({
+            //     name: 'tyjs_win',
+            //     url: '../../huodongjilubiao/tyjs_win.html',
+            //     pageParam: {
+            //         data: ret.data
+            //     }
+            // });
           }else {
-            api.openWin({
-                name: 'huodongjiluXQ_win',
-                url: '../huodongjiluXQ_win.html',
-                pageParam: {
-                    data: ret.data,
-                    title:"活动记录"
-                }
-            });
+            rt.openPage('../huodongjiluXQ_frm.html',{data:datas});
+            // api.openWin({
+            //     name: 'huodongjiluXQ_win',
+            //     url: '../huodongjiluXQ_win.html',
+            //     pageParam: {
+            //         data: ret.data,
+            //         title:"活动记录"
+            //     }
+            // });
           }
-        }
+   },null,true);
+
+  // api.ajax({
+  //     url: 'http://www.yxke12.com/index.php/App/Member/huodongjilucon.html',
+  //     method: 'post',
+  //     data: {
+  //         values: {
+  //             hid:id
+  //         },
+  //     }
+  // },function(ret, err){
+  //   api.hideProgress();
+
+  //     if (ret) {
+  //       if (ret.status==100) {
+  //         if (url == 'huoquzhuanli') {
+
+  //             api.openWin({
+  //                 name: 'hqzl_win',
+  //                 url: '../../huodongjilubiao/hqzl_win.html',
+  //                 pageParam: {
+  //                     data: ret.data
+  //                 }
+  //             });
+  //         }else if (url == 'xuekejingsai') {
+  //           api.openWin({
+  //               name: 'xkjs_win',
+  //               url: '../../huodongjilubiao/xkjs_win.html',
+  //               pageParam: {
+  //                   data: ret.data
+  //               }
+  //           });
+  //         }else if (url == 'shehui') {
+  //           api.openWin({
+  //               name: 'shsj_win',
+  //               url: '../../huodongjilubiao/shsj_win.html',
+  //               pageParam: {
+  //                   data: ret.data
+  //               }
+  //           });
+  //         }else if (url == 'yanjiu') {
+  //           api.openWin({
+  //               name: 'gzxs_win',
+  //               url: '../../huodongjilubiao/gzxs_win.html',
+  //               pageParam: {
+  //                   data: ret.data
+  //               }
+  //           });
+  //         }else if (url == 'gongyi') {
+  //           api.openWin({
+  //               name: 'gyhd_win',
+  //               url: '../../huodongjilubiao/gyhd_win.html',
+  //               pageParam: {
+  //                   data:ret.data
+  //               }
+  //           });
+  //         }else if (url == 'shetuan') {
+  //           api.openWin({
+  //               name: 'xsst_win',
+  //               url: '../../huodongjilubiao/xsst_win.html',
+  //               pageParam: {
+  //                   data: ret.data
+  //               }
+  //           });
+  //         }else if (url == 'lunwenfabiao') {
+  //           api.openWin({
+  //               name: 'lwfb_win',
+  //               url: '../../huodongjilubiao/lwfb_win.html',
+  //               pageParam: {
+  //                   data: ret.data
+  //               }
+  //           });
+  //         }else if (url == 'kejijingsai') {
+  //           api.openWin({
+  //               name: 'kjjs_win',
+  //               url: '../../huodongjilubiao/kjjs_win.html',
+  //               pageParam: {
+  //                   data: ret.data
+  //               }
+  //           });
+  //         }else if (url == 'tiyujingsai') {
+  //           api.openWin({
+  //               name: 'tyjs_win',
+  //               url: '../../huodongjilubiao/tyjs_win.html',
+  //               pageParam: {
+  //                   data: ret.data
+  //               }
+  //           });
+  //         }else {
+  //           api.openWin({
+  //               name: 'huodongjiluXQ_win',
+  //               url: '../huodongjiluXQ_win.html',
+  //               pageParam: {
+  //                   data: ret.data,
+  //                   title:"活动记录"
+  //               }
+  //           });
+  //         }
+  //       }
 
 
-      } else {
-        api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-      }
-  });
+  //     } else {
+  //       api.toast({
+  //           msg: JSON.stringify(err.msg),
+  //           duration: 2000,
+  //           location: 'bottom'
+  //       });
+  //     }
+  // });
 }
 
 
@@ -763,7 +795,7 @@ var parames = {values:{}}
 
   //js点击事件监听开始
  function grade1(wbj,e){
-   var parames = {values:{}}
+   var parames = {};
    document.getElementById("quanbu1").className = "quanbubianse"
    $api.byId('shudu').innerHTML = wbj.innerHTML;
      e.cancelBubble =true
@@ -773,10 +805,9 @@ var parames = {values:{}}
          a.style.background = "";
      };
      wbj.style.background = "#eee"
-     parames.values.studentid=$api.getStorage('studentid');
-     parames.values.type=$api.byId('shudu').innerHTML;
+     parames.studentid=$api.getStorage('studentid');
+     parames.type=$api.byId('shudu').innerHTML;
      zhc.post('http://192.168.1.247/index.php/App/Member/jiaoshipingjia.html',parames,function(data) {
-       console.log(JSON.stringify(data));
 
          document.getElementById('jiaoshi_url').innerHTML = jisoshiS(data);
          var collapse = new auiCollapse({
@@ -789,12 +820,10 @@ var parames = {values:{}}
 
 
  function jiaoshipingjia() {
-    var parames = {values:{}}
-    parames.values.type=$api.byId('shudu').innerHTML;
-    parames.values.studentid=$api.getStorage('studentid');
+    var parames = {}
+    parames.type=$api.byId('shudu').innerHTML;
+    parames.studentid=$api.getStorage('studentid');
     zhc.post('http://192.168.1.247/index.php/App/Member/jiaoshipingjia.html',parames,function(data) {
-      console.log(JSON.stringify(data));
-
         document.getElementById('jiaoshi_url').innerHTML = jisoshiS(data);
         var collapse = new auiCollapse({
             autoHide:false //是否自动隐藏已经展开的容器

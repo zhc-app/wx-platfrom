@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>文档</title>
+    <title>个人中心</title>
     <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
@@ -445,18 +445,16 @@
 </body>
 </html>
 <!-- <script type="text/javascript" src="../script/aui-slide.js"></script> -->
-<script type="text/javascript" src="../../../script/api.js"></script>
-<script type="text/javascript" src="../../../script/doT.js"></script>
+ <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+  <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+  <script type="text/javascript" src="../../../script/api.js"></script>
+  <script type="text/javascript" src="../../../script/doT.js"></script>
+  <script type="text/javascript" src="../../../script/network.js"></script>
 <!-- <script src="../script/swiper.min.js"></script> -->
 <script type="text/javascript">
 function shishengguanxi() {
-  api.openWin({
-      name: 'wdgz_win',
-      url: 'wdgz/wdgz_win.html',
-      pageParam: {
-          name: 'test'
-      }
-  });
+    rt.openPage('./wdgz/wdgz_frm.html',{});
 }
 
  function wodeceping() {
@@ -490,25 +488,13 @@ function wodexuanke() {
 }
 
 function guanzhuyuanxiao() {
-  api.openWin({
-      name: 'wdxx_win',
-      url: '../gerenzhongxin/wdxx/wdxx_win.html',
-      pageParam: {
-          name: 'test'
-      },
-      slidBackEnabled:false
-  });
+  rt.openPage('../gerenzhongxin/wdxx/wdxx_frm.html',{});
 
 }
 
 function ketangbiji(){
-  api.openWin({
-      name: 'wdzp_win',
-      url: 'wdzp/wdzp_win.html',
-      pageParam: {
-          name: 'test'
-      }
-  });
+  rt.openPage('./wdzp/wdzp_frm.html',{});
+
 
 }
 
@@ -525,18 +511,19 @@ function huodongjilu(){
 }
 
 function shezhi() {
-  api.openWin({
-      name: 'shezhi_win',
-      url: '../gerenzhongxin/shezhi_win.html',
-      pageParam: {
-          name: 'test'
-      }
-  });
+  rt.openPage('./shezhi_frm.html',{});
+  // api.openWin({
+  //     name: 'shezhi_win',
+  //     url: '../gerenzhongxin/shezhi_win.html',
+  //     pageParam: {
+  //         name: 'test'
+  //     }
+  // });
 }
 
 var geRenShuJu={}
 var evalText=doT.template(document.getElementById('evaluationtmpl').innerHTML);
-apiready=function() {
+window.onload=function() {
 $api.byId('school').innerHTML = $api.getStorage('childschool');
 $api.byId('classB').innerHTML = $api.getStorage('studentgrade')+$api.getStorage('studentclass');
 
@@ -551,24 +538,26 @@ $api.byId('classB').innerHTML = $api.getStorage('studentgrade')+$api.getStorage(
   }
 
   function openCenter() {
-    api.openWin({
-        name: 'gerenxinxi_win',
-        url: '../gerenzhongxin/gerenxinxi_win.html',
-        pageParam: {
-            name: 'test'
-        }
-    });
+    rt.openPage('../gerenzhongxin/gerenxinxi_frm.html',{});
+    // api.openWin({
+    //     name: 'gerenxinxi_win',
+    //     url: '../gerenzhongxin/gerenxinxi_win.html',
+    //     pageParam: {
+    //         name: 'test'
+    //     }
+    // });
   }
 
-  function myGrowClick() {
-    api.openWin({
-        name: 'diannaochakan',
-        url: '../diannaochakan.html',
-        pageParam: {
-            name: 'test'
-        }
-    });
-  }
+  // function myGrowClick() {
+
+  //   api.openWin({
+  //       name: 'diannaochakan',
+  //       url: '../diannaochakan.html',
+  //       pageParam: {
+  //           name: 'test'
+  //       }
+  //   });
+  // }
 
   // 个人资料界面返回
   function refresh() {
@@ -577,51 +566,60 @@ $api.byId('classB').innerHTML = $api.getStorage('studentgrade')+$api.getStorage(
   }
 
   function yanzhen() {
-    api.ajax({
-        url: 'http://www.yxke12.com/index.php/App/Student/checkgaige.html',
-        method: 'post',
-        data: {
-            values: {
-              studentid:$api.getStorage('studentid'),
-            }
-        }
-    },function(ret, err){
-        if (ret) {
-          if (ret.status == 100) {
-            if (ret.data == 0) {
-                $api.byId('xuankejilu_id').style.display='none';
-            }else {
-                $api.byId('xuankejilu_id').style.display='flex';
-            }
-            api.parseTapmode();
-          }else{
-            api.toast({
-                msg: ret.data.error,
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-        } else {
-            api.toast({
-                msg: JSON.stringify( err ),
-                duration: 2000,
-                location: 'bottom'
-            });
-        }
-    });
+   zhc.post('http://www.yxke12.com/index.php/App/Student/checkgaige.html',{studentid:$api.getStorage('studentid')},function(data){
+      if (data == 0) {
+          $api.byId('xuankejilu_id').style.display='none';
+      }else {
+          $api.byId('xuankejilu_id').style.display='flex';
+      }
+      
+    },null,true);
+
+    // api.ajax({
+    //     url: 'http://www.yxke12.com/index.php/App/Student/checkgaige.html',
+    //     method: 'post',
+    //     data: {
+    //         values: {studentid:$api.getStorage('studentid')}
+    //     }
+    // },function(ret, err){
+    //     if (ret) {
+    //       if (ret.status == 100) {
+    //         if (ret.data == 0) {
+    //             $api.byId('xuankejilu_id').style.display='none';
+    //         }else {
+    //             $api.byId('xuankejilu_id').style.display='flex';
+    //         }
+    //         api.parseTapmode();
+    //       }else{
+    //         api.toast({
+    //             msg: ret.data.error,
+    //             duration: 2000,
+    //             location: 'bottom'
+    //         });
+    //       }
+    //     } else {
+    //         api.toast({
+    //             msg: JSON.stringify( err ),
+    //             duration: 2000,
+    //             location: 'bottom'
+    //         });
+    //     }
+    // });
 
   }
 
   function chenshubaogao() {
-    api.openWin({
-        name: 'wdbk_win',
-        url: '../gerenzhongxin/wdbk/wdbk_win.html',
-        pageParam: {
-            name: 'test'
-        }
-    });
+    rt.openPage('./wdbk/wdbk_win.html',{});
+    // api.openWin({
+    //     name: 'wdbk_win',
+    //     url: '../gerenzhongxin/wdbk/wdbk_win.html',
+    //     pageParam: {
+    //         name: 'test'
+    //     }
+    // });
   }
   function chengzhangdanan() {
+    rt.openPage('./chengzhangdangan_win.html',{});
     api.openWin({
         name: 'chengzhangdangan_win',
         url: '../gerenzhongxin/chengzhangdangan_win.html',
