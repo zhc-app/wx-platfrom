@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>我的关注</title>
     <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
@@ -230,129 +230,141 @@
 </body>
 <script type="text/javascript" src="../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../../script/doT.js"></script>
 <script type="text/javascript" src="../../../../script/aui-list-swipe.js"></script>
 <script src="../../../../script/jquery-1.8.3.min.js"></script>
 <script src="../../../../script/demo.js"></script>
 <script src="../../../../script/network.js"></script>
+<script src="../../../../script/zhc-route.js"></script>
 <script type="text/javascript" src="../../../../script/aui-collapse.js" ></script>
 <script type="text/javascript">
     var total_data = {};
     var list=doT.template(document.getElementById('schools_s').innerHTML);
-    apiready = function() {
-        api.parseTapmode();
+    window.onload = function() {
         getData();
 
     };
 
     function getData() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: false
-      });
 
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/Apa/Member/focuschool.html',
-          method: 'post',
-          data: {
-              values: {
-                  parentid: $api.getStorage('parentid')
-              },
-          }
-      },function(ret, err){
-        // console.log(JSON.stringify(ret));
-        api.hideProgress();
-          if (ret) {
-              total_data = ret.data;
-
-              // start 筛选
-              // var province = doT.template(document.getElementById('province').innerHTML);
-              // document.getElementById('Sort-Sort').innerHTML = province(total_data.province);
-              //
-              // var schooltype = doT.template(document.getElementById('schooltype_s').innerHTML);
-              // document.getElementById('SchoolType_ul').innerHTML = schooltype(total_data.yxlx);
-              //
-              // var level = doT.template(document.getElementById('level_s').innerHTML);
-              // document.getElementById('Level_ul').innerHTML = level(total_data.xlcc);
-              //
-              // var chara = doT.template(document.getElementById('chara_s').innerHTML);
-              // document.getElementById('Chara_ul').innerHTML = chara(total_data.yxts);
-              // end 筛选
-              // start 列表
-              if (total_data != null) {
-                document.getElementById('schools_ul').innerHTML = list(total_data);
-              }else {
-                api.toast({
-                    msg: '您还没有关注院校',
-                    duration: 2000,
-                    location: 'bottom'
-                });
-
-              }
-              // end 列表
-          } else {
-            api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
+      zhc.post("http://www.yxke12.com/index.php/Apa/Member/focuschool.html",{parentid: $api.getStorage('parentid')},function(data){
+        total_data = data;
+        if (total_data != null) {
+          document.getElementById('schools_ul').innerHTML = list(total_data);
+        }else {
+          toast.fail({
+              title: '您还没有关注院校'
           });
-          }
-      });
+
+        }
+      },null,true);
+
+      // api.ajax({
+      //     url: 'http://www.yxke12.com/index.php/Apa/Member/focuschool.html',
+      //     method: 'post',
+      //     data: {
+      //         values: {
+      //             parentid: $api.getStorage('parentid')
+      //         },
+      //     }
+      // },function(ret, err){
+
+      //     if (ret) {
+      //         total_data = ret.data;
+
+      //         // start 筛选
+      //         // var province = doT.template(document.getElementById('province').innerHTML);
+      //         // document.getElementById('Sort-Sort').innerHTML = province(total_data.province);
+      //         //
+      //         // var schooltype = doT.template(document.getElementById('schooltype_s').innerHTML);
+      //         // document.getElementById('SchoolType_ul').innerHTML = schooltype(total_data.yxlx);
+      //         //
+      //         // var level = doT.template(document.getElementById('level_s').innerHTML);
+      //         // document.getElementById('Level_ul').innerHTML = level(total_data.xlcc);
+      //         //
+      //         // var chara = doT.template(document.getElementById('chara_s').innerHTML);
+      //         // document.getElementById('Chara_ul').innerHTML = chara(total_data.yxts);
+      //         // end 筛选
+      //         // start 列表
+      //         if (total_data != null) {
+      //           document.getElementById('schools_ul').innerHTML = list(total_data);
+      //         }else {
+      //           api.toast({
+      //               msg: '您还没有关注院校',
+      //               duration: 2000,
+      //               location: 'bottom'
+      //           });
+
+      //         }
+      //         // end 列表
+      //     } else {
+      //       api.toast({
+      //         msg: JSON.stringify(err.msg),
+      //         duration: 2000,
+      //         location: 'bottom'
+      //     });
+      //     }
+      // });
     }
 
     function itemClick(index) {
-      api.openWin({
-          name: 'school_storage_details_win',
-          url: '../shengyaguihua/school_storage_details_win.html',
-          pageParam: {
+      var uploadData = {
               index: index,
               title: total_data[index].dxmc
           }
-      });
+      uploadData = $api.jsonToStr(uploadData);
+      rt.openPage('../shengyaguihua/school_storage_details_frm.html',{data:uploadData});
+      // api.openWin({
+      //     name: 'school_storage_details_win',
+      //     url: '../shengyaguihua/school_storage_details_win.html',
+      //     pageParam: {
+      //         index: index,
+      //         title: total_data[index].dxmc
+      //     }
+      // });
     }
 
     function itemShouCang(e, index) {
         e.cancelBubble  = true;
         var it = total_data[index];
         var str = (it.imgname == 1) ?'取消中...':'收藏中...';
-        api.showProgress({
-            style: 'default',
-            animationType: 'fade',
-            title: str,
-            text: '先喝杯茶...',
-            modal: false
-        });
 
-        api.ajax({
-            url: 'http://www.yxke12.com/index.php/App/Yuanxiaoku/collect.html',
-            method: 'post',
-            data: {
-                values: {
-                    studentid: $api.getStorage('studentid'),
-                    schoolid: it.id
-                },
-            }
-        },function(ret, err){
-          api.hideProgress();
-            if (ret) {
-                if (ret.status = 100) {
-                  total_data[index].imgname = ret.data.imgname;
-                    if(ret.data.imgname != 1){
-                      total_data.splice(index, 1);
-                      document.getElementById('schools_ul').innerHTML = list(total_data);
-                    }
-                }
-            } else {
-              api.toast({
-              msg: JSON.stringify(err.msg),
-              duration: 2000,
-              location: 'bottom'
-          });
-            }
-        });
+      zhc.post("http://www.yxke12.com/index.php/Apa/Member/focuschool.html",{studentid: $api.getStorage('studentid'),schoolid: it.id},function(data){
+          total_data[index].imgname = ret.data.imgname;
+          if(ret.data.imgname != 1){
+            total_data.splice(index, 1);
+            document.getElementById('schools_ul').innerHTML = list(total_data);
+          }
+      },null,true);
+
+        // api.ajax({
+        //     url: 'http://www.yxke12.com/index.php/App/Yuanxiaoku/collect.html',
+        //     method: 'post',
+        //     data: {
+        //         values: {
+        //             studentid: $api.getStorage('studentid'),
+        //             schoolid: it.id
+        //         },
+        //     }
+        // },function(ret, err){
+        //   api.hideProgress();
+        //     if (ret) {
+        //         if (ret.status = 100) {
+        //           total_data[index].imgname = ret.data.imgname;
+        //             if(ret.data.imgname != 1){
+        //               total_data.splice(index, 1);
+        //               document.getElementById('schools_ul').innerHTML = list(total_data);
+        //             }
+        //         }
+        //     } else {
+        //       api.toast({
+        //       msg: JSON.stringify(err.msg),
+        //       duration: 2000,
+        //       location: 'bottom'
+        //   });
+        //     }
+        // });
 
     }
     var collapse = new auiCollapse({
@@ -371,25 +383,24 @@
           $api.byId('gzyx').style.display = "block";
           $api.byId('gzzy').style.display = "none";
           // $api.byId('bkfa').style.display = "none";
-          api.execScript({
-              name: 'wdbk_win',
-              script: 'editeClick("none")'
-          });
-          api.closeFrame({
-            name: 'my_volunt_list_frm'
-        });
+          // api.execScript({
+          //     name: 'wdbk_win',
+          //     script: 'editeClick("none")'
+          // });
+          rt.closePage('my_volunt_list_frm');
           getData();
         }else if (ret.index == 2) {
           $api.byId('gzyx').style.display = "none";
           $api.byId('gzzy').style.display = "block";
           // $api.byId('bkfa').style.display = "none";
-          api.execScript({
-              name: 'wdbk_win',
-              script: 'editeClick("none")'
-          });
-          api.closeFrame({
-            name: 'my_volunt_list_frm'
-        });
+          // api.execScript({
+          //     name: 'wdbk_win',
+          //     script: 'editeClick("none")'
+          // });
+          rt.closePage('my_volunt_list_frm');
+        //   api.closeFrame({
+        //     name: 'my_volunt_list_frm'
+        // });
         }else {
           $api.byId('gzyx').style.display = "none";
           $api.byId('gzzy').style.display = "none";
