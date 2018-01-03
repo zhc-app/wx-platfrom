@@ -395,8 +395,10 @@
 <script type="text/javascript" src="../../../../../script/echart.js"></script>
 <script type="text/javascript" src="../../../../../script/doT.js"></script>
 <script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/back.js"></script>
 <script type="text/javascript">
-var data;
+    var data;
+    var source;
     window.onload = function() {
       data = JSON.parse(localStorage.retdata);
       var evalText = doT.template(document.getElementById('evaluationtmpl').innerHTML);
@@ -408,7 +410,7 @@ var data;
       }
 
       var op = $api.byId('op_id');
-      var source = rt.getPageParame("source");
+      source = rt.getPageParame("source");
 
       if (source == 0) {
           op.style.display = 'none'
@@ -514,7 +516,25 @@ var data;
     };
     myChart.setOption(option);
 
+      bk.pushHistory();
+      window.addEventListener("popstate", function(e) { 
+          backClick();
+      }, false);
+
     };
+
+    function backClick() {
+      // console.log(source);
+      if (source == null || source == '') {
+        window.history.go(-4);
+      }else if(source == 0){
+        // 我的测评进来的
+        rt.closePage();
+      } else {
+        rt.closePage();
+      }
+
+    }
 
     function sendTeacher() {
       api.showProgress({
@@ -567,7 +587,7 @@ var data;
     }
 
     function continueTest() {
-      rt.openPage("./occupationXG_win.html", {});
+      rt.openPage("./occupationXG_win.html", {source:1});
     }
 </script>
 

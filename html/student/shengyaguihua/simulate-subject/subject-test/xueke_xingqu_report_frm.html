@@ -222,6 +222,7 @@
 <script type="text/javascript" src="../../../../../script/echart.js"></script>
 <script type="text/javascript" src="../../../../../script/doT.js"></script>
 <script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/back.js"></script>
 <script type="text/javascript">
     var data;
     var source;
@@ -346,6 +347,11 @@
         var again = $api.byId('again_id');
         again.style.display = "none";
       }
+
+      bk.pushHistory();
+      window.addEventListener("popstate", function(e) { 
+          backClick();
+      }, false);
     };
 
     function sendTeacher() {
@@ -398,13 +404,13 @@
     }
 
     function backClick() {
-      if (source == null) {
-        rt.closeToPage('xueke_test_win');
+      if (source == null || source == '') {
+        window.history.go(-4);
       }else if (source == 0) {
          // 我的测试
         rt.closePage();
       }else {
-        api.closePage();
+        rt.closePage();
       }
     }
 </script>

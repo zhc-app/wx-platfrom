@@ -109,7 +109,6 @@
   h.closeToPage = function (_name) {
     var h = $api.strToJson($api.getStorage("hisHTML"))
     historyList = h ? h : [];
-    console.log(historyList);
     for (var i = historyList.length - 1; i >= 0; i--) {
       if(historyList[i] == _name){
         break;

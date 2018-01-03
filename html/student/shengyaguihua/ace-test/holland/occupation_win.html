@@ -42,7 +42,7 @@
     </style>
 </head>
 <header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
-  <a class="aui-pull-left aui-btn" tapmode onclick="backClick();">
+  <a class="aui-pull-left aui-btn" style="display: none" tapmode onclick="backClick();">
       <span class="aui-iconfont aui-icon-left"></span>
   </a>
   <div class="aui-title">职业兴趣测试</div>
@@ -67,13 +67,9 @@
     var source;
     var toast = new auiToast({});
     window.onload = function(){
+      console.log($api.getStorage("hisHTML"));
         source = rt.getPageParame("source");
         getReportList();
-        // api.addEventListener({
-        //     name: 'keyback'
-        // }, function(ret, err) {
-        //     backClick();
-        // });
     };
 
     function getReportList() {
@@ -116,10 +112,10 @@
     }
 
     function backClick() {
-      if (source == null) {
+      if (source == null || source == '') {
         // api.closeToWin({name:'xingxiang_list_win'});
         // rt.closeToPage("xingxiang_list_frm")
-        rt.closeToPage("xingxiang_list_win");
+        rt.closeToPage("xingxiang_list_frm");
         // rt.closePage();
       }else if (source == 0) {
          // 我的测试

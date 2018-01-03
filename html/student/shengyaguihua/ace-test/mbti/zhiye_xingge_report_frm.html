@@ -603,16 +603,18 @@
         <span class="section_title">适合的职业</span>
     </div>
     <ul style="margin-left:5%;display:none">
-      {{var shihezhiye_arr = it.shihezhiye.split("、");}}
-      {{if(shihezhiye_arr.length%2 != 0){}}
-          {{shihezhiye_arr.push("");}}
-      {{}}}
-      {{for (var i = 0; i < shihezhiye_arr.length; i+=2) {}}
-        <li>
-            <div class="item">{{=shihezhiye_arr[i]}}</div>
-            <div class="item">{{=shihezhiye_arr[i+1]}}</div>
-        </li>
-      {{}}}
+        {{if(it.shihezhiye){}}
+            {{var shihezhiye_arr = it.shihezhiye.split("、");}}
+            {{if(shihezhiye_arr.length%2 != 0){}}
+              {{shihezhiye_arr.push("");}}
+            {{}}}
+            {{for (var i = 0; i < shihezhiye_arr.length; i+=2) {}}
+            <li>
+                <div class="item">{{=shihezhiye_arr[i]}}</div>
+                <div class="item">{{=shihezhiye_arr[i+1]}}</div>
+            </li>
+            {{}}}
+        {{}}}
     </ul>
     <div class="last-panel">
         <p>
@@ -630,11 +632,14 @@
 <script type="text/javascript" src="../../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../../script/doT.js"></script>
 <script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../../script/back.js"></script>
 <script type="text/javascript">
     var data;
+    var source;
     window.onload = function() {
-        data = $api.strToJson(localStorage.data);
+        data = $api.strToJson(localStorage.retdata);
         var conText = doT.template(document.getElementById('interpolationtmpl').innerHTML);
+        console.log(data)
         document.getElementById('report').innerHTML = conText(data);
         var teacher = data.teacher;
         if (teacher == 1) {
@@ -642,13 +647,16 @@
           st.disabled = true;
         }
         var op = $api.byId('op_id');
-        var source = rt.getPageParame("source");
+        source = rt.getPageParame("source");
 
         if (source == 0) {
             op.style.display = 'none'
         }
         
-
+        bk.pushHistory();
+        window.addEventListener("popstate", function(e) { 
+            backClick();
+        }, false);
     };
 
     function sendTeacher() {
@@ -695,6 +703,18 @@
 
     function continueTest() {
         rt.openPage("./zhuanYe_win.html", {})
+    }
+
+    function backClick() {
+      if (source == null || source == '') {
+        window.history.go(-4);
+      }else if(source == 0){
+        // 我的测评进来的
+        rt.closePage();
+      }else {
+        rt.closePage();
+      }
+
     }
 </script>
 

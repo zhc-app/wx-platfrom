@@ -41,7 +41,7 @@
     </style>
 </head>
 <header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
-    <a class="aui-pull-left aui-btn" tapmode onclick="backClick()">
+    <a class="aui-pull-left aui-btn" style='display: none' tapmode onclick="backClick()">
         <span class="aui-iconfont aui-icon-left left_btn_c_b"></span>
     </a>
     <div class="aui-title">职业兴趣测试</div>
@@ -53,6 +53,7 @@
 <script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/back.js"></script>
 <script type="text/javascript">
     var cur_index = 0;
     var data;
@@ -77,6 +78,11 @@
       //       name: 'occupation_win'
       //   });
       // });
+      console.log($api.getStorage("hisHTML"));
+      bk.pushHistory();
+      window.addEventListener("popstate", function(e) { 
+          backClick();
+      }, false);
     };
 
     function nextQus(parames){
@@ -117,8 +123,12 @@
       // 索引+1
       cur_index++;
     }
-
+    var flag = false;
     function finishAnswer() {
+      if (flag) {
+        return
+      }
+      flag = true;
       var ip = "www.yxke12.com";
       var RESULT_URL = "http://"+ip+"/index.php/App/Hollander/result.html";
 
@@ -132,7 +142,7 @@
     }
 
     function backClick() {
-      rt.closeToPage("occupation_win");
+      window.history.go(-2);
     }
 
 </script>

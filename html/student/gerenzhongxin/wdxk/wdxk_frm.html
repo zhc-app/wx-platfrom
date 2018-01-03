@@ -399,7 +399,7 @@ function zhiyeXGReport(index) {
                 num:mbtiList[index].numbers}
     zhc.post('http://www.yxke12.com/index.php/App/Showbaogao/mbti.html',
         parames,function(_data) {
-          localStorage.data = JSON.stringify(_data)
+          localStorage.retdata = JSON.stringify(_data)
             rt.openPage('../../shengyaguihua/ace-test/mbti/zhiye_xingge_report_frm.html', { source: 0 })
         },null, true);     
 }

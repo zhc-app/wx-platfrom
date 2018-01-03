@@ -40,25 +40,22 @@
         }
     </style>
 </head>
+<body>
 <header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
-    <a class="aui-pull-left aui-btn" tapmode onclick="backClick()">
+    <a class="aui-pull-left aui-btn" style="display: none;" tapmode onclick="backClick()">
         <span class="aui-iconfont aui-icon-left left_btn_c_b"></span>
     </a>
     <div class="aui-title">职业性格测试</div>
 </header>
 
-<div id="wrap" class="flex-wrap flex-vertical">
 
-    <div id="main" class="flex-con">
-
-    </div>
-</div>
 </body>
 <script type="text/javascript" src="../../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../../script/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="../../../../../script/zhc-route.js"></script>
 <script type="text/javascript" src="../../../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../../script/back.js"></script>
 <script type="text/javascript">
     var cur_index = 0;
     var data;
@@ -72,18 +69,14 @@
       var parames = {}
       parames.studentid = $api.getStorage('studentid');
       zhc.post(MBTI_URL, parames, function(_data) {
-            console.log(_data);
             data = _data.infos;
             nextQus({index:-1});
         },null, true);
 
-      // api.addEventListener({
-      //     name: 'keyback'
-      // }, function(ret, err) {
-      //   api.closeToWin({
-      //       name: 'occupationXG_win'
-      //   });
-      // });
+      bk.pushHistory();
+      window.addEventListener("popstate", function(e) { 
+          backClick();
+      }, false);
     };
 
     function nextQus(parames){
@@ -100,7 +93,7 @@
       }
 
       if (cur_index != 0) {
-        rt.closeFrame('holland_paper_frm' + (cur_index - 1));
+        rt.closeFrame('zhiye_xingge_paper_frm' + (cur_index - 1));
       }
 
       localStorage.data = $api.jsonToStr(data[cur_index]);
@@ -122,8 +115,12 @@
       // 索引+1
       cur_index++;
     }
-
+    var flag = false;
     function finishAnswer() {
+      if (flag) {
+        return
+      }
+      flag = true;
       var ip = "www.yxke12.com";
       var RESULT_URL = "http://"+ip+"/index.php/App/Mbti/result.html";
 
@@ -137,7 +134,7 @@
     }
 
     function backClick() {
-      rt.closeToPage("occupationXG_win");
+      window.history.go(-2);
     }
 
 </script>

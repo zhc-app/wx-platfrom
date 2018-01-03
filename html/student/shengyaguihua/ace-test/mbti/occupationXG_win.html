@@ -50,7 +50,7 @@
     </style>
 </head>
     <header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
-        <a class="aui-pull-left aui-btn" tapmode onclick="backClick();">
+        <a class="aui-pull-left aui-btn" style="display: none" tapmode onclick="backClick();">
             <span class="aui-iconfont aui-icon-left"></span>
         </a>
         <div class="aui-title">职业性格测试</div>
@@ -108,7 +108,6 @@
     }
 
     function rightTest() {
-      rt.openPage("./mbti_win.html");
       if (data.enable == 1) {
         rt.openPage("./mbti_win.html");
       }else {
@@ -121,7 +120,6 @@
 
     function backClick() {
       if (source == null) {
-        rt.closeToPage("xingxiang_list_win");
       }else if (source == 0) {
          // 我的测试
         rt.closePage();
