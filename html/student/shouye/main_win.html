@@ -12,6 +12,7 @@
     <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../../../script/api.js"></script>
     <script type="text/javascript" src="../../../script/aui-tab.js" ></script>
+    <script type="text/javascript" src="../../../script/jweixin-1.2.0.js"></script>
 
     <style>
         /*footer{  background-color: #f2f2f2; position: fixed;bottom: 0;width: 100%;z-index: 99}
@@ -88,7 +89,6 @@
     window.onload = function () {
         // var el = document.getElementById("frm0");
         // el.style.height = $(document.body).height() - $("#footer").height() + "px";removeClass
-
         cur_index = $api.getStorage('main_index') ? $api.getStorage('main_index') : 0;
         var height = $(document.body).height() - $("#l-footer").outerHeight(true);
         rt.openFrame("./frame" + cur_index + "_frm.html",
@@ -113,8 +113,22 @@
                 imgs[i].src = "../../../image/"+ pic[i] +".png";
             }
         }
+
+        pushHistory();
+
+        window.addEventListener("popstate", function(e) { 
+            rt.clearHis();
+            wx.closeWindow();
+        }, false);
     }
 
+    function pushHistory() {
+        var state = {
+            title: "title",
+            url: "#"
+        };
+        window.history.pushState(state, "title", "#");
+    }
 
     var tab = new auiTab({
         element:document.getElementById("footer")

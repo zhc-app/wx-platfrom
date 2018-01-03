@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>修改密码</title>
     <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
@@ -147,6 +147,10 @@
 </body>
 <script type="text/javascript" src="../../../script/api.js"></script>
 <script type="text/javascript" src="../../../script/tools.js"></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
     var MAX_TIME = 60;
     var count = MAX_TIME;
@@ -156,7 +160,8 @@
     var yanzhengma = $api.byId('yanzhengma');
     var phone = $api.byId('phone');
     var uploadData = {};
-    apiready = function() {
+    var toast = new auiToast({});
+    window.onload = function() {
 
 
 
@@ -165,8 +170,8 @@
     // 验证码btn 点击回调
     function yanClick() {
       if (shoujihao.value == "") {
-        api.toast({
-            msg: '请输入手机号',
+        toast.fail({
+            title: '请输入手机号',
             duration: 2000,
             location: 'bottom'
         });
@@ -197,148 +202,60 @@
 
 
     function getAuthCode() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '发送验证码中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-      // 服务器获取验证码
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Sms/send.html',
-          method: 'post',
-          data: {
-              values: {
-                  type: api.pageParam.type,
-                  shoujihao:shoujihao.value,
-                  leixing: "parent",
-                  isnew:"new"
-              },
-          }
-      },function(ret, err){
-        api.hideProgress();
-              console.log(JSON.stringify(ret));
-          if (ret) {
-              if (ret.status == 100) {
-                api.toast({
-                    msg: '验证码已发到您的手机',
-                    duration: 2000,
-                    location: 'bottom'
-                });
-              }else {
-                api.toast({
-                    msg: ret.data,
-                    duration: 2000,
-                    location: 'bottom'
-                });
-              }
-          } else {
-            api.toast({
-                msg: JSON.stringify(err.msg),
+      var parames = {
+        type: rt.getPageParame("type"),
+        shoujihao:shoujihao.value,
+        leixing: "parent",
+        isnew:"new"
+      }
+      zhc.post('http://www.yxke12.com/index.php/App/Sms/send.html',
+          parames,function(_data) {
+            toast.success({
+                title: '验证码已发到您的手机',
                 duration: 2000,
-                location: 'bottom'
             });
-          }
-      });
-
-
+          },null, true);
     }
 
     function nextClick() {
       if (yanzhengma.value == "") {
-        api.toast({
-            msg: '请输入验证码',
+        toast.fail({
+            title: '请输入验证码',
             duration: 2000,
-            location: 'bottom'
         });
         return
       }
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Sms/checkhao.html',
-          method: 'post',
-          data: {
-              values: {
-                  yanzhengma: yanzhengma.value,
-                  shoujihao: shoujihao.value
-              },
-          }
-      },function(ret, err){
-          if (ret) {
-              if (ret.status == 100) {
-                baocunNew()
-              }else {
-                api.toast({
-                    msg: ret.data,
-                    duration: 2000,
-                    location: 'bottom'
-                });
-              }
-          } else {
-            api.toast({
-                msg: JSON.stringify(err.msg),
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-      });
+
+      var parames = {
+        yanzhengma: yanzhengma.value,
+        shoujihao: shoujihao.value
+      }
+
+      zhc.post('http://www.yxke12.com/index.php/App/Sms/checkhao.html',
+          parames,function(_data) {
+            baocunNew()
+          },null, true);
     }
 function baocunNew() {
-  api.showProgress({
-      style: 'default',
-      animationType: 'fade',
-      title: '努力加载中...',
-      text: '先喝杯茶...',
-      modal: true
-  });
-  api.ajax({
-      url: 'http://www.yxke12.com/index.php/Apa/Parent/modifymobile.html',
-      method: 'post',
-      data: {
-          values: {
-              parentid: $api.getStorage("parentid"),
-              shoujihao: shoujihao.value
-          },
-      }
-  },function(ret, err){
-    api.hideProgress();
-      if (ret) {
-          if (ret.status == 100) {
-            $api.setStorage('phone', shoujihao.value);
-            var jsfun = 'getData();';
-            api.execScript({
-                name: 'gerenxinxi_win',
-                frameName: 'gerenxinxi_frm',
-                script: jsfun
-            });
-            api.toast({
-                msg: ret.data,
-                duration: 2000,
-                location: 'bottom'
-            });
-            api.openWin({
-                name: 'gerenxinxi_win',
-                url: '../gerenzhongxin/gerenxinxi_win.html',
-                pageParam: {
-                    name: 'test'
-                }
-            });
-
-          }else {
-            api.toast({
-                msg: ret.data,
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-      } else {
-        api.toast({
-            msg: JSON.stringify(err.msg),
-            duration: 2000,
-            location: 'bottom'
-        });
-      }
-  });
+  var parames = {
+    parentid: $api.getStorage("parentid"),
+    shoujihao: shoujihao.value
+  }
+  zhc.post('http://www.yxke12.com/index.php/Apa/Parent/modifymobile.html',
+      parames,function(_data) {
+          $api.setStorage('phone', shoujihao.value);
+          // var jsfun = 'getData();';
+          // api.execScript({
+          //     name: 'gerenxinxi_win',
+          //     frameName: 'gerenxinxi_frm',
+          //     script: jsfun
+          // });
+          toast.success({
+              title: _data,
+              duration: 2000
+          });
+          rt.openPage("../gerenzhongxin/gerenxinxi_frm.html", {});
+      },null, true);
 }
 
 function delClick() {

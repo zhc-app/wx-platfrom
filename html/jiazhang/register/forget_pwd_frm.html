@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>修改密码</title>
     <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
@@ -159,6 +159,10 @@
 </body>
 <script type="text/javascript" src="../../../script/api.js"></script>
 <script type="text/javascript" src="../../../script/tools.js"></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
     var MAX_TIME = 60;
     var count = MAX_TIME;
@@ -173,7 +177,10 @@
     var iphone = $api.byId('iphone');
     var ph = $api.byId('ph');
     var uploadData = {};
-    apiready = function() {
+    var toast = new auiToast({});
+    var g_type = null;
+    window.onload = function() {
+      g_type = rt.getPageParame("type");
       if ($api.getStorage("phone")==""|| $api.getStorage("phone") == null || $api.getStorage("phone")==undefined) {
           iphone.style.display ="block"
           phone.style.display ="none"
@@ -213,8 +220,8 @@
     // 验证码btn 点击回调
     function yanClick1() {
       if (shoujihao.value == "") {
-        api.toast({
-            msg: '请输入手机号',
+        toast.fail({
+            title: '请输入手机号',
             duration: 2000,
             location: 'bottom'
         });
@@ -223,11 +230,11 @@
       yan1.style.background = "#dfe0e1"
       yan1.style.color = "#b6b6b6"
       yan1.style.border = "#dfe0e1"
-        yan1.disabled = true;
-        count = MAX_TIME;
-        yan1.innerHTML = "(" + count + ")秒";
-        timer = window.setInterval(timeCall1,1000);
-        getAuthCode();
+      yan1.disabled = true;
+      count = MAX_TIME;
+      yan1.innerHTML = "(" + count + ")秒";
+      timer = window.setInterval(timeCall1,1000);
+      getAuthCode();
     }
 
     function timeCall1() {
@@ -245,173 +252,72 @@
 
     function getAuthCode() {
 
-      if ($api.getStorage("phone")==""|| $api.getStorage("phone") == null || $api.getStorage("phone")==undefined) {
-      myShoujihao=shoujihao.value
+      if ($api.getStorage("phone") == ""|| $api.getStorage("phone") == null || $api.getStorage("phone") == undefined) {
+        myShoujihao = shoujihao.value
       }else {
-      myShoujihao=$api.getStorage("phone")
+        myShoujihao = $api.getStorage("phone")
       }
 
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '发送验证码中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-      // 服务器获取验证码
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Sms/send.html',
-          method: 'post',
-          data: {
-              values: {
-                  type: api.pageParam.type,
-                  shoujihao:myShoujihao,
-                  leixing: "parent"
-              },
-          }
-      },function(ret, err){
-        api.hideProgress();
-              console.log(JSON.stringify(ret));
-          if (ret) {
-              if (ret.status == 100) {
-                api.toast({
-                    msg: '验证码已发到您的手机',
-                    duration: 2000,
-                    location: 'bottom'
-                });
-              }else {
-                api.toast({
-                    msg: ret.data,
-                    duration: 2000,
-                    location: 'bottom'
-                });
-              }
-          } else {
-            api.toast({
-                msg: JSON.stringify(err.msg),
+      var parames = {
+        type: g_type,
+        shoujihao:myShoujihao,
+        leixing: "parent"
+      }
+      zhc.post('http://www.yxke12.com/index.php/App/Sms/send.html',
+          parames,function(_data) {
+            toast.success({
+                title: '验证码已发到您的手机',
                 duration: 2000,
                 location: 'bottom'
             });
-          }
-      });
-
-
+          },null, true);
     }
 
     function nextClick() {
 
       if ($api.getStorage("phone")==""|| $api.getStorage("phone") == null || $api.getStorage("phone")==undefined) {
-      var  yzm=yanzhengma1.value
-      myShoujihao=shoujihao.value
+        var  yzm=yanzhengma1.value
+        myShoujihao=shoujihao.value
       }else {
-      var  yzm=yanzhengma.value
-      myShoujihao=$api.getStorage("phone")
+        var  yzm=yanzhengma.value
+        myShoujihao=$api.getStorage("phone")
       }
       if (yzm.value == "") {
-        api.toast({
-            msg: '请输入验证码',
+        toast.fail({
+            title: '请输入验证码',
             duration: 2000,
             location: 'bottom'
         });
         return
       }
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/App/Sms/checkhao.html',
-          method: 'post',
-          data: {
-              values: {
-                  yanzhengma: yzm,
-                  shoujihao: myShoujihao
-              },
-          }
-      },function(ret, err){
-        console.log(JSON.stringify(ret));
-          if (ret) {
-              if (ret.status == 100) {
-                if (api.pageParam.type == "5") {
-                  api.openWin({
-                      name: 'register_account_win',
-                      url: './register_account_win.html',
-                      pageParam: {
-                          shoujihao: myShoujihao,
-                          cardnumber: api.pageParam.cardnumber,
-                          cid:api.pageParam.cid
-                      }
-                  });
-                }else if (api.pageParam.type == "6") {
-                  api.openWin({
-                      name: 'setting_pwd_win',
-                      url: './setting_pwd_win.html',
-                      pageParam: {
-                          shoujihao: myShoujihao,
-                      }
-                  });
+
+      var parames = {
+        yanzhengma: yzm,
+        shoujihao: myShoujihao
+      }
+      zhc.post('http://www.yxke12.com/index.php/App/Sms/checkhao.html',
+          parames,function(_data) {
+            if (g_type == "5") {
+                  rt.openPage('./register_account_win.html', {shoujihao: myShoujihao, cardnumber: rt.getPageParame("cardnumber"),
+                          cid:rt.getPageParame("cid")})
+                }else if (g_type == "6") {
+                  rt.openPage('./setting_pwd_win.html', {shoujihao: myShoujihao})
                 }else {
                   chaxuesheng()
                 }
-
-              }else {
-                api.toast({
-                    msg: ret.data,
-                    duration: 2000,
-                    location: 'bottom'
-                });
-              }
-          } else {
-            api.toast({
-                msg: JSON.stringify(err.msg),
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-      });
+          },null, true);
     }
 
     function chaxuesheng() {
-      api.showProgress({
-          style: 'default',
-          animationType: 'fade',
-          title: '努力加载中...',
-          text: '先喝杯茶...',
-          modal: true
-      });
-      api.ajax({
-          url: 'http://www.yxke12.com/index.php/Apa/Parent/findparentidbymobile.html',
-          method: 'post',
-          data: {
-              values: {
-                  shoujihao: myShoujihao
-              },
-          }
-      },function(ret, err){
-        api.hideProgress();
-          if (ret) {
-              if (ret.status == 100) {
-                api.openWin({
-                    name: 'forget_new_win',
-                    url: './forget_new_win.html',
-                    pageParam: {
-                        title: "新手机号",
-                        type:"7"
-                    }
-                });
-
-              }else {
-                api.toast({
-                    msg: ret.data,
-                    duration: 2000,
-                    location: 'bottom'
-                });
-              }
-          } else {
-            api.toast({
-                msg: JSON.stringify(err.msg),
-                duration: 2000,
-                location: 'bottom'
-            });
-          }
-      });
+      var parames = {
+        shoujihao: myShoujihao
+      }
+      zhc.post('http://www.yxke12.com/index.php/Apa/Parent/findparentidbymobile.html',
+          parames,function(_data) {
+            rt.openPage('./forget_new_frm.html', {title: "新手机号", type:"7"});
+          },null, true);
     }
+
     function delClick() {
         shoujihao.value = '';
     }

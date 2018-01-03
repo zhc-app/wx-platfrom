@@ -237,7 +237,20 @@ line-height: 3.9rem;
 
         }
 
+        pushHistory();
+
+        window.addEventListener("popstate", function(e) { 
+            rt.closePage();
+        }, false);
     };
+
+    function pushHistory() {
+        var state = {
+            title: "title",
+            url: "#"
+        };
+        window.history.pushState(state, "title", "#");
+    }
 
     function itemClick(index) {
         $api.setStorage('zhc_source', index);

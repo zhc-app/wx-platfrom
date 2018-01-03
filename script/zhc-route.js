@@ -136,6 +136,11 @@
     return request(key);
   }
 
+  h.clearHis = function () {
+    historyList = [];
+    $api.setStorage("hisHTML", $api.jsonToStr(historyList));
+  }
+
   function request(paras){
     var url = decodeURI(location.href);
     var paraString = url.substring(url.indexOf("?")+1,url.length).split("&");

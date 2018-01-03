@@ -41,11 +41,17 @@
 <script type="text/javascript" src="script/api.js"></script>
 <script type="text/javascript" src="script/zhc-route.js"></script>
 <script type="text/javascript" src="script/swiper.min.js"></script>
+<script type="text/javascript" src="script/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 window.onload = function() {
   if ($api.getStorage("tiyan")) {
     rt.openPage("./html/student/register/register_first_frm.html", {name:"test"})
   }
+  pushHistory();
+  window.addEventListener("popstate", function(e) { 
+      rt.clearHis();
+      wx.closeWindow();
+  }, false);
 };
 
 var mySwiper = new Swiper('.swiper-container',{
@@ -55,6 +61,14 @@ var mySwiper = new Swiper('.swiper-container',{
 function nextStep() {
   $api.setStorage('tiyan', '1');
   rt.openPage("./html/student/register/register_first_frm.html", {name:"test"})
+}
+
+function pushHistory() {
+    var state = {
+        title: "title",
+        url: "#"
+    };
+    window.history.pushState(state, "title", "#");
 }
 
 </script>
