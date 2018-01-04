@@ -125,6 +125,30 @@
         .c{
           color: #6666ff;
         }
+
+        #gzzy,#gzzhiye {
+          margin-top: 46px;
+        }
+
+        #gzzy ul li,#gzzhiye ul li {
+          line-height: 46px;
+          border-bottom: 1px solid #ddd;
+        }
+
+        #gzzy ul li span,#gzzhiye ul li span{
+          float: left;
+          text-indent: 2rem;
+          font-size: 16px;
+
+        }
+
+        #gzzy ul,#gzzhiye ul {
+          margin-top: 10px;
+        }
+
+        #gzzy ul li img,#gzzhiye ul li img{
+          margin:20px 20px 0 0;
+        }
     </style>
 </head>
 
@@ -192,14 +216,39 @@
 
 
       <div id="gzzy" style="display:none">
-        <div class="bull">
+<!--         <div class="bull">
             <img src="../../../../image/bull.png" alt="">
-        </div>
+        </div> -->
+        <ul id="gzzy_ul">
+          <script id="gzzy_s" type="text/x-dot-template">
+            {{for (var i = 0; i < it.length; i++) {}}
+              <li>
+                <span>{{=it[i].name}}</span>
+                <div class="aui-list-item-media" style="text-align:right;width:auto;padding-left:16px;" tapmode ">
+                  <img id="shoucang_id{{=i}}" src="../../../../image/shoucang_select.png" style="height:16px;width:18px;" data-gzzyid={{=it[i].major_id}} >
+                </div>
+              </li>
+            {{}}}
+           </script>
+        </ul>
+        
       </div>
       <div id="gzzhiye" style="display:none">
-        <div class="bull">
+<!--         <div class="bull">
             <img src="../../../../image/bull.png" alt="">
-        </div>
+        </div> -->
+        <ul id="gzzhiye_ul">
+        <script id="gzzhiye_s" type="text/x-dot-template">
+            {{for (var i = 0; i < it.length; i++) {}}
+              <li>
+                <span>{{=it[i].job}}</span>
+                <div class="aui-list-item-media" style="text-align:right;width:auto;padding-left:16px;" tapmode onclick="itemShouCang(event, {{=i}})">
+                  <img id="shoucang_id1{{=i}}" src="../../../../image/shoucang_select.png" style="height:16px;width:18px;" data-gzzyid={{=it[i].job_id}}>
+                </div>
+              </li>
+            {{}}}
+           </script>
+        </ul>
       </div>
 
 
@@ -247,6 +296,8 @@
     var total_data = {};
       var toast = new auiToast({});
     var list=doT.template(document.getElementById('schools_s').innerHTML);
+    var list1=doT.template(document.getElementById('gzzy_s').innerHTML);
+    var list2=doT.template(document.getElementById('gzzhiye_s').innerHTML);
     window.onload = function() {
         getData();
 
@@ -256,6 +307,7 @@
 
       zhc.post('http://www.yxke12.com/index.php/App/Member/guanzhuyuanxiao.html',{studentid: $api.getStorage('studentid')},function(data){
         total_data = data;
+     
         document.getElementById('schools_ul').innerHTML = list(data);
       },null,true);
 
@@ -325,7 +377,7 @@
     }
 
     function itemShouCang(e, index) {
-        e.cancelBubble  = true;
+        
         var it = total_data[index];
         var str = (it.imgname == 1) ?'取消中...':'收藏中...';
         zhc.post('http://www.yxke12.com/index.php/App/Yuanxiaoku/collect.html',{studentid: $api.getStorage('studentid'),schoolid: it.id},function(data){
@@ -336,36 +388,11 @@
               }
         },null,true);
 
-        // api.ajax({
-        //     url: 'http://www.yxke12.com/index.php/App/Yuanxiaoku/collect.html',
-        //     method: 'post',
-        //     data: {
-        //         values: {
-        //             studentid: $api.getStorage('studentid'),
-        //             schoolid: it.id
-        //         },
-        //     }
-        // },function(ret, err){
-        //   api.hideProgress();
-        //     if (ret) {
-        //         if (ret.status = 100) {
-        //           total_data[index].imgname = ret.data.imgname;
-        //             if(ret.data.imgname != 1){
-        //               total_data.splice(index, 1);
-        //               document.getElementById('schools_ul').innerHTML = list(total_data);
-        //             }
-        //         }
-        //     } else {
-        //       api.toast({
-        //           msg: JSON.stringify(err.msg),
-        //           duration: 2000,
-        //           location: 'bottom'
-        //       });
-
-        //     }
-        // });
-
     }
+
+
+
+  
     var collapse = new auiCollapse({
         autoHide:false //是否自动隐藏已经展开的容器
     });
@@ -395,30 +422,58 @@
           $api.byId('gzyx').style.display = "none";
           $api.byId('gzzy').style.display = "block";
           $api.byId('gzzhiye').style.display = "none";
-          // $api.byId('bkfa').style.display = "none";
-        //   api.execScript({
-        //       name: 'wdbk_win',
-        //       script: 'editeClick("none")'
-        //   });
-        //   api.closeFrame({
-        //     name: 'my_volunt_list_frm'
-        // });
-          // zhc.post('http://www.yxke12.com/index.php/App/Professional/myMajorCollect.html',{studentid: $api.getStorage('studentid')},function(data){
-          //   total_data = data;
-          //   document.getElementById('schools_ul').innerHTML = list(data);
-          // },null,true);
+
+          zhc.post('http://www.yxke12.com/index.php/App/Professional/myMajorCollect.html',{studentid: $api.getStorage('studentid')},function(data){
+            total_data = data.list;
+            console.log(data.list);
+            document.getElementById('gzzy_ul').innerHTML = list1(data.list);
+            //收藏
+            $("#gzzy ul li img").click(function(event) {
+              _this = $(this)
+              zhc.post('http://www.yxke12.com/index.php/App/Professional/setMajorCollect.html',{studentid: $api.getStorage('studentid'),major_id: $(this).data("gzzyid")},function(data){
+                  if (data.status=="1") {
+                    toast.success({
+                      title: '已取消'
+                    });
+                    _this.parent().parent().hide(10);
+                  }else{
+                    toast.fail({
+                      title: '取消失败'
+                    });
+                  }
+              },null,true);
+            });
+          },null,true);
         }else {
           $api.byId('gzyx').style.display = "none";
           $api.byId('gzzy').style.display = "none";
           $api.byId('gzzhiye').style.display = "block";
-          // $api.byId('bkfa').style.display = "block";
-          // api.execScript({
-          //     name: 'wdbk_win',
-          //     script:' editeClick("block")'
-          // });
-          // bkfa()
+          zhc.post('http://www.yxke12.com/index.php/App/Professional/myJobCollect.html',{studentid: $api.getStorage('studentid')},function(data){
+            total_data = data.list;
+            console.log(data.list);
+            document.getElementById('gzzhiye_ul').innerHTML = list2(data.list);
+            //收藏
+            $("#gzzhiye ul li img").click(function(event) {
+              _this = $(this)
+              zhc.post('http://www.yxke12.com/index.php/App/Professional/setJobCollect.html',{studentid: $api.getStorage('studentid'),job_id: $(this).data("gzzyid")},function(data){
+                  if (data.status=="1") {
+                    toast.success({
+                      title: '已取消'
+                    });
+                    _this.parent().parent().hide(10);
+                  }else{
+                    toast.fail({
+                      title: '取消失败'
+                    });
+                  }
+              },null,true);
+            });
+          },null,true);
         }
     });
+
+
+
 // function bkfa() {
 //   api.openFrame({
 //       name: 'my_volunt_list_frm',
