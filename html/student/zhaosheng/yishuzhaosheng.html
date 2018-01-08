@@ -257,6 +257,7 @@
 <script type="text/javascript" src="../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
+    var toast = new auiToast({});
     var zixunData = [];
     var fangLueData = [];
     var flag_arr = [1, 0, 0, 0];
@@ -405,6 +406,13 @@
 
     // 方略item点击回调 复用自主招生详情界面 包括详情url
     function onFItemClick(index) {
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       var id = fangLueData[index].id;
       rt.openParentPage("./zzzs_zxfl_details_frm.html", {id: id, title:"艺体招生"});
     }

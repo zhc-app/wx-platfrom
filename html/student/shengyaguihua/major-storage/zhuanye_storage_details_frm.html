@@ -377,8 +377,9 @@
 <script type="text/javascript" src="../../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../../script/network.js"></script>
 <script type="text/javascript">
-var show_flag = true;
-var option1, option2, option3, option4, option5;
+    var toast = new auiToast({})
+    var show_flag = true;
+    var option1, option2, option3, option4, option5;
     window.onload = function() {
       var name = rt.getPageParame("name");
       getDetails(name);
@@ -1032,10 +1033,16 @@ var option1, option2, option3, option4, option5;
     }
 
     $("#shoucang").click(function(event) {
+        if (!$api.getStorage('loginname')) {
+          toast.fail({
+              title: '该功能游客身份不能使用',
+              duration: 2000
+          });
+          return
+        }
         var _this = $(this);
         event.stopPropagation();
       zhc.post('http://www.yxke12.com/index.php/App/Professional/setMajorCollect.html',{major_id:major_id,studentid:studentid},function(data){
-        console.log(data);
         if (data.type == "关注") {
           console.log(111);
           _this.attr("src","../../../../../../image/shoucang_select.png");

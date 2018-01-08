@@ -212,6 +212,7 @@
     var list = doT.template(document.getElementById('schools_s').innerHTML);
     var page = 1;
     var limit = 20;
+    var toast = new auiToast({});
     window.onload = function() {
       getData(page);
       $(window).scroll(function() {
@@ -341,6 +342,14 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
 
     function itemShouCang(e, index) {
         e.cancelBubble  = true;
+        if (!$api.getStorage('loginname')) {
+          toast.fail({
+              title: '该功能游客身份不能使用',
+              duration: 2000
+          });
+          return
+        }
+        
         var it = total_data.lists[index];
         var params = {};
         params.studentid = $api.getStorage('studentid');

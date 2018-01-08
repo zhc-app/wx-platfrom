@@ -149,10 +149,19 @@
 </body>
 <script type="text/javascript" src="../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
 <script type="text/javascript">
+    var toast = new auiToast({})
     window.onload = function() {};
 
     function itemClick(url) {
+        if (!$api.getStorage('loginname')) {
+          toast.fail({
+              title: '该功能游客身份不能使用',
+              duration: 2000
+          });
+          return
+        }
         rt.openPage('./'+ url +'.html', {});
     }
 </script>

@@ -189,12 +189,28 @@
 </body>
 <script type="text/javascript" src="../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
 <script type="text/javascript">
+    var toast = new auiToast({})
     function wangnian() {
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       localStorage.url = "http://www.yxke12.com/index.php/App/Gaokaoxinxi/quanguozixun.html"
       rt.openParentPage("./wangnianchaxun/wangnianchaxun_frm.html", {})
     }
     function doVoluntaryClick() {
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       rt.openParentPage("./mnzytb/mnzytbSM_win.html", {})
     }
 
@@ -207,6 +223,13 @@
     }
 
     function onSectionClick() {
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       rt.openParentPage("./section-rank/section_rank_frm.html", {})
     }
     function cidian() {

@@ -303,11 +303,36 @@
         height: 1em;
         margin: 0 auto;*/
       }
+
+      .my-panel{
+          position: absolute;
+          background: url("../../../image/ic_stu_personal.png") no-repeat;
+          background-size: contain;
+          height: 30px;
+          width: 36px;
+          margin: 10px;
+          margin-left: 0px;
+
+      }
+
+      .ic_p{
+          width:20px;
+          height:20px;
+          border-radius: 10px;
+          position: relative;
+          left: 11px;
+          margin-top: 4px;
+      }
+
     </style>
 </head>
 
 <body>
       <div id="main" class="flex-con" >
+
+      <div class="my-panel"onclick="my()">
+          <img id="ic_id" class="ic_p">
+      </div>
 
       <div>
         <img class="top_img" src="../../../image/cjts_banner.png"  >
@@ -429,11 +454,18 @@
 <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript" src="../../../script/zhc-route.js"></script>
 <script type="text/javascript">
-
+    var toast = new auiToast({});
     var uKeList = [];
     var uke_dot;
     var mingjiazhidao_data = doT.template(document.getElementById('mingjiazhidao').innerHTML)
     function xiangqing(id) {
+      if (!$api.getStorage('loginname')) {
+          toast.fail({
+              title: '该功能游客身份不能使用',
+              duration: 2000
+          });
+          return
+        }
       rt.openParentPage("../mingjiazhidao/jksh_details_frm.html", {data: id,
               url: "http://www.yxke12.com/index.php/App/Mingjiazhidao/detail.html",
               faurl: "http://www.yxke12.com/index.php/App/Mingjiazhidao/comment.html",
@@ -444,14 +476,6 @@
               title:"名家指导"})
     }
     function mingjiazhidao(){
-      // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-      //   api.toast({
-      //       msg: "该功能付费用户才能使用",
-      //       duration: 2000,
-      //       location: 'bottom'
-      //   });
-      //   return;
-      // }
       rt.openParentPage("../mingjiazhidao/mingjiazhidao_frm.html", {});
     }
 
@@ -464,6 +488,12 @@
     }
 
     window.onload = function(){
+      var ic_id = $api.byId('ic_id');
+      if ($api.getStorage('loginname')) {
+          ic_id.src = "http://www.yxke12.com/Public/Home/images/touxiang/" + $api.getStorage('img');
+      }else {
+          ic_id.style.display = 'none';
+      }
       uke_dot = doT.template(document.getElementById('uke_s').innerHTML);
       loadUKeList(0);
       loadMJZDList();
@@ -502,14 +532,13 @@
       rt.openParentPage("../chengjitisheng/youketang/cjts_list_frm.html", {});
     }
     function onUKeItemClick(index,img) {
-      // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-      //   api.toast({
-      //       msg: "该功能付费用户才能使用",
-      //       duration: 2000,
-      //       location: 'bottom'
-      //   });
-      //   return;
-      // }
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       var kid = uKeList[index].kid;
       if (kid == null) {
         return;
@@ -520,5 +549,8 @@
             paixu:1});
     }
 
+    function my(argument) {
+      rt.openParentPage("./my_frm.html", {});
+    }
 </script>
 </html>

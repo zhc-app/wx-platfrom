@@ -190,14 +190,13 @@
       // }
 
       function huodongjilu() {
-        // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-        //   api.toast({
-        //       msg: "该功能付费用户才能使用",
-        //       duration: 2000,
-        //       location: 'bottom'
-        //   });
-        //   return;
-        // }
+        if (!$api.getStorage('loginname')) {
+          toast.fail({
+              title: '该功能游客身份不能使用',
+              duration: 2000
+          });
+          return
+        }
         rt.openParentPage('../huodongjilu/huodongjilu_frm.html',{});
       }
 
@@ -210,16 +209,24 @@
       }
 
       function seftReport() {
-        // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-        //   toast.fail({
-        //     title: "该功能付费用户才能使用"
-        //   });
-        //   return;
-        // }
+        if (!$api.getStorage('loginname')) {
+          toast.fail({
+              title: '该功能游客身份不能使用',
+              duration: 2000
+          });
+          return
+        }
         rt.openParentPage('../baogaoyudangan/self_report_win.html',{});
       }
 
       function zonghesuzhi() {
+        if (!$api.getStorage('loginname')) {
+          toast.fail({
+              title: '该功能游客身份不能使用',
+              duration: 2000
+          });
+          return
+        }
         rt.openParentPage('../zonghesuzhitisheng/zonghe_list_frm.html',{});
       }
 

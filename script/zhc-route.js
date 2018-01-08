@@ -8,10 +8,10 @@
   }
 
   h.openPage = function(url, parames) {
-      var h = $api.strToJson($api.getStorage("hisHTML"))
-      historyList = h ? h : [];
-      historyList.push(getPageName(url));
-      $api.setStorage("hisHTML", $api.jsonToStr(historyList));
+      // var h = $api.strToJson($api.getStorage("hisHTML"))
+      // historyList = h ? h : [];
+      // historyList.push(getPageName(url));
+      // $api.setStorage("hisHTML", $api.jsonToStr(historyList));
 
       if ((typeof parames) == 'object') {
         var i = 0;
@@ -28,11 +28,11 @@
   }
 
   h.openParentPage = function (url, parames) {
-    var h = $api.strToJson($api.getStorage("hisHTML"))
-    historyList = h ? h : [];
+    // var h = $api.strToJson($api.getStorage("hisHTML"))
+    // historyList = h ? h : [];
 
-    historyList.push(getPageName(url));
-    $api.setStorage("hisHTML", $api.jsonToStr(historyList));
+    // historyList.push(getPageName(url));
+    // $api.setStorage("hisHTML", $api.jsonToStr(historyList));
 
     if ((typeof parames) == 'object') {
       var i = 0;
@@ -121,10 +121,10 @@
   }
 
   h.closePage = function() {
-    var h = $api.strToJson($api.getStorage("hisHTML"))
-    historyList = h ? h : [];
-    historyList.pop();
-    $api.setStorage("hisHTML", $api.jsonToStr(historyList));
+    // var h = $api.strToJson($api.getStorage("hisHTML"))
+    // historyList = h ? h : [];
+    // historyList.pop();
+    // $api.setStorage("hisHTML", $api.jsonToStr(historyList));
     window.history.back(); 
   }
 

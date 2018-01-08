@@ -64,7 +64,9 @@
 <script type="text/javascript" src="../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
 <script type="text/javascript">
+    var toast = new auiToast({})
     window.onload = function() {
         var headerH = $('header').outerHeight(true);
         var height = $(document.body).height() - headerH;
@@ -78,6 +80,13 @@
     };
 
     function zhiyuanbiao() {
+        if (!$api.getStorage('loginname')) {
+            toast.fail({
+                title: '该功能游客身份不能使用',
+                duration: 2000
+            });
+            return
+          }
         rt.openPage('./fill-voluntary/my_volunt_list_win.html')
     }
 

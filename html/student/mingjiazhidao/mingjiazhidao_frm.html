@@ -167,6 +167,7 @@
 <script type="text/javascript" src="../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
+    var toast = new auiToast({});
     var zixunt = doT.template(document.getElementById('zixuntuijian').innerHTML)
     var gkxztj1 = doT.template(document.getElementById('zixuntuijian1').innerHTML)
     window.onload = function() {
@@ -246,6 +247,13 @@
     }
 
     function xiangqing(id) {
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       rt.openPage("jksh_details_frm.html", {data: id,
               url: "http://www.yxke12.com/index.php/App/Mingjiazhidao/detail.html",
               faurl: "http://www.yxke12.com/index.php/App/Mingjiazhidao/comment.html",

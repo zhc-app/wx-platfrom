@@ -355,8 +355,7 @@
       if (value != null) {
         values.province = value;
       }
-      values.sheng = $api.getStorage('sheng');
-
+      values.sheng = $api.getStorage('sheng') ? $api.getStorage('sheng') : '北京';
 
       zhc.post('http://www.yxke12.com/index.php/App/Gaokaoxinxi/difangzixun.html',values,function(data){
 

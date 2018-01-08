@@ -220,7 +220,7 @@
 <script type="text/javascript" src="../../../../script/network.js"></script>
 <script type="text/javascript">
     var zhiyeDetails;
-
+    var toast = new auiToast({})
     var studentid = $api.getStorage("studentid");
     var job_id = "";
 
@@ -236,7 +236,6 @@
 
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyeku/infos.html", params, function(_data) {
           var data = _data;
-          console.log(data);
           if (data.collect_data==null) {
              $("#shoucang").attr("src","../../../../../../image/shoucang.png");
             }else {
@@ -268,12 +267,17 @@
     }
 
       $("#shoucang").click(function(event) {
+        if (!$api.getStorage('loginname')) {
+          toast.fail({
+              title: '该功能游客身份不能使用',
+              duration: 2000
+          });
+          return
+        }
         var _this = $(this);
         event.stopPropagation();
         zhc.post('http://www.yxke12.com/index.php/App/Professional/setJobCollect.html',{job_id:job_id,studentid:studentid},function(data){
-          console.log(data);
           if (data.type == "关注") {
-            console.log(111);
             _this.attr("src","../../../../../../image/shoucang_select.png");
             
           }else {

@@ -276,13 +276,35 @@
               line-height: 120px;
           }
 
+          .my-panel{
+            position: absolute;
+            background: url("../../../image/ic_stu_personal.png") no-repeat;
+            background-size: contain;
+            height: 30px;
+            width: 36px;
+            margin: 10px;
+            margin-left: 0px;
+
+        }
+
+        .ic_p{
+            width:20px;
+            height:20px;
+            border-radius: 10px;
+            position: relative;
+            left: 11px;
+            margin-top: 4px;
+        }
+
     </style>
 </head>
 
 <body>
     <!-- <div class="empty"> -->
       <div id="main" class="flex-con" >
-      <div style="position: absolute;padding: 10px;" onclick="my()"><img src="../../../image/my.png" style="width:18px;height:18px;"></div>
+      <div id='ic_pan' class="my-panel"onclick="my()">
+          <img id="ic_id" class="ic_p">
+      </div>
       <div>
         <img class="top_img" src="../../../image/career_banner.png"  >
 
@@ -516,6 +538,7 @@
 <script type="text/javascript" src="../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
+    var toast = new auiToast({});
     var data = [];
     var sykt_dot = null;
     var  shengfen1 = doT.template(document.getElementById('shengfen').innerHTML);
@@ -524,6 +547,15 @@
     }
 
     window.onload = function(){
+      var ic_id = $api.byId('ic_id');
+      var ic_pan = $api.byId('ic_pan');
+      if ($api.getStorage('loginname')) {
+          ic_id.src = "http://www.yxke12.com/Public/Home/images/touxiang/" + $api.getStorage('img');
+      }else {
+          ic_pan.style.display = 'none';
+      }
+      
+
       sykt_dot = doT.template(document.getElementById('sykt_s').innerHTML);
       getListData(0);
       yanzhen();
@@ -609,27 +641,18 @@
     }
  
   function onKeItemClick(index) {
-      // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-      //   api.toast({
-      //       msg: "该功能付费用户才能使用",
-      //       duration: 2000,
-      //       location: 'bottom'
-      //   });
-      //   return;
-      // }
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       $api.setStorage('da',data);
       rt.openParentPage("../shengyaguihua/shengyaketang/kecheng_frm.html", {index: index});
   }
 
   function loadMore() {
-    // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-    //   api.toast({
-    //       msg: "该功能付费用户才能使用",
-    //       duration: 2000,
-    //       location: 'bottom'
-    //   });
-    //   return;
-    // }
     rt.openParentPage("../shengyaguihua/shengyaketang/shengyaketang_frm.html", {});
   }
 

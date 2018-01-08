@@ -293,6 +293,26 @@ width: 80%;
   background: url(../../../image/discussion.png) no-repeat;
   background-size: 100%;
 }
+
+      .my-panel{
+          position: absolute;
+          background: url("../../../image/ic_stu_personal.png") no-repeat;
+          background-size: contain;
+          height: 30px;
+          width: 36px;
+          margin: 10px;
+          margin-left: 0px;
+
+      }
+
+      .ic_p{
+          width:20px;
+          height:20px;
+          border-radius: 10px;
+          position: relative;
+          left: 11px;
+          margin-top: 4px;
+      }
     </style>
 </head>
 
@@ -301,6 +321,10 @@ width: 80%;
 
 
       <div id="main" class="flex-con" >
+
+      <div class="my-panel"onclick="my()">
+          <img id="ic_id" class="ic_p">
+      </div>
 
       <div>
         <img class="top_img" src="../../../image/zytb_banner.png">
@@ -443,14 +467,16 @@ function gaoKaoXinZheng() {
     var video_dot;
     var videoList;
     window.onload = function(){
+      var ic_id = $api.byId('ic_id');
+      if ($api.getStorage('loginname')) {
+          ic_id.src = "http://www.yxke12.com/Public/Home/images/touxiang/" + $api.getStorage('img');
+      }else {
+          ic_id.style.display = 'none';
+      }
       video_dot = doT.template(document.getElementById('video_s').innerHTML);
       getVideoList();
 
     };
-
-
-
-
 
     function getVideoList() {
       var parames = {}
@@ -467,14 +493,13 @@ function gaoKaoXinZheng() {
     }
 
     function onZJJZClick(index) {
-      // if (!$api.getStorage("isbuy") || $api.getStorage("isbuy") == 0) {
-      //   api.toast({
-      //       msg: "该功能付费用户才能使用",
-      //       duration: 2000,
-      //       location: 'bottom'
-      //   });
-      //   return;
-      // }
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       var url = "http://www.yxke12.com/Public/Home/images/video/" + videoList[index].videocsrc;
       if (videoList[index].videocsrc != null) {
         var uploadData = "";
@@ -519,6 +544,10 @@ function gaoKaoXinZheng() {
         //     }
         // });
 
+    }
+
+    function my(argument) {
+      rt.openParentPage("./my_frm.html", {});
     }
 </script>
 </html>

@@ -39,6 +39,26 @@
             height: 100%;
             border: 0px;
         }
+
+        .my-panel{
+            position: absolute;
+            background: url("../../../image/ic_stu_personal.png") no-repeat;
+            background-size: contain;
+            height: 30px;
+            width: 36px;
+            margin: 10px;
+            margin-left: 0px;
+
+        }
+
+        .ic_p{
+            width:20px;
+            height:20px;
+            border-radius: 10px;
+            position: relative;
+            left: 11px;
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
@@ -90,7 +110,7 @@
         // var el = document.getElementById("frm0");
         // el.style.height = $(document.body).height() - $("#footer").height() + "px";removeClass
         cur_index = $api.getStorage('main_index') ? $api.getStorage('main_index') : 0;
-        var height = $(document.body).height() - $("#l-footer").outerHeight(true);
+        var height = $(document.body).height() - $("#footer").outerHeight(true);
         rt.openFrame("./frame" + cur_index + "_frm.html",
         "frm" + cur_index,{
             x: 0,
@@ -98,9 +118,10 @@
             width: $(window).width(),
             height: height,
         });
+        document.getElementById('frm' + cur_index).style.marginBottom = $("#footer").outerHeight(true) + 'px'
 
         id_map["frm" + cur_index] = 1;
-        var imgs = document.getElementsByTagName("img");
+        var imgs = document.getElementById("footer").getElementsByTagName("img");
         var arr = $("#footer .aui-bar-tab-item");
 
         // aui-active
@@ -117,7 +138,6 @@
         pushHistory();
 
         window.addEventListener("popstate", function(e) { 
-            rt.clearHis();
             wx.closeWindow();
         }, false);
     }
@@ -137,7 +157,7 @@
             cur_index = ret.index - 1;
             $api.setStorage('main_index', cur_index);
             var tabs = document.getElementsByTagName("iframe");
-            var imgs = document.getElementsByTagName("img");
+            var imgs = document.getElementById("footer").getElementsByTagName("img");
 
             for (var i = 0; i < imgs.length; i++) {
                 if (i == ret.index - 1) {
@@ -149,10 +169,12 @@
                         // iframe.scrolling = "auto";
                         iframe.src = "./frame" + i + "_frm.html";
                         iframe.id = "frm" + i;
-                        iframe.style.height = $(document.body).height() - $("#footer").height() + "px";
+                        iframe.style.height = $(document.body).height() - $("#footer").outerHeight(true) + "px";
+                        iframe.style.marginBottom = $("#footer").outerHeight(true) + "px";
                         document.body.appendChild(iframe);
                     }else{
                         var el = document.getElementById("frm" + i);
+                        el.style.marginBottom = $("#footer").outerHeight(true) + "px";
                         el.style.display = "block";
                     }
                     
@@ -199,4 +221,7 @@
         });
     }
 
+    function my(argument) {
+        rt.openParentPage("./my_frm.html", {});
+    }
 </script>

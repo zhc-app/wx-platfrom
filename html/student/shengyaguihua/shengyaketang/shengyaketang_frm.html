@@ -130,6 +130,7 @@
       </div>
     </body>
     <script type="text/javascript">
+      var toast = new auiToast({});
       var datas = "";
       window.onload = function(){
         getListData();
@@ -148,18 +149,38 @@
       }
 
       function item1Click(index) {
-        console.log(datas.info1);
+        if (!$api.getStorage('loginname')) {
+          toast.fail({
+              title: '该功能游客身份不能使用',
+              duration: 2000
+          });
+          return
+        }
         localStorage.data=JSON.stringify(datas.info1);
         rt.openPage('./kecheng_frm.html',{index: index});
       }
 
 
       function item2Click(index) {
+        if (!$api.getStorage('loginname')) {
+          toast.fail({
+              title: '该功能游客身份不能使用',
+              duration: 2000
+          });
+          return
+        }
         localStorage.data=JSON.stringify(datas.info2);
         rt.openPage('./kecheng_frm.html',{index: index});
       }
 
       function item3Click(index) {
+        if (!$api.getStorage('loginname')) {
+          toast.fail({
+              title: '该功能游客身份不能使用',
+              duration: 2000
+          });
+          return
+        }
         localStorage.data=JSON.stringify(datas.info3);
         rt.openPage('./kecheng_frm.html',{index: index});
       }

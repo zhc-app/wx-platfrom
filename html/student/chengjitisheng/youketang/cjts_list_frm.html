@@ -298,6 +298,7 @@
 <script type="text/javascript" src="../../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../../script/network.js"></script>
 <script type="text/javascript">
+    var toast = new auiToast({});
     var grade_arr = ["不限", "高一", "高二", "高三"];
     var ke_arr = ["不限", "语文","数学","英语","历史","政治","物理","化学","生物","地理"];
     var type_arr = [];
@@ -324,7 +325,8 @@
       parames.studentid = $api.getStorage('studentid');
       zhc.post('http://www.yxke12.com/index.php/App/Youketang/lists.html',
           parames,function(_data) {
-            document.getElementById('kecheng_list').innerHTML = kecheng_data(_data.data);
+            console.log(_data)
+            document.getElementById('kecheng_list').innerHTML = kecheng_data(_data);
           },null, true);
     };
 
@@ -350,6 +352,13 @@
 
     function gradeItemClick(e, index) {
       e.cancelBubble = true;
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       var arr = document.getElementById("gradeChoose_div").getElementsByTagName("div");
       for (var i = 0; i < arr.length; i++) {
         //
@@ -371,6 +380,13 @@
 
     function onKeClick(e, index) {
       e.cancelBubble = true;
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       var arr = document.getElementById("ke_div").getElementsByTagName("div");
       for (var i = 0; i < arr.length; i++) {
         //
@@ -391,6 +407,13 @@
 
     function onTypeItemClick(e, index) {
       e.cancelBubble = true;
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       var arr = document.getElementById("type_div").getElementsByTagName("div");
       for (var i = 0; i < arr.length; i++) {
         //
@@ -411,6 +434,13 @@
 
     function onBanItemClick(e, index) {
       e.cancelBubble = true;
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
       var arr = document.getElementById("ban_div").getElementsByTagName("div");
       for (var i = 0; i < arr.length; i++) {
         //
@@ -431,6 +461,14 @@
 
     function onHotClick(e) {
         e.cancelBubble = true;
+        if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
+
         if ($api.hasCls(hot_div, "hot")) {
           $api.removeCls(hot_div, 'hot');
           $api.addCls(hot_div, 'hot_select');
@@ -470,6 +508,13 @@
     }
 
     function onItemClick(kid,img) {
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
         rt.openPage("./kecheng_frm.html", {kid: kid,
             img: img,
             url:'http://www.yxke12.com/index.php/App/Youketang/seevideo.html',
