@@ -327,20 +327,21 @@
 				sPage = 0;
 			}else{
 				sPage--
-				$(".student>div").eq(sPage).show().siblings().hide();
-				$(".student>div").eq(sPage).addClass('animate-up-in');
+				var el = $(".student>div").eq(sPage);
+				clearAnimateClass(el);
+				el.addClass('animate-up-in');
+				el.show().siblings().hide();
 			}
 		}else{
-			
 			if (tPage==0) {
 				tPage = 0;
 			}else{
 				tPage--
-
-				$(".teacher>div").eq(tPage).show().siblings().hide();
-				$(".teacher>div").eq(tPage).addClass('animate-up-in');
+				var el = $(".teacher>div").eq(tPage);
+				clearAnimateClass(el);
+				el.addClass('animate-up-in');
+				el.show().siblings().hide();
 			}
-			console.log(tPage);
 		}
 		
 	}
@@ -356,8 +357,10 @@
 				sPage = 2;
 			}else{
 				sPage++
-				$(".student>div").eq(sPage).show().siblings().hide();
-				$(".student>div").eq(sPage).addClass('animate-down-in');
+				var el = $(".student>div").eq(sPage);
+				clearAnimateClass(el);
+				el.addClass('animate-down-in');
+				el.show().siblings().hide();
 			}
 		}else {
 			
@@ -365,11 +368,23 @@
 				tPage = 2;
 			}else{
 				tPage++
-				$(".teacher>div").eq(tPage).show().siblings().hide();
-				$(".teacher>div").eq(tPage).addClass('animate-down-in');
+				var el = $(".teacher>div").eq(tPage);
+				clearAnimateClass(el);
+				el.addClass('animate-down-in');
+				el.show().siblings().hide();
 			}
 		}
 		
+	}
+
+	function clearAnimateClass(el) {
+		if (el.hasClass('animate-down-in')) {
+			el.removeClass('animate-down-in')
+		}
+
+		if (el.hasClass('animate-up-in')) {
+			el.removeClass('animate-up-in')
+		}
 	}
 </script>
 </html>
