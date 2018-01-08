@@ -31,7 +31,7 @@ function isPC() {
     'iPad',
     'iPod'
   ];
-
+ 
   var flag = true;
   for (var v = 0; v < Agents.length; v++) {
     if (userAgentInfo.indexOf(Agents[v]) > 0) {
