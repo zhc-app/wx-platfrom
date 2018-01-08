@@ -234,6 +234,7 @@
       params.name = _name;
       params.studentid = studentid;
 
+
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyeku/infos.html", params, function(_data) {
           var data = _data;
           if (data.collect_data==null) {
