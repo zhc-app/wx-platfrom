@@ -1,0 +1,705 @@
+
+
+#top-panel {
+	position: relative;
+	z-index: 99;
+	background-color:#fff;
+	padding-top: 0.2rem;
+}
+
+.logo {
+	margin-bottom: 0.3rem;
+}
+
+
+.logo img{
+	width: 2.98rem;
+	height: 0.65rem;
+	display: block;
+	margin: 0 auto;
+}
+
+.tab ul{
+	padding:0 0.5rem;
+	box-sizing: border-box;
+}
+.tab ul li {
+	float: left;
+	width: 1.85rem;
+	height: 0.48rem;
+	line-height: 0.48rem;
+	font-size: 0.26rem;
+	text-align: center;
+	color: #fff;
+	background-color:rgba(33,150,243,0.4);
+	border-top-left-radius: 0.12rem;
+	border-top-right-radius: 0.12rem;
+	margin: 0 0.15rem;
+}
+
+.tab ul li.current{
+	background-color: rgba(33,150,243,1)
+}
+
+.tab .circle {
+	height: 0.8rem;
+	width: 100%;
+	background-color: rgba(33,150,243,1);
+	position: relative;
+}
+
+.tab .circle p{
+	width: 100%;
+	height:0.6rem;
+	background:#fff;
+	border-radius: 0.6rem 0.6rem 0 0 ;  
+	position: absolute;
+	bottom: 0;
+}
+
+/*学生频道*/
+
+.page-one .info{
+	height: 8.5rem;
+}
+.student .top{
+	width: 3.8rem;
+	height: 0.37rem;
+	border-radius: 0.06rem;
+	border: 1px solid #303030;
+	margin: 0 auto;
+	margin-top: 0.17rem;
+	position: relative;
+}
+
+.student .top:after{
+	display: block;
+	content: "";
+	height: 0;
+	width: 0;
+	border:0.20rem solid #303030;
+	border-left-color: transparent;
+	border-right-color: transparent;
+	border-bottom-color: transparent;
+	position: absolute;
+	bottom: -0.52rem;
+	left: 50%;
+	margin-left: -0.1rem;
+}
+.student .top p {
+	font-size: 0.32rem;
+	color: #303030;
+	text-align: center;
+	background-color: #fff;
+	position: absolute;
+	width: 3.52rem;
+	top: -0.17rem;
+	left: 0.1rem;
+	padding-left: 0.1rem;
+}
+
+.student .info {
+	position: relative;
+}
+
+.student .info p {
+	width: 4.84rem;
+	height: 4.84rem;
+	border-radius: 100%;
+	position: absolute;
+}
+
+.student .info .one{
+	background-color: #F54E91;
+	top: 1.45rem;
+	left:0.5rem;
+}
+
+.student .info .two{
+	background-color: rgba(39,169,244,1);
+	top: 1.2rem;
+	right:0.3rem;
+}
+
+.student .info .three{
+	background-color: rgba(131,204,43,1);;
+	top: 2.73rem;
+	right:0.95rem;
+}
+
+.student .info .four{
+	width: 5.55rem;
+	height: 5.55rem;
+	background-color: #498BFC;
+	top: 1.5rem;
+	left:1.17rem;
+	font-size: 0.43rem;
+	line-height: 0.75rem;
+	color: #fff;
+	text-indent: 2em;
+	box-sizing: border-box;
+	padding: 1.3rem 0.7rem;
+
+}
+
+/*第二页*/
+.student .king p{
+	display: block;
+	color: #505050;
+	font-size: 0.32rem;
+	font-weight: 600;
+	width: 1rem;
+	height: 0.76rem;
+	line-height: 0.76rem;
+	text-align: center;
+	margin: -0.3rem auto 0.15rem;
+	position: relative;
+	z-index: 999;
+}
+
+.student .king p:before{
+	display: block;
+	content: "";
+	height: 0.24rem;
+	width: 0.21rem;
+	background: url("../images/ys-king.png") no-repeat;
+	background-size: contain;
+	position: absolute;
+	top: -0.1rem;
+	left: 50%;
+	margin-left: -0.11rem;
+}
+
+.student .king p span{
+	display: block;
+	position: absolute;
+	height: 0.02rem;
+	width: 0.57rem;
+	background-color: #FCAE14;
+}
+
+.student .king p span.left{
+	left: -0.7rem;
+	top: 50%;
+}
+
+.student .king p span.right{
+	right: -0.7rem;
+	top: 50%;
+}
+
+.student .lists {
+	padding-left: 0.97rem;
+	margin-bottom: 0.6rem;
+}
+
+.student .lists .yuan{
+	float: left;
+	margin-left: -0.4rem;
+	margin-top: 0.3rem;
+}
+
+.student .lists .yuan span{
+	display: block;
+	height: 0.16rem;
+	width: 0.16rem;
+	border-radius: 50%;
+	margin-left: -0.06rem;
+}
+
+.student .lists .yuan li{
+	height: 1.08rem;
+	width: 0.02rem;
+	background-color: rgba(9,99,253,0.2);
+}
+
+
+
+.student .lists .content{
+	font-size: 0.26rem;
+	color: #FFF;
+	line-height: 0.46rem;
+	
+}
+
+.student .lists .content li {
+	width: 6.05rem;
+	padding: 0.26rem 0 0.2rem 0.4rem;
+	box-sizing: border-box;
+	margin-bottom: 0.3rem;
+	border-radius: 0.17rem;
+
+}
+
+
+.student .lists .c1{
+	background-color: #F54E91;
+}
+.student .lists .c2{
+	background-color: #498BFC;
+}
+
+.student .lists .c3{
+	background-color: #FCAE14;
+}
+
+.student .lists .c4{
+	background-color: #83CC2B;
+}
+
+.student .lists .c5{
+	background-color: #1BC5BB;
+}
+
+.student .lists .c6{
+	background-color: #EE4B47;
+}
+
+
+
+/*第三页*/
+
+.student .public{
+	margin: 0.2rem 0.4rem; 
+
+}
+.student .public p {
+	font-size: 0.28rem;
+	color: #505050;
+	padding-left: 0.5rem;
+	position: relative;
+	margin-bottom: 0.1rem;
+}
+
+.student .public p:before{
+	display: block;
+	content: "";
+	height: 0.38rem;
+	width: 0.38rem;
+	background: url("../images/xysy-1.png") no-repeat;
+	background-size: contain;
+	position: absolute;
+	top: -0.02rem;
+	left: 0;
+}
+
+.student .public .xxcj:before{
+	background: url("../images/xxcj-1.png") no-repeat;
+	background-size: contain;
+}
+
+.student .public .zhsz:before{
+	background: url("../images/zhsz-1.png") no-repeat;
+	background-size: contain;
+}
+
+.student .public .dybk:before{
+	background: url("../images/dybk-1.png") no-repeat;
+	background-size: contain;
+}
+
+.student .public .pxzy:before{
+	background: url("../images/pxzy-1.png") no-repeat;
+	background-size: contain;
+	top: 0;
+}
+
+
+
+.student .public li {
+	font-size: 0.24rem;
+	border:1px solid #FCAE14;
+	background-color: rgba(252,174,20,0.2);
+	border-radius:0.1rem; 
+	float: left;
+	padding: 0.1rem 0.36rem;
+	margin-top: 0.05rem;
+	margin-right: 0.1rem;
+	color: #FCAE14;
+}
+
+.student .public li.blue{
+	border:1px solid #2196F3;
+	background-color: rgba(33,150,243,0.2);
+	color: #2196F3;
+}
+
+
+
+
+
+/*家长、教师*/
+.top{
+	width: 3.8rem;
+	height: 0.37rem;
+	border-radius: 0.06rem;
+	border: 1px solid #303030;
+	margin: 0 auto;
+	position: relative;
+	margin-top: 0.17rem;
+}
+
+.top:after{
+	display: block;
+	content: "";
+	height: 0;
+	width: 0;
+	border:0.20rem solid #303030;
+	border-left-color: transparent;
+	border-right-color: transparent;
+	border-bottom-color: transparent;
+	position: absolute;
+	bottom: -0.52rem;
+	left: 50%;
+	margin-left: -0.1rem;
+}
+.top p {
+	font-size: 0.32rem;
+	color: #303030;
+	text-align: center;
+	background-color: #fff;
+	position: absolute;
+	width: 3.52rem;
+	top: -0.17rem;
+	left: 0.1rem;
+	padding-left: 0.1rem;
+}
+.parent .page-one{
+	display: block;
+	/*display: none;*/
+}
+
+.parent .first-row-m{
+	margin-top: 0.66rem !important;
+}
+
+.parent .row{
+	display: inline-flex;
+	margin:0 0.7rem;
+	margin-bottom: 0.2rem;
+}
+
+.parent .cell{
+	width: 1.9rem;
+	height: 1.4rem;
+	border-radius: 0.12rem;
+}
+
+.parent .mid-cell{
+	margin-left: 0.2rem;
+	margin-right: 0.2rem;
+}
+
+.parent .large-cell{
+	margin-left: 0.2rem;
+	width: 4rem;
+}
+
+.parent .xk-bg{
+	background-color: #F54E91;
+}
+
+.parent .sy-bg{
+	background-color: #498BFC;
+}
+
+.parent .lz-bg{
+	background-color: #FF8040;
+}
+
+.parent .pd-bg{
+	background-color: #F1C61A;
+}
+
+.parent .xy-bg{
+	background-color: #27A9F4;
+}
+
+.parent .dy-bg{
+	background-color: #69CFFA;
+}
+
+.parent .xl-bg{
+	background-color: #83CC2B;
+}
+
+.parent .ys-bg{
+	background-color: #3CC24C;
+}
+
+.parent .cg-bg{
+	background-color: #1BC5BB;
+}
+
+.parent .qc-bg{
+	background-color: #FF8040;
+}
+
+.parent .sh-bg{
+	background-color: #EE4B47;
+}
+
+.parent .hw-bg{
+	background-color: #00A2FF;
+}
+
+.parent .score-bg{
+	background-color: #F1C61A;
+}
+
+.parent .zp-bg{
+	background-color: #00C3B8;
+}
+
+.parent .ic{
+	width: 0.64rem;
+	height: 0.64rem;
+	display: block;
+	margin: 0.16rem auto;
+}
+
+.parent .cell span{
+	color: white;
+	font-size: 0.24rem;
+	display: block;
+	text-align: center;
+}
+
+.parent .page-two{
+	display: block;
+	/*display: none;*/
+}
+
+.parent .page-two .main{
+	width:5.54rem;
+	height:6.92rem;
+	background:-webkit-gradient(linear, center top, center bottom, from(#2196F3), to(#3DA9FF));
+	color: #F5F5F5;
+	font-size: 0.3rem;
+	line-height:0.59rem;
+	border-radius: 0.26rem;
+	padding: 0.55rem 0.43rem; 
+	margin:0.59rem auto;
+	text-indent: 2em;
+	box-shadow:0px 0px 10px #2296F3
+}
+
+/********************************* teacher start *********************************/
+.teacher{
+	display: block;
+}
+
+.teacher .page-one{
+	display: block;
+}
+
+.teacher .page-one .info {
+	position: relative;
+}
+
+.teacher .page-one .info p {
+	width: 4.84rem;
+	height: 4.84rem;
+	border-radius: 100%;
+	position: absolute;
+}
+
+.teacher .page-one .info .one{
+	background-color: #F54E91;
+	top: 1.45rem;
+	left:0.5rem;
+}
+
+.teacher .page-one .info .two{
+	background-color: rgba(39,169,244,1);
+	top: 1.2rem;
+	right:0.3rem;
+}
+
+.teacher .page-one .info .three{
+	background-color: rgba(131,204,43,1);;
+	top: 2.73rem;
+	right:0.95rem;
+}
+
+.teacher .page-one .info .four{
+	width: 5.55rem;
+	height: 5.55rem;
+	background-color: #498BFC;
+	top: 1.5rem;
+	left:1.17rem;
+	font-size: 0.43rem;
+	line-height: 0.75rem;
+	color: #fff;
+	text-indent: 2em;
+	box-sizing: border-box;
+	padding: 1.3rem 0.7rem;
+
+}
+
+.teacher .page-two{
+	display: block;
+}
+
+.teacher .page-two .main{
+	width:5.54rem;
+	height:6.92rem;
+	background:-webkit-gradient(linear, center top, center bottom, from(#2196F3), to(#3DA9FF));
+	color: #F5F5F5;
+	font-size: 0.3rem;
+	line-height:0.59rem;
+	border-radius: 0.26rem;
+	padding: 0.55rem 0.43rem; 
+	margin:0.59rem auto;
+	text-indent: 2em;
+	box-shadow:0px 0px 10px #2296F3
+}
+
+
+.teacher .page-three .king p{
+	display: block;
+	color: #505050;
+	font-size: 0.32rem;
+	font-weight: 600;
+	width: 1rem;
+	height: 0.76rem;
+	line-height: 0.76rem;
+	text-align: center;
+	margin: 0.1rem auto 0.3rem;
+	position: relative;
+}
+
+.teacher .page-three .king p:before{
+	display: block;
+	content: "";
+	height: 0.24rem;
+	width: 0.21rem;
+	background: url("../images/ys-king.png") no-repeat;
+	background-size: contain;
+	position: absolute;
+	top: -0.1rem;
+	left: 50%;
+	margin-left: -0.11rem;
+}
+
+.teacher .page-three .king p span{
+	display: block;
+	position: absolute;
+	height: 0.02rem;
+	width: 0.57rem;
+	background-color: #FCAE14;
+}
+
+.teacher .page-three .king p span.left{
+	left: -0.7rem;
+	top: 50%;
+}
+
+.teacher .page-three .king p span.right{
+	right: -0.7rem;
+	top: 50%;
+}
+
+.teacher .page-three .one{
+	width:5.54rem;
+	background:-webkit-gradient(linear, center top, center bottom, from(#2196F3), to(#3DA9FF));
+	color: #F5F5F5;
+	font-size: 0.32rem;
+	line-height:0.5rem;
+	border-radius: 0.26rem;
+	padding: 0.25rem 0.43rem; 
+	margin:0.59rem auto;
+	text-indent: 2em;
+	box-shadow:0px 0px 10px #2296F3
+}
+
+.teacher .page-three .two{
+	width:5.54rem;
+	background:-webkit-gradient(linear, center top, center bottom, from(#FCB426), to(#FCAE14));
+	color: #F5F5F5;
+	font-size: 0.32rem;
+	line-height:0.5rem;
+	border-radius: 0.26rem;
+	padding: 0.25rem 0.43rem; 
+	margin:0.59rem auto;
+	text-indent: 2em;
+	box-shadow:0px 0px 10px #FCAE14
+}
+
+.teacher .page-three .three{
+	width:5.54rem;
+	background:-webkit-gradient(linear, center top, center bottom, from(#F54E91), to(#F54E4E));
+	color: #F5F5F5;
+	font-size: 0.32rem;
+	line-height:0.5rem;
+	border-radius: 0.26rem;
+	padding: 0.25rem 0.43rem; 
+	margin:0.59rem auto;
+	text-indent: 2em;
+	box-shadow:0px 0px 10px #F54E91
+}
+
+
+.parent,.student,.teacher{
+	display: none;
+}
+
+/********************************* teacher start *********************************/
+@keyframes up-and-down{
+	0% {
+		transform: translateY(0px);
+	}
+	25% {
+		transform: translateY(-5px);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+	75% {
+		transform: translateY(-5px);
+	}
+	100% {
+		transform: translateY(0px);
+	}
+}
+
+.arraw{
+	width: 0.36rem;
+	height: 0.3rem;
+	display: block;
+	margin: 0.27rem auto;
+	animation: up-and-down 1.5s linear infinite;
+}
+
+@keyframes page-up-in{
+	0% {
+		transform: translateY(-100%);
+	}
+	50% {
+		transform: translateY(-50%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
+}
+
+@keyframes page-down-in{
+	0% {
+		transform: translateY(100%);
+	}
+	50% {
+		transform: translateY(50%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
+}
+
+.animate-down-in{
+	animation: page-down-in 0.5s linear;
+}
+
+.animate-up-in{
+	animation: page-up-in 0.5s linear;
+}
+
