@@ -20,6 +20,7 @@
     <script type="text/javascript" src="../../../../script/zhc-route.js"></script>
     <script type="text/javascript" src="../../../../script/aui-toast.js"></script>
     <script type="text/javascript" src="../../../../script/network.js"></script>
+    <script type="text/javascript" src="../../../../script/dropload.min.js"></script>
     <style>
     .aui-list .aui-list-item-media {
         width: 4.5rem;
@@ -210,32 +211,47 @@
 <script type="text/javascript">
     var total_data = {};
     var list = doT.template(document.getElementById('schools_s').innerHTML);
-    var page = 1;
-    var limit = 20;
+    var page = 0;
+    var limit = 500;
     var toast = new auiToast({});
+
+    var FIRST_PAGE = 1;
     window.onload = function() {
-      getData(page);
-      $(window).scroll(function() {
-        // if ($(document).scrollTop()<=0){
-        //   // alert("滚动条已经到达顶部为0");
-        // }
-        if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
-          page++
-          getData(page);
-        }
-      });
+      // getData(page);
+      // $(window).scroll(function() {
+      //   // if ($(document).scrollTop()<=0){
+      //   //   // alert("滚动条已经到达顶部为0");
+      //   // }
+      //   if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+
+          
+      //   }
+      // });
     };
+
+
+    $('.schools_ul').dropload({
+        scrollArea : window,
+        loadDownFn : function(me){
+            page++
+          // alert(page)
+          getData(page, me);
+        }
+    });     
+
+
 var province1 = doT.template(document.getElementById('province').innerHTML);
 var schooltype = doT.template(document.getElementById('schooltype_s').innerHTML);
 var chara = doT.template(document.getElementById('chara_s').innerHTML);
 var level = doT.template(document.getElementById('level_s').innerHTML);
-    function getData(page) {
+    function getData(page, me) {
 
       var params = {values:{}};
       params.studentid = $api.getStorage('studentid');
       params.page = page;
       params.limit = limit;
       zhc.post("http://www.yxke12.com/index.php/App/Yuanxiaoku/lists.html", params, function(_data) {
+          if (page == FIRST_PAGE) {
               total_data = _data;
               var province = {province:"不限"};
               total_data.province.unshift(province);
@@ -247,6 +263,9 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
               total_data.xlcc.unshift(xlcc);
 
               total_data.yxts.unshift("不限");
+            }else{
+              total_data.lists = total_data.lists.concat(_data.lists);
+            }
               // start 筛选
               document.getElementById('Sort-Sort').innerHTML = province1(total_data.province);
               document.getElementById('SchoolType_ul').innerHTML = schooltype(total_data.yxlx);
@@ -254,8 +273,16 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
               document.getElementById('Chara_ul').innerHTML = chara(total_data.yxts);
               // end 筛选
               // start 列表
-              $api.append(document.getElementById('schools_ul'),list(total_data.lists));
-      }, null, true);
+
+              document.getElementById('schools_ul').innerHTML = list(total_data.lists);
+              me.resetload();
+      }, function(argument) {
+        me.resetload();
+        // 锁定
+        // me.lock();
+        // 无数据
+        // me.noData();
+      }, true);
     }
 
     var yxts_c, xlcc_c, yxlx_c, province_c;
@@ -268,6 +295,7 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
       }
         obj.style.borderBottom = "solid 1px #ff7c08";
         province_c = total_data.province[index].province == "不限" ? null : total_data.province[index].province;
+        page = FIRST_PAGE;
         filterSchoolList();
     }
 
@@ -282,6 +310,7 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
       obj.style.borderBottom = "solid 1px #ff7c08"
 
         yxlx_c = total_data.yxlx[index].yxlx == "不限" ? null : total_data.yxlx[index].yxlx;
+        page = FIRST_PAGE;
         filterSchoolList();
     }
 
@@ -294,6 +323,7 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
       };
       sbj.style.borderBottom = "solid 1px #ff7c08"
       xlcc_c = total_data.xlcc[index].xlcc == "不限" ? null : total_data.xlcc[index].xlcc;
+      page = FIRST_PAGE;
       filterSchoolList();
     }
 
@@ -306,6 +336,7 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
       };
       sbj.style.borderBottom = "solid 1px #ff7c08"
         yxts_c = total_data.yxts[index] == "不限" ? null : total_data.yxts[index];
+        page = FIRST_PAGE;
         filterSchoolList();
     }
 
@@ -330,7 +361,6 @@ var level = doT.template(document.getElementById('level_s').innerHTML);
 
         zhc.post("http://www.yxke12.com/index.php/App/Yuanxiaoku/search.html", char, function(_data) {
               total_data.lists = _data.list;
-              console.log(_data);
               document.getElementById('schools_ul').innerHTML = list(_data.list);
         }, null, true);
     }

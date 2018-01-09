@@ -388,7 +388,6 @@
     function loadData() {
       var parames = {};
       parames.name = rt.getPageParame("title");
-      console.log(parames);
       zhc.post("http://www.yxke12.com/index.php/App/Yuanxiaoku/infos.html", parames, function(_data) {
               // 基本信息
                 total_data = _data.info;

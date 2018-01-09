@@ -93,12 +93,13 @@
     </script>
   </div>
 </body>
-<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/api.js"></script>
 <script type="text/javascript">
     window.onload = function(){
 
         // api.parseTapmode();
             var data = JSON.parse(localStorage.data)
+            console.log(data)
             var  evalText11 = doT.template(document.getElementById('evaluationtmpl11').innerHTML);
             document.getElementById('main').innerHTML = evalText11(data);
 

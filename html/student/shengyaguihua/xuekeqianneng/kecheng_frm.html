@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>端API</title>
+    <title>详情</title>
     <link rel="stylesheet" type="text/css" href="../../../../../css/api.css"/>
     <link rel="stylesheet" type="text/css" href="../../../../../css/style.css"/>
     <link rel="stylesheet" type="text/css" href="../../../../../css/aui.css"/>
@@ -40,6 +40,10 @@
             color: #6666ff;
             border-bottom: 2px solid #6666ff;
         }
+
+        b{
+          display: block;
+        }
     </style>
 </head>
 
@@ -57,17 +61,35 @@
           {{=it.couse_simple}}
         </div>
         <div id="yaoqiu" style="display:none">
-          <div style="background: #fff;margin-top: 10px;">
-          {{=it.content}}
-          </div>
+          {{if(it.content == null){}}
+            <div style="background: #fff;margin-top: 10px;">
+              暂无
+            </div>
+          {{}else{}}
+            <div style="background: #fff;margin-top: 10px;">
+              {{=it.content}}
+            </div>
+          {{}}}
+          
         </div>
         <div id="zhidao" style="display:none">
-          <div style="background: #fff;margin-top: 10px;">
-            {{=it.guide}}
-          </div>
+          {{if(it.guide == null){}}
+            <div style="background: #fff;margin-top: 10px;">
+              暂无
+            </div>
+          {{}else{}}
+            <div style="background: #fff;margin-top: 10px;">
+              {{=it.guide}}
+            </div>
+          {{}}}
         </div>
         <div id="zhuanye" style="background:#fff;margin-top: 10px;display:none">
+
+          {{if(it.class == null){}}
+              <p>暂无</p>
+          {{}else{}}
               <p>{{=it.class}}</p>
+          {{}}}
         </div>
       </script>
     </div>
