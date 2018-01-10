@@ -32,7 +32,7 @@
             font-family: 'PingFang-SC';
             font-size: 10px;
             color: #666666;
-            width: 16em;
+            width: 18em;
             margin-left: 8px;
             display: inline-block;
           }
@@ -148,14 +148,14 @@
 
     <div class="aui-content aui-margin-b-15" style="display:none;padding-top:46px;"id="puzhaosheng">
         <div style="width:100%;padding:8px 10px;background-color:white;border-top:1px solid #f2f2f2;">
-          <select class="nianfen" name="" style="display:inline-block; width:10em;" tapmode onchange="onSchoolType(this.value)">
+          <select class="nianfen" name="" style="display:inline-block; width:9em;" tapmode onchange="onSchoolType(this.value)">
             <option value="1">非独立艺术学校</option>
             <option value="2">独立艺术学校</option>
           </select>
 
           <div class="shuoming" id="school_addr">
               院校归属地：
-                <select id="addr_sl" class="nianfen" style="display: inline-block;width:5em" tapmode onchange="onProvince(this.value)">
+                <select id="addr_sl" class="nianfen" style="display: inline-block;width:9em" tapmode onchange="onProvince(this.value)">
                   <script id="addr_s" type="text/x-dot-template">
                     {{for (var i = 0; i < it.length; i++) {}}
                       <option>{{=it[i]}}</option>
