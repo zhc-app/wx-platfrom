@@ -13,6 +13,7 @@
     <script type="text/javascript" src="../../../script/api.js"></script>
     <script type="text/javascript" src="../../../script/aui-tab.js" ></script>
     <script type="text/javascript" src="../../../script/jweixin-1.2.0.js"></script>
+    <script type="text/javascript" src="../../../script/tools.js"></script>
 
     <style>
         /*footer{  background-color: #f2f2f2; position: fixed;bottom: 0;width: 100%;z-index: 99}
@@ -134,20 +135,6 @@
                 imgs[i].src = "../../../image/"+ pic[i] +".png";
             }
         }
-
-        pushHistory();
-
-        window.addEventListener("popstate", function(e) { 
-            wx.closeWindow();
-        }, false);
-    }
-
-    function pushHistory() {
-        var state = {
-            title: "title",
-            url: "#"
-        };
-        window.history.pushState(state, "title", "#");
     }
 
     var tab = new auiTab({

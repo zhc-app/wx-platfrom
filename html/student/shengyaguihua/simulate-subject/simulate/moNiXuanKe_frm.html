@@ -394,6 +394,15 @@
 
     function xuanke(index,e,id) {
       e.cancelBubble = true;
+
+      if (!$api.getStorage('loginname')) {
+        toast.fail({
+            title: '该功能游客身份不能使用',
+            duration: 2000
+        });
+        return
+      }
+      
       var xuanke = document.getElementsByTagName('input')
       var xuanke1 = document.getElementById('footer')
       var fasongBtn = document.getElementById('fasongBtn')

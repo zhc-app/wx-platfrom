@@ -166,8 +166,8 @@
         return;
       }
       if (password.value == '') {
-        toast({
-           msg: '请输入密码'
+        toast.fail({
+           title: '请输入密码'
        });
         return;
       }
@@ -185,7 +185,6 @@
             }
             $api.setStorage('password', params.password);
             rt.openPage("../shouye/main_win.html", {})
-
           }
       }, null, true);
     }

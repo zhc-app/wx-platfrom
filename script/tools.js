@@ -1,5 +1,8 @@
 (function(window){
   var h = {};
+  h.iOS = 'iOS';
+  h.Android = 'Android';
+
   h.isPhone = function(_p) {
     var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
     if(!myreg.test(_p))
@@ -21,6 +24,15 @@
           new_arr.push(arr[i]);
       }
       return new_arr;
+  }
+
+  h.os= function() {
+    var version = navigator.appVersion;
+    if ((/android/gi).test(version)) {
+        return this.Android
+    }else if ((/iphone/gi).test(version) || (/iPad/).test(version)) {
+        return this.iOS;
+    }
   }
   window.tools = h;
   })(window);
