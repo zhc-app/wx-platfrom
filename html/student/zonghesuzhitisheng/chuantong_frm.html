@@ -196,6 +196,7 @@ var arr_flag = [1,0];
     window.onload = function(){
         // api.parseTapmode();
         // cur_index = api.pageParam.index;
+        cur_index = rt.getPageParame('index');
         cur_data_list = JSON.parse(localStorage.list);
         getPlayAddress();
         var v = document.getElementById("shipin")
@@ -245,7 +246,6 @@ var arr_flag = [1,0];
     };
     //播放地址
     function getPlayAddress() {
-      console.log(cur_data_list);
         if (!flag) {
           $api.byId('shipin').autoplay = 'autoplay';
         }
@@ -262,7 +262,6 @@ var arr_flag = [1,0];
     function onItemPlayClick(index) {
       arr_flag[1] = 0;
       cur_index = index;
-      console.log(cur_index);
       var a =  document.getElementsByTagName('li')
       for (var i = 0; i < a.length; i++) {
         if (i == index) {
@@ -279,7 +278,6 @@ var arr_flag = [1,0];
     var tab = new auiTab({
         element:document.getElementById("tab"),
     },function(ret){
-      console.log(ret);
       if (ret.index == 1) {
         $api.byId('mulu').style.display = 'block';
         $api.byId('kechengxiangqing').style.display = 'none';
@@ -302,12 +300,10 @@ var arr_flag = [1,0];
         $api.byId('jiaoshijieshao').style.display = 'block';
         $api.byId('note_btn').style.display = 'block';
       }
-        // console.log(JSON.stringify(ret));
     });
 
     function getInfoData() {
       var parames = {};
-      console.log(cur_index);
       parames.id = cur_data_list[cur_index].viideoid;
       
       zhc.post('http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/videoinfos.html', parames,function(data) {
