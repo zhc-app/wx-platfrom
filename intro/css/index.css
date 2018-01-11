@@ -505,19 +505,19 @@
 }
 
 .teacher .page-one .info .one{
-	background-color: #F54E91;
+	background-color: #FCAE14;
 	top: 1.45rem;
 	left:0.5rem;
 }
 
 .teacher .page-one .info .two{
-	background-color: rgba(39,169,244,1);
+	background-color: #2196F3;
 	top: 1.2rem;
 	right:0.3rem;
 }
 
 .teacher .page-one .info .three{
-	background-color: rgba(131,204,43,1);;
+	background-color: #EE4B47;
 	top: 2.73rem;
 	right:0.95rem;
 }
@@ -525,7 +525,7 @@
 .teacher .page-one .info .four{
 	width: 5.55rem;
 	height: 5.55rem;
-	background-color: #498BFC;
+	background-color: #F54E91;
 	top: 1.5rem;
 	left:1.17rem;
 	font-size: 0.43rem;
@@ -666,8 +666,10 @@
 .arraw{
 	width: 0.36rem;
 	height: 0.3rem;
-	display: block;
-	margin: 0.27rem auto;
+	position: absolute;
+	bottom: 0.3rem;
+	margin-left: -0.18rem;
+	left: 50%;
 	animation: up-and-down 1.5s linear infinite;
 }
 

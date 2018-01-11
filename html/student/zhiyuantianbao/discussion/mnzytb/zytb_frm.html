@@ -678,6 +678,12 @@
       sort_index = index;
       var headerH = $('header').outerHeight(true);
       var height = $(document.body).height() - $(".l-btn").outerHeight(true);
+
+      // if (true) {
+      //   console.log(total_data.data)
+      //   return
+      // }
+      getUnivs();
       rt.openFrame("./select_university_win.html",
         "select_university_win",{
             x: 0,
@@ -690,6 +696,18 @@
         })
         $api.byId("main").style.display = "none"
       // rt.openPage("./select_university_win.html", {})
+
+    }
+
+    function getUnivs() {
+      var unvi_str = '';
+      var data = total_data.data;
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].univ_name != '') {
+          unvi_str = unvi_str + data[i].univ_name + ',';
+        }
+      }
+      localStorage.unvi_str = unvi_str;
     }
 
     function xuanzhuanye(index) {
@@ -700,6 +718,7 @@
 
       var headerH = $('header').outerHeight(true);
       var height = $(document.body).height() - $(".l-btn").outerHeight(true);
+
       rt.openFrame("./select_major_win.html",
         "select_major_win",{
             x: 0,

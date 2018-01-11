@@ -182,6 +182,7 @@
       parames.score = rt.getPageParame("score");
       parames.studentid = $api.getStorage('studentid');
       parames.planid = rt.getPageParame("planid");
+      parames.not_major_name = localStorage.major_str;
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/getzhuanye.html",
           parames,function(_data) {
             majorList = _data;

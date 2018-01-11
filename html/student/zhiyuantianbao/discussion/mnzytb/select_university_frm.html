@@ -232,6 +232,7 @@
       parames.score = g_score;
       parames.lowrank = g_rank;
       parames.batchid = g_batchid;
+      parames.not_univ_name = localStorage.unvi_str;
       zhc.post("http://www.yxke12.com/index.php/App/Zhiyuantianbao/selectschool.html",
           parames,function(_data) {
             // console.log(JSON.stringify(_data));

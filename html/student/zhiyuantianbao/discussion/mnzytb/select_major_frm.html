@@ -374,7 +374,7 @@
       major_index = index;
       rt.execParentFun('hideBar', {});
       $api.byId("main").style.display = "none"
-
+      getMajors();
       var headerH = $('header').outerHeight(true);
       var height = $(document.body).height() - $(".l-btn").outerHeight(true);
       rt.openFrame("./select_major_list_win.html",
@@ -391,8 +391,18 @@
             planid: rt.getPageParame("planid"),
             rank: rt.getPageParame("rank")
         })
+    }
 
-
+    function getMajors() {
+      var major_str = '';
+      var data = major_data.data; 
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].major_name != null) {
+          
+            major_str = major_str + data[i].major_name + ',';
+        }
+      }
+      localStorage.major_str = major_str;
     }
 
     function onUpMove(index) {
