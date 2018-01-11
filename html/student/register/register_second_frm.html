@@ -121,17 +121,11 @@
 <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
   var uploadData = {};
-// apiready = function() {
-//     api.parseTapmode();
-//     // card_no_in.value = "S171102888888";
-//     // password_in.value = "888888";
-// };
 var toast = new auiToast({});
 
 function loginClick() {
   var card_no = $api.byId('card_no_in').value;
   var password = $api.byId('password_in').value;
-
   if (card_no == '') {
     toast.fail({
       title: '请输入卡号'

@@ -547,6 +547,7 @@
     }
 
     window.onload = function(){
+      $("body").width($(window).width())
       var ic_id = $api.byId('ic_id');
       var ic_pan = $api.byId('ic_pan');
       if ($api.getStorage('loginname')) {

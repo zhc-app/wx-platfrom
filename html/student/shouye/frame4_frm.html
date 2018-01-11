@@ -467,6 +467,7 @@ function gaoKaoXinZheng() {
     var video_dot;
     var videoList;
     window.onload = function(){
+      $("body").width($(document).width())
       var ic_id = $api.byId('ic_id');
       if ($api.getStorage('loginname')) {
           ic_id.src = "http://www.yxke12.com/Public/Home/images/touxiang/" + $api.getStorage('img');

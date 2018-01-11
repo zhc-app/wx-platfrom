@@ -325,9 +325,8 @@
       parames.studentid = $api.getStorage('studentid');
       zhc.post('http://www.yxke12.com/index.php/App/Youketang/lists.html',
           parames,function(_data) {
-            console.log(_data)
-            document.getElementById('kecheng_list').innerHTML = kecheng_data(_data);
-          },null, true);
+            document.getElementById('kecheng_list').innerHTML = kecheng_data(_data.data);
+          }, null, true);
     };
 
     function yincang() {

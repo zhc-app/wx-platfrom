@@ -133,8 +133,18 @@
       </script>
     </div>
 
-    <div class="grade margin-t-20">学校</div>
-    <div class="aui-list-item-input grade_show margin-t-20" id="school_div">
+
+    <div class="grade">考试类型</div>
+
+    <div class="kaoshi">
+      <div id="wen" class="ke select" tapmode onclick="selectBranch(this, 0)">文科</div>
+      <div id="li" class="ke" tapmode onclick="selectBranch(this, 1)">理科</div>
+      <div id="neither" class="ke" tapmode onclick="selectBranch(this, 2)">不分科</div>
+    </div>
+
+
+    <div class="grade margin-t-20" style='display: none'>学校</div>
+    <div class="aui-list-item-input grade_show margin-t-20" style='display: none' id="school_div">
       <script id="school_s" type="text/x-dot-template">
         <select onchange="selectSchool(this.value)">
           {{for (var i = 0; i < it.length; i++) {}}
@@ -146,7 +156,7 @@
         </div>
       </script>
     </div>
-    <div id="next_step" class="aui-btn aui-btn-info login_btn" tapmode onclick="bindClick()">下一步</div>
+    <div id="next_step" class="aui-btn aui-btn-info login_btn" tapmode onclick="bindClick()">完成绑定</div>
 
   </div>
 </body>
@@ -157,6 +167,7 @@
 <script type="text/javascript" src="../../../script/doT.js"></script>
 <script type="text/javascript" src="../../../script/network.js"></script>
 <script type="text/javascript">
+  var banTypes = ["文科", "理科", "文理不分科"]
   var uploadData = {};
   var provinceList = [];
   var cityList = [{provincesname:"请选择",pid:"0",provincesid:"0"}];
@@ -169,6 +180,7 @@
   window.onload = function() {
     uploadData = rt.getPageParame("data");
     uploadData = $api.strToJson(uploadData);
+    uploadData.type = banTypes[0];
     getProvinceData();
     if(city_dot == null){
       city_dot = doT.template(document.getElementById('city_s').innerHTML);
@@ -287,7 +299,7 @@
   function selectQu(value) {
     cur_qu = quList[value].provincesid;
     cur_school = null;
-    getSchool(value);
+    // getSchool(value);
   }
 
   function selectSchool(index) {
@@ -295,23 +307,49 @@
     console.log(index);
   }
 
+  function selectBranch(e, value) {
+    var ke = document.querySelectorAll(".ke");
+    for (var i = 0; i < ke.length; i++) {
+      if ($api.hasCls(ke[i], "select")) {
+        $api.removeCls(ke[i], "select");
+      }
+    }
+    $api.addCls(e, "select");
+    uploadData.type = banTypes[value];
+
+  }
+
   function bindClick() {
     if (cur_province != null &&
       cur_city != null &&
-      cur_qu != null &&
-      cur_school != null) {
-
-    uploadData.schoolid = cur_school;
+      cur_qu != null) {
     uploadData.xian = cur_qu;
-
-    uploadData = $api.jsonToStr(uploadData);
-    rt.openPage('./register_fifth_frm.html',{data:uploadData});
+    zhc.post("http://www.yxke12.com/index.php/App/Student/addinfo.html",
+      uploadData,function(data) {
+        login(uploadData.loginname, uploadData.password);
+      },null, true);
   }else {
     toast.fail({
-      title: '请检查学校信息'
+      title: '请检查信息'
     });
   }
 }
+
+function login(_usr, _pwd) {
+    var parames = {username: _usr, password: _pwd };
+   zhc.post("http://www.yxke12.com/index.php/App/Student/login.html",
+    parames,function(data) {
+      if (data != null) {
+        for (var key in data) {
+          if (data.hasOwnProperty(key)) {
+            $api.setStorage(key, data[key]);
+          }
+        }
+        $api.setStorage('password', _pwd);
+        rt.openPage('../shouye/main_win.html',{});
+      }
+    },null, true)
+  }
 </script>
 
 </html>

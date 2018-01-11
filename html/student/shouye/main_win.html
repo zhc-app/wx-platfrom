@@ -116,7 +116,7 @@
         "frm" + cur_index,{
             x: 0,
             y: 0,
-            width: $(window).width(),
+            width: $(document).width(),
             height: height,
         });
         document.getElementById('frm' + cur_index).style.marginBottom = $("#footer").outerHeight(true) + 'px'
@@ -153,10 +153,11 @@
                         var iframe = document.createElement('iframe'); 
                         $api.addCls(iframe, "frme");
 
-                        // iframe.scrolling = "auto";
+                        iframe.scrolling = "auto";
                         iframe.src = "./frame" + i + "_frm.html";
                         iframe.id = "frm" + i;
                         iframe.style.height = $(document.body).height() - $("#footer").outerHeight(true) + "px";
+                        iframe.style.width = $(document).width()+'px';
                         iframe.style.marginBottom = $("#footer").outerHeight(true) + "px";
                         document.body.appendChild(iframe);
                     }else{

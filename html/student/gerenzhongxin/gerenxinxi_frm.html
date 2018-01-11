@@ -70,7 +70,7 @@
                 <div class="aui-list-item-title">头像</div>
                 <div class="aui-list-item-right">
                   <input type="file" class="file" id="fileInput" multiple accept="image/*" style="display: none;" />
-                  <img class="real_tou" src="http://www.yxke12.com/Public/Home/images/touxiang/{{=it.img}}" style='width:3rem;height:3rem;margin:0.5rem 0;border-radius:1.5rem;'   id="tou_img" alt="">
+                  <img class="real_tou" src="http://www.yxke12.com/Public/Home/images/touxiang/{{=it.img}}" style='width:3rem;height:3rem;margin:0.5rem 0;border-radius:1.5rem;' id="tou_img" alt="">
                 </div>
             </div>
         </li>
@@ -90,13 +90,13 @@
               </div>
           </li>
 
-          <li class="aui-list-item">
+          <li class="aui-list-item" style="display: none">
               <div class="aui-list-item-inner ">
                   <div class="aui-list-item-title">学籍号</div>
                   <div class="aui-list-item-right">{{=it.enrollmentno}}</div>
               </div>
           </li>
-          <li class="aui-list-item">
+          <li class="aui-list-item" style="display: none">
               <div class="aui-list-item-inner ">
                   <div class="aui-list-item-title">入学年份</div>
                   <div class="aui-list-item-right">{{=it.nianji}}</div>
@@ -119,13 +119,13 @@
       <ul class="aui-list aui-list-in aui-margin-b-15">
 
 
-            <li class="aui-list-item">
+            <li class="aui-list-item" style="display: none">
                 <div class="aui-list-item-inner ">
                     <div class="aui-list-item-title">学校</div>
                     <div class="aui-list-item-right">{{=it.school}}</div>
                 </div>
             </li>
-            <li class="aui-list-item">
+            <li class="aui-list-item" style="display: none">
 
                 <div class="aui-list-item-inner ">
                     <div class="aui-list-item-title">年级</div>
@@ -137,7 +137,7 @@
 
                 </div>
             </li>
-            <li class="aui-list-item">
+            <li class="aui-list-item" style="display: none">
                 <div class="aui-list-item-inner ">
                     <div class="aui-list-item-title">班级</div>
                     {{if (it.grade==null||it.grade==""||it.grade==undefined) {}}
@@ -171,16 +171,16 @@
                     </div>
                 </li>
                 
-                <li class="aui-list-item">
+                <li class="aui-list-item" id="bir">
                     <div class="aui-list-item-inner aui-list-item-arrow">
                         <div class="aui-list-item-title" >出生日期</div>
                         
-                        {{if (it.birthday == null || it.birthday == '' || it.birthday == undefined) {}}
-                          <div class="aui-list-item-right" id="birthday">暂无</div>
-                        {{}else {}}
-                          <input type="text" class="workinput" id="inpstart" readonly>
+                        <!-- {{if (it.birthday == null || it.birthday == '' || it.birthday == undefined) {}} -->
+                          <input type="text" class="workinput" id="inpstart" value='2017-01-01' readonly >
+                        <!-- {{}else {}} -->
+                          <!-- <input type="text" class="workinput" id="inpstart" readonly > -->
                           <!--<div class="aui-list-item-right" id="birthday">{{=it.birthday}}</div>-->
-                        {{}}}
+                        <!-- {{}}} -->
                     </div>
                 </li>
                 <li class="aui-list-item">
@@ -386,8 +386,6 @@
     window.onload = function(){
         getData();
         setCurData();
-        $('#inpstart').jeDate(start);
-        $api.byId('inpstart').value = data.birthday
 
         if ($api.getStorage('jsons')==""||$api.getStorage('jsons')==null||$api.getStorage('jsons')==undefined) {
           $api.byId('wodejili').style.display="none";
@@ -397,7 +395,6 @@
           var jlDate =$api.strToJson(jldata);
           document.getElementById('xsjl').innerHTML = xsjl1(jlDate);
         }
-
          //上传图片
         //第一种方式：createObjectURL
         //图片上传预览功能
@@ -441,9 +438,16 @@
           }
       });
 
-      $("#tou_img").click(function(event) {
+      $(".real_tou").click(function(event) {
           $(".file").click();
       });
+
+      $('#inpstart').jeDate(start);
+      if (it.birthday == null || it.birthday == '' || it.birthday == undefined){
+        $api.byId('inpstart').value = '2017-01-01'
+      }else {
+        $api.byId('inpstart').value = data.birthday
+      }
     };
 
     function setCurData() {

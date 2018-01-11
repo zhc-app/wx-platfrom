@@ -228,7 +228,7 @@ function checkInfos(pic, sex, name) {
     var sex_str = sex == 0 ? "女" : "男";
     uploadData.studentname = name;
     uploadData.sex = sex_str;
-    uploadData.files = pic;
+    // uploadData.files = pic;
     
     uploadData = $api.jsonToStr(uploadData);
     rt.openPage('./register_sixth_frm.html',{data:uploadData});

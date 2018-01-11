@@ -195,6 +195,7 @@
       }
         var time1 = new Date().Format("yyyy-MM-dd");
         $api.byId('title').innerHTML = rt.getPageParame("title");
+        document.title = rt.getPageParame("title");
         planParticulars()
     };
 
