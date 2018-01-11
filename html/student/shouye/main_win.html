@@ -103,11 +103,13 @@
 </html>
 
 <script type="text/javascript">
+    var footerH = 0;
     var cur_index = 0;
     var pic = ["career", "868_1", "quality", "duoyuanzhaosheng_1", "867-3@3x"];
     var pic_h = ["careerS", "868@3x", "qualityS", "duoyuanzhaosheng", "zhiyuantianbao"];
     var id_map = {frm0:0, frm1:0, frm2:0, frm3:0, frm4:0};
     window.onload = function () {
+        footerH = $("#footer").outerHeight(true);
         // var el = document.getElementById("frm0");
         // el.style.height = $(document.body).height() - $("#footer").height() + "px";removeClass
         cur_index = $api.getStorage('main_index') ? $api.getStorage('main_index') : 0;
@@ -119,7 +121,7 @@
             width: $(document).width(),
             height: height,
         });
-        document.getElementById('frm' + cur_index).style.marginBottom = $("#footer").outerHeight(true) + 'px'
+        // document.getElementById('frm' + cur_index).style.marginBottom = $("#footer").outerHeight(true) + 'px'
 
         id_map["frm" + cur_index] = 1;
         var imgs = document.getElementById("footer").getElementsByTagName("img");
@@ -158,11 +160,11 @@
                         iframe.id = "frm" + i;
                         iframe.style.height = $(document.body).height() - $("#footer").outerHeight(true) + "px";
                         iframe.style.width = $(document).width()+'px';
-                        iframe.style.marginBottom = $("#footer").outerHeight(true) + "px";
+                        // iframe.style.marginBottom = $("#footer").outerHeight(true) + "px";
                         document.body.appendChild(iframe);
                     }else{
                         var el = document.getElementById("frm" + i);
-                        el.style.marginBottom = $("#footer").outerHeight(true) + "px";
+                        // el.style.marginBottom = $("#footer").outerHeight(true) + "px";
                         el.style.display = "block";
                     }
                     

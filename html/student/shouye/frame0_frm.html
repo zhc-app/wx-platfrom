@@ -423,7 +423,7 @@
               </div>
             </section>
 
-          <div class="aui-card-list suojin" id="yanzhenxinzheng">
+          <div class="aui-card-list suojin" style="display: none" id="yanzhenxinzheng">
 
                       <div class="bor-b">
                           <ul class="aui-list aui-media-list aui-list-noborder">
@@ -482,7 +482,7 @@
               <span class="list_title">生涯课堂</span>
           </div> -->
 
-          <div style="margin-top:10px;height:auto;display: inline-flex;background: #fff;width: 100%;position: relative;line-height: 2.5;">
+          <div style="height:auto;display: inline-flex;background: #fff;width: 100%;position: relative;line-height: 2.5;">
               <div class="left_line"></div>
               <span class="section_title">生涯课堂</span>
               <span class="section_gengduo" tapmode  onclick="loadMore()">更多 <i class="aui-iconfont aui-icon-right"></i></span>
@@ -525,10 +525,12 @@
         <div id="no_power_id" class="no-power">
             <span>该功能付费用户才能使用</span>
         </div>
+        
     </div>
 
       <!-- list end -->
   </div>
+  <div id="bot"><div>
 </div>
 </body>
 <script type="text/javascript" src="../../../script/api.js"></script>
@@ -547,6 +549,7 @@
     }
 
     window.onload = function(){
+      $("#bot").css('height', parent.footerH);
       $("body").width($(window).width())
       var ic_id = $api.byId('ic_id');
       var ic_pan = $api.byId('ic_pan');
@@ -592,11 +595,11 @@
         isnew = parseInt(isnew);
       }
       if (isnew == 1) {
-        $api.byId('yanzhenxinzheng').style.display='block';
+        // $api.byId('yanzhenxinzheng').style.display='block';
         $api.byId('xuekeqianneng_id').style.display='none';
         $api.byId('ceshi_id').style.display='block';
       }else {
-        $api.byId('yanzhenxinzheng').style.display='none';
+        // $api.byId('yanzhenxinzheng').style.display='none';
         $api.byId('xuekeqianneng_id').style.display='block';
         $api.byId('ceshi_id').style.display='none';
       }

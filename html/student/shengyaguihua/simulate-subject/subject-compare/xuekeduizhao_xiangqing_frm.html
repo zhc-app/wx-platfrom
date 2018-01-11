@@ -64,7 +64,7 @@
         }
         .left_line {
           background-color: #6666ff;
-          height: 40px;
+          height: 20px;
           width: 4px;
           margin-top: auto;
           margin-bottom: auto;
@@ -153,58 +153,31 @@
       </div>
 
 
-      <div id="xuankemu" style="display:none">
+      <div id="demand" style="display:none">
 
-      <script id="evaluationtmpl2" type="text/x-dot-template">
+      
         <div style="margin-left:10px;margin-top:10px;height:auto;">
             <div class="left_line"></div>
-            <p class="section_title">2018 招生普通高校专业（类）</p>
-            <p class="section_title">选考科目范围</p>
+            <p class="section_title">2018 招生普通高校专业（类）选考科目范围</p>
+            <!-- <p class="section_title"></p> -->
         </div>
           <div style="margin-top:17.5px;margin-left:10px">
             <div class="zhaoshengdiqu">
               招生地区：
             </div>
-            <div class="zhaoshengdiqu ">
-                <select class="zhaoshengdiqu1" name="" style="">
-                  <option value="">北京</option>
-                  <option value="">天津</option>
-                  <option value="">河北</option>
-                  <option value="">山西</option>
-                  <option value="">内蒙古</option>
-                  <option value="">辽宁</option>
-                  <option value="">吉林</option>
-                  <option value="">黑龙江</option>
-                  <option value="">上海</option>
-                  <option value="">江苏</option>
-                  <option value="">南宁</option>
-                  <option value="">陕西</option>
-                  <option value="">浙江</option>
-                  <option value="">安徽</option>
-                  <option value="">福建</option>
-                  <option value="">江西</option>
-                  <option value="">山东</option>
-                  <option value="">河南</option>
-                  <option value="">湖北</option>
-                  <option value="">武汉</option>
-                  <option value="">湖南</option>
-                  <option value="">广东</option>
-                  <option value="">广西</option>
-                  <option value="">海南</option>
-                  <option value="">重庆</option>
-                  <option value="">四川</option>
-                  <option value="">贵州</option>
-                  <option value="">云南</option>
-                  <option value="">甘肃</option>
-                  <option value="">青海</option>
-                  <option value="">宁夏</option>
-                  <option value="">新疆</option>
-                  <option value="">香港</option>
+            <div class="zhaoshengdiqu " >
+                <select class="zhaoshengdiqu1" id="province_d" onchange="selectProvince(this.value)">
+                  <script id="province_s" type="text/x-dot-template">
+                    {{for(var i=0;i < it.length; i++) {}}
+                      <option value={{=i}}>{{=it}}</option>
+                    {{}}}
+                  </script>
                 </select>
             </div>
           </div>
 
-          <table border="1" style="margin-top: 20px;">
+          <table border="1" style="margin-top: 20px;" id="xuankemu">
+            <script id="evaluationtmpl2" type="text/x-dot-template">
             <tr>
               <th style="width: 10%;">层次</th>
               <th>专业名称</th>
@@ -246,19 +219,25 @@
 
 <script type="text/javascript">
     var data , data1;
+    var provinceList = [];
+    var evalText = doT.template(document.getElementById('evaluationtmpl').innerHTML);
+    var evalText1 = doT.template(document.getElementById('evaluationtmpl1').innerHTML);
+    var evalText2 = doT.template(document.getElementById('evaluationtmpl2').innerHTML);
+    var province_dot = doT.template(document.getElementById('province_s').innerHTML);
+
     var tab = new auiTab({
         element:document.getElementById("tab"),
     },function(ret){
       if (ret.index==1) {
           document.getElementById("jieshao").style.display = 'block'
-          document.getElementById("xuankemu").style.display = 'none'
+          document.getElementById("demand").style.display = 'none'
       }else {
         document.getElementById("jieshao").style.display = 'none'
-        document.getElementById("xuankemu").style.display = 'block'
+        document.getElementById("demand").style.display = 'block'
       }
     });
     window.onload = function(){
-          getSchoolDetails();
+        getSchoolDetails();
     }
 
     function getSchoolDetails(argument) {
@@ -269,7 +248,24 @@
             parames,function(_data) {
                 data = _data.school;
                 data1 = _data.lists;
+                provinceList = _data.province;
                 bindData();
+            },null, true);
+
+    }
+
+    function selectProvince(index) {
+        var parames = {}
+        parames.teschool = data.dxmc;
+        parames.teshu = provinceList[index];
+        parames.tediqu = data.province;
+        parames.tezhuanye = rt.getPageParame("xueli");
+        console.log(parames)
+        zhc.post('http://www.yxke12.com/index.php/App/Zhuanyexueke/getxueke.html',
+            parames,function(_data) {
+                // console.log(_data)
+                data1 = _data;
+                document.getElementById('xuankemu').innerHTML = evalText2(data1);
             },null, true);
     }
 
@@ -284,13 +280,13 @@
             jieshao.style.display = "none";
             xuankemu.style.display = "block";
         }else {
-          var evalText = doT.template(document.getElementById('evaluationtmpl').innerHTML);
-          var evalText1 = doT.template(document.getElementById('evaluationtmpl1').innerHTML);
+          
           document.getElementById('touxiang').innerHTML = evalText(data);
           document.getElementById('jieshao').innerHTML = evalText1(data);
         }
-        var evalText2 = doT.template(document.getElementById('evaluationtmpl2').innerHTML);
+        
         document.getElementById('xuankemu').innerHTML = evalText2(data1);
+        document.getElementById('province_d').innerHTML = province_dot(provinceList);
     }
 </script>
 </html>
