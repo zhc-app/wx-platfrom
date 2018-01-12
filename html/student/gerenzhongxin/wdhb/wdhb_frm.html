@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
-    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
-    <link rel="stylesheet" type="text/css" href="../../../css/z.css"/>
+    <title>我的红包</title>
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/z.css"/>
 
     <style>
       .flex-box{
@@ -68,7 +68,7 @@
 
        <div class="flex-box">
          <div class="bag-bg">
-           <img src="../../../image/redbag.png"/>
+           <img src="../../../../image/redbag.png"/>
          </div>
          <div class="bag-c">
            <div class="bag-left">
@@ -90,26 +90,26 @@
 
     </div>
 </body>
-<script type="text/javascript" src="../../../script/api.js"></script>
-<script type="text/javascript" src="../../../script/doT.js"></script>
-<script src="../../../script/jquery-1.8.3.min.js"></script>
-<script src="../../../script/demo.js"></script>
-<script src="../../../script/network.js"></script>
-<script type="text/javascript" src="../../../script/aui-collapse.js" ></script>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/demo.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript" src="../../../../script/aui-collapse.js" ></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
 <script type="text/javascript">
     var listHD_dot = doT.template(document.getElementById('redbaglist').innerHTML);
-    apiready = function() {
+    window.onload = function() {
       redbaglistFn();
     };
 
 
 function redbaglistFn() {
-  var parames = {values:{}}
-  parames.values.studentid=$api.getStorage('studentid');
-  zhc.newpost('api/redpacket/lists',parames,function(data) {
-  // console.log('哈哈哈这里'+listHD_dot(data));
-  document.getElementById('redbag_id').innerHTML = listHD_dot(data);
-    api.parseTapmode();
+  var parames = {}
+  parames.studentid=$api.getStorage('studentid');
+    zhc.newpost('api/redpacket/lists',parames,function(data) {
+    document.getElementById('redbag_id').innerHTML = listHD_dot(data);
   },null,true)
 }
 </script>

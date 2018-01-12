@@ -150,9 +150,21 @@
 <script type="text/javascript" src="../../../../script/api.js"></script>
 <script type="text/javascript" src="../../../../script/zhc-route.js"></script>
 <script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
 <script type="text/javascript">
     var toast = new auiToast({})
-    window.onload = function() {};
+    window.onload = function() {
+        var headerH = $('header').outerHeight(true);
+        var height = $(document.body).height() - headerH;
+        rt.openFrame("../redpacket/red_packet_frm.html",
+          "red_packet_frm",{
+            x: 0,
+            y: headerH,
+            width: $(document).width(),
+            height: height,
+          });
+        $api.byId('wrap').style.display = 'none';
+    };
 
     function itemClick(url) {
         if (!$api.getStorage('loginname')) {
@@ -163,6 +175,12 @@
           return
         }
         rt.openPage('./'+ url +'.html', {});
+    }
+
+    function join(argument) {
+        $api.byId('wrap').style.display = 'flex';
+        $api.byId('wrap').style.alignItems = "center";
+        rt.closeFrame('red_packet_frm');
     }
 </script>
 

@@ -172,10 +172,21 @@
         p{
           text-indent: 1.5rem
         }
+
+        .red_packet{
+          position: absolute;
+          top:0;
+          right: 0;
+          width: 3rem;
+          height: 3rem;
+        }
+
+
     </style>
 </head>
 
 <body style="background-color:white;">
+    <img class='red_packet' src="../../../../../image/hbimg.png" alt="">
     <div class="flex-wrap flex-vertical" id="xingquceshi">
       <script id="evaluationtmpl" type="text/x-dot-template">
         <div style="margin-left:10px;padding-top:10px;"><span style="color:#6666ff;font-size:16px;font-weight:bold;font-family: 'PingFang-SC';">{{=it.zhuanye.studentname}}</span><span style="color:#666666;font-size:16px;font-family: " PingFang-SC ";">同学：</span></div>
@@ -268,6 +279,61 @@
     function againTest() {
         rt.closeToPage("xingxiang_list_win")
     }
+    var rPacket = document.getElementsByClassName("red_packet")[0];
+
+    rPacket.addEventListener("touchstart",touchEvent,false);
+    rPacket.addEventListener("touchmove",touchEvent,false);
+    // rPacket.addEventListener("touchend",touchEvent,false);
+
+    var startY = 0;
+    var startX = 0;
+    var _top = 0;
+    var _right = 0;
+    var ismoving = false;
+    var timer = null;
+    function touchEvent(event) {
+        event.preventDefault();
+        switch(event.type){
+            case "touchstart" :
+                startY = event.touches[0].clientY;
+                startX = event.touches[0].clientX;
+                _top = parseInt($(this).css("top"))
+                _right = parseInt($(this).css("right"))
+                timer = setTimeout(redPackClick, 300);
+                break;
+            case "touchmove" :
+                var deltaY = event.touches[0].clientY - startY;
+                var deltaX = event.touches[0].clientX - startX;
+                if (deltaY > 10 || deltaX > 10) {
+                    $(".red_packet").css("top",_top + deltaY);
+                    $(".red_packet").css("right",_right - deltaX);
+                    clearTimeout(timer);
+                }
+                break;
+        }
+    }
+
+    function redPackClick() {
+        var headerH = $('header').outerHeight(true);
+        var height = $(document.body).height() - headerH;
+        rt.openFrame("../../redpacket/get_red_packet_frm.html",
+          "get_red_packet_frm",{
+            x: 0,
+            y: headerH,
+            width: $(document).width(),
+            height: height,
+          });
+
+        $("#xingquceshi").css('display', 'none');
+        $('.red_packet').css('display', 'none');
+    }
+
+    function back(argument) {
+        $("#xingquceshi").css('display', 'flex')
+        $('.red_packet').css('display', 'block');
+        rt.closeFrame('get_red_packet_frm');
+    }
+
 </script>
 
 </html>

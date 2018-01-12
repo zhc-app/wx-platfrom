@@ -229,6 +229,16 @@
       </div>
 <!-- 改版后 -->
 <section class="aui-content">
+  <ul class="aui-list aui-list-in aui-margin-b-15 aui-margin-t-15">
+      <li class="aui-list-item" tapmode onclick="wodehongbao()">
+          <div class="aui-list-item-label-icon">
+              <img src="../../../image/myRedbag.png" class="item_image"/>
+          </div>
+          <div class="aui-list-item-inner aui-list-item-arrow">
+              <div class="aui-list-item-title zt">我的红包</div>
+          </div>
+      </li>
+  </ul>
 <ul class="aui-list aui-list-in aui-margin-b-15 aui-margin-t-15">
     <li class="aui-list-item" tapmode onclick="guanzhuyuanxiao()">
         <div class="aui-list-item-label-icon">
@@ -383,4 +393,7 @@
     rt.openPage("../gerenzhongxin/shezhi_frm.html", {});
   }
 
+  function wodehongbao() {
+    rt.openPage("../gerenzhongxin/wdhb/wdhb_frm.html", {});
+  }
 </script>

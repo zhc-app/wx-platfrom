@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>领取红包</title>
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <style>
+        .center {
+            display: flex;
+            align-items: center;
+        }
+
+        .active-c{
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            opacity: 0.8;
+            z-index: 999999;
+        }
+
+        @-webkit-keyframes fade-in {
+            0% {opacity: 0;width: 50%;height: 50%;}
+            100% {opacity: 0.8;width: 100%;height: 100%;}
+        }
+        .anim {
+            -webkit-animation:fade-in 1s;
+        }
+
+        .real-intro{
+          width: 90%;
+          margin: 10px 5%;
+          margin-top: 30px;
+        }
+
+        .next-btn{
+          width: 90%;
+          height: 40px;
+          margin: 0px auto;
+          color: #DB483C;
+          background-color: #FEE94E;
+          text-align: center;
+          border-radius: 20px;
+          line-height: 40px;
+        }
+
+        .hbjinge{
+          width: 80%;
+          height: 18.725rem;
+          position: absolute;
+          margin: auto;
+          left: 0;
+          right: 0;
+          top: 30%;
+          margin-top: -6rem;
+        }
+        .Hbnt{
+          width:90%;
+          margin: auto;
+          height:2rem;
+          font-size:0.75rem;
+          background:rgba(254,233,78,1);
+          line-height:2rem;
+          text-align: center;
+          border-radius: 1.73rem ;
+          margin-top: 0.675rem;
+          color:rgba(219,72,60,1);
+        }
+
+        .Hbnt_dis{
+          width:90%;
+          margin: auto;
+          height:2rem;
+          font-size:0.75rem;
+          background:#cccccc;
+          line-height:2rem;
+          text-align: center;
+          border-radius: 1.73rem ;
+          margin-top: 0.675rem;
+          color:white;
+        }
+
+        .HBInput{
+          width: 80%;
+          position: absolute;
+          margin: auto;
+          bottom: 5%;
+          left: 0;
+          right: 0;
+        }
+        .hbshuru{
+          border: 1px solid #FFE466!important;
+          height:1.5rem!important;
+          border-radius: 0.825rem!important ;
+          text-align: center;
+          color:#FEE94E!important;
+        }
+        input::-webkit-input-placeholder{
+            color: #FEE94E;opacity:1;
+            font-size:0.65rem;
+        }
+        .hbhqje{
+          position: absolute;
+          top: 37%;
+          margin: auto;
+          font-size: 2rem;
+          left: 0;
+          right: 0;
+          width: 70%;
+          text-align: center;
+        }
+        .hbhqjeY{
+            font-size:1.2rem;
+            margin-top:12px;
+            text-align:right;
+            margin-left:1rem
+        }
+        span{
+          color: #DB483C ;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical center" style="background-color: rgba(0,0,0,0.6);">
+      <div id="main" class="flex-con ">
+        <div class="hbjinge">
+          <div class="" style="overflow: hidden;" >
+            <img tapmode onclick="back()" src="../../../../image/guanbi.png" style="width:1.5rem;height:1.5rem;float: right;z-index:1"  alt="">
+          </div>
+
+          <div style="position:relative">
+            <span class="hbhqje" id="money">99.99</span><span class="hbhqje hbhqjeY" >元</span>
+            <img src="../../../../image/hbjine.png" alt="">
+            <div class="HBInput">
+              <input type="text" class="hbshuru" id="wxh" style="margin-bottom:4.5%" name="" value=""   onkeyup="value=value.replace(/[\W]/g,'') " placeholder="输入微信号 (必填)">
+              <input type="tel" class="hbshuru"  name="" id="sjh" value=""   placeholder="输入手机号 (必填)">
+            </div>
+          </div>
+
+          <div class="Hbnt" id="tjlhb" tapmode onclick="getPacket()">
+            提交以领取红包
+          </div>
+        </div>
+    </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript">
+    var hbid;
+    var money, wxh, sjh;
+    var toast = new auiToast({});
+    window.onload = function() {
+      money = $api.byId('money');
+      wxh = $api.byId('wxh');
+      sjh = $api.byId('sjh');
+      getMoney();
+    };
+
+    function back() {
+      rt.execParentFun('back', {})
+    }
+
+    function getMoney() {
+      var parames = {}
+      var data = $api.strToJson(localStorage.data);
+      parames.studentid = $api.getStorage('studentid');
+      parames.resultid = data.zhuanye.id;
+      parames.times = data.zhuanye.numbers;
+      zhc.newpost('api/redpacket/showmoney',parames,function(_data) {
+          money.innerHTML = _data.money;
+          hbid = _data.id;
+      },function(_err) {
+
+        money.innerHTML = _err.data.money;
+        hbid = _err.data.id;
+        $('#tjlhb').addClass('Hbnt_dis');
+        $('#tjlhb').removeClass('Hbnt');
+        $('#tjlhb').html('已领取')
+        $api.byId('tjlhb').onclick = ''
+      },true)
+    }
+
+    function getPacket() {
+      if (wxh.value == ""||wxh.value == null || wxh.value==undefined) {
+        toast.fail({
+            title: '请输入的微信号',
+            duration: 2000
+        });
+        return;
+      }
+      if (sjh.value == ""||sjh.value == null || sjh.value==undefined) {
+        toast.fail({
+            title: '请输入的手机号',
+            duration: 2000
+        });
+        return;
+      }
+
+      if (hbid == null) {
+        toast.fail({
+            title: '请重新进入该页面',
+            duration: 2000
+        });
+        return;
+      }
+      if (tools.isPhone(sjh.value)) {
+
+        var parames = {}
+        parames.studentid=$api.getStorage('studentid');
+        parames.tel=sjh.value;
+        parames.weixin=wxh.value;
+        parames.id=hbid;
+        zhc.newpost('api/redpacket/submit',parames,function(_data) {
+          toast.success({
+            title: '领取成功',
+            duration: 2000
+          });
+          setTimeout(back, 1000);
+        },null,true)
+        tjlhb.disabled = true;
+      }else {
+        toast.fail({
+            title: '请输入正确的手机号',
+            duration: 2000
+        });
+      }
+    }
+</script>
+
+</html>

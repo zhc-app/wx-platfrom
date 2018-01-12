@@ -1,5 +1,6 @@
 (function(window){
   var h = {};
+  h.NEW_HOST = "http://api.yxke12.com/"
   var toast = new auiToast({});
   h.post = function(url, parames, suc, err_fun, isLoad) {
     // var xmlhttp;
@@ -48,6 +49,41 @@
         }else if (result.data.err != null) {
           toast.fail({
             title: result.data.err,
+            duration:2000
+          });
+        }
+        if (err_fun != null) {
+          err_fun(result);
+        }  
+      }
+    });
+  }
+
+  h.newpost = function(url, parames, suc, err_fun, isLoad) {
+    if (isLoad) {
+      toast.loading({
+        title:"加载中",
+        duration:2000
+    });
+    }
+    
+    url = this.NEW_HOST + url;
+    $.post(url, parames, function(result){
+      if (isLoad) {
+        toast.hide();
+      }
+      if (result.status == 200) {
+        suc(result.data);
+
+      }else{
+        if (typeof result.data == "string") {
+          toast.fail({
+            title: result.data,
+            duration:2000
+          });
+        }else if(result.message != null){
+          toast.fail({
+            title: result.message,
             duration:2000
           });
         }
