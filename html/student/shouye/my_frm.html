@@ -229,7 +229,7 @@
       </div>
 <!-- 改版后 -->
 <section class="aui-content">
-  <ul class="aui-list aui-list-in aui-margin-b-15 aui-margin-t-15">
+  <ul class="aui-list aui-list-in aui-margin-b-15 aui-margin-t-15" style='display: none' id="redPacket">
       <li class="aui-list-item" tapmode onclick="wodehongbao()">
           <div class="aui-list-item-label-icon">
               <img src="../../../image/myRedbag.png" class="item_image"/>
@@ -337,6 +337,13 @@
             document.getElementById('gaokao_days').innerHTML = daojishi(_data);
           },null, false);
       yanzhen();
+
+      var parames = {values:{}};
+      zhc.newpost("api/redpacket/isred", parames, function(data) {
+        if (data == 1) {
+            $('#redPacket').css('display', 'block');
+        }
+      }, null, false);
   }
 
   // 个人资料界面返回

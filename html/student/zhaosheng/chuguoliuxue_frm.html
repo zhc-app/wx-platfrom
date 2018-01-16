@@ -16,8 +16,9 @@
           color: #fff;
         }
         .zizhuzhaoshengkuan {
-          width: 50px;
-          height: 14px;
+          width: 60px;
+          height: 20px;
+          padding-top: 2px;
           border-radius: 2px;
           background-color: #ffbc10;
           display: inline-block!important;
@@ -100,7 +101,7 @@
                       <div class="aui-info-item zizhuzhaoshengkuan">
                         <span class="zizhuzhaosheng">出国留学</span>
                       </div>
-                      <div class="aui-info-item zizhuzhaosheng">{{=it[i].time}}</div>
+                      <div class="aui-info-item">{{=it[i].time}}</div>
                   </div>
               </li>
             {{}}}
@@ -124,7 +125,7 @@
                     <div class="aui-info-item zizhuzhaoshengkuan">
                       <span class="zizhuzhaosheng">出国留学</span>
                     </div>
-                    <div class="aui-info-item zizhuzhaosheng">{{=it[i].time}}</div>
+                    <div class="aui-info-item">{{=it[i].time}}</div>
                 </div>
             </li>
             {{}}}
@@ -152,7 +153,7 @@
 
     <div class="aui-content aui-margin-b-15" id="liuxuefudao"  style="display:none;padding-top:46px;">
       <ul class="aui-list aui-media-list">
-        <li class="aui-list-item">
+        <li class="aui-list-item" onclick="sbClick()">
           <div class="aui-media-list-item-inner">
               <div class="aui-list-item-media">
                   <img src="../../../image/chuguo_01.png">
@@ -191,8 +192,15 @@
     }
     var tab = new auiTab({
         element:document.getElementById("tab"),
+        index:$api.getStorage('second_index')
     },function(ret){
-        if (ret.index == 1) {
+        tabShow(ret);
+    });
+
+    tabShow({index:$api.getStorage('second_index')})
+    function tabShow(ret) {
+      $api.setStorage('second_index', ret.index)
+      if (ret.index == 1) {
           document.getElementById('liuzixun').style.display = "block"
           document.getElementById('liufangluo').style.display = "none"
           document.getElementById('liujianzhang').style.display = "none"
@@ -221,7 +229,7 @@
           document.getElementById('liujianzhang').style.display = "none"
           document.getElementById('liuxuefudao').style.display = "block"
         }
-    });
+    }
 
     function getZiXunData() {
         var parames = {}
@@ -277,14 +285,22 @@
 
     function onWItemClick(index) {
       var name = waiguoDataList[index];
-      // console.log(name);
-      var param = {};
-      param.name = name;
-      rt.openParentPage('./dyzs_details_frm.html', {
-              url:"http://www.yxke12.com/index.php/App/Chuguo/detail.html",
-              values:$api.jsonToStr(param),
-              title:name
-          })
+      if (name == '美国') {
+        rt.openParentPage('./amarican_state.html', {name: name});
+      }else{
+        var param = {};
+        param.name = name;
+        param.id = null;
+        rt.openParentPage('./dyzs_details_frm.html', {
+                url:"http://www.yxke12.com/index.php/App/Chuguo/detail.html",
+                values:$api.jsonToStr(param),
+                title:name
+            })
+      }
+    }
+
+    function sbClick() {
+      rt.openParentPage('./sb_ad.html', {})
     }
 </script>
 </html>

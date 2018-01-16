@@ -422,7 +422,7 @@
             <div  class="gxfa" id="shengzhengce" style="display:none">
                 <!-- header -->
                 <div style="height:40px;line-height:1.7rem;display:inline-block;width:100%;background: #f9f7f7;position: fixed;z-index: 44;">
-                    <span class="annui annuijiaohu" tapmode onclick="onGxfaClick()" id="gxfa_id">高校方案</span>
+                    <span class="annui annuijiaohu" tapmode onclick="onGxfaClick()" id="gxfa_id">本科</span>
                     <span class="annui" tapmode onclick="onGzdzClick()" id="gzdz_id">高职单招</span>
                 </div>
                 <!-- 高校方案 -->
@@ -511,7 +511,7 @@
                           <ul class="Sort-Sort" id="gzdz_xx_ul">
                               <script id="gzdz_xx_list" type="text/x-dot-template">
                                 {{for (var i = 0; i< it.length; i++) {}}
-                                    <li tapmode onclick="Sorts11(this,{{=it[i].id}})">{{=it[i].univ_name}}</li>
+                                    <li tapmode onclick="Sorts11(this,{{=it[i].id}})">{{=it[i].school}}</li>
                                 {{}}}
                               </script>
                           </ul>
@@ -523,11 +523,11 @@
                           <ul class="aui-list aui-media-list" id="gzdz_ul" style="display:block">
                               <script id="gzdz_list" type="text/x-dot-template">
                                   <li class="aui-list-item" tapmode onclick=shengfenzhengce4({{=it.id}})>
-                                  {{if (it.picture==null) {}}
+                                  {{if (it.thumb==null) {}}
                                   <div class="aui-media-list-item-inner">
                                       <div class="aui-list-item-inner">
                                           <div class="aui-list-item-text">
-                                              <div class="aui-list-item-title">{{=it.univ_name}}</div>
+                                              <div class="aui-list-item-title">{{=it.school}}</div>
 
                                           </div>
                                           <div class="aui-info aui-margin-t-5">
@@ -542,11 +542,11 @@
                                   <div class="aui-media-list-item-inner">
 
                                   <div class="aui-list-item-media">
-                                      <img src="http://www.yxke12.com//Public/Home/images/student/downloadpicture/{{=it.picture}}" style="width:94px;height:83px">
+                                      <img src="http://www.yxke12.com//Public/Home/images/student/{{=it.thumb}}" style="width:94px;height:83px">
                                   </div>
                                       <div class="aui-list-item-inner">
                                           <div class="aui-list-item-text">
-                                              <div class="aui-list-item-title">{{=it.univ_name}}</div>
+                                              <div class="aui-list-item-title">{{=it.school}}</div>
 
                                           </div>
                                           <div class="aui-info aui-margin-t-5">
@@ -617,6 +617,7 @@
     // 社会机制点击进入详情页事件 
     function shengfenzhengce2(id) {
         zhc.post('http://www.yxke12.com/index.php/App/Shehuijizhi/infos.html',{id: id},function(data){
+            console.log(data)
             localStorage.data = JSON.stringify(data);
             rt.openPage('./gaoxiang_zhengceXQ_frm.html',{});
         },null,true);
@@ -757,11 +758,28 @@
     function gaokaoXZXQ() {
         rt.openPage('./pingjianeirongfangfa_frm.html',{});
     }
+
+    // var vs = ['guozhengce', 'shengzhengce1', 'shengzhengce2','shengzhengce'];
+    // for (var i = 0; i < vs.length; i++) {
+   //     document.getElementById(vs[i]).style.display = "none";
+    // }
+    // document.getElementById(vs[ - 1]).style.display = "block"; 
+
     // tab栏切换
     var morenjiansuo = {};
     var tab = new auiTab({
         element: document.getElementById("tab"),
+        index: $api.getStorage('second_index')
     }, function(ret) {
+        
+        showTab(ret);
+    });
+
+
+    showTab({index:$api.getStorage('second_index')})
+
+    function showTab(ret){
+        $api.setStorage('second_index', ret.index);
         var gzc = document.getElementById('gzc');
         var szc = document.getElementById('szc');
         if (ret.index == 1) {
@@ -807,10 +825,8 @@
             document.getElementById('shengzhengce').style.display = "none";
             document.getElementById('shengzhengce1').style.display = "none";
             document.getElementById('shengzhengce2').style.display = "none";
-            
         }
-
-    });
+    }
 
     //js点击事件监听开始
     //高职单招点击全国的下拉事件
@@ -827,7 +843,7 @@
         zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/searchs.html',{province: gaoxiaofangdiqu.substring(5)},function(data){
             document.getElementById('gzdz_ul').innerHTML = gzdzlist(data.info);
             document.getElementById('gzdz_xx_ul').innerHTML = gzdzxx(data.school);
-            document.getElementById('gzdz_xx').innerHTML = data.school[0].univ_name
+            document.getElementById('gzdz_xx').innerHTML = data.school[0].school
         },null,true);
     }
 
@@ -875,7 +891,7 @@
         $("#shengzhengce3").css('display', 'block');
         zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/jianzhang.html',{},function(data){
                 document.getElementById('gzdz_dq').innerHTML = "招生范围："+data.province[0].province
-                document.getElementById('gzdz_xx').innerHTML = data.school[0].univ_name
+                document.getElementById('gzdz_xx').innerHTML = data.school[0].school
                 document.getElementById('gzdz_dq_ul').innerHTML = gzdzdq(data.province);
                 document.getElementById('gzdz_xx_ul').innerHTML = gzdzxx(data.school);
                 document.getElementById('gzdz_ul').innerHTML = gzdzlist(data.info);

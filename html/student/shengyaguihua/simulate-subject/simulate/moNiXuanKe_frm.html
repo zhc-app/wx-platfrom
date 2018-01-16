@@ -312,7 +312,7 @@
           <li class="aui-list-item" style="height: 6rem;" >
               <div class="aui-media-list-item-inner" tapmode onclick="xuekejieshao(6)">
                   <div class="aui-list-item-media">
-                      <img src="../../../../../image/101@3x.png">
+                      <img src="../../../../../image/technology.png">
                   </div>
                   <div class="aui-list-item-inner zdivw" tapmode onclick="xuekejieshao(6)">
                       <div class="aui-list-item-text">
@@ -363,6 +363,10 @@
         //     msg:'四次选科时间:第一学期（入学、期末），第二学期（期中 、期末），入学的选择作为入学分班参考',
         //     buttons:['我知道了']
         // })
+        if (!$api.getStorage('teacherid')) {
+          $('#fasongBtn').html('保存')
+        }
+       
     };
 
     var tab = new auiTab({
@@ -480,16 +484,15 @@
 
 }
 
-
     function fasonglaoshi() {
-
         var parames = {}
         parames.studentid = $api.getStorage('studentid');
         parames.checks = xuankeId;
+        parames.teacherid = $api.getStorage('teacherid');
         zhc.post('http://www.yxke12.com/index.php/App/Xuanke/xuanke.html',
             parames,function(_data) {
                 toast.success({
-                    title: '发送成功',
+                    title: _data.message,
                     duration: 500,
                 });
                 setTimeout( callback, 500 );

@@ -16,8 +16,9 @@
           color: #fff;
         }
         .zizhuzhaoshengkuan {
-          width: 50px;
-          height: 14px;
+          width: 60px;
+          height: 20px;
+          padding-top: 2px;
           border-radius: 2px;
           background-color: #36c7fa;
           display: inline-block!important;
@@ -50,6 +51,7 @@
           table{
             width: 100%;
             text-align: center;
+            margin-top: 18px;
           }
           tr{
             font-size: 12px;
@@ -76,7 +78,7 @@
     <div class="aui-tab tab-position" id="tab">
         <div class="aui-tab-item aui-active">资讯</div>
         <div class="aui-tab-item"><div></div>方略</div>
-        <div class="aui-tab-item">招生简章</div>
+        <div class="aui-tab-item">体育专业</div>
         <div class="aui-tab-item">运动员</div>
 
     </div>
@@ -98,7 +100,7 @@
                       <div class="aui-info-item zizhuzhaoshengkuan">
                         <span class="zizhuzhaosheng">体育招生</span>
                       </div>
-                      <div class="aui-info-item zizhuzhaosheng">{{=it[i].time}}</div>
+                      <div class="aui-info-item">{{=it[i].time}}</div>
                   </div>
               </li>
             {{}}}
@@ -123,7 +125,7 @@
                         <div class="aui-info-item zizhuzhaoshengkuan">
                           <span class="zizhuzhaosheng">体育招生</span>
                         </div>
-                        <div class="aui-info-item zizhuzhaosheng">{{=it[i].time}}</div>
+                        <div class="aui-info-item">{{=it[i].time}}</div>
                     </div>
                 </li>
             {{}}}
@@ -227,8 +229,16 @@
     }
     var tab = new auiTab({
         element:document.getElementById("tab"),
+        index:$api.getStorage('second_index')
     },function(ret){
-        if (ret.index==1) {
+        tabShow(ret)
+    });
+
+    tabShow({index:$api.getStorage('second_index')})
+
+    function tabShow(ret) {
+      $api.setStorage('second_index', ret.index)
+      if (ret.index==1) {
           document.getElementById('yizixun').style.display = "block"
           document.getElementById('yifangluo').style.display = "none"
           document.getElementById('puzhaosheng').style.display = "none"
@@ -261,7 +271,7 @@
               getYDYData();
           }
         }
-    });
+    }
 
     function getZiXunData() {
       var parames = {};
@@ -339,15 +349,19 @@
     // 查看资讯详情
     function onJZItemClick(index) {
       var id = 1;
+      var title;
       if (cur_zhuanye_type == 1) {
           // 运动训练
           id = jzydDataList[index].id;
+          title = jzydDataList[index].univ_name
       }else {
         // 武术
         id = jzwsDataList[index].id;
+        title = jzwsDataList[index].univ_name;
       }
 
       rt.openParentPage("dyzs_jz_details_frm.html", {
+              title: title,
               id: id,
               url:'http://www.yxke12.com/index.php/App/Tiyulei/details.html'
           });
@@ -356,6 +370,7 @@
     function checkJZDetails(index) {
       var id = ydyDataList[index].id;
       rt.openParentPage("dyzs_jz_details_frm.html", {
+              title: ydyDataList[index].theme,
               id: id,
               url:'http://www.yxke12.com/index.php/App/Tiyulei/gaoinfos.html'
           });

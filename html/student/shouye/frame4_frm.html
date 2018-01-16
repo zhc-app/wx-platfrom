@@ -294,25 +294,25 @@ width: 80%;
   background-size: 100%;
 }
 
-      .my-panel{
-          position: absolute;
-          background: url("../../../image/ic_stu_personal.png") no-repeat;
-          background-size: contain;
-          height: 30px;
-          width: 36px;
-          margin: 10px;
-          margin-left: 0px;
+    .my-panel{
+        position: absolute;
+        background: url("../../../image/ic_stu_personal.png") no-repeat;
+        background-size: contain;
+        height: 44px;
+        width: 53px;
+        margin: 10px;
+        margin-left: 0px;
 
-      }
+    }
 
-      .ic_p{
-          width:20px;
-          height:20px;
-          border-radius: 10px;
-          position: relative;
-          left: 11px;
-          margin-top: 4px;
-      }
+    .ic_p{
+        width:32px;
+        height:32px;
+        border-radius: 16px;
+        position: relative;
+        left: 11px;
+        margin-top: 6px;
+    }
     </style>
 </head>
 
@@ -503,6 +503,7 @@ function gaoKaoXinZheng() {
         });
         return
       }
+      $api.setStorage('main_reload', true)
       var url = "http://www.yxke12.com/Public/Home/images/video/" + videoList[index].videocsrc;
       if (videoList[index].videocsrc != null) {
         var uploadData = "";
@@ -538,6 +539,7 @@ function gaoKaoXinZheng() {
         //   });
         //   return;
         // }
+        $api.setStorage('main_reload', true)
         rt.openParentPage('../zhiyuantianbao/discussion/dis_main_win.html',{});
         // api.openWin({
         //     name: 'dis_main_win',
@@ -550,6 +552,7 @@ function gaoKaoXinZheng() {
     }
 
     function my(argument) {
+      $api.setStorage('main_reload', true)
       rt.openParentPage("./my_frm.html", {});
     }
 </script>

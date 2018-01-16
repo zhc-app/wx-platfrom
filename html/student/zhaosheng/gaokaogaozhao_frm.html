@@ -17,8 +17,9 @@
           color: #fff;
         }
         .zizhuzhaoshengkuan {
-          width: 50px;
-          height: 14px;
+          width: 60px;
+          height: 20px;
+          padding-top: 2px;
           border-radius: 2px;
           background-color: #886e91;
           display: inline-block!important;
@@ -137,7 +138,7 @@
                         <div class="aui-info-item zizhuzhaoshengkuan">
                           <span class="zizhuzhaosheng">高职单招</span>
                         </div>
-                        <div class="aui-info-item zizhuzhaosheng">{{=it[i].time}}</div>
+                        <div class="aui-info-item">{{=it[i].time}}</div>
                     </div>
                 </li>
               {{}}}
@@ -161,7 +162,7 @@
                           <div class="aui-info-item zizhuzhaoshengkuan">
                             <span class="zizhuzhaosheng">高职单招</span>
                           </div>
-                          <div class="aui-info-item zizhuzhaosheng">{{=it[i].time}}</div>
+                          <div class="aui-info-item">{{=it[i].time}}</div>
                       </div>
                   </li>
                 {{}}}
@@ -174,7 +175,7 @@
             <ul>
                 <li class="Regional" id="shudu">地区</li>
                 <li class="Sort" id="xuelicengci">学历层次</li>
-                <li class="Brand"id="xingzhi">办学性质</li>
+                <li class="Brand" id="xingzhi">办学性质</li>
             </ul>
         </div>
         <div class="grade-eject" id="yincang11" tapmode onclick="yincang3()" >
@@ -258,8 +259,16 @@
     }
     var tab = new auiTab({
         element:document.getElementById("tab"),
+        index:$api.getStorage('second_index')
     },function(ret){
-        if (ret.index == 1) {
+        tabShow(ret)
+    });
+
+    tabShow({index:$api.getStorage('second_index')})
+
+    function tabShow(ret) {
+      $api.setStorage('second_index', ret.index)
+      if (ret.index == 1) {
           document.getElementById('gaozixun').style.display = "block"
           document.getElementById('gaofangluo').style.display = "none"
           document.getElementById('gaojianzhang').style.display = "none"
@@ -290,7 +299,7 @@
               getJianZhangYD();
           }
         }
-    });
+    }
 
     // 办学性质
     function Categorytw(wbj){
@@ -411,6 +420,7 @@
     function onJZItemClick(index) {
       var id = jzDataList[index].id;
       rt.openPage('./dyzs_jz_details_frm.html', {
+              title:jzDataList[index].univ_name,
               id: id,
               url:'http://www.yxke12.com/index.php/App/Gaozhi/detail.html'
           });

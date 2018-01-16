@@ -10,6 +10,12 @@
     <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
     <script src="../../../script/doT.js"></script>
     <style>
+      table {
+          border-collapse: collapse;
+          border-spacing: 0;
+          width: 100% !important;
+      }
+
       .titleDiv{
           width:90%;
           margin: auto;
@@ -39,25 +45,52 @@
           background-color: #333333;
           margin: auto;
         }
+
         p{
-          text-indent: 1.5rem!important;
-          width: 95%;
+          text-indent: 0em!important;
         }
-        strong,span{
-          display: block;
-          text-indent: 1.5rem
+
+        .l_news p{
+          text-indent: 2em!important;
+          /*width: 95%;*/
+          font-size:16px !important;
+          font-family: 'PingFang-SC' !important;
+        }
+
+        .l_news p strong{
+          margin-top: 10px;
+            text-indent: -2em !important;
+        }
+
+        p span{
+          display: inline;
+          text-indent: 0em;
+          font-size:16px !important;
+          font-family: 'PingFang-SC' !important;
+          color: #333333;
+        }
+
+        p strong span{
+          display: inline;
+          text-indent: 0em;
+          font-size:16px !important;
+          font-family: 'PingFang-SC' !important;
+          color: #333333;
+          line-height: 32px;
         }
         h2,h3{
           text-align: center;
         }
         td,tr{
-          border: 1px solid #e5e5e5;
+          border: 1px solid #e5e5e5 !important;
           text-align: center;
           color: #666666;
         }
         img{
           width: 90%;
         }
+
+
     </style>
 </head>
 

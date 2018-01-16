@@ -15,17 +15,14 @@
     align-items:center;
     justify-content:center;
   }
-  .content_item{
-    background-color:#ff6b00;
-    border-radius:10px;
-    width:90%;
-    height:90px;
-    overflow:hidden;
-          /*display:flex;
-          align-items:center;
-          justify-content:center;*/
-          margin-top:8px;
-        }
+  .content_item {
+      background-color: #ff6b00;
+      border-radius: 10px;
+      width: 90%;
+      height: 100px;
+      overflow: hidden;
+      margin-top: 16px;
+  }
 
         .left{
           margin-top:23px;
@@ -46,7 +43,7 @@
         }
         .v_line{
           width: 1px;
-          height: 90px;
+          height: 120px;
           background-color: white;
           float: right;
           margin-right: 20px;
@@ -65,6 +62,7 @@
           font-size: 12px;
           font-family: "PingFang-SC";
           color: #ffffff;
+          margin-top: 8px;
 /*
           overflow: hidden;
           text-overflow: ellipsis;
@@ -97,6 +95,39 @@
         .suzhitisheng_bg{
           background: #ff4d50;
         }
+
+        .ping_line{
+          background-color: #c5a5ff;
+        }
+
+        .active_line{
+          background-color: #bfeb83;
+        }
+
+        .grow_line{
+          background-color: #ffde88;
+        }
+
+        .zong_line{
+          background-color: #ff9496;
+        }
+
+        .ping_text{
+          color: #dbcaff;
+        }
+
+        .active_text{
+          color: #e7f7d7;
+        }
+
+        .grow_text{
+          color: #e7f7d7;
+        }
+
+        .zong_text{
+          color: #ffe3e3;
+        }
+
       </style>
     </head>
     <body>
@@ -107,12 +138,12 @@
             <img class="left_img" src="../../../image/ping_content.png"/>
             <div class="text_pos">
               <p class="title">评价内容与方法</p>
-              <p class="subtitle">国家、省份、高中、高校评价政策</p>
+              <p class="subtitle ping_text">国家、省份、高中、高校评价政策</p>
             </div>
           </div>
 
           <img src="../../../image/arrow.png" class="right_arrow">
-          <div class="v_line"></div>
+          <div class="v_line ping_line"></div>
         </div>
 
         <div class="content_item active_bg" tapmode onclick="huodongjilu()">
@@ -121,12 +152,12 @@
             <img class="left_img" src="../../../image/active.png"/>
             <div class="text_pos">
               <p class="title">活动记录与评价</p>
-              <p class="subtitle">记录范例、活动记录与评价</p>
+              <p class="subtitle active_text">记录范例、活动记录与评价</p>
             </div>
           </div>
 
           <img src="../../../image/arrow.png" class="right_arrow">
-          <div class="v_line"></div>
+          <div class="v_line active_line"></div>
         </div>
         <div class="content_item zong_bg" tapmode onclick="lhpjClick();" style="display:none">
           <div class="left">
@@ -145,12 +176,12 @@
             <img class="left_img" src="../../../image/grow.png"/>
             <div class="text_pos">
               <p class="title">成长报告与档案</p>
-              <p class="subtitle">自我陈述报告和成长档案的填写</p>
+              <p class="subtitle grow_text">自我陈述报告和成长档案的填写</p>
             </div>
           </div>
 
           <img src="../../../image/arrow.png" class="right_arrow">
-          <div class="v_line"></div>
+          <div class="v_line grow_line"></div>
         </div>
 
         <div class="content_item suzhitisheng_bg" tapmode onclick="zonghesuzhi()">
@@ -159,12 +190,12 @@
             <img class="left_img" src="../../../image/648@3x.png"/>
             <div class="text_pos">
               <p class="title">综合素养提升</p>
-              <p class="subtitle">讲座、阅读分享、关注心理健康</p>
+              <p class="subtitle zong_text">讲座、阅读分享、关注心理健康</p>
             </div>
           </div>
 
           <img src="../../../image/arrow.png" class="right_arrow">
-          <div class="v_line"></div>
+          <div class="v_line zong_line"></div>
         </div>
 
       </div>
@@ -197,14 +228,17 @@
           });
           return
         }
+        $api.setStorage('main_reload', true)
         rt.openParentPage('../huodongjilu/huodongjilu_frm.html',{});
       }
 
       function neirongpingjia() {
+        $api.setStorage('main_reload', true)
         rt.openParentPage('../suzhipingjia/pingjianeirong_frm.html',{});
       }
 
       function lhpjClick() {
+        $api.setStorage('main_reload', true)
         rt.openParentPage('../lianghuapingjia/lianghuapingjia_list_frm.html',{});
       }
 
@@ -216,6 +250,7 @@
           });
           return
         }
+        $api.setStorage('main_reload', true)
         rt.openParentPage('../baogaoyudangan/self_report_win.html',{});
       }
 
@@ -227,6 +262,7 @@
           });
           return
         }
+        $api.setStorage('main_reload', true)
         rt.openParentPage('../zonghesuzhitisheng/zonghe_list_frm.html',{});
       }
 

@@ -137,6 +137,8 @@
                 imgs[i].src = "../../../image/"+ pic[i] +".png";
             }
         }
+
+        $api.setStorage('second_index', 1);
     }
 
     var tab = new auiTab({
@@ -213,5 +215,13 @@
 
     function my(argument) {
         rt.openParentPage("./my_frm.html", {});
+    }
+    var main_reload = $api.getStorage('main_reload');
+    if (main_reload) {
+        reL();
+    }
+    function reL(){
+        $api.setStorage('main_reload', null)
+        window.location.reload();
     }
 </script>

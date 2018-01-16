@@ -180,6 +180,8 @@
 <script type="text/javascript" src="../../../script/zhc-route.js"></script>
 <script type="text/javascript">
     function itemClick1(url) {
+        $api.setStorage('main_reload', true)
+        $api.setStorage('yiti_index', 1)
         rt.openParentPage('../zhaosheng/'+ url +'.html', {});
     }
 </script>

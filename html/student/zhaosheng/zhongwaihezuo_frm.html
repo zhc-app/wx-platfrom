@@ -16,8 +16,9 @@
           color: #fff;
         }
         .zizhuzhaoshengkuan {
-          width: 50px;
-          height: 14px;
+          width: 60px;
+          height: 20px;
+          padding-top: 2px;
           border-radius: 2px;
           background-color: #ff4d50;
           display: inline-block!important;
@@ -99,7 +100,7 @@
                       <div class="aui-info-item zizhuzhaoshengkuan">
                         <span class="zizhuzhaosheng">中外合作</span>
                       </div>
-                      <div class="aui-info-item zizhuzhaosheng">{{=it[i].time}}</div>
+                      <div class="aui-info-item">{{=it[i].time}}</div>
                   </div>
               </li>
             {{}}}
@@ -125,7 +126,7 @@
                       <div class="aui-info-item zizhuzhaoshengkuan">
                         <span class="zizhuzhaosheng">中外合作</span>
                       </div>
-                      <div class="aui-info-item zizhuzhaosheng">{{=it[i].time}}</div>
+                      <div class="aui-info-item">{{=it[i].time}}</div>
                   </div>
               </li>
             {{}}}
@@ -201,8 +202,16 @@
     }
     var tab = new auiTab({
         element:document.getElementById("tab"),
+        index:$api.getStorage('second_index')
     },function(ret){
-        if (ret.index == 1) {
+        tabShow(ret)
+    });
+
+    tabShow({index:$api.getStorage('second_index')})
+
+    function tabShow(ret) {
+      $api.setStorage('second_index', ret.index)
+      if (ret.index == 1) {
           document.getElementById('liuzixun').style.display = "block"
           document.getElementById('liufangluo').style.display = "none"
           document.getElementById('liujianzhang').style.display = "none"
@@ -217,7 +226,7 @@
           document.getElementById('liujianzhang').style.display = "block"
           getBanXueList();
         }
-    });
+    }
 
     // 资讯列表
     function getZiXunData() {
@@ -283,26 +292,26 @@
 
     function onBXItemClick(index) {
       var id = BanXueDataList[index].id;
-      rt.openPage('./zzzs_zxfl_details_frm.html', {
-              id: id,
-              title:"中外合作"
-          });
+      rt.openPage('./dyzs_jz_details_frm.html', {
+          id: id,
+          url:'http://www.yxke12.com/index.php/App/Zhongwai/detail.html'
+      });
     }
 
     function onOneItemClick(index) {
       var id = banxueOneList[index].id;
       rt.openPage('./dyzs_jz_details_frm.html', {
-              id: id,
-              url:'http://www.yxke12.com/index.php/App/Zhongwai/detail.html'
-          });
+          id: id,
+          url:'http://www.yxke12.com/index.php/App/Zhongwai/detail.html'
+      });
     }
 
     function onTwoItemClick(index) {
       var id = banxueTwoList[index].id;
       rt.openPage('./dyzs_jz_details_frm.html', {
-              id: id,
-              url:'http://www.yxke12.com/index.php/App/Zhongwai/detail.html'
-          });
+          id: id,
+          url:'http://www.yxke12.com/index.php/App/Zhongwai/detail.html'
+      });
     }
 </script>
 </html>

@@ -280,20 +280,20 @@
             position: absolute;
             background: url("../../../image/ic_stu_personal.png") no-repeat;
             background-size: contain;
-            height: 30px;
-            width: 36px;
+            height: 44px;
+            width: 53px;
             margin: 10px;
             margin-left: 0px;
 
         }
 
         .ic_p{
-            width:20px;
-            height:20px;
-            border-radius: 10px;
+            width:32px;
+            height:32px;
+            border-radius: 16px;
             position: relative;
             left: 11px;
-            margin-top: 4px;
+            margin-top: 6px;
         }
 
     </style>
@@ -615,7 +615,7 @@
       //   });
       //   return;
       // }
-
+      $api.setStorage('main_reload', true)
       rt.openParentPage("../shengyaguihua/ace-test/xingxiang_list_frm.html", {});
     }
 
@@ -628,19 +628,23 @@
       //   });
       //   return;
       // }
+      $api.setStorage('main_reload', true)
       rt.openParentPage("../shengyaguihua/simulate-subject/simulate_xuanke_list_win.html", {});
     }
 
     function univPage() {
+      $api.setStorage('main_reload', true)
       rt.openParentPage("../shengyaguihua/school-storage/school_storage_frm.html", {});
     }
 
     function majorPage() {
+      $api.setStorage('main_reload', true)
       rt.openParentPage("../shengyaguihua/major-storage/zhuanye_storage_frm.html", {});
     }
 
 
     function jobPage() {
+      $api.setStorage('main_reload', true)
       rt.openParentPage("../shengyaguihua/job-storage/zhiye_storage_frm.html", {});
     }
  
@@ -652,23 +656,28 @@
         });
         return
       }
+      $api.setStorage('main_reload', true)
       $api.setStorage('da',data);
       rt.openParentPage("../shengyaguihua/shengyaketang/kecheng_frm.html", {index: index});
   }
 
   function loadMore() {
+    $api.setStorage('main_reload', true)
     rt.openParentPage("../shengyaguihua/shengyaketang/shengyaketang_frm.html", {});
   }
 
   function onLJXKClick() {
+    $api.setStorage('main_reload', true)
     rt.openParentPage("../shengyaguihua/xuekeqianneng/ljxk_frm.html", {});
   }
 
   function onXKCPClick() {
+    $api.setStorage('main_reload', true)
     rt.openParentPage("../shengyaguihua/simulate-subject/subject-test/xueke_test_win.html", {});
   }
 
   function my(argument) {
+    $api.setStorage('main_reload', true)
     rt.openParentPage("./my_frm.html", {});
   }
 </script>

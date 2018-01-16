@@ -166,7 +166,7 @@
           color: #666666;
           font-family: "PingFang-SC";
           text-indent: 0em;
-          font-size: 14px;
+          font-size: 16px;
           margin: 10px;
         }
         p{
@@ -175,7 +175,7 @@
 
         .red_packet{
           position: absolute;
-          top:0;
+          top:20px;
           right: 0;
           width: 3rem;
           height: 3rem;
@@ -186,7 +186,7 @@
 </head>
 
 <body style="background-color:white;">
-    <img class='red_packet' src="../../../../../image/hbimg.png" alt="">
+    <img style='display: none' class='red_packet' src="../../../../../image/hbimg.png" alt="">
     <div class="flex-wrap flex-vertical" id="xingquceshi">
       <script id="evaluationtmpl" type="text/x-dot-template">
         <div style="margin-left:10px;padding-top:10px;"><span style="color:#6666ff;font-size:16px;font-weight:bold;font-family: 'PingFang-SC';">{{=it.zhuanye.studentname}}</span><span style="color:#666666;font-size:16px;font-family: " PingFang-SC ";">同学：</span></div>
@@ -195,7 +195,7 @@
         <p>为了最终解决学生在报考和选择学科时的核心问题，智慧程.优生涯根据最新的《中华人民共和国职业分类大典（2015版）》和《普通高等学校本科专业目录（2012版）》开发出了职业-专业对照表，推出你适合的专业，为你高中阶段选择学科提供有力的参考。 报告的产生过程有着科学的理论依据和数据支撑，具有很高的参考价值。</p>
 
 
-        <span class="section_title" style="margin-left:10px;">适合的职业</span>
+        <span class="section_title" style="margin-left:10px;margin-top: 10px;">适合的职业</span>
         <p class="suit_job_tip">通过职业兴趣测试，你感兴趣的职业为：</p>
         <p class="suit_job_content">{{=it.chldinfo}}</p>
 
@@ -244,6 +244,13 @@
         if (source == 0) {
           op.style.display = 'none'
         }
+
+        var parames = {values:{}};
+        zhc.newpost("api/redpacket/isred", parames, function(_data) {
+            if (_data == 1) {
+                $('.red_packet').css('display', 'block');
+            }
+        }, null, false);
 
     };
 

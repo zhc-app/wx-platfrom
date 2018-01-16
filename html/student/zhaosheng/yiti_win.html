@@ -64,27 +64,9 @@
             var d = bar[i];
             var tab = new auiTab({
                 element:bar[i],
-                repeatClick:true
+                index:$api.getStorage('yiti_index')
             },function(ret){
-                if (ret.index == 1) {
-                  var headerH = $('header').outerHeight(true);
-                  var height = $(document.body).height() - headerH;
-                  rt.openFrame("./yishuzhaosheng.html", "yishuzhaosheng", {
-                    x: 0,
-                    y: 0,
-                    height: height,
-                    width:$(window).width()
-                  })
-                }else {
-                  var headerH = $('header').outerHeight(true);
-                  var height = $(document.body).height() - headerH;
-                  rt.openFrame("./tiyuzhaosheng.html", "tiyuzhaosheng", {
-                    x: 0,
-                    y: 0,
-                    height: height,
-                    width:$(window).width()
-                  })
-                }
+                showTab(ret)
             });
 
         }
@@ -100,7 +82,33 @@
         height: height,
         width:$(window).width()
       })
+      showTab({index:$api.getStorage('yiti_index')})
   };
+
+  function showTab(ret) {
+    $api.setStorage('yiti_index', ret.index)
+
+    if (ret.index == 1) {
+      var headerH = $('header').outerHeight(true);
+      var height = $(document.body).height() - headerH;
+      rt.openFrame("./yishuzhaosheng.html", "yishuzhaosheng", {
+        x: 0,
+        y: 0,
+        height: height,
+        width:$(window).width()
+      })
+    }else {
+      var headerH = $('header').outerHeight(true);
+      var height = $(document.body).height() - headerH;
+      rt.openFrame("./tiyuzhaosheng.html", "tiyuzhaosheng", {
+        x: 0,
+        y: 0,
+        height: height,
+        width:$(window).width()
+      })
+    }
+  }
+
 
 
 </script>

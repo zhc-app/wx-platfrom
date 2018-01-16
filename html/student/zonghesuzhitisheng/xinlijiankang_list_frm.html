@@ -215,8 +215,16 @@
 
     var tab = new auiTab({
         element:document.getElementById("tab"),
+        index:$api.getStorage('second_index')
     },function(ret){
-      var gzc = document. getElementById('gzc');
+        tabShow(ret)
+    });
+
+    tabShow({index:$api.getStorage('second_index')})
+
+    function tabShow(ret) {
+        $api.setStorage('second_index', ret.index)
+        var gzc = document. getElementById('gzc');
         var szc = document. getElementById('szc');
         if (ret.index ==1) {
           gzc.className="zcText xiahuaxian";
@@ -233,7 +241,7 @@
             getXinliDinglv();
           }
         }
-    });
+    }
 
     function getXinliDinglv() {
       zhc.post('http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/xinli_list.html',

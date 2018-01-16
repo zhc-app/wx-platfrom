@@ -20,12 +20,12 @@
             background-color: #9f69ff;
             border-radius: 10px;
             width: 90%;
-            height: 90px;
+            height: 120px;
             overflow: hidden;
             /*display:flex;*/
             /*align-items:center;*/
             /*justify-content:center;*/
-            margin-top: 8px;
+            margin-top: 20px;
             position: relative;
         }
 
@@ -49,12 +49,13 @@
             /*display: inline-block;*/
             font-family: "PingFang-SC";
             color: #ffffff;
+            font-weight: bold;
         }
 
         .text_pos {
             width: auto;
             overflow: hidden;
-            height: 90px;
+            height: 120px;
             margin-left: 56px;
             display: inline-flex;
             align-items: center;
@@ -74,8 +75,8 @@
         }
 
         .right_icon {
-            width: 59px;
-            height: 54px;
+            width: 125px;
+            height: 120px;
         }
         .xingge_bg{
           background-color: #95de31;
@@ -91,7 +92,7 @@
 
 <body>
     <div id="wrap" class="flex-wrap flex-vertical center">
-
+        <div style="width: 100%;height: 20px;background: #F5F5F5"></div>
         <div class="content_item " tapmode="hover" onclick="itemClick('holland/occupation_win')">
             <img class="left_img" src="../../../../image/xingxiang_left.png" />
             <div class="text_pos">
@@ -151,19 +152,27 @@
 <script type="text/javascript" src="../../../../script/zhc-route.js"></script>
 <script type="text/javascript" src="../../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
+
 <script type="text/javascript">
     var toast = new auiToast({})
     window.onload = function() {
-        var headerH = $('header').outerHeight(true);
-        var height = $(document.body).height() - headerH;
-        rt.openFrame("../redpacket/red_packet_frm.html",
-          "red_packet_frm",{
-            x: 0,
-            y: headerH,
-            width: $(document).width(),
-            height: height,
-          });
-        $api.byId('wrap').style.display = 'none';
+        var parames = {values:{}};
+        zhc.newpost("api/redpacket/isred", parames, function(data) {
+        if (data == 1) {
+            var headerH = $('header').outerHeight(true);
+            var height = $(document.body).height() - headerH;
+            rt.openFrame("../redpacket/red_packet_frm.html",
+              "red_packet_frm",{
+                x: 0,
+                y: headerH,
+                width: $(document).width(),
+                height: height,
+              });
+            $api.byId('wrap').style.display = 'none';
+        }
+        }, null, false);
+    
     };
 
     function itemClick(url) {

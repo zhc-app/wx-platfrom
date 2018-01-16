@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
     <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
-    <title>底部导航</title>
+    <title>活动记录</title>
     <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
@@ -129,7 +129,7 @@
               height: 3.6rem;
           }
           .biaotineirong{
-            height: 3.55rem!important;
+            height: 2rem!important;
             position: absolute!important;
             margin: auto!important;
             top:0;
@@ -202,24 +202,34 @@
             height: 3.6rem;
             opacity: 0;
         }
+
+        .send{
+          height: 40px;
+          background: #6666ff;
+          border-radius: 20px;
+          margin-left: 20px;
+          margin-right: 20px;
+          color: white;
+          text-align: center;
+          line-height: 40px;
+          margin-top: 10px;
+        }
     </style>
 </head>
-<header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
+<header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="display: none; position: fixed;">
   <a class="aui-pull-left aui-btn" tapmode onclick= 'api.closeWin();'>
       <span class="aui-iconfont aui-icon-left left_btn_c_b"></span>
   </a>
   <div id="title" class="aui-title">发表活动</div>
 
   <a class="aui-pull-right aui-btn aui-btn-outlined" tapmode="hover" onclick="fabiao()">
-
         <span style="color:#a1a1a1">发表</span>
-
     </a>
 </header>
 <body style="background:#f5f5f5;height:auto">
-<div  style="margin-top:3.3rem;">
+<div  style="margin-top:0rem;">
 
-      <div style="height:3.55rem;line-height:3.55rem;border-bottom: solid 1px #a1a1a1;border-top: solid 1px #a1a1a1;position: relative;">
+      <div style="height:2rem;line-height:2rem;border-bottom: solid 1px #a1a1a1;border-top: solid 1px #a1a1a1;position: relative;">
         <input type="text" name="" value="" placeholder="请输入标题" id="biaoti" class="biaotineirong">
       </div>
       <div style="margin-top:0.5rem">
@@ -231,10 +241,6 @@
         <h1 class="page_title" ><span id="current_user"></span></h1>
     </div>
         <br/>
-
- 
-
-
            <!--点击预览图片-->
             <div class="picDiv">
                 <div class="addImages">
@@ -247,7 +253,7 @@
                </div>
             </div>
       </div>
-
+      <div class="send" onclick="fabiao()">发表</div>
 </div>
 </body>
 <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>

@@ -16,8 +16,9 @@
           color: #fff;
         }
         .zizhuzhaoshengkuan {
-          width: 50px;
-          height: 14px;
+          width: 60px;
+          height: 20px;
+          padding-top: 2px;
           border-radius: 2px;
           background-color: #95de31;
           display: inline-block!important;
@@ -94,7 +95,7 @@
                     <div class="aui-info-item zizhuzhaoshengkuan">
                       <span class="zizhuzhaosheng">三位一体</span>
                     </div>
-                    <div class="aui-info-item zizhuzhaosheng">{{=it[i].time}}</div>
+                    <div class="aui-info-item">{{=it[i].time}}</div>
                 </div>
             </li>
           {{}}}
@@ -120,7 +121,7 @@
                         <div class="aui-info-item zizhuzhaoshengkuan">
                           <span class="zizhuzhaosheng">三位一体</span>
                         </div>
-                        <div class="aui-info-item zizhuzhaosheng">{{=it[i].time}}</div>
+                        <div class="aui-info-item">{{=it[i].time}}</div>
                     </div>
                 </li>
             {{}}}
@@ -213,8 +214,16 @@
     }
     var tab = new auiTab({
         element:document.getElementById("tab"),
+        index:$api.getStorage('second_index')
     },function(ret){
-        if (ret.index == 1) {
+        tabShow(ret);
+    });
+
+    tabShow({index:$api.getStorage('second_index')})
+
+    function tabShow(ret) {
+      $api.setStorage('second_index', ret.index)
+      if (ret.index == 1) {
           document.getElementById('sanzixun').style.display = "block"
           document.getElementById('sanfangluo').style.display = "none"
           document.getElementById('sanjianzhang').style.display = "none"
@@ -235,7 +244,7 @@
               getJianZhang();
           }
         }
-    });
+    }
 
     function getZXList() {
       var parames = {};
@@ -320,7 +329,7 @@
     // 查看招生简章 复用自主招生
     function checkJZDetails(index) {
       localStorage.m_jz_data = jianzhangData[index].detail;
-      rt.openPage("./zzzs_jz_details_frm.html", {});
+      rt.openPage("./zzzs_jz_details_frm.html", {title: jianzhangData[index].title});
     }
 </script>
 </html>

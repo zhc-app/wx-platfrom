@@ -225,6 +225,8 @@
     var job_id = "";
 
     window.onload = function() {
+        document.title = rt.getPageParame("name");
+        $api.byId('title').innerHTML = rt.getPageParame("name");
         getDetailsData(rt.getPageParame("name"));
     };
 

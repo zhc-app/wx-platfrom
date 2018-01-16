@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>美国</title>
+    <link rel="stylesheet" type="text/css" href="../../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.css" />
+    <style>
+      .left-padding-15{
+        padding-left: 15px;
+      }
+
+      .aui-collapse-header.aui-active {
+          background: white;
+      }
+      .my-third-content{
+        border-top: 1px solid #dddddd;
+        padding: 0px!important;
+        padding-left: 15px!important;
+      }
+      .aui-tab-item.aui-active {
+          color: #6666ff;
+          border-bottom: 2px solid #6666ff;
+      }
+      .margin-l-10{
+        margin-left: 10px;
+      }
+
+      .left_line {
+            background-color: #6666ff;
+            height: 18px;
+            width: 4px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .section_title {
+            font-size: 18px;
+            padding: 10px 5%;
+            background: white;
+
+        }
+        p{
+          padding:0px 5%;
+          background: white;
+          text-indent: 2em;
+          line-height: 1.5
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap flex-vertical">
+
+      <span class="section_title">一、基本情况</span>
+      <p>根据美国宪法规定，各州政府负责注册并审批各类高等院校，但各院校是否被社会所认可则取决于政府承认的认证机构的认证。
+美国高等院校包括公立与私立两种。主要实行二年学制或四年学制，二年制的多为技术专科学校和社区学院。据统计，目前美国各类高等院校有3600多所。</p>
+      <p>美国高等院校的质量认证一般由专业认证机构负责，经美国教育部认可的专业认证机构主要有六大区域认证机构及近百个专业认证机构。联邦政府通过认证机构间接起到对各院校的管理与规范。全美高等教育认证委员会（CHEA）是协调并审核认证机构的专业机构。 通过区域性认证协会或其它专业认证机构的认证，各院校可实现学分相互转换，所颁发的学位证书或文凭证书能获得社会的广泛认可。</p>
+      <span class="section_title">二、名单</span>
+      <p style="text-indent: 0em;padding-bottom: 10px;">请先选择美国大学所在州或地区：</p>
+      <ul class="aui-list aui-collapse aui-border" id="zhiye_first_ul" >
+        <script id="zhiye_first_s" type="text/x-dot-template">
+            {{for (var i = 0; i < it.length; i++) {}}
+              <div class="aui-collapse-item" >
+                  <li class="aui-list-item aui-collapse-header aui-border-b" tapmode onclick="selectZhiYe({{=i}})">
+                      <div class="aui-list-item-inner" >
+                          <div class="aui-list-item-title margin-l-10">{{=it[i].area}}</div>
+                          <div class="aui-list-item-right">
+                              <i class="aui-iconfont aui-icon-right aui-collapse-arrow"></i>
+                          </div>
+                      </div>
+                  </li>
+              </div>
+            {{}}}
+
+        </script>
+      </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/network.js"></script>
+<script type="text/javascript">
+    var zhiyeFirstList = [];
+    window.onload = function() {
+        zhiyeFirst();
+    };
+
+    function zhiyeFirst() {
+      var params = {};
+      params.name = rt.getPageParame('name');
+      zhc.post("http://www.yxke12.com/index.php/App/Chuguo/details.html", params, function(_data) {
+          zhiyeFirstList = _data;
+          // console.log(JSON.stringify(benkeFirstList));
+          document.getElementById('zhiye_first_ul').innerHTML =
+          doT.template(document.getElementById('zhiye_first_s').innerHTML)(zhiyeFirstList);
+      }, null, true);
+    }
+
+    function selectZhiYe(index) {
+        var param = {};
+        param.name = rt.getPageParame('name');
+        param.id = zhiyeFirstList[index].id;
+        
+        rt.openParentPage('./dyzs_details_frm.html', {
+                url:"http://www.yxke12.com/index.php/App/Chuguo/detail.html",
+                values:$api.jsonToStr(param),
+                title:name
+            })
+    }
+</script>
+
+</html>

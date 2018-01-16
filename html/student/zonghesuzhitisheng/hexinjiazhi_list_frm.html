@@ -210,7 +210,7 @@
       //   });
       //   return;
       // }
-      rt.openPage('./chuantong_frm.html',{});
+      rt.openPage('./chuantong_frm.html',{index:index});
       // api.openWin({
       //   name: 'chuantong_win',
       //   url: './chuantong_win.html',
@@ -224,7 +224,15 @@
 
     var tab = new auiTab({
       element:document.getElementById("tab"),
+      index:$api.getStorage('second_index')
     },function(ret){
+      tabShow(ret);
+    });
+
+    tabShow({index:$api.getStorage('second_index')})
+
+    function tabShow(ret) {
+      $api.setStorage('second_index', ret.index)
       var gzc = document. getElementById('gzc');
       var szc = document. getElementById('szc');
       if (ret.index ==1) {
@@ -243,7 +251,8 @@
           getZSMLList();
         }
       }
-    });
+    }
+
     //书目列表 
     function getZSMLList() {
       zhc.post('http://www.yxke12.com/index.php/App/Zonghesuyangtisheng/zsmllists.html',

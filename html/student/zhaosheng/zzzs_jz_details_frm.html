@@ -13,7 +13,7 @@
 
       .my-content{
         width:90%;
-        margin: auto;
+        margin: 10px auto;
         font-family: 'PingFang-SC';
       }
       table{
@@ -38,13 +38,16 @@
 <body style="background:#fff" id="details_b">
       <div id="main" class="flex-con my-content" >
       </div>
+      <div style="width: 100%;height: 10px;background: #fff;"></div>
 </body>
 <script type="text/javascript" src="../../../script/api.js"></script>
 <script type="text/javascript" src="../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../script/zhc-route.js"></script>
 <script type="text/javascript">
     window.onload = function(){
         var data = localStorage.m_jz_data;
         $api.byId('main').innerHTML = data;
+        document.title = rt.getPageParame('title') ? rt.getPageParame('title') : '详情';
         // var details = doT.template(document.getElementById('details_s').innerHTML);
         // document.getElementById('details_b').innerHTML = details(data);
       };

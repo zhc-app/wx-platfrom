@@ -41,11 +41,12 @@
         }
         p{
           text-indent: 1.5rem!important;
-          width: 95%!important;
+          margin-top: 10px;
         }
         strong,span{
           display: block;
-          text-indent: 1.5rem
+          text-indent: 1.5rem;
+          margin-top: 10px;
         }
         h2,h3{
           text-align: center;
@@ -57,6 +58,12 @@
         }
         img{
           width: 90%;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100% !important;
         }
     </style>
 </head>
@@ -73,20 +80,13 @@
     </div>
 
     {{}}} -->
-    <div id="main" class="flex-con" >
+    <div id="main" class="flex-con">
       <script id="evaluationtmpl11" type="text/x-dot-template">
-
-
-
-        <div style="width:90%;margin:auto">
-          <h3 style="margin:20px 0;" >  {{=it.theme}}</h3>
+        <div style="width:90%;margin:10px auto">
+          <h3 style="margin:20px 0;" >  {{=it.title}}</h3>
           <p>
-            {{=it.detail}}
+            {{=it.content}}
           </p>
-
-
-
-
         </div>
     </script>
   </div>
@@ -95,13 +95,10 @@
   <script src="../../../script/doT.js"></script>
 <script type="text/javascript">
     window.onload = function(){
-
-        // api.parseTapmode();
-            var data = JSON.parse(localStorage.data)
-            console.log(data);
-            var  evalText11 = doT.template(document.getElementById('evaluationtmpl11').innerHTML);
-              document.getElementById('main').innerHTML = evalText11(data);
-
+        var data = JSON.parse(localStorage.data)
+        document.title = data.title
+        var  evalText11 = doT.template(document.getElementById('evaluationtmpl11').innerHTML);
+        document.getElementById('main').innerHTML = evalText11(data);
     };
 
 

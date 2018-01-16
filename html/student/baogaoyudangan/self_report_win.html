@@ -129,7 +129,7 @@
     height: 3.6rem;
   }
   .biaotineirong{
-    height: 3.55rem!important;
+    height: 2rem!important;
     position: absolute!important;
     margin: auto!important;
     top:0;
@@ -137,14 +137,28 @@
     width: 95%!important;
     left: 0!important;
     right: 0!important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+
+  .send{
+    height: 40px;
+    background: #6666ff;
+    border-radius: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: white;
+    text-align: center;
+    line-height: 40px;
+    margin-top: 10px;
   }
 </style>
 </head>
-<header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
-  <a class="aui-pull-left aui-btn" tapmode onclick= 'rt.closePage();'>
+<header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;display: none">
+  <a style='display: none' class="aui-pull-left aui-btn" tapmode onclick= 'rt.closePage();'>
     <span class="aui-iconfont aui-icon-left left_btn_c_b"></span>
   </a>
-  <div id="title" class="aui-title">发表自我陈述报告</div>
+  <!-- <div id="title" class="aui-title">发表自我陈述报告</div> -->
 
   <a class="aui-pull-right aui-btn aui-btn-outlined" tapmode="hover" onclick="fabiao()">
 
@@ -153,23 +167,24 @@
   </a>
 </header>
 <body style="background:#f5f5f5;height:auto">
-  <div  style="margin-top:3.3rem;">
+  <div style="background: white;padding-bottom: 10px;">
 
-    <div style="height:3.55rem;line-height:3.55rem;border-bottom: solid 1px #a1a1a1;border-top: solid 1px #a1a1a1;position: relative;">
+    <div style="height:2rem;line-height:2rem; position: relative;">
       <input type="text" name="" value="" placeholder="请输入标题" id="biaoti" class="biaotineirong">
     </div>
+    <div style="height: 1px;background: #e5e5e5; margin-left:20px; margin-right:20px;"></div>
     <div style="margin-top:0.5rem">
-      <textarea id="content" name="name" rows="80" cols="80" style="height:10rem;width: 95%;margin:auto"  placeholder="请输入内容" ></textarea>
+      <textarea id="content" name="name" rows="80" cols="80" style="height:10rem;width: 95%;margin:auto;padding-left: 10px !important;padding-right: 10px !important;"  placeholder="请输入内容" ></textarea>
     </div>
 
     <div style="margin: auto;margin-top:0.5rem;width: 90%;display:none;">
       <div class="shizi" id="jia" tapmode onclick="tianjiatu()">
         <img src="../../../image/jiahao.png"  alt="">
       </div>
-
     </div>
-
+    
   </div>
+  <div class="send" onclick="fabiao()">发表</div>
 </body>
 <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="../../../script/zhc-route.js"></script>

@@ -308,20 +308,20 @@
           position: absolute;
           background: url("../../../image/ic_stu_personal.png") no-repeat;
           background-size: contain;
-          height: 30px;
-          width: 36px;
+          height: 44px;
+          width: 53px;
           margin: 10px;
           margin-left: 0px;
 
       }
 
       .ic_p{
-          width:20px;
-          height:20px;
-          border-radius: 10px;
+          width:32px;
+          height:32px;
+          border-radius: 16px;
           position: relative;
           left: 11px;
-          margin-top: 4px;
+          margin-top: 6px;
       }
 
     </style>
@@ -467,6 +467,7 @@
           });
           return
         }
+        $api.setStorage('main_reload', true)
       rt.openParentPage("../mingjiazhidao/jksh_details_frm.html", {data: id,
               url: "http://www.yxke12.com/index.php/App/Mingjiazhidao/detail.html",
               faurl: "http://www.yxke12.com/index.php/App/Mingjiazhidao/comment.html",
@@ -477,14 +478,17 @@
               title:"名家指导"})
     }
     function mingjiazhidao(){
+      $api.setStorage('main_reload', true)
       rt.openParentPage("../mingjiazhidao/mingjiazhidao_frm.html", {});
     }
 
     function onKGSMClick() {
+      $api.setStorage('main_reload', true)
       rt.openParentPage("../chengjitisheng/kaogangshuoming/kgsm_list_win.html", {});
     }
 
     function diannao() {
+      $api.setStorage('main_reload', true)
         rt.openParentPage("../diannaochakan.html", {});
     }
 
@@ -530,6 +534,7 @@
       //   });
       //   return;
       // }
+      $api.setStorage('main_reload', true)
       rt.openParentPage("../chengjitisheng/youketang/cjts_list_frm.html", {});
     }
     function onUKeItemClick(index,img) {
@@ -544,6 +549,7 @@
       if (kid == null) {
         return;
       }
+      $api.setStorage('main_reload', true)
       rt.openParentPage("../chengjitisheng/youketang/kecheng_frm.html", {kid: kid,
             img: img,
             url:'http://www.yxke12.com/index.php/App/Youketang/seevideo.html',
@@ -551,6 +557,7 @@
     }
 
     function my(argument) {
+      $api.setStorage('main_reload', true)
       rt.openParentPage("./my_frm.html", {});
     }
 </script>
