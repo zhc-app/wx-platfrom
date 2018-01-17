@@ -8,15 +8,11 @@
     <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/style.css"/>
     <link rel="stylesheet" type="text/css" href="../../../css/aui.css"/>
-    <link rel="stylesheet" type="text/css" href="../../../css/swiper.min.css"/>
     <style>
-        body{
-            background-color: #fff;
-        }
         .empty{ text-align: center; padding: 120px 0;}
         .top_img{
           width: 100%;
-          height:7.51rem;
+          height: 150px;
         }
 
         .top_bar{
@@ -158,11 +154,10 @@
           .aui-grid [class*=aui-col-] {
             display: table-cell;
             position: relative;
-            text-align: center;
-            vertical-align: middle;
-            /* padding: 2rem 0; */
-            margin-top: 0.5rem;
-        }
+              text-align: center;
+              vertical-align: middle;
+              padding: 10.5px 0;
+          }
           .chengZhangImg{
             width: 100%;
             height: 60px;
@@ -200,29 +195,11 @@
                   /*margin: 50px auto;*/
               }
               .swiper-slide {
-                width: 9rem;
-                height: 5rem;
-                /* width: 100%; */
-                text-align: left;
-                font-size: 0.45rem;
-                background: #fff;
-    
-                /* Center slide text vertically */
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: -webkit-flex;
-                display: flex;
-                -webkit-box-pack: center;
-                -ms-flex-pack: center;
-                -webkit-justify-content: center;
-                justify-content: center;
-                -webkit-box-align: center;
-                -ms-flex-align: center;
-                -webkit-align-items: center;
-                align-items: center;
-              
-            }
-    
+                  background: #f1f1f1;
+                  color:#000;
+                  text-align: center;
+                  /*line-height: 150;*/
+              }
               .layer {
                 height: 34px;
                 font-family: PingFang-SC;
@@ -238,7 +215,7 @@
               margin-right: 12px;
           }
           .swiper-wrapper img{
-            height: 5rem;
+            height: 150px
           }
           .xiaoxi  {
             width: 45.5px;
@@ -270,7 +247,7 @@
           }
 
           .left_line {
-              background-color: #FFA000;
+              background-color: #6666ff;
               height: 18px;
               width: 4px;
               margin-top: auto;
@@ -318,17 +295,7 @@
             left: 11px;
             margin-top: 6px;
         }
-        #swiperImg{
-            border-radius: 4px;
-            height: 5rem;
-            width: 8.5rem;
-            overflow: hidden;
-            margin-top: 3rem;
-        }
-        .aui-grid {
-            width: 100%;
-            height: 9.325rem;
-        }
+
     </style>
 </head>
 
@@ -339,7 +306,7 @@
           <img id="ic_id" class="ic_p">
       </div>
       <div>
-        <img class="top_img" src="../../../image/new-frame2.png"  >
+        <img class="top_img" src="../../../image/career_banner.png"  >
 
         <div class="top_bar" style="display:none;">
             <div class="top_inner" tapmode onclick="xingXiangTest()">
@@ -353,51 +320,32 @@
             </div>
         </div>
         <section class="aui-grid"  style="border-bottom: 10px solid #f5f5f5; display:none;" id="ceshi_id">
-            <div class="aui-row">
-                    <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="univPage();" >
-                            <!-- <i class="aui-iconfont aui-icon-home"></i> -->
-                            <img class="mid_img" src="../../../image/new-yuanxiao.png" alt="">
-                            <div><span class="mid_text">院校信息</span></div>
-                        </div>
-                        <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="majorPage();">
-                            <!-- <i class="aui-iconfont aui-icon-gear"></i> -->
-                            <img class="mid_img" src="../../../image/new-zhuanye.png" alt="">
-                            <div><span class="mid_text">专业信息</span></div>
-                        </div>
-                        <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="jobPage();">
-                            <!-- <i class="aui-iconfont aui-icon-map"></i> -->
-                            <img class="mid_img" src="../../../image/new-zhiye.png" alt="">
-                            <div><span class="mid_text">职业信息</span></div>
-                        </div>
-                        <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="xingXiangTest();">
-                            <!-- <i class="aui-iconfont aui-icon-map"></i> -->
-                            <img class="mid_img" src="../../../image/new-xingxiang.png" alt="">
-                            <div><span class="mid_text">性向测试</span></div>
-                        </div>
-            </div>
-          <div class="aui-row">
-              
-              <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="simulateXuanke();">
+          <div class="aui-row" style="margin-left:12px;margin-right:12px;">
+              <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="univPage();" >
+                  <!-- <i class="aui-iconfont aui-icon-home"></i> -->
+                  <img class="mid_img" src="../../../image/school.png" alt="">
+                  <div><span class="mid_text">院校信息</span></div>
+              </div>
+              <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="majorPage();">
+                  <!-- <i class="aui-iconfont aui-icon-gear"></i> -->
+                  <img class="mid_img" src="../../../image/major.png" alt="">
+                  <div><span class="mid_text">专业信息</span></div>
+              </div>
+              <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="jobPage();">
                   <!-- <i class="aui-iconfont aui-icon-map"></i> -->
-                  <img class="mid_img" src="../../../image/new-nuoni.png" alt="">
+                  <img class="mid_img" src="../../../image/job.png" alt="">
+                  <div><span class="mid_text">职业信息</span></div>
+              </div>
+              <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="xingXiangTest();">
+                  <!-- <i class="aui-iconfont aui-icon-map"></i> -->
+                  <img class="mid_img" src="../../../image/ic_cs.png" alt="">
+                  <div><span class="mid_text">性向测试</span></div>
+              </div>
+              <div class="aui-col-xs-20 mid_padding_8" tapmode onclick="simulateXuanke();">
+                  <!-- <i class="aui-iconfont aui-icon-map"></i> -->
+                  <img class="mid_img" src="../../../image/s_xuanke.png" alt="">
                   <div><span class="mid_text">模拟选科</span></div>
               </div>
-              <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="mingJiaZhiDao();">
-                <!-- <i class="aui-iconfont aui-icon-map"></i> -->
-                <img class="mid_img" src="../../../image/new-mingjia.png" alt="">
-                <div><span class="mid_text">名家指导</span></div>
-            </div>
-            <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="shengYa();">
-                <!-- <i class="aui-iconfont aui-icon-map"></i> -->
-                <img class="mid_img" src="../../../image/new-shengya.png" alt="">
-                <div><span class="mid_text">生涯探索</span></div>
-            </div>
-            <div class="aui-col-xs-3 mid_padding_8" tapmode onclick="bangYang();">
-                <!-- <i class="aui-iconfont aui-icon-map"></i> -->
-                <img class="mid_img" src="../../../image/new-bangyang.png" alt="">
-                <div><span class="mid_text">榜样力量</span></div>
-            </div>
-
             </div>
         </section>
 
@@ -534,7 +482,7 @@
               <span class="list_title">生涯课堂</span>
           </div> -->
 
-          <div style="height:auto;display: inline-flex;background: #fff;width: 100%;position: relative;line-height: 3rem;">
+          <div style="height:auto;display: inline-flex;background: #fff;width: 100%;position: relative;line-height: 2.5;">
               <div class="left_line"></div>
               <span class="section_title">生涯课堂</span>
               <span class="section_gengduo" tapmode  onclick="loadMore()">更多 <i class="aui-iconfont aui-icon-right"></i></span>
@@ -542,27 +490,27 @@
 
       <!-- list start -->
 
-      <div class="aui-content swiper-container">
-        <ul class="swiper-wrapper" id="sykt_ul">
+      <div class="aui-content ">
+        <ul class="aui-list aui-media-list" id="sykt_ul">
 
             <script id="sykt_s" type="text/x-dot-template">
             {{for (var i = 0; i < it.length; i++) {}}
-                <li class="swiper-slide" tapmode onclick="onKeItemClick({{=i}});">
-                    <div class="">
-                        <div class="" id="swiperImg">
-                            <img style="" src="http://www.yxke12.com/Public/Home/images/student/{{=it[i].image}}">
+                <li class="aui-list-item" tapmode onclick="onKeItemClick({{=i}});">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-media" style="border-right:none">
+                            <img style="border-radius:4px;" src="http://www.yxke12.com/Public/Home/images/student/{{=it[i].image}}">
                         </div>
-                        <div class="">
-                            <div class="">
-                                <div class="" style="line-height:2rem">{{=it[i].videoname}}</div>
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title">{{=it[i].videoname}}</div>
 
                             </div>
                             {{if (it[i].sample == null) {}}
-                              <div class="" style="margin-top:8px;max-width: 10rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                              <div class="aui-list-item-text" style="margin-top:8px;max-width: 10rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
 
                               </div>
                             {{}else {}}
-                              <div class="" style="margin-top:8px;max-width: 10rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                              <div class="aui-list-item-text" style="margin-top:8px;max-width: 10rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
                                 <!--{{=it[i].sample}}-->
                               </div>
                             {{}}}
@@ -582,7 +530,7 @@
 
       <!-- list end -->
   </div>
-  <div id="bot" style="height:50px;width:100%;"><div>
+  <div id="bot"><div>
 </div>
 </body>
 <script type="text/javascript" src="../../../script/api.js"></script>
@@ -591,9 +539,7 @@
 <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="../../../script/aui-toast.js"></script>
 <script type="text/javascript" src="../../../script/network.js"></script>
-<script type="text/javascript" src="../../../script/swiper.min.js"></script>
 <script type="text/javascript">
-
     var toast = new auiToast({});
     var data = [];
     var sykt_dot = null;
@@ -603,7 +549,7 @@
     }
 
     window.onload = function(){
-    //   $("#bot").css('height', parent.footerH);
+      $("#bot").css('height', parent.footerH);
       $("body").width($(window).width())
       var ic_id = $api.byId('ic_id');
       var ic_pan = $api.byId('ic_pan');
@@ -622,11 +568,7 @@
       zhc.post('http://www.yxke12.com/index.php/App/Gaokaoxinzheng/tuijian.html',
           parames,function(_data) {
             document.getElementById('xianshisheng').innerHTML = shengfen1(_data);
-            
           },null, true);
-          
-
-
     };
 
     function getListData(source) {
@@ -643,13 +585,6 @@
               //   sykt_ul.style.display = "none";
               //   no_power_id.style.display = "block";
               // }
-
-              var swiper = new Swiper('.swiper-container', {
-            slidesPerView: 2,
-            spaceBetween: 10,
-            freeMode: true
-            
-        });
           },null, true);
     }
 
@@ -745,18 +680,5 @@
     $api.setStorage('main_reload', true)
     rt.openParentPage("./my_frm.html", {});
   }
-
-  function mingJiaZhiDao() {
-      $api.setStorage('main_reload', true)
-      rt.openParentPage("../shengyaguihua/shengyaketang/mingShi.html", {});
-    }
-    function shengYa() {
-      $api.setStorage('main_reload', true)
-      rt.openParentPage("../shengyaguihua/shengyaketang/career_frm.html", {});
-    }
-    function bangYang() {
-      $api.setStorage('main_reload', true)
-      rt.openParentPage("../shengyaguihua/school-storage/school_storage_frm.html", {});
-    }
 </script>
 </html>

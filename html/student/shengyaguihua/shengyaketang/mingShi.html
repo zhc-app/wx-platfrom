@@ -1,0 +1,741 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"
+    />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../../../../css/aui.2.0.css" />
+    <style type="text/css" media="all">
+        body {
+            background-color: #fff;
+        }
+
+        .aui-bar {
+            position: relative;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 10;
+            width: 100%;
+            min-height: 2.25rem;
+            font-size: 0.9rem;
+            text-align: center;
+            display: table;
+        }
+
+        .aui-bar-nav {
+            /* top: 0; */
+            line-height: 2.25rem;
+            background-color: #03a9f4;
+            color: #ffffff;
+        }
+        .aui-bar-nav .ico-left {
+            width: 1.1rem;
+            height: 1.1rem;
+            border: 0.025rem solid #828282;
+            display: inline-block;
+            position: absolute;
+            border-radius: 50%;
+            margin: 1.35rem 0.55rem 0 0.55rem;
+        }
+
+        .aui-bar-nav .aui-iconfont {
+            position: absolute;
+            z-index: 20;
+            font-size: 0.7rem;
+            font-weight: 600;
+            line-height: 0;
+            top: 0.55rem;
+            left: 0rem;
+        }
+
+        .aui-icon-left:before {
+            content: "\e6f4";
+            width: 0.34rem;
+            height: 0.61rem;
+            color: #fff;
+            margin-left: 0.1rem;
+        }
+
+        .h-title {
+            width: 100%;
+            color: #030303;
+            font-size: 0.85rem;
+            line-height: 0.9rem;
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 1.35rem;
+        }
+        /* 导航 */
+
+        .aui-content-padded {
+            /* margin: 0.85rem 0; */
+            margin: 0 0 0.85rem;
+            position: relative;
+            -webkit-overflow-scrolling: touch;
+            border-top: 0.05rem solid #F6F5F5;
+            width: 100%;
+            height: 2.2rem;
+            line-height: 2.2rem;
+            margin-top: -5rem;
+        }
+
+        .aui-tab {
+            padding: 0 2.45rem;
+            background: #fff;
+            z-index: 1;
+            position:fixed;
+            width: 100%;
+        }
+
+        .aui-tab-item {
+            width: 33%;
+            font-size: 0.7rem;
+            color: #A7A4A4;
+            /*margin: 0 0.9rem;*/
+        }
+        .juli{
+            margin: 0 0.9rem;
+        }
+
+        .aui-tab-item.aui-active {
+            color: #5D5D5D;
+            border-bottom: 0.1rem solid #5D5D5D;
+            z-index: 100;
+        }
+
+        .aui-tab:after {
+            background-color: #fff;
+        }
+
+        .content {
+            background-color: #F6F5F5;
+            width: 100%;
+            padding-top: 0.25rem;
+            position: relative;
+        }
+
+        .cur {
+            display: none;
+        }
+
+        .content .c-top {
+
+            height: 1.5rem;
+            background-color: #fff;
+            padding: 0.3rem 0.55rem;
+            box-sizing: border-box;
+        }
+
+        .content .c-top p {
+            color: #6868FF;
+            line-height: 0.85rem;
+            margin-left: 0.55rem;
+        }
+
+        .content .c-bom {
+            background-color: #fff;
+        }
+
+        .content .c-bom li {
+            border-top: 0.05rem solid #F6F5F5;
+            height: 5rem;
+            padding: 0.7rem 0.55rem;
+            box-sizing: border-box;
+            clear: both;
+        }
+
+        li .player {
+            position: absolute;
+            left: 0%;
+            top: 0%;
+            width: 4.9rem;
+            height: 3.6rem;
+            background: rgba(5, 0, 0, 0.28);
+            border-radius: 0.2rem;
+        }
+
+        li .player>div {
+            width: 1.27rem;
+            height: 1.27rem;
+            position: absolute;
+            top: 33%;
+            left: 36%;
+        }
+
+        li .player>div>img {
+            width: 1.27rem;
+            height: 1.27rem;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+        }
+
+        .c-b-left {
+            float: left;
+            width: 4.9rem;
+            height: 3.6rem;
+            background: rgba(5, 0, 0, 0.28);
+            border-radius: 0.2rem;
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .c-b-left img {
+            width: 4.9rem;
+            height: 3.6rem;
+        }
+
+        .c-b-right {
+            float: left;
+            display: inline-block;
+            margin-left: 0.35rem;
+            height: 3.6rem;
+            width: 64%;
+        }
+
+        .c-b-right>p:nth-child(1) {
+            font-size: 0.8rem;
+            line-height: 0.95rem;
+            color: #494949;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .c-b-right>p:nth-child(2) {
+            color: #ADAAAA;
+            font-size: 0.55rem;
+            line-height: 1rem;
+            /*margin-top: 0.67rem;*/
+        }
+
+        .c-b-right>p:nth-child(3) {
+            color: #ADAAAA;
+            font-size: 0.55rem;
+            line-height: 0.65rem;
+            /*margin-top: -0.1rem;*/
+        }
+
+
+
+        .c-b-right .con {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+            display: inline-block;
+            height: 1rem;
+            line-height: 1rem;
+            /*margin-top: 0.67rem;*/
+        }
+
+        .content-pre {
+            position: relative;
+        }
+
+        .content-pre>img {
+            width: 100%;
+            height: 43.15rem;
+            z-index: -1;
+        }
+
+        .content-pre .aui-btn {
+            width: 11.21rem;
+            height: 2.5rem;
+            background: -webkit-linear-gradient(#5714F2, #3A6AFF);
+            border-radius: 1.8rem;
+            position: absolute;
+            bottom: 2.35rem;
+            left: 50%;
+            margin-left: -5.625rem;
+            line-height: 2.5rem;
+            color: #fff;
+            text-align: center;
+        }
+
+        .content-next {
+            display: none;
+        }
+
+        .aui-btn-block {
+            display: block;
+            width: 100%;
+            padding: 0;
+            margin-bottom: 0;
+            font-size: 0.7rem;
+        }
+
+        .aui-card-list {
+            margin-bottom: 0rem;
+        }
+
+
+        /*详情页*/
+        .title{
+            font-size: 0.8rem;
+            color:#494949;
+            line-height: 1rem;
+            text-align: center;
+        }
+        .author{
+            font-size: 0.65rem;
+            color:#494949;
+            line-height: 1rem;
+            text-align: center;
+        }
+        .imgs>img{
+            width: 100%;
+            /* height: 11.5rem; */
+            /* background-color: pink; */
+            margin-top: 0.5rem;
+        }
+        .contents{
+             margin-top: 1rem;
+            
+        }
+        .contents>p{
+            font-size: 0.55rem;
+            color:#494949;
+            line-height: 0.85rem;
+            text-indent: 2em;
+           
+        }
+        .contents>img{
+            width: 100%;
+        }
+        .contents>span{
+            display: block;
+            font-size: 0.65rem;
+            text-indent: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <!-- <header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
+            <a class="aui-pull-left aui-btn" tapmode onclick="javascript:history.back(-1);">
+                <span class="aui-iconfont left_btn_c_b"></span>
+            </a>
+            <div class="aui-title" id="title">生涯探索</div>
+         </header> -->
+        <div style="height:0.85rem;background-color:#fff; margin-top:1.4rem;">
+
+        </div>
+        <section class="aui-content aui-content-padded " >
+            <div class="aui-tab" id="tab" style="display:none;">
+                <div class="aui-tab-item   aui-active">生涯课堂</div>
+                <div class="aui-tab-item  ">学生故事</div>
+                <div class="aui-tab-item  ">老师指点</div>
+            </div>
+            <div class="aui-refresh-content" style="margin-top: 2.2rem;">
+                <!-- 生涯课堂 -->
+                <div class="content content-pre" style="display:none;">
+                        <div class="c-top">
+                                <p>怎样做好生涯规划</p>
+                            </div>
+                            
+                    <ul class="c-bom" id="c-bom">
+                        <script id="c-box" type="text/x-dot-template">
+                            {{for ( var i=0; i<it.length;i++){}} 
+                            <li class="c-box aui-card-list">
+                                <a onclick="openVideo({{=i}})" href="javascript:void(0);" class="c-b-left">
+                                    <div class="player">
+                                        <div>
+                                            <img src="../image/img/player.png" alt="">
+                                        </div>
+                                    </div>
+                                    <img src="http://www.yxke12.com/Public/Home/images/student/{{=it[i].image}}" alt="">
+                                </a>
+                                <div class="c-b-right">
+                                    <p>{{=it[i].videoname}}</p>
+                                    <p>{{=it[i].time}}</p>
+                                </div>
+                                </li>
+                                {{}}}
+                        </script>
+                    </ul>
+                </div>
+                <!-- 生涯教育 -->
+                <div class="content-pre content">
+                    <div class="c-top">
+                        <p>职业生涯教育</p>
+                    </div>
+                    <ul class="c-bom" id="c-bom3">
+                        <script id="c-box3" type="text/x-dot-template">
+                            {{for(var i=0;i<it.length;i++){}} <li class="c-box aui-card-list" lid="{{=it[i].id}}">
+                                <a onclick="openVideo1({{=i}})" href="javascript:void(0);" href="">
+                                    <div class="c-b-left">
+                                        <img src="http://www.yxke12.com/Public/Teacher/images/pic/{{=it[i].pic}}" alt="">
+                                    </div>
+                                    <div class="c-b-right">
+                                        <p>{{=it[i].name}}</p>
+                                    </div>
+                                </a>
+                                </li>
+                                {{}}}
+                        </script>
+                    </ul>
+                </div>
+               
+                <!-- 学生故事 -->
+                <div class="content">
+                    <ul class="c-bom" id="c-bom2">
+                        <script id="c-box2" type="text/x-dot-template">
+                            {{for(var i=0;i<it.length;i++){}} <li class="c-box aui-card-list1" id="{{=it[i].id}}">
+                                <a href="javascript:void(0);">
+                                    <div class="c-b-left">
+                                        <img src="http://www.yxke12.com/Public/Home/images/story/{{=it[i].pict}}" alt="">
+                                    </div>
+                                    <div class="c-b-right">
+                                        <p>{{=it[i].name}}</p>
+                                        <p class="con" style="color:#a1a1a1;font-size:0.7rem;">{{=it[i].intro}}</p>
+                                        <p>{{=it[i].time}}</p>
+                                    </div>
+                                </a>
+                               
+                                </li>
+                            {{}}}
+                        </script>
+                    </ul>
+                </div>
+                <div class="content cur">
+                        <ul class="c-bom" id="c-bom6" style="display:none;">
+                            <script id="c-box6" type="text/x-dot-template">
+                                {{for(var i=0;i<it.length;i++){}} <li class="c-box aui-card-list1" id="{{=it[i].id}}">
+                                    <a href="javascript:void(0);">
+                                        <div class="c-b-left">
+                                            <img src="http://www.yxke12.com/Public/Home/images/story/{{=it[i].pict}}" alt="">
+                                        </div>
+                                        <div class="c-b-right">
+                                            <p>{{=it[i].name}}</p>
+                                            <p class="con" style="color:#a1a1a1;font-size:0.7rem;">{{=it[i].intro}}</p>
+                                            <p>{{=it[i].time}}</p>
+                                        </div>
+                                    </a>
+                                   
+                                    </li>
+                                {{}}}
+                            </script>
+                        </ul>
+                    </div>
+                <!-- 老师指点 -->
+                <div class="content content-next" style="">
+                        <ul class="c-bom" id="c-bom4">
+                            <script id="c-box4" type="text/x-dot-template">
+                                {{for(var i=0;i<it.length;i++){}} <li class="c-box aui-card-list2" id="{{=it[i].id}}>
+                                   <a href="javascript:void(0);">
+                                    <div class="c-b-left">
+                                            <img src="http://www.yxke12.com/Public/Parent/images/thumb/{{=it[i].pict}}" alt="">
+                                        </div>
+                                        <div class="c-b-right">
+                                            <p>{{=it[i].name}}</p>
+                                            <p class="con" style="color:#a1a1a1;font-size:0.7rem;">{{=it[i].simple}}</p>
+                                            <p>{{=it[i].time}}</p>
+                                        </div>
+                                    </a>
+                                   
+                                    </li>
+                                    {{}}}
+                            </script>
+                        </ul>
+                </div>
+                <!-- 老师指点 -->
+                <div class="content content-next" style="padding-top: 0rem;">
+                        <ul class="c-bom" id="c-bom5">
+                            <script id="c-box5" type="text/x-dot-template">
+                                {{for(var i=0;i<it.length;i++){}} <li class="c-box aui-card-list2" id="{{=it[i].id}}>
+                                    <a href="javascript:void(0);">
+                                    <div class="c-b-left">
+                                            <img src="http://www.yxke12.com/Public/Parent/images/thumb/{{=it[i].pict}}" alt="">
+                                        </div>
+                                        <div class="c-b-right">
+                                            <p>{{=it[i].name}}</p>
+                                            <p class="con" style="color:#a1a1a1;font-size:0.7rem;">{{=it[i].simple}}</p>
+                                            <p>{{=it[i].time}}</p>
+                                        </div>
+                                    </a>
+                                   
+                                    </li>
+                                    {{}}}
+                            </script>
+                        </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <div class="com-detail" style="display: none;">
+        <!-- <header id='aui-header' class="aui-bar aui-bar-nav aui-bar-mystyle" style="position: fixed;">
+            <a class="aui-pull-left aui-btn" tapmode onclick="goBack()">
+                <span class="aui-iconfont aui-icon-left left_btn_c_b"></span>
+            </a>
+            <div class="aui-title" id="titles"></div>
+         </header> -->
+        <div style="height:0.85rem;background-color:#fff; margin-top:1.4rem;">
+
+        </div>
+        <section class="aui-content aui-content-padded" style="padding:0 0.75rem;">
+                
+                    <div class="title" style="margin-top: 0.75rem;"></div>
+                    <div class="author" style="display: none"></div>
+                    <div class="imgs" style="display: none"></div>
+                    <div class="contents"></div>
+               
+        </section>
+    </div>
+    
+</body>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../../../script/doT.js"></script>
+<script type="text/javascript" src="../../../../script/zhc-route.js"></script>
+<script type="text/javascript" src="../../../../script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../../../script/z.js"></script>
+<script type="text/javascript" src="../../../../script/dropload.min.js"></script>
+
+
+<script type="text/javascript">
+    var uke_dot = doT.template(document.getElementById('c-box').innerHTML); //全局定义；
+    var uke_dot2 = doT.template(document.getElementById('c-box2').innerHTML); //全局定义；
+    var uke_dot3 = doT.template(document.getElementById('c-box3').innerHTML); //全局定义；
+    var uke_dot4 = doT.template(document.getElementById('c-box4').innerHTML); //全局定义；
+    var uke_dot5 = doT.template(document.getElementById('c-box5').innerHTML); //全局定义；
+    var uke_dot6 = doT.template(document.getElementById('c-box6').innerHTML); //全局定义；
+    
+    // tab切换
+    var tab = new auiTab({
+        element: document.getElementById("tab"),
+        index: 1,
+        repeatClick: false
+    }, function (ret) {
+
+    });
+
+    var datas="";
+
+    function openVideo(index){
+        $api.setStorage("videoData",datas.video);
+        rt.openPage('./kecheng_frm.html',{index:index, sort: 0});
+    }
+
+    function openVideo1(index){
+        $api.setStorage("videoData",datas.listflv);
+        rt.openPage('./kecheng2_frm.html',{index:index, sort: 1});
+    }
+
+    // function xuesheng(id){
+    //     console.log(1212);
+    //     $api.setStorage("Data",datas.list);
+    //     rt.openPage('./details-career.html',{id:id, name:"学生故事"});
+    // }
+    // function laoshi(id){
+    //     // alert(1);
+    //     $api.setStorage("Data",datas.list);
+        
+    //     rt.openPage('./details-caree1.html',{id:id, name:"老师指点"});
+    // }
+      var scrollTop1;
+window.addEventListener("touchmove",function() {
+  // body...
+    scrollTop1=document.body.scrollTop
+
+    console.log(scrollTop1)
+})
+    function goBack(){
+        window.scrollTo(scrollTop1,scrollTop1);
+        $(".com-detail").css("display","none");
+        $("#main").css("display","block");
+        $(".title").empty();
+        $(".author").empty();
+        $(".contents").empty();
+    }
+    var p="";//传页码数；
+    var name=""//头部的名称 详情页内；
+    $(function () {
+
+        p=1;
+        console.log(p);
+        // tab切换显示下面内容
+        $("#tab>div").click(function () {
+            if ($(this).index() == 0) {
+                $(".content-pre").show();
+                $(".content-next").hide();
+                $(".cur").hide();
+                
+                // 生涯教育；
+                $.post("http://www.yxke12.com/index.php/Apa/Shengyaketang/careerPlan.html", function (
+                    data) {
+                    // console.log(JSON.stringify(data)); //转成字符串；
+                    console.log(data);
+                    datas = data.data;
+                    document.getElementById("c-bom3").innerHTML = uke_dot3(datas.listflv) //传值； 
+                    document.getElementById("c-bom").innerHTML = uke_dot(datas.video) //传值； 
+                });
+
+            } else if ($(this).index() == 1) {
+                
+                $(".content-pre").hide();
+                $(".content-next").hide();
+                $(".cur").show();
+
+                $.post("http://www.yxke12.com/index.php/Apa/Shengyaketang/planStory.html", {
+                    p: 1
+                }, function (data) {
+                   
+                    datas = data.data;
+                    document.getElementById("c-bom2").innerHTML = uke_dot2(datas.list) //传值；
+                    var id="";
+                    
+                    
+                    $("#c-bom2>li").click(function(){
+                        name=$("#tab>div").eq(1).html();
+                        console.log($("#title").html(name));
+                        $("#titles").html(name);
+                        id=$(this).attr("id");
+                        postDetail(id);
+                    });
+                });
+                $.post("http://www.yxke12.com/index.php/Apa/Shengyaketang/planStory.html", {
+                    p: 2
+                }, function (data) {
+                   
+                    datas = data.data;
+                    document.getElementById("c-bom6").innerHTML = uke_dot2(datas.list) //传值；
+                    var id="";
+                    
+                    
+                    $("#c-bom6>li").click(function(){
+                        name=$("#tab>div").eq(1).html();
+                        console.log($("#title").html(name));
+                        $("#titles").html(name);
+                        id=$(this).attr("id");
+                        postDetail(id);
+                    });
+                })
+                
+                
+
+            } else if ($(this).index() == 2) {
+                $(".content-pre").hide();
+                $(".content-next").show();
+                $(".cur").hide();
+                $.post("http://www.yxke12.com/index.php/Apa/Shengyaketang/teacherGuide.html",{p:1},function(data){
+                    console.log(data);
+                    datas = data.data;
+                    document.getElementById("c-bom4").innerHTML = uke_dot4(datas.list) //传值；
+                    
+                    var id="";
+                    $("#c-bom4>li").click(function(){
+                        name=$("#tab>div").eq(2).html();
+                        console.log($("#title").html(name));
+                        $("#titles").html(name);
+                        id=$(this).attr("id");
+                       postDetailTeacher(id);
+                    });
+                    
+                });
+                $.post("http://www.yxke12.com/index.php/Apa/Shengyaketang/teacherGuide.html",{p:2},function(data){
+                    console.log(data);
+                    var datas = data.data;
+                    document.getElementById("c-bom5").innerHTML = uke_dot5(datas.list) //传值；
+
+                    var id="";
+                    $("#c-bom5>li").click(function(){
+                        name=$("#tab>div").eq(2).html();
+                        console.log($("#title").html(name));
+                        $("#titles").html(name);
+                        id=$(this).attr("id");
+                       postDetailTeacher(id);
+                    });
+                })
+            }
+        });
+        $("#tab>div").eq(3).click();//默认点击第一个；
+
+        // // 上拉加载
+        // var toast = new auiToast();
+        // $('.cur').dropload({
+        //     scrollArea: window,
+        //     loadDownFn: function (me) {
+        //         $("#c-bom2").height("auto");
+        //         // p++;
+        //         var dataNR = {}
+        //         dataNR.p = p
+        //         console.log(JSON.stringify(dataNR))
+        //         z.post("Shengyaketang/planStory.html", dataNR, function (data) {
+        //             console.log(data);
+        //             me.resetload();
+        //             if (data.data.list == null || data.data.list == "" || data.data.list == undefined) {
+        //                 toast.fail({
+        //                     title: "暂无最新数据！！",
+        //                     duration: 2000
+        //                 });
+        //             } else {
+        //                 for (var i = 0; i < data.data.list.length; i++) {
+        //                     var html =
+        //                         '<li class="c-box aui-card-list" style="margin-bottom:0rem;" id="' +
+        //                         data.data.list[i].id + '" >' +
+        //                         '<a href="javascript:void(0);">' +
+        //                         '<div class="c-b-left">' +
+        //                         '<img src="http://www.yxke12.com/Public/Home/images/story/' +
+        //                         data.data.list[i].pict + '" alt="">' +
+        //                         '</div>' +
+        //                         '<div class="c-b-right">' +
+        //                         '<p>' + data.data.list[i].name + '</p>' +
+        //                         '<p class="con" style="color:#a1a1a1;font-size:0.7rem;">' + data.data.list[i].intro +
+        //                         '</p>' +
+        //                         '<p>' + data.data.list[i].time + '</p>' +
+        //                         '</div>' +
+        //                         '</a>'
+        //                     $('#c-bom2').append(html);
+        //                 }
+
+        //             }
+        //             var id="";   
+        //             $("#c-bom2>li").click(function(){
+        //                 name=$("#tab>div").eq(1).html();
+        //                 console.log($("#title").html(name));
+        //                 $("#titles").html(name);
+        //                 id=$(this).attr("id");
+        //                 postDetail(id);
+        //             });
+        //             // console.log(JSON.stringify(data))
+        //         }, true)
+        //     }
+        // });
+
+        
+        function postDetail(id){//学生故事详情页接口数据；
+            $(".com-detail").css("display","block");
+            $("#main").css("display","none");
+            $.post("http://www.yxke12.com/index.php/Apa/Shengyaketang/careerDetail.html",{id:id}, function (data) {
+                
+                $(".title").html(data.data.name);
+                $(".author").html(data.data.small+data.data.title);
+                $(".contents").html(data.data.content);
+                
+            });
+        }
+        function postDetailTeacher(id){//学生故事详情页接口数据；
+            $(".com-detail").css("display","block");
+            $("#main").css("display","none");
+            $.post("http://www.yxke12.com/index.php/Apa/Shengyaketang/teacherDetail.html",{id:id}, function (data) {
+                
+                $(".title").html(data.data.name);
+                $(".author").html(data.data.small+data.data.title);
+                $(".contents").html(data.data.content);
+                
+            });
+        }
+
+    });
+</script>
+
+</html>
