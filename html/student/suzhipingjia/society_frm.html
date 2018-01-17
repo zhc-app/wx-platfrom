@@ -114,7 +114,7 @@
 
         .aui-tab-item.aui-active {
             color: #6666ff;
-            border-bottom: 1px solid #6666ff;
+            border-bottom: none;
             ;
         }
 
@@ -227,6 +227,17 @@
             padding-left: 10px;
             line-height: 40px;
         }
+
+        .zcText {
+          font-family: 'PingFang-SC';
+          font-size: 14px;
+          font-weight: 500;
+          /*color: #666666;*/
+        }
+
+        .xiahuaxian{
+          border-bottom: 1px solid #6666ff;
+        }
     </style>
 </head>
 
@@ -234,9 +245,16 @@
     <div id="main" class="flex-con">
         <!-- 社会机制 -->
         <div id="shengzhengce2">
-            <div style="height:34px;line-height:1.7rem;display:inline-block;width:100%;background: #f9f7f7;position: fixed;z-index: 44;margin-top: 1px;" id="sjz">
-                <span class="annui annuijiaohu" tapmode onclick="qiehuanhuodong(this)" id="qingnian">青年志愿者活动</span>
-                <span class="annui" tapmode onclick="qiehuanhuodong(this)" id="jingsai">竞赛活动</span>
+            <div class="aui-tab" id="tab" style=" position: fixed;width: 100%;z-index: 99;top:0px">
+                <div class="aui-tab-item "><span class="zcText xiahuaxian" id="gzc">青年志愿者活动</span></div>
+                <div style="height:1.5rem;border-right: 1px solid #000000;opacity: 0.1;position: relative;margin: auto;top: 0;">
+                </div>
+                <div class="aui-tab-item"><span class='zcText' id="szc">竞赛活动</span></div>
+            </div>
+
+            <div style="height:34px;line-height:1.7rem;display:none;width:100%;background: #f9f7f7;position: fixed;z-index: 44;margin-top: 1px;" id="sjz">
+                <span class="annui annuijiaohu" tapmode onclick="qiehuanhuodong(this)" id="qingnian"></span>
+                <span class="annui" tapmode onclick="qiehuanhuodong(this)" id="jingsai"></span>
             </div>
             <!-- 青年志愿活动 -->
             <div class="aui-content aui-margin-b-15" id="qingnianzhiyuan1" style="position: relative;top: 35px;">
@@ -285,7 +303,6 @@
     // 社会机制点击进入详情页事件 
     function shengfenzhengce2(id) {
         zhc.post('http://www.yxke12.com/index.php/App/Shehuijizhi/infos.html',{id: id},function(data){
-            console.log(data)
             localStorage.data = JSON.stringify(data);
             rt.openPage('./gaoxiang_zhengceXQ_frm.html',{});
         },null,true);
@@ -318,15 +335,37 @@
     // 社会机制二级切换
     function qiehuanhuodong(obj) {
         if (obj.innerHTML == "青年志愿者活动") {
-            document.getElementById('qingnianzhiyuan1').style.display = "block";
-            document.getElementById('jingsaihuodong').style.display = "none";
             document.getElementById('qingnian').className = "annui annuijiaohu"
             document.getElementById('jingsai').className = "annui"
         } else {
-            document.getElementById('qingnianzhiyuan1').style.display = "none";
-            document.getElementById('jingsaihuodong').style.display = "block";
             document.getElementById('jingsai').className = "annui annuijiaohu"
             document.getElementById('qingnian').className = "annui"
+        }
+    }
+
+    var tab = new auiTab({
+        element: document.getElementById("tab"),
+        index: $api.getStorage('yiti_index')
+    }, function(ret) {
+        showTab(ret);
+    });
+
+    showTab({index: $api.getStorage('yiti_index')});
+
+    function showTab(ret) {
+        var gzc = document.getElementById('gzc');
+        var szc = document.getElementById('szc');
+        $api.setStorage('yiti_index', ret.index)
+        if (ret.index == 1) {
+            gzc.className="zcText xiahuaxian";
+            szc.className="zcText";
+            document.getElementById('qingnianzhiyuan1').style.display = "block";
+            document.getElementById('jingsaihuodong').style.display = "none";
+        }else if (ret.index == 3) {
+            szc.className="zcText xiahuaxian";
+            gzc.className="zcText";
+            document.getElementById('qingnianzhiyuan1').style.display = "none";
+            document.getElementById('jingsaihuodong').style.display = "block";
         }
     }
 </script>

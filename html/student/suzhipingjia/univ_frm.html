@@ -114,7 +114,7 @@
 
         .aui-tab-item.aui-active {
             color: #6666ff;
-            border-bottom: 1px solid #6666ff;
+            border-bottom: none;
             ;
         }
 
@@ -227,6 +227,17 @@
             padding-left: 10px;
             line-height: 40px;
         }
+
+        .zcText {
+          font-family: 'PingFang-SC';
+          font-size: 14px;
+          font-weight: 500;
+          /*color: #666666;*/
+        }
+
+        .xiahuaxian{
+          border-bottom: 1px solid #6666ff;
+        }
     </style>
 </head>
 
@@ -236,7 +247,14 @@
             
             <div  class="gxfa" id="shengzhengce">
                 <!-- header -->
-                <div style="height:40px;line-height:1.7rem;display:inline-block;width:100%;background: #f9f7f7;position: fixed;z-index: 44;">
+                <div class="aui-tab" id="tab" style=" position: fixed;width: 100%;z-index: 99;top:0px">
+                    <div class="aui-tab-item "><span class="zcText xiahuaxian" id="gzc">本科</span></div>
+                    <div style="height:1.5rem;border-right: 1px solid #000000;opacity: 0.1;position: relative;margin: auto;top: 0;">
+                    </div>
+                    <div class="aui-tab-item"><span class='zcText' id="szc">高职单招</span></div>
+                </div>
+
+                <div style="height:40px;line-height:1.7rem;display:none;width:100%;background: #f9f7f7;position: fixed;z-index: 44;">
                     <span class="annui annuijiaohu" tapmode onclick="onGxfaClick()" id="gxfa_id">本科</span>
                     <span class="annui" tapmode onclick="onGzdzClick()" id="gzdz_id">高职单招</span>
                 </div>
@@ -415,7 +433,6 @@
 
     //页面加载一进来显示的数据 
     window.onload = function() {
-        
         zhc.post('http://www.yxke12.com/index.php/App/Gaoxiaofangan/lists.html',{},function(data){
                 document.getElementById('gaoxiaofangdiqu').innerHTML = "招生范围："+data.province[0].recruitprovince
                 document.getElementById('gaoxiaofangdixuexiao').innerHTML = data.school[0].dxmc
@@ -535,6 +552,43 @@
                 document.getElementById('gzdz_xx_ul').innerHTML = gzdzxx(data.school);
                 document.getElementById('gzdz_ul').innerHTML = gzdzlist(data.info);
         },null,true);
+    }
+
+    var tab = new auiTab({
+        element: document.getElementById("tab"),
+        index: $api.getStorage('yiti_index')
+    }, function(ret) {
+        showTab(ret);
+    });
+
+    showTab({index: $api.getStorage('yiti_index')});
+    
+    function showTab(ret) {
+        var gzc = document.getElementById('gzc');
+        var szc = document.getElementById('szc');
+        $api.setStorage('yiti_index', ret.index)
+        yincang();
+        if (ret.index == 1) {
+            gzc.className="zcText xiahuaxian";
+            szc.className="zcText";
+
+            $("#shengzhengce3").css('display', 'none');
+            $("#main1").css('display', 'block');
+        }else if (ret.index == 3) {
+
+            szc.className="zcText xiahuaxian";
+            gzc.className="zcText";
+
+            $("#main1").css('display', 'none');
+            $("#shengzhengce3").css('display', 'block');
+            zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/jianzhang.html',{},function(data){
+                document.getElementById('gzdz_dq').innerHTML = "招生范围："+data.province[0].province
+                document.getElementById('gzdz_xx').innerHTML = data.school[0].school
+                document.getElementById('gzdz_dq_ul').innerHTML = gzdzdq(data.province);
+                document.getElementById('gzdz_xx_ul').innerHTML = gzdzxx(data.school);
+                document.getElementById('gzdz_ul').innerHTML = gzdzlist(data.info);
+            },null,true);
+        }
     }
 </script>
 
