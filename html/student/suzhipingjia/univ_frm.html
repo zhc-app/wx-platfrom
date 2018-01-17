@@ -496,7 +496,7 @@
         wbj.style.background = "#eee"
         var gaoxiaofangdiqu = document.getElementById("gzdz_dq").innerHTML = "招生范围："+wbj.innerHTML
 
-        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/searchs.html',{province: gaoxiaofangdiqu.substring(5)},function(data){
+        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/searchss.html',{province: gaoxiaofangdiqu.substring(5)},function(data){
             document.getElementById('gzdz_ul').innerHTML = gzdzlist(data.info);
             document.getElementById('gzdz_xx_ul').innerHTML = gzdzxx(data.school);
             document.getElementById('gzdz_xx').innerHTML = data.school[0].school
@@ -508,7 +508,7 @@
     function Sorts11(sbj,id) {
         var gaoxiaofangdiqu = document.getElementById("gzdz_dq").innerHTML
         var gaoxiaofangdixuexiao = document.getElementById("gzdz_xx").innerHTML = sbj.innerHTML
-        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/searchs.html',{province: gaoxiaofangdiqu.substring(5),id: id},function(data){
+        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/searchss.html',{province: gaoxiaofangdiqu.substring(5),id: id},function(data){
              document.getElementById('gzdz_ul').innerHTML = gzdzlist(data.info);
         },null,true);
         var arr = document.getElementById("gzdz_xx_ul").getElementsByTagName("li");
@@ -525,7 +525,7 @@
 
     //点击高职单招进的详情页
     function shengfenzhengce4(id) {
-        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/detail.html',{id: id},function(data){
+        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/details.html',{id: id},function(data){
             localStorage.data = JSON.stringify(data);
             rt.openPage('./gaoxiang_zhengceXQ2_frm.html',{});
         },null,true);
@@ -545,7 +545,8 @@
         $("#gxfa_id").removeClass('annuijiaohu');
         $("#main1").css('display', 'none');
         $("#shengzhengce3").css('display', 'block');
-        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/jianzhang.html',{},function(data){
+        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/jianzhangs.html',{},function(data){
+            console.log(data)
                 document.getElementById('gzdz_dq').innerHTML = "招生范围："+data.province[0].province
                 document.getElementById('gzdz_xx').innerHTML = data.school[0].school
                 document.getElementById('gzdz_dq_ul').innerHTML = gzdzdq(data.province);
@@ -581,7 +582,7 @@
 
             $("#main1").css('display', 'none');
             $("#shengzhengce3").css('display', 'block');
-            zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/jianzhang.html',{},function(data){
+            zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/jianzhangs.html',{},function(data){
                 document.getElementById('gzdz_dq').innerHTML = "招生范围："+data.province[0].province
                 document.getElementById('gzdz_xx').innerHTML = data.school[0].school
                 document.getElementById('gzdz_dq_ul').innerHTML = gzdzdq(data.province);

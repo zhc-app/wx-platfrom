@@ -544,7 +544,7 @@
                                         </div>
                                     </li>
 
-                                    <li class="aui-list-item" tapmode onclick=shengfenzhengce3({{=it.info2.id}})>
+                                    <li class="aui-list-item" tapmode onclick=shengfenzhengce4({{=it.info2.id}})>
                                         <div class="aui-media-list-item-inner">
                                             <div class="aui-list-item-media">
                                                 <img src="http://www.yxke12.com/Public/Home/images/student/downloadpicture/{{=it.info2.picture}}" style="width:94px;height:83px">
@@ -702,11 +702,17 @@
     }
     // 高校方案点击进入详情页事件
     function shengfenzhengce3(id) {
+        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/detail.html',{id: id},function(data){
+            localStorage.data = JSON.stringify(data);
+            rt.openPage('./gaoxiang_zhengceXQ2_frm.html',{});
+        },null,true);
+    }
+
+    function shengfenzhengce4(id) {
         zhc.post('http://www.yxke12.com/index.php/App/Gaoxiaofangan/infos.html',{id: id},function(data){
             localStorage.data = JSON.stringify(data);
             rt.openPage('./gaoxiang_zhengceXQ1_frm.html',{});
         },null,true);
-
     }
 
     // 下拉事件
@@ -893,15 +899,6 @@
 
     }
 
-
-    //点击高职单招进的详情页
-    function shengfenzhengce4(id) {
-        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/detail.html',{id: id},function(data){
-            localStorage.data = JSON.stringify(data);
-            rt.openPage('./gaoxiang_zhengceXQ2_frm.html',{});
-        },null,true);
-    }
-
     function onGxfaClick() {
         yincang();
         $("#gxfa_id").addClass('annuijiaohu');
@@ -916,7 +913,7 @@
         $("#gxfa_id").removeClass('annuijiaohu');
         $("#main1").css('display', 'none');
         $("#shengzhengce3").css('display', 'block');
-        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/jianzhang.html',{},function(data){
+        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/jianzhangs.html',{},function(data){
                 document.getElementById('gzdz_dq').innerHTML = "招生范围："+data.province[0].province
                 document.getElementById('gzdz_xx').innerHTML = data.school[0].school
                 document.getElementById('gzdz_dq_ul').innerHTML = gzdzdq(data.province);
