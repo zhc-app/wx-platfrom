@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>社会——评什么</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/z.css" />
+    <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../../../script/aui-tab.js"></script>
+    <script type="text/javascript" src="../../../script/demo.js"></script>
+    <script type="text/javascript" src="../../../script/zhc-route.js"></script>
+    <script type="text/javascript" src="../../../script/aui-toast.js"></script>
+    <script type="text/javascript" src="../../../script/api.js"></script>
+    <script type="text/javascript" src="../../../script/doT.js"></script>
+    <script type="text/javascript" src="../../../script/network.js"></script>
+    <style>
+        .empty {
+            text-align: center;
+            padding: 120px 0;
+        }
+
+        .top_img {
+            width: 100%;
+            height: 150px;
+        }
+
+        .top_bar {
+            width: 100%;
+            overflow: hidden;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            background-color: white;
+            border-bottom: 1px solid #d2d2d2;
+        }
+
+        .top_inner {
+            width: 49.4%;
+            height: auto;
+            ;
+            float: left;
+            text-align: center;
+            position: relative;
+            background-color: white;
+        }
+
+        .top_inner_right {
+            border-left: 1px solid #d2d2d2;
+        }
+
+        .xing_img {
+            vertical-align: middle;
+            width: 35px;
+            height: 35px;
+        }
+
+        .xing_text {
+            display: inline;
+            font-size: 15px;
+            font-family: "PingFang-SC-Medium";
+            color: #333333
+        }
+
+        .mid_text {
+            font-size: 10px;
+            font-family: "PingFang-SC-Medium";
+            color: #333333
+        }
+
+        .mid_img {
+            width: 45px;
+            height: 45px;
+        }
+
+        .mid_padding_8 {
+            padding-top: 9px!important;
+            padding-bottom: 9px!important;
+            line-height: 1.0;
+        }
+
+        .title_panel {
+            width: 100%;
+            height: auto;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-top: 8px solid #f2f2f2;
+            background-color: white;
+        }
+
+        .list_title {
+            margin-left: 8px;
+            color: black;
+            font-size: 16px;
+            font-family: "PingFang-SC";
+            color: #333333
+        }
+
+        .aui-tab-item {
+            width: 100%;
+            height: 2.2rem;
+            line-height: 2.2rem;
+            position: relative;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #666666;
+            margin-left: -1px;
+            -webkit-box-flex: 1;
+            box-flex: 1;
+        }
+
+        .aui-tab-item.aui-active {
+            color: #6666ff;
+            border-bottom: 1px solid #6666ff;
+            ;
+        }
+
+        .xiahuaxian {
+            border-bottom: 1px solid #6666ff;
+        }
+
+        .quxiaoxiahuaxian {
+            border-bottom: none;
+        }
+
+        .zcText {
+            font-family: 'PingFang-SC';
+            font-size: 14px;
+            font-weight: 500;
+            /*color: #666666;*/
+        }
+
+        div.screening>ul {
+            height: 35px;
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            border-bottom: none;
+            overflow: hidden;
+        }
+
+        div.screening>ul>li {
+            float: left;
+            width: 49.5%;
+            text-align: center;
+            line-height: 1.7rem;
+            border-left: solid 1px #d3d3d3;
+            background: url(../../../image/on_1.png) no-repeat 98% center;
+        }
+
+        .pjimg {
+            width: 94px!important;
+            height: 83px;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            bottom: 0;
+        }
+
+        .annui {
+            height: 22px;
+            border-radius: 11px;
+            font-family: "PingFang-SC";
+            font-size: 12px;
+            font-weight: 500;
+            padding: 0 14px;
+            line-height: 22px;
+            color: #a1a1a1;
+            border: solid 1px #a1a1a1;
+            margin-left: 10px;
+        }
+
+        .annuijiaohu {
+            color: #6666ff;
+            border: solid 1px #6666ff;
+        }
+
+        .alpha {
+            height: 100%!important;
+            overflow: hidden!important;
+        }
+
+
+        .left_line1 {
+                background-color: #6666ff;
+                height: 18px;
+                width: 4px;
+                margin-top: auto;
+                margin-bottom: auto;
+                margin-left: 10px;
+            }
+
+        .section_title1 {
+            color: #333333;
+            font-size: 16px;
+            font-family: "PingFang-SC";
+            margin-left: 4px;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+
+        .section_gengduo1{
+          display: none;
+          font-family: 'PingFang-SC';
+          font-size: 14px;
+          color: #666666;
+          position: absolute;
+          margin: auto;
+          top: 0;
+          bottom: 0;
+          right: 10px;
+        }
+
+        /***************************************************/
+        .gxfa{
+            margin-top: 46px;
+
+        }
+
+        .gxfa .gxfa-top{
+            background: #e5e5e5;
+            height: 40px;
+            padding-right: 10px;
+            padding-left: 10px;
+            line-height: 40px;
+        }
+    </style>
+</head>
+
+<body style="height:auto">
+    <div id="main" class="flex-con">
+        <!-- 社会机制 -->
+        <div id="shengzhengce2">
+            <div style="height:34px;line-height:1.7rem;display:inline-block;width:100%;background: #f9f7f7;position: fixed;z-index: 44;margin-top: 1px;" id="sjz">
+                <span class="annui annuijiaohu" tapmode onclick="qiehuanhuodong(this)" id="qingnian">青年志愿者活动</span>
+                <span class="annui" tapmode onclick="qiehuanhuodong(this)" id="jingsai">竞赛活动</span>
+            </div>
+            <!-- 青年志愿活动 -->
+            <div class="aui-content aui-margin-b-15" id="qingnianzhiyuan1" style="position: relative;top: 35px;">
+                <ul class="aui-list aui-media-list" id="qingnianhuodong" style="display:block">
+                    <script id="evaluationtmpl3" type="text/x-dot-template">
+                        {{for (var i = 0; i< it.length; i++) {}}
+                            <li class="aui-list-item" tapmode onclick=shengfenzhengce2({{=it[i].id}})>
+                                <div class="aui-list-item-inner">
+                                    <div class="aui-list-item-title">{{=it[i].title}}</div>
+                                </div>
+                            </li>
+                        {{}}}
+                    </script>
+                </ul>
+            </div>
+
+           <!-- 竞赛活动 -->
+            <div class="aui-content aui-margin-b-15" id="jingsaihd" style="position: relative;top: 35px;">
+              <ul class="aui-list aui-media-list" id="jingsaihuodong" style="display:none" >
+                <script id="evaluationtmpl4" type="text/x-dot-template">
+                {{for (var i = 0; i < it.length; i++) {}}
+                    <div style="border-top:10px solid #f5f5f5; border-bottom: 1px solid #e5e5e5;height:auto;display: inline-flex;background: #fff;width: 100%;position: relative;line-height: 2.5;">
+                        <div class="left_line1"></div>
+                        <span class="section_title1">{{=it[i].title}}</span>
+                        <span class="section_gengduo1" tapmode onclick="onUKeMore();">更多 <i class="aui-iconfont aui-icon-right"></i></span>
+                    </div>
+                    {{for (var j = 0; j < it[i].lists.length; j++) {}}
+                      <li class="aui-list-item" tapmode onclick=shengfenzhengce2({{=it[i].lists[j].id}})>
+                           <div class="aui-list-item-inner">
+                               <div class="aui-list-item-title">{{=it[i].lists[j].title}}</div>
+                           </div>
+                       </li>
+                    {{}}}
+                {{}}}
+                </script>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript">
+    var evalText3 = doT.template(document.getElementById('evaluationtmpl3').innerHTML);
+    var evalText4 = doT.template(document.getElementById('evaluationtmpl4').innerHTML);
+    var toast = new auiToast({});
+
+    // 社会机制点击进入详情页事件 
+    function shengfenzhengce2(id) {
+        zhc.post('http://www.yxke12.com/index.php/App/Shehuijizhi/infos.html',{id: id},function(data){
+            console.log(data)
+            localStorage.data = JSON.stringify(data);
+            rt.openPage('./gaoxiang_zhengceXQ_frm.html',{});
+        },null,true);
+    }
+
+    //页面加载一进来显示的数据 
+    window.onload = function() {
+        zhc.post('http://www.yxke12.com/index.php/App/Shehuijizhi/lists.html',{},function(data){
+            document.getElementById('qingnianhuodong').innerHTML = evalText3(data.zhiyuan);
+            document.getElementById('jingsaihuodong').innerHTML = evalText4(data.jingsai);
+        },null,true);
+    };
+
+
+    // 高中制度上海、浙江切换
+    function qiehuan(obj) {
+        if (obj.innerHTML == "上海") {
+            document.getElementById('pingjiaGZS').style.display = "block";
+            document.getElementById('pingjiaGZZ').style.display = "none";
+            document.getElementById('shanghai').className = "annui annuijiaohu"
+            document.getElementById('zhejiang').className = "annui"
+
+        } else {
+            document.getElementById('pingjiaGZS').style.display = "none";
+            document.getElementById('pingjiaGZZ').style.display = "block";
+            document.getElementById('zhejiang').className = "annui annuijiaohu"
+            document.getElementById('shanghai').className = "annui"
+        }
+    }
+    // 社会机制二级切换
+    function qiehuanhuodong(obj) {
+        if (obj.innerHTML == "青年志愿者活动") {
+            document.getElementById('qingnianzhiyuan1').style.display = "block";
+            document.getElementById('jingsaihuodong').style.display = "none";
+            document.getElementById('qingnian').className = "annui annuijiaohu"
+            document.getElementById('jingsai').className = "annui"
+        } else {
+            document.getElementById('qingnianzhiyuan1').style.display = "none";
+            document.getElementById('jingsaihuodong').style.display = "block";
+            document.getElementById('jingsai').className = "annui annuijiaohu"
+            document.getElementById('qingnian').className = "annui"
+        }
+    }
+</script>
+
+</html>
