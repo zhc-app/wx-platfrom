@@ -404,8 +404,8 @@
                         </script>
                     </ul>
                 </div>
-                <div class="content cur">
-                        <ul class="c-bom" id="c-bom6" style="display:none;">
+                <div class="content">
+                        <ul class="c-bom" id="c-bom6">
                             <script id="c-box6" type="text/x-dot-template">
                                 {{for(var i=0;i<it.length;i++){}} <li class="c-box aui-card-list1" id="{{=it[i].id}}">
                                     <a href="javascript:void(0);">
@@ -425,7 +425,7 @@
                         </ul>
                     </div>
                 <!-- 老师指点 -->
-                <div class="content content-next" style="">
+                <div class="content content-next" style="display:none;">
                         <ul class="c-bom" id="c-bom4">
                             <script id="c-box4" type="text/x-dot-template">
                                 {{for(var i=0;i<it.length;i++){}} <li class="c-box aui-card-list2" id="{{=it[i].id}}>
@@ -446,7 +446,7 @@
                         </ul>
                 </div>
                 <!-- 老师指点 -->
-                <div class="content content-next" style="padding-top: 0rem;">
+                <div class="content content-next" style="padding-top: 0rem;display:none;">
                         <ul class="c-bom" id="c-bom5">
                             <script id="c-box5" type="text/x-dot-template">
                                 {{for(var i=0;i<it.length;i++){}} <li class="c-box aui-card-list2" id="{{=it[i].id}}>
@@ -657,7 +657,7 @@ window.addEventListener("touchmove",function() {
                 })
             }
         });
-        $("#tab>div").eq(3).click();//默认点击第一个；
+        $("#tab>div").eq(2).click();//默认点击第一个；
 
         // // 上拉加载
         // var toast = new auiToast();
