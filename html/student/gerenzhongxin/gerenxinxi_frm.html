@@ -54,6 +54,7 @@
       text-align: right;
       position: absolute;
       right: 1.5rem;
+      font-size: 14px !important;
     }
     </style>
 </head>
@@ -174,13 +175,7 @@
                 <li class="aui-list-item" id="bir">
                     <div class="aui-list-item-inner aui-list-item-arrow">
                         <div class="aui-list-item-title" >出生日期</div>
-                        
-                        <!-- {{if (it.birthday == null || it.birthday == '' || it.birthday == undefined) {}} -->
                           <input type="text" class="workinput" id="inpstart" value='2017-01-01' readonly >
-                        <!-- {{}else {}} -->
-                          <!-- <input type="text" class="workinput" id="inpstart" readonly > -->
-                          <!--<div class="aui-list-item-right" id="birthday">{{=it.birthday}}</div>-->
-                        <!-- {{}}} -->
                     </div>
                 </li>
                 <li class="aui-list-item">
@@ -364,7 +359,8 @@
         </div>
     </div>
 </li> -->
-
+<canvas id="myCanvas" style="display: none"></canvas>
+<img id="my_img" src="" alt="">
 </div>
 </body>
   <script type="text/javascript" src="../../../script/jquery-1.11.1.min.js"></script>
@@ -419,7 +415,6 @@
               uploadData();
               //获取图片imgi的对象
               var imgObjPreview = document.getElementById("img"+fileList[i].name);
-              console.log(imgObjPreview);
               if (fileList && fileList[i]) {
                   //图片属性
                   // imgObjPreview.src = docObj.files[0].getAsDataURL();
@@ -443,10 +438,11 @@
       });
 
       $('#inpstart').jeDate(start);
-      if (it.birthday == null || it.birthday == '' || it.birthday == undefined){
+      if (data.birthday == null || data.birthday == '' || data.birthday == undefined){
         $api.byId('inpstart').value = '2017-01-01'
       }else {
         $api.byId('inpstart').value = data.birthday
+        // $('#inpstart').html(data.birthday)
       }
     };
 
@@ -501,29 +497,105 @@
     }
 
     function uploadData() {
-      var params = {studentid: $api.getStorage('studentid'),
-                  type: new_type,file:cur_pic}
-      zhc.ajax('http://www.yxke12.com/index.php/App/Member/editinfo.html',
-        params, function (_data) {
-            
-            toast.success({
-              title:"修改成功"
-            })
-            if (_data.touxiang != null) {
-              data.img = _data.touxiang;
-              $api.setStorage('img', _data.touxiang);
-            }
+      // // 调用函数处理图片 　　　　　　　　　　　　　　　　
+      // dealImage(cur_pic.path, {
+      // // 注意：在pc端可以用绝对路径或相对路径，移动端最好用绝对路径（因为用take photo后的图片路径，我没有试成功（如果有人试成功了可以分享一下经验））
+      //  width : 200,
+      //  height:200
+      // }, function(base){
+      // //直接将获取到的base64的字符串，放到一个image标签中就可看到测试后的压缩之后的样式图了
+      //  // document.getElementById("transform").src = base;
+      //  document.body.prepend("压缩后：" + base.length / 1024 + " " + base)
+      // })
+        var canvas = document.getElementById("myCanvas");
+        var context = canvas.getContext("2d");
 
-            if (_data.type != null) {
-              data.type = _data.type;
-              cur_type = _data.type;
-              $api.setStorage('type', cur_type);
-            }else{
-              new_type = cur_type;
-            }
-            document.getElementById('center_ul').innerHTML = center_dot(data);
-        }, null, true)
+        var file=cur_pic;
+        var reader=new FileReader();
+        var image=new Image();
+ 
+        reader.readAsDataURL(file);
+        reader.onload=function(){
+            // 通过 reader.result 来访问生成的 DataURL
+            var url=reader.result;
+            image.src=url;
+            image.height =120;
+            image.width =120; 
+            canvas.setAttribute("width", image.width+"px");
+            canvas.setAttribute("height", image.height+"px");
+            context.drawImage(image,0,0,image.width,image.height);
+            var base64 = canvas.toDataURL('image/png');
+            // console.log(dataURLtoBlob(base64))
+            // cur_pic = encodeURIComponent(base64);
+            cur_pic = base64;
+            // $api.byId("my_img").src = base64
+            var params = {studentid: $api.getStorage('studentid'),
+                  type: new_type,file:cur_pic, imgBase64: cur_pic}
+            zhc.ajax('http://www.yxke12.com/index.php/App/Member/editinfo.html',
+              params, function (_data) {
+                  toast.success({
+                    title:"修改成功"
+                  })
+                  if (_data.touxiang != null) {
+                    data.img = _data.touxiang;
+                    $api.setStorage('img', _data.touxiang);
+                  }
+
+                  if (_data.type != null) {
+                    data.type = _data.type;
+                    cur_type = _data.type;
+                    $api.setStorage('type', cur_type);
+                  }else{
+                    new_type = cur_type;
+                  }
+                  document.getElementById('center_ul').innerHTML = center_dot(data);
+              }, null, true)
+        };
+      
     }
+
+    function dataURLtoBlob(dataurl) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], {type:mime});
+    }
+
+    function dealImage(path, obj, callback){
+       var img = new Image();
+       img.src = path;
+       img.onload = function(){
+        var that = this;
+        // 默认按比例压缩
+        var w = that.width,
+         h = that.height,
+         scale = w / h;
+         w = obj.width || w;
+         h = obj.height || (w / scale);
+        var quality = 0.7;  // 默认图片质量为0.7
+        //生成canvas
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        // 创建属性节点
+        var anw = document.createAttribute("width");
+        anw.nodeValue = w;
+        var anh = document.createAttribute("height");
+        anh.nodeValue = h;
+        canvas.setAttributeNode(anw);
+        canvas.setAttributeNode(anh); 
+        ctx.drawImage(that, 0, 0, w, h);
+        // 图像质量
+        if(obj.quality && obj.quality <= 1 && obj.quality > 0){
+         quality = obj.quality;
+        }
+        // quality值越小，所绘制出的图像越模糊
+        var base64 = canvas.toDataURL('image/jpeg', quality );
+        // 回调函数返回base64的值
+        callback(base64);
+       }
+      }
 
 
     function birthday() {

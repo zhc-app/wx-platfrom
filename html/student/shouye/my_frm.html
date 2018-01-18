@@ -325,6 +325,7 @@
   var geRenShuJu={}
   var evalText, daojishi;
   window.onload = function() {
+      console.log($api.getStorage('img'))
       geRenShuJu['studentname']=$api.getStorage('studentname');
       geRenShuJu['sex']=$api.getStorage('sex');
       geRenShuJu['img']="http://www.yxke12.com/Public/Home/images/touxiang/"+$api.getStorage('img');

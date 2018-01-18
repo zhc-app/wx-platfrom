@@ -700,14 +700,15 @@
             rt.openPage('./gaoxiang_zhengceXQ_frm.html',{});
         },null,true);
     }
-    // 高校方案点击进入详情页事件
+    
     function shengfenzhengce3(id) {
-        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/detail.html',{id: id},function(data){
+        zhc.post('http://www.yxke12.com/index.php/App/Gaozhi/details.html',{id: id},function(data){
             localStorage.data = JSON.stringify(data);
             rt.openPage('./gaoxiang_zhengceXQ2_frm.html',{});
         },null,true);
     }
 
+    // 高校方案点击进入详情页事件
     function shengfenzhengce4(id) {
         zhc.post('http://www.yxke12.com/index.php/App/Gaoxiaofangan/infos.html',{id: id},function(data){
             localStorage.data = JSON.stringify(data);
@@ -923,6 +924,7 @@
     }
 
     function SoClick(index) {
+        $api.setStorage('yiti_index', 1)
         // 页面跳转到社会制度页面
         if (index == 1) {
             rt.openPage('./society_frm.html', {})
